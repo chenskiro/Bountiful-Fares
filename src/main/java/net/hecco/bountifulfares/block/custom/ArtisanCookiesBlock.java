@@ -1,129 +1,129 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ArtisanCookiesBlock extends Block {
     public static final int MAX_COUNT = 3;
-    public static final IntProperty COUNT = IntProperty.of("count", 0, 3);
+    public static final IntegerProperty COUNT = IntegerProperty.create("count", 0, 3);
     public static final int DEFAULT_COMPARATOR_OUTPUT = getComparatorOutput(0);
 
     public static final VoxelShape[] SHAPES = new VoxelShape[] {
-            Block.createCuboidShape(4, 0, 4, 12, 2, 12),
-            Block.createCuboidShape(4, 0, 4, 12, 4, 12),
-            Block.createCuboidShape(4, 0, 4, 12, 6, 12),
-            Block.createCuboidShape(4, 0, 4, 12, 8, 12)
+            Block.box(4, 0, 4, 12, 2, 12),
+            Block.box(4, 0, 4, 12, 4, 12),
+            Block.box(4, 0, 4, 12, 6, 12),
+            Block.box(4, 0, 4, 12, 8, 12)
     };
 
-    public ArtisanCookiesBlock(Settings settings) {
+    public ArtisanCookiesBlock(Properties settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(COUNT, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(COUNT, 0));
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPES[state.get(COUNT)];
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return SHAPES[state.getValue(COUNT)];
     }
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ItemStack itemStack = player.getStackInHand(player.getActiveHand());
-        if (itemStack.isOf(BFItems.ARTISAN_COOKIE) && state.get(COUNT) < MAX_COUNT) {
-            return ActionResult.PASS;
-        } else if (world.isClient) {
-            if (tryEat(world, pos, state, player, player.getActiveHand()).isAccepted()) {
-                return ActionResult.SUCCESS;
+    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+        if (itemStack.is(BFItems.ARTISAN_COOKIE) && state.getValue(COUNT) < MAX_COUNT) {
+            return InteractionResult.PASS;
+        } else if (world.isClientSide) {
+            if (tryEat(world, pos, state, player, player.getUsedItemHand()).consumesAction()) {
+                return InteractionResult.SUCCESS;
             }
         }
-        return tryEat(world, pos, state, player, player.getActiveHand());
+        return tryEat(world, pos, state, player, player.getUsedItemHand());
     }
 
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
-        if (blockState.isOf(this)) {
-            if (blockState.get(COUNT) < 3) {
-                return super.getStateWithProperties(blockState).with(COUNT, blockState.get(COUNT) + 1);
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos());
+        if (blockState.is(this)) {
+            if (blockState.getValue(COUNT) < 3) {
+                return super.withPropertiesOf(blockState).setValue(COUNT, blockState.getValue(COUNT) + 1);
             } else {
                 return null;
             }
         }
-        return super.getPlacementState(ctx);
+        return super.getStateForPlacement(ctx);
     }
 
     @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        return !context.shouldCancelInteraction() && context.getStack().getItem() == this.asItem() || super.canReplace(state, context);
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        return !context.isSecondaryUseActive() && context.getItemInHand().getItem() == this.asItem() || super.canBeReplaced(state, context);
     }
 
-    protected static ActionResult tryEat(WorldAccess world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand) {
-        if (!player.canConsume(false)) {
-            return ActionResult.PASS;
+    protected static InteractionResult tryEat(LevelAccessor world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
+        if (!player.canEat(false)) {
+            return InteractionResult.PASS;
         } else {
-            player.getHungerManager().add(3, 0.3F);
-            int count = state.get(COUNT);
-            world.emitGameEvent(player, GameEvent.EAT, pos);
-            if (!player.getStackInHand(hand).isOf(BFItems.ARTISAN_COOKIE)) {
+            player.getFoodData().eat(3, 0.3F);
+            int count = state.getValue(COUNT);
+            world.gameEvent(player, GameEvent.EAT, pos);
+            if (!player.getItemInHand(hand).is(BFItems.ARTISAN_COOKIE)) {
                 if (count > 0) {
-                    world.setBlockState(pos, state.with(COUNT, count - 1), 3);
-                    world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.BLOCKS, 0.5f, 1.0f);
+                    world.setBlock(pos, state.setValue(COUNT, count - 1), 3);
+                    world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 0.5f, 1.0f);
                 } else {
                     world.removeBlock(pos, false);
-                    world.emitGameEvent(player, GameEvent.BLOCK_DESTROY, pos);
-                    world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.BLOCKS, 0.5f, 1.0f);
+                    world.gameEvent(player, GameEvent.BLOCK_DESTROY, pos);
+                    world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 0.5f, 1.0f);
                 }
 
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        return direction == Direction.DOWN && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        return direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSolid();
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return world.getBlockState(pos.below()).isSolid();
     }
 
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(COUNT);
     }
 
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return getComparatorOutput(state.get(COUNT));
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+        return getComparatorOutput(state.getValue(COUNT));
     }
 
     public static int getComparatorOutput(int COUNT) {
         return (7 - (COUNT * 2)) * 2;
     }
 
-    public boolean hasComparatorOutput(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
-    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
         return false;
     }
 }

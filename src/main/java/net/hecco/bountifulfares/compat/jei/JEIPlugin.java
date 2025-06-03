@@ -11,13 +11,13 @@ import net.hecco.bountifulfares.compat.jei.category.FermentingRecipeCategory;
 import net.hecco.bountifulfares.compat.jei.category.MillingRecipeCategory;
 import net.hecco.bountifulfares.compat.jei.category.PrismarinePropagationCategory;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.annotation.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 @JeiPlugin @MethodsReturnNonnullByDefault @SuppressWarnings("unused")
 public class JEIPlugin implements IModPlugin {
-    private static final Identifier ID = Identifier.of(BountifulFares.MOD_ID, "jei_plugin");
+    private static final ResourceLocation ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "jei_plugin");
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
@@ -46,7 +46,7 @@ public class JEIPlugin implements IModPlugin {
     }
 
     @Override
-    public Identifier getPluginUid() {
+    public ResourceLocation getPluginUid() {
         return ID;
     }
 }

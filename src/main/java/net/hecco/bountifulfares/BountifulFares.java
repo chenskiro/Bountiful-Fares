@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares;
 
-import com.mojang.serialization.DynamicOps;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
 import net.fabricmc.loader.api.FabricLoader;
@@ -12,24 +11,18 @@ import net.hecco.bountifulfares.registry.util.BFDamageTypes;
 import net.hecco.bountifulfares.registry.util.BFLootTableModifiers;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.*;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagBuilder;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 
-public class BountifulFares implements ModInitializer {
+public class BountifulFares  {
 	public static final String MOD_ID = "bountifulfares";
 
 	public static final String ELS_AND_LS_DYES_MOD_ID = "mint";
@@ -93,14 +86,14 @@ public class BountifulFares implements ModInitializer {
 			LOGGER.info("DynamicRegistrySetupCallback triggered!");
 
 			// Access the item registry
-			registryManager.getOptional(RegistryKeys.ITEM).ifPresent(itemRegistry -> {
+			registryManager.getOptional(Registries.ITEM).ifPresent(itemRegistry -> {
 				LOGGER.info("Item registry is available!");
-				RegistryEntry<Item> diamondEntry = itemRegistry.getEntry(Items.DIAMOND);
+				Holder<Item> diamondEntry = itemRegistry.wrapAsHolder(Items.DIAMOND);
 				LOGGER.info("Diamond Entry: " + diamondEntry);
 				if (diamondEntry != null) {
-					Map<TagKey<Item>, List<RegistryEntry<Item>>> map = new HashMap<>();
+					Map<TagKey<Item>, List<Holder<Item>>> map = new HashMap<>();
 					map.put(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS, List.of(diamondEntry));
-					itemRegistry.populateTags(map);
+					itemRegistry.bindTags(map);
 				} else {
 					LOGGER.warn("Diamond entry is null!");
 				}

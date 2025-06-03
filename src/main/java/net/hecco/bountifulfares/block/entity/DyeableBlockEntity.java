@@ -1,16 +1,16 @@
 package net.hecco.bountifulfares.block.entity;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class DyeableBlockEntity extends BlockEntity {
@@ -22,35 +22,35 @@ public abstract class DyeableBlockEntity extends BlockEntity {
     public int color = DEFAULT_COLOR;
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
+    public void saveAdditional(CompoundTag nbt) {
         if (color != DEFAULT_COLOR) {
             nbt.putInt("color", color);
-            super.writeNbt(nbt);
+            super.saveAdditional(nbt);
         }
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
+    public void load(CompoundTag nbt) {
         if (nbt.getInt("color") == 0) {
             color = DEFAULT_COLOR;
         } else {
-            super.readNbt(nbt);
+            super.load(nbt);
             color = nbt.getInt("color");
         }
     }
 
     @Nullable
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
-    public static int getColor(BlockView world, BlockPos pos){
+    public static int getColor(BlockGetter world, BlockPos pos){
         if(world==null){
             return DyeableBlockEntity.DEFAULT_COLOR;
         }
@@ -64,11 +64,11 @@ public abstract class DyeableBlockEntity extends BlockEntity {
 
 
     @Override
-    public void markDirty() {
-        PacketByteBuf data = PacketByteBufs.create();
+    public void setChanged() {
+        FriendlyByteBuf data = PacketByteBufs.create();
         data.writeInt(color);
-        data.writeBlockPos(getPos());
-        super.markDirty();
+        data.writeBlockPos(getBlockPos());
+        super.setChanged();
     }
 
 //    @Override

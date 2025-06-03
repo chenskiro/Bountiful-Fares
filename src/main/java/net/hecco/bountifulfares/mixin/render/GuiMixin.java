@@ -6,19 +6,19 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFEffects;
 import net.hecco.bountifulfares.registry.tags.BFEffectTags;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.StatusEffectSpriteManager;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Timer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.MobEffectTextureManager;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,13 +31,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class GuiMixin {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final private Minecraft client;
 
-    @Shadow @Final private static Identifier EFFECT_BACKGROUND_AMBIENT_TEXTURE;
+    @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_AMBIENT_TEXTURE;
 
-    @Shadow @Final private static Identifier EFFECT_BACKGROUND_TEXTURE;
+    @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_TEXTURE;
 
     // Replaced via mixin into heart enum directly - >> see mixin/GuiHeartsMixin <<
     //@Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
@@ -74,9 +74,9 @@ public class GuiMixin {
     //}
 
     @Unique
-    private static final Identifier ACIDFIED_EFFECT_BACKGROUND_TEXTURE = Identifier.of(BountifulFares.MOD_ID, "hud/acidified_effect_background");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/acidified_effect_background");
     @Unique
-    private static final Identifier ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = Identifier.of(BountifulFares.MOD_ID, "hud/acidified_effect_background_ambient");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/acidified_effect_background_ambient");
 
 //    @Inject(method = "renderStatusEffectOverlay",
 //            at = @At(value = "INVOKE",
@@ -94,13 +94,13 @@ public class GuiMixin {
 //        }
 //    }
     @Inject(method = "renderStatusEffectOverlay", at = @At(value = "HEAD"), cancellable = true)
-    private void bountifulfares_acidicBackgroundOverlay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, Timer tickCounter, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {
-            Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
-            if (collection.stream().map(StatusEffectInstance::getEffectType).collect(Collectors.toSet()).contains(BFEffects.ACIDIC)) {
-                Screen screen = this.client.currentScreen;
-                if (screen instanceof AbstractInventoryScreen abstractInventoryScreen) {
-                    if (abstractInventoryScreen.hideStatusEffectHud()) {
+            Collection<MobEffectInstance> collection = this.client.player.getActiveEffects();
+            if (collection.stream().map(MobEffectInstance::getEffect).collect(Collectors.toSet()).contains(BFEffects.ACIDIC)) {
+                Screen screen = this.client.screen;
+                if (screen instanceof EffectRenderingInventoryScreen abstractInventoryScreen) {
+                    if (abstractInventoryScreen.canSeeEffects()) {
                         return;
                     }
                 }
@@ -108,13 +108,13 @@ public class GuiMixin {
                 RenderSystem.enableBlend();
                 int i = 0;
                 int j = 0;
-                StatusEffectSpriteManager statusEffectSpriteManager = this.client.getStatusEffectSpriteManager();
+                MobEffectTextureManager statusEffectSpriteManager = this.client.getMobEffectTextures();
                 List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
 
-                for (StatusEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                    RegistryEntry<StatusEffect> registryEntry = statusEffectInstance.getEffectType();
-                    if (statusEffectInstance.shouldShowIcon()) {
-                        int k = context.getScaledWindowWidth();
+                for (MobEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
+                    Holder<MobEffect> registryEntry = statusEffectInstance.getEffect();
+                    if (statusEffectInstance.showIcon()) {
+                        int k = context.guiWidth();
                         int l = 1;
                         if (this.client.isDemo()) {
                             l += 15;
@@ -130,9 +130,9 @@ public class GuiMixin {
                         }
 
                         float f;
-                        Identifier ambientTexture = EFFECT_BACKGROUND_AMBIENT_TEXTURE;
-                        Identifier texture = EFFECT_BACKGROUND_TEXTURE;
-                        if (statusEffectInstance.getEffectType() != BFEffects.ACIDIC && !statusEffectInstance.getEffectType().isIn(BFEffectTags.ACIDIC_BLACKLIST)) {
+                        ResourceLocation ambientTexture = EFFECT_BACKGROUND_AMBIENT_TEXTURE;
+                        ResourceLocation texture = EFFECT_BACKGROUND_TEXTURE;
+                        if (statusEffectInstance.getEffect() != BFEffects.ACIDIC && !statusEffectInstance.getEffect().isIn(BFEffectTags.ACIDIC_BLACKLIST)) {
                             ambientTexture = ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE;
                             texture = ACIDFIED_EFFECT_BACKGROUND_TEXTURE;
                         }
@@ -141,22 +141,22 @@ public class GuiMixin {
                             context.drawGuiTexture(ambientTexture, k, l, 24, 24);
                         } else {
                             context.drawGuiTexture(texture, k, l, 24, 24);
-                            if (statusEffectInstance.isDurationBelow(200)) {
+                            if (statusEffectInstance.endsWithin(200)) {
                                 int m = statusEffectInstance.getDuration();
                                 int n = 10 - m / 20;
-                                f = MathHelper.clamp((float) m / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos((float) m * (float) Math.PI / 5.0F) * MathHelper.clamp((float) n / 10.0F * 0.25F, 0.0F, 0.25F);
+                                f = Mth.clamp((float) m / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + Mth.cos((float) m * (float) Math.PI / 5.0F) * Mth.clamp((float) n / 10.0F * 0.25F, 0.0F, 0.25F);
                             } else {
                                 f = 1.0F;
                             }
                         }
 
-                        Sprite sprite = statusEffectSpriteManager.getSprite(registryEntry);
+                        TextureAtlasSprite sprite = statusEffectSpriteManager.get(registryEntry);
                         int finalK = k;
                         int finalL = l;
                         list.add(() -> {
-                            context.setShaderColor(1.0F, 1.0F, 1.0F, f);
-                            context.drawSprite(finalK + 3, finalL + 3, 0, 18, 18, sprite);
-                            context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                            context.setColor(1.0F, 1.0F, 1.0F, f);
+                            context.blit(finalK + 3, finalL + 3, 0, 18, 18, sprite);
+                            context.setColor(1.0F, 1.0F, 1.0F, 1.0F);
                         });
                     }
                 }

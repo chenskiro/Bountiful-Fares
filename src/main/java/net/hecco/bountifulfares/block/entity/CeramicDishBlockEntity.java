@@ -1,59 +1,59 @@
 package net.hecco.bountifulfares.block.entity;
 
 import net.hecco.bountifulfares.registry.content.BFBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class CeramicDishBlockEntity extends DyeableBlockEntity implements ImplementedInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     public CeramicDishBlockEntity(BlockPos pos, BlockState state) {
         super(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, pos, state);
     }
 
     @Override
-    public DefaultedList<ItemStack> getItems() {
+    public NonNullList<ItemStack> getItems() {
         return this.inventory;
     }
 
     public boolean canInsertItem() {
-        return this.getStack(0).isEmpty();
+        return this.getItem(0).isEmpty();
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        Inventories.writeNbt(nbt, inventory, registryLookup);
-        super.writeNbt(nbt, registryLookup);
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        ContainerHelper.saveAllItems(nbt, inventory, registryLookup);
+        super.saveAdditional(nbt, registryLookup);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        Inventories.readNbt(nbt, inventory, registryLookup);
-        super.readNbt(nbt, registryLookup);
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        ContainerHelper.loadAllItems(nbt, inventory, registryLookup);
+        super.load(nbt, registryLookup);
     }
 
     public void insertItem(ItemStack item) {
-        assert world != null;
-        this.setStack(0, item.copyWithCount(1));
-        markDirty();
+        assert level != null;
+        this.setItem(0, item.copyWithCount(1));
+        setChanged();
     }
 
     public void removeItem() {
-        assert world != null;
-        this.setStack(0, Items.AIR.getDefaultStack());
-        markDirty();
+        assert level != null;
+        this.setItem(0, Items.AIR.getDefaultInstance());
+        setChanged();
     }
 
-    public static int getColor(BlockView world, BlockPos pos){
+    public static int getColor(BlockGetter world, BlockPos pos){
         if(world==null){
             return CeramicDishBlockEntity.DEFAULT_COLOR;
         }
@@ -66,16 +66,16 @@ public class CeramicDishBlockEntity extends DyeableBlockEntity implements Implem
     }
 
     @Override
-    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction side) {
         return this.inventory.get(0).isEmpty();
     }
 
-    public void setInventory(DefaultedList<ItemStack> list) {
+    public void setInventory(NonNullList<ItemStack> list) {
         this.inventory.set(0, list.get(0));
     }
 
     public ItemStack getRenderStack() {
-        return this.getStack(0);
+        return this.getItem(0);
     }
 
 //    @Override

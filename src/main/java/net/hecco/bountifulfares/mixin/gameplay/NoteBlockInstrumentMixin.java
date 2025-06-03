@@ -3,15 +3,15 @@ package net.hecco.bountifulfares.mixin.gameplay;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.util.BFNoteBlockInstruments;
 import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.core.Holder;
+import net.minecraft.sounds.SoundEvent;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import I;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,7 +28,7 @@ public abstract class NoteBlockInstrumentMixin
     private static NoteBlockInstrument newNoteType(String internalName,
                                                    int ordinal,
                                                    String name,
-                                                   RegistryEntry<SoundEvent> sound,
+                                                   Holder<SoundEvent> sound,
                                                    NoteBlockInstrument.Type type)
     {
         throw new AssertionError();

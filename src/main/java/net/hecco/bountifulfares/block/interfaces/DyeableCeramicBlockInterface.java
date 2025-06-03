@@ -1,25 +1,25 @@
 package net.hecco.bountifulfares.block.interfaces;
 
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import static net.hecco.bountifulfares.registry.content.BFBlockEntities.CERAMIC_TILES_BLOCK_ENTITY;
 
-public interface DyeableCeramicBlockInterface extends BlockEntityProvider {
+public interface DyeableCeramicBlockInterface extends EntityBlock {
     @Override
-    default BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    default BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new DyeableCeramicBlockEntity(pos, state);
     }
 
-    default ItemStack pickBlock(BlockView world, BlockPos pos, ItemStack stack){
-        DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.get(world,pos);
+    default ItemStack pickBlock(BlockGetter world, BlockPos pos, ItemStack stack){
+        DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world,pos);
         int color;
         if(blockEntity != null){
             color = blockEntity.color;

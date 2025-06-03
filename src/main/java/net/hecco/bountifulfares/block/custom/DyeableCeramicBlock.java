@@ -4,20 +4,20 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.hecco.bountifulfares.compat.CompatUtil;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import static net.hecco.bountifulfares.registry.content.BFBlockEntities.CERAMIC_TILES_BLOCK_ENTITY;
 
@@ -27,10 +27,10 @@ public class DyeableCeramicBlock {
         return new DyeableCeramicBlockEntity(pos, state);
     }
 
-    public static ItemStack getPickStack(WorldView world, BlockPos pos, Block block) {
+    public static ItemStack getPickStack(LevelReader world, BlockPos pos, Block block) {
         if (DyeableCeramicBlockEntity.getColor(world, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
             ItemStack stack = new ItemStack(block);
-            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.get(world,pos);
+            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world,pos);
             int color;
             if(blockEntity != null){
                 color = blockEntity.color;
@@ -44,37 +44,37 @@ public class DyeableCeramicBlock {
         }
     }
 
-    public static ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Block block) {
-        ItemStack itemStack = player.getStackInHand(player.getActiveHand());
-        if (itemStack.isOf(BFItems.ARTISAN_BRUSH) && !player.isSneaking() && itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
+    public static InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, Block block) {
+        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+        if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown() && itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
             int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
             world.removeBlock(pos, false);
-            world.setBlockState(pos, block.getStateWithProperties(state));
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
+            world.setBlockAndUpdate(pos, block.withPropertiesOf(state));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
             if (world.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
                 dyeableCeramicBlockEntity.color = brushColor;
-                dyeableCeramicBlockEntity.markDirty();
-                return ActionResult.SUCCESS;
+                dyeableCeramicBlockEntity.setChanged();
+                return InteractionResult.SUCCESS;
 
             }
         }
         if (BountifulFares.isModLoaded(BountifulFares.ARTS_AND_CRAFTS_MOD_ID)) {
-            Item item = player.getStackInHand(player.getActiveHand()).getItem();
+            Item item = player.getItemInHand(player.getUsedItemHand()).getItem();
             if (CompatUtil.isItemPaintbrush(item)) {
                 int brushColor = CompatUtil.getIntColorFromPaintbrush(item);
                 if (brushColor != 1) {
                     world.removeBlock(pos, false);
-                    world.setBlockState(pos, block.getStateWithProperties(state));
-                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
+                    world.setBlockAndUpdate(pos, block.withPropertiesOf(state));
+                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
                     if (world.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
                         dyeableCeramicBlockEntity.color = brushColor;
-                        dyeableCeramicBlockEntity.markDirty();
-                        return ActionResult.SUCCESS;
+                        dyeableCeramicBlockEntity.setChanged();
+                        return InteractionResult.SUCCESS;
 
                     }
                 }
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

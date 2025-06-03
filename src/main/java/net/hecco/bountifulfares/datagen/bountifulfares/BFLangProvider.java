@@ -23,13 +23,12 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -39,7 +38,7 @@ import static net.hecco.bountifulfares.BountifulFaresUtil.toSentenceCase;
 public class BFLangProvider extends FabricLanguageProvider {
     Set<String> usedTranslationKeys = new HashSet<>();
 
-    public BFLangProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public BFLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
@@ -51,15 +50,15 @@ public class BFLangProvider extends FabricLanguageProvider {
         usedTranslationKeys.add(key);
     }
     private void generate(TranslationBuilder translationBuilder, Block block, String translation) {
-        generate(translationBuilder, block.getTranslationKey(), translation);
+        generate(translationBuilder, block.getDescriptionId(), translation);
     }
 
     private void generate(TranslationBuilder translationBuilder, Block block) {
-        generate(translationBuilder, block.getTranslationKey(), toSentenceCase(Registries.BLOCK.getId(block).getPath()));
+        generate(translationBuilder, block.getDescriptionId(), toSentenceCase(BuiltInRegistries.BLOCK.getKey(block).getPath()));
     }
 
     private void generate(TranslationBuilder translationBuilder, Item item, String translation) {
-        generate(translationBuilder, item.getTranslationKey(), translation);
+        generate(translationBuilder, item.getDescriptionId(), translation);
     }
 
     private void generateJackOStraw(TranslationBuilder translationBuilder, Block block, String color) {
@@ -72,7 +71,7 @@ public class BFLangProvider extends FabricLanguageProvider {
 
 
     @Override
-    public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         generate(translationBuilder, "itemgroup.bountiful_fares", "Bountiful Fares");
         generate(translationBuilder, BFBlocks.HANGING_APPLE, "Apple");
         generate(translationBuilder, BFBlocks.HANGING_ORANGE, "Orange");
@@ -515,14 +514,14 @@ public class BFLangProvider extends FabricLanguageProvider {
         generate(translationBuilder, "emi.category.bountifulfares.fermenting", "Fermenting");
         generate(translationBuilder, "emi.category.bountifulfares.propagation", "Prismarine Propagation");
 
-        for(Identifier id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.MOD_ID)) {
-            String key = Registries.BLOCK.get(id).getTranslationKey();
+        for(ResourceLocation id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.MOD_ID)) {
+            String key = BuiltInRegistries.BLOCK.get(id).getDescriptionId();
             if(usedTranslationKeys.contains(key)) { continue; }
             usedTranslationKeys.add(key);
             translationBuilder.add(key, toSentenceCase(id.getPath()));
         }
-        for(Identifier id : BountifulFaresUtil.allItemIdsInNamespace(BountifulFares.MOD_ID)) {
-            String key = Registries.ITEM.get(id).getTranslationKey();
+        for(ResourceLocation id : BountifulFaresUtil.allItemIdsInNamespace(BountifulFares.MOD_ID)) {
+            String key = BuiltInRegistries.ITEM.get(id).getDescriptionId();
             if (usedTranslationKeys.contains(key)) {
                 continue;
             }
@@ -531,10 +530,10 @@ public class BFLangProvider extends FabricLanguageProvider {
         }
 
 //      for compat
-        for(Identifier id : BountifulFaresUtil.allCompatBlockIds()) {
-            String key = Registries.BLOCK.get(id).getTranslationKey();
+        for(ResourceLocation id : BountifulFaresUtil.allCompatBlockIds()) {
+            String key = BuiltInRegistries.BLOCK.get(id).getDescriptionId();
             if(usedTranslationKeys.contains(key)) { continue; }
-            if (BFCompat.compatBlocks.contains(Registries.BLOCK.get(id))) {
+            if (BFCompat.compatBlocks.contains(BuiltInRegistries.BLOCK.get(id))) {
                 usedTranslationKeys.add(key);
                 translationBuilder.add(key, toSentenceCase(id.getPath()));
             }

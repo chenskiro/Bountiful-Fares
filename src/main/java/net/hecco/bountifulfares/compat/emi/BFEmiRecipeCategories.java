@@ -7,14 +7,14 @@ import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.runtime.EmiDrawContext;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class BFEmiRecipeCategories {
-    public static EmiRecipeCategory FERMENTING = new EmiRecipeCategory(Identifier.of("bountifulfares:fermenting"),
+    public static EmiRecipeCategory FERMENTING = new EmiRecipeCategory(ResourceLocation.tryBuild("bountifulfares:fermenting"),
             EmiStack.of(BFBlocks.FERMENTATION_VESSEL), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
-    public static EmiRecipeCategory MILLING = new EmiRecipeCategory(Identifier.of("bountifulfares:milling"),
+    public static EmiRecipeCategory MILLING = new EmiRecipeCategory(ResourceLocation.tryBuild("bountifulfares:milling"),
             EmiStack.of(BFBlocks.GRISTMILL), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
-    public static EmiRecipeCategory PRISMARINE_PROPAGATION = new EmiRecipeCategory(Identifier.of("bountifulfares:prismarine_propagation"),
+    public static EmiRecipeCategory PRISMARINE_PROPAGATION = new EmiRecipeCategory(ResourceLocation.tryBuild("bountifulfares:prismarine_propagation"),
             EmiStack.of(BFBlocks.PRISMARINE_BLOSSOM), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
 
     private static EmiRenderable simplifiedRenderer(int u, int v) {

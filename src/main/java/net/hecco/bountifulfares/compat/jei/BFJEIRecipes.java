@@ -3,19 +3,18 @@ package net.hecco.bountifulfares.compat.jei;
 import net.hecco.bountifulfares.recipe.FermentationRecipe;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.misc.BFRecipes;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeManager;
-
+import net.minecraft.world.item.crafting.RecipeManager;
 import java.util.List;
 
 public class BFJEIRecipes {
     private final RecipeManager recipeManager;
 
     public BFJEIRecipes() {
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        ClientWorld world = minecraft.world;
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel world = minecraft.level;
         if (world != null) {
             this.recipeManager = world.getRecipeManager();
         } else {
@@ -23,9 +22,9 @@ public class BFJEIRecipes {
         }
     }
     public List<MillingRecipe> getMillingRecipes() {
-        return this.recipeManager.listAllOfType(BFRecipes.MILLING).stream().map(RecipeEntry::value).toList();
+        return this.recipeManager.getAllRecipesFor(BFRecipes.MILLING).stream().map(RecipeEntry::value).toList();
     }
     public List<FermentationRecipe> getFermentationRecipes() {
-        return this.recipeManager.listAllOfType(BFRecipes.FERMENTING).stream().map(RecipeEntry::value).toList();
+        return this.recipeManager.getAllRecipesFor(BFRecipes.FERMENTING).stream().map(RecipeEntry::value).toList();
     }
 }

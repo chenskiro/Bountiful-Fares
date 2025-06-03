@@ -3,25 +3,29 @@ package net.hecco.bountifulfares.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.recipe.*;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
 
-public class FermentationRecipe implements Recipe<SimpleInventory> {
+public class FermentationRecipe implements Recipe<SimpleContainer> {
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final ItemStack output;
     private final Ingredient ingredient;
     private final int particleColor;
 
-    public FermentationRecipe(Identifier id, ItemStack output, int outputCount, Ingredient input, int particleColor) {
+    public FermentationRecipe(ResourceLocation id, ItemStack output, int outputCount, Ingredient input, int particleColor) {
         this.id = id;
         this.output = new ItemStack(output.getItem(), outputCount);
         this.ingredient = input;
@@ -29,20 +33,20 @@ public class FermentationRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        if (world.isClient()) {
+    public boolean matches(SimpleContainer inventory, Level world) {
+        if (world.isClientSide()) {
             return false;
         }
-        return ingredient.test(inventory.getStack(0));
+        return ingredient.test(inventory.getItem(0));
     }
 
     @Override
-    public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(SimpleContainer inventory, RegistryAccess registryManager) {
         return output.copy();
     }
 
     @Override
-    public boolean fits(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
@@ -51,12 +55,12 @@ public class FermentationRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+    public ItemStack getResultItem(RegistryAccess registryManager) {
         return output.copy();
     }
 
     @Override
-    public Identifier getId() {
+    public ResourceLocation getId() {
         return this.id;
     }
 
@@ -71,14 +75,14 @@ public class FermentationRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public DefaultedList<Ingredient> getIngredients() {
-        DefaultedList<Ingredient> list = DefaultedList.of();
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> list = NonNullList.create();
         list.add(ingredient);
         return list;
     }
 
     @Override
-    public ItemStack createIcon() {
+    public ItemStack getToastSymbol() {
         return new ItemStack(BFBlocks.GRISTMILL);
     }
 
@@ -93,25 +97,25 @@ public class FermentationRecipe implements Recipe<SimpleInventory> {
         public static final String ID = "fermenting";
 
         @Override
-        public FermentationRecipe read(Identifier id, JsonObject json) {
-            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
+        public FermentationRecipe fromJson(ResourceLocation id, JsonObject json) {
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 
-            int outputCount = JsonHelper.asInt(json, "result_count");
+            int outputCount = GsonHelper.convertToInt(json, "result_count");
 
-            Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
+            Ingredient ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
 
-            int particleColor = JsonHelper.asInt(json, "particle_color");
+            int particleColor = GsonHelper.convertToInt(json, "particle_color");
 
             return new FermentationRecipe(id, output, outputCount, ingredient, particleColor);
         }
 
         @Override
-        public FermentationRecipe read(Identifier id, PacketByteBuf buf) {
-            ItemStack output = buf.readItemStack();
+        public FermentationRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+            ItemStack output = buf.readItem();
 
             int outputCount = buf.readInt();
 
-            Ingredient ingredient = Ingredient.fromPacket(buf);
+            Ingredient ingredient = Ingredient.fromNetwork(buf);
 
             int particleColor = buf.readInt();
 
@@ -119,12 +123,12 @@ public class FermentationRecipe implements Recipe<SimpleInventory> {
         }
 
         @Override
-        public void write(PacketByteBuf buf, FermentationRecipe recipe) {
+        public void write(FriendlyByteBuf buf, FermentationRecipe recipe) {
             buf.writeInt(recipe.getIngredients().size());
             for (Ingredient ing : recipe.getIngredients()) {
-                ing.write(buf);
+                ing.toNetwork(buf);
             }
-            buf.writeItemStack(recipe.getOutput(null));
+            buf.writeItem(recipe.getResultItem(null));
         }
     }
 }

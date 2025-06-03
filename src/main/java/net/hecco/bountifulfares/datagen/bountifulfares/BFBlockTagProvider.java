@@ -9,22 +9,21 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
-import net.minecraft.block.Blocks;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
 public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-    public BFBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public BFBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+    protected void addTags(HolderLookup.Provider arg) {
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(BFBlocks.FELDSPAR_BLOCK)
                 .add(BFBlocks.CUT_FELDSPAR_BLOCK)
                 .add(BFBlocks.FELDSPAR_BRICKS)
@@ -61,7 +60,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.IRON_RAILING)
         ;
 
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+        tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(BFBlocks.APPLE_LOG)
                 .add(BFBlocks.APPLE_WOOD)
                 .add(BFBlocks.STRIPPED_APPLE_LOG)
@@ -175,7 +174,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         registerTrellisBlockTags(BFTrellises.CRIMSON);
         registerTrellisBlockTags(BFTrellises.WARPED);
 
-        getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
+        tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(BFBlocks.APPLE_LEAVES)
                 .add(BFBlocks.FLOWERING_APPLE_LEAVES)
                 .add(BFBlocks.GOLDEN_APPLE_LEAVES)
@@ -190,7 +189,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.WALNUT_LEAVES)
                 .add(BFBlocks.TEA_SHRUB)
         ;
-        getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE)
+        tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(BFBlocks.WALNUT_MULCH)
                 .add(BFBlocks.WALNUT_MULCH_BLOCK)
                 .add(BFBlocks.PALM_MULCH)
@@ -199,16 +198,16 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.GRASSY_DIRT)
         ;
 
-        getOrCreateTagBuilder(BlockTags.FLOWERS)
+        tag(BlockTags.FLOWERS)
                 .add(BFBlocks.FLOWERING_APPLE_LEAVES)
                 .add(BFBlocks.FLOWERING_ORANGE_LEAVES)
                 .add(BFBlocks.FLOWERING_LEMON_LEAVES)
                 .add(BFBlocks.FLOWERING_PLUM_LEAVES)
         ;
-        getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS).add(BFBlocks.GOLDEN_APPLE_BLOCK);
-        getOrCreateTagBuilder(BlockTags.CROPS).add(BFBlocks.HOARY_APPLE_SAPLING_CROP, BFBlocks.MAIZE_CROP, BFBlocks.LEEKS);
+        tag(BlockTags.BEACON_BASE_BLOCKS).add(BFBlocks.GOLDEN_APPLE_BLOCK);
+        tag(BlockTags.CROPS).add(BFBlocks.HOARY_APPLE_SAPLING_CROP, BFBlocks.MAIZE_CROP, BFBlocks.LEEKS);
 
-        getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
+        tag(BlockTags.FLOWER_POTS)
                 .add(BFBlocks.POTTED_HOARY_APPLE_SAPLING,
                         BFBlocks.POTTED_APPLE_SAPLING,
                         BFBlocks.POTTED_GOLDEN_APPLE_SAPLING,
@@ -221,9 +220,9 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         BFBlocks.POTTED_HONEYSUCKLE,
                         BFBlocks.POTTED_VIOLET_BELLFLOWER);
 
-        getOrCreateTagBuilder(BlockTags.SMALL_FLOWERS).add(BFBlocks.HONEYSUCKLE, BFBlocks.VIOLET_BELLFLOWER);
+        tag(BlockTags.SMALL_FLOWERS).add(BFBlocks.HONEYSUCKLE, BFBlocks.VIOLET_BELLFLOWER);
 
-        getOrCreateTagBuilder(BlockTags.LEAVES)
+        tag(BlockTags.LEAVES)
                 .addTag(BFBlockTags.APPLE_LEAVES)
                 .add(BFBlocks.GOLDEN_APPLE_LEAVES)
                 .add(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES)
@@ -232,7 +231,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .addTag(BFBlockTags.PLUM_LEAVES)
                 .add(BFBlocks.HOARY_LEAVES)
                 .add(BFBlocks.WALNUT_LEAVES);
-        getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+        tag(BlockTags.LOGS_THAT_BURN)
                 .addTag(BFBlockTags.APPLE_LOGS)
                 .addTag(BFBlockTags.GOLDEN_APPLE_LOGS)
                 .addTag(BFBlockTags.ORANGE_LOGS)
@@ -241,29 +240,29 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .addTag(BFBlockTags.PALM_LOGS)
                 .addTag(BFBlockTags.WALNUT_LOGS)
                 .addTag(BFBlockTags.HOARY_LOGS);
-        getOrCreateTagBuilder(BlockTags.OVERWORLD_NATURAL_LOGS)
+        tag(BlockTags.OVERWORLD_NATURAL_LOGS)
                 .add(BFBlocks.WALNUT_LOG);
-        getOrCreateTagBuilder(BlockTags.PLANKS).add(BFBlocks.WALNUT_PLANKS, BFBlocks.HOARY_PLANKS);
-        getOrCreateTagBuilder(BlockTags.STANDING_SIGNS).add(BFBlocks.WALNUT_SIGN, BFBlocks.HOARY_SIGN);
-        getOrCreateTagBuilder(BlockTags.CEILING_HANGING_SIGNS).add(BFBlocks.WALNUT_HANGING_SIGN, BFBlocks.HOARY_HANGING_SIGN);
-        getOrCreateTagBuilder(BlockTags.WALL_HANGING_SIGNS).add(BFBlocks.WALNUT_WALL_HANGING_SIGN, BFBlocks.HOARY_WALL_HANGING_SIGN);
-        getOrCreateTagBuilder(BlockTags.WALL_SIGNS).add(BFBlocks.WALNUT_WALL_SIGN, BFBlocks.HOARY_WALL_SIGN);
-        getOrCreateTagBuilder(BlockTags.WALLS).add(BFBlocks.COIR_BRICK_WALL);
-        getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS).add(BFBlocks.WALNUT_BUTTON, BFBlocks.HOARY_BUTTON);
-        getOrCreateTagBuilder(BlockTags.WOODEN_DOORS).add(BFBlocks.WALNUT_DOOR, BFBlocks.HOARY_DOOR);
-        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(BFBlocks.WALNUT_FENCE, BFBlocks.HOARY_FENCE);
-        getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(BFBlocks.WALNUT_FENCE_GATE, BFBlocks.HOARY_FENCE_GATE);
-        getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(BFBlocks.WALNUT_PRESSURE_PLATE, BFBlocks.HOARY_PRESSURE_PLATE);
-        getOrCreateTagBuilder(BlockTags.WOODEN_SLABS).add(BFBlocks.WALNUT_SLAB, BFBlocks.HOARY_SLAB);
-        getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS).add(BFBlocks.WALNUT_STAIRS, BFBlocks.HOARY_STAIRS);
-        getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS).add(BFBlocks.WALNUT_TRAPDOOR, BFBlocks.HOARY_TRAPDOOR);
-        getOrCreateTagBuilder(BlockTags.DOORS).add(BFBlocks.CERAMIC_DOOR);
-        getOrCreateTagBuilder(BlockTags.TRAPDOORS).add(BFBlocks.CERAMIC_TRAPDOOR);
-        getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES).add(BFBlocks.CERAMIC_PRESSURE_PLATE);
-        getOrCreateTagBuilder(BlockTags.BUTTONS).add(BFBlocks.CERAMIC_BUTTON);
+        tag(BlockTags.PLANKS).add(BFBlocks.WALNUT_PLANKS, BFBlocks.HOARY_PLANKS);
+        tag(BlockTags.STANDING_SIGNS).add(BFBlocks.WALNUT_SIGN, BFBlocks.HOARY_SIGN);
+        tag(BlockTags.CEILING_HANGING_SIGNS).add(BFBlocks.WALNUT_HANGING_SIGN, BFBlocks.HOARY_HANGING_SIGN);
+        tag(BlockTags.WALL_HANGING_SIGNS).add(BFBlocks.WALNUT_WALL_HANGING_SIGN, BFBlocks.HOARY_WALL_HANGING_SIGN);
+        tag(BlockTags.WALL_SIGNS).add(BFBlocks.WALNUT_WALL_SIGN, BFBlocks.HOARY_WALL_SIGN);
+        tag(BlockTags.WALLS).add(BFBlocks.COIR_BRICK_WALL);
+        tag(BlockTags.WOODEN_BUTTONS).add(BFBlocks.WALNUT_BUTTON, BFBlocks.HOARY_BUTTON);
+        tag(BlockTags.WOODEN_DOORS).add(BFBlocks.WALNUT_DOOR, BFBlocks.HOARY_DOOR);
+        tag(BlockTags.WOODEN_FENCES).add(BFBlocks.WALNUT_FENCE, BFBlocks.HOARY_FENCE);
+        tag(BlockTags.FENCE_GATES).add(BFBlocks.WALNUT_FENCE_GATE, BFBlocks.HOARY_FENCE_GATE);
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(BFBlocks.WALNUT_PRESSURE_PLATE, BFBlocks.HOARY_PRESSURE_PLATE);
+        tag(BlockTags.WOODEN_SLABS).add(BFBlocks.WALNUT_SLAB, BFBlocks.HOARY_SLAB);
+        tag(BlockTags.WOODEN_STAIRS).add(BFBlocks.WALNUT_STAIRS, BFBlocks.HOARY_STAIRS);
+        tag(BlockTags.WOODEN_TRAPDOORS).add(BFBlocks.WALNUT_TRAPDOOR, BFBlocks.HOARY_TRAPDOOR);
+        tag(BlockTags.DOORS).add(BFBlocks.CERAMIC_DOOR);
+        tag(BlockTags.TRAPDOORS).add(BFBlocks.CERAMIC_TRAPDOOR);
+        tag(BlockTags.PRESSURE_PLATES).add(BFBlocks.CERAMIC_PRESSURE_PLATE);
+        tag(BlockTags.BUTTONS).add(BFBlocks.CERAMIC_BUTTON);
 
 
-        getOrCreateTagBuilder(BFBlockTags.INFUSED_CANDLES)
+        tag(BFBlockTags.INFUSED_CANDLES)
                 .add(BFBlocks.GREEN_TEA_CANDLE)
                 .add(BFBlocks.BLACK_TEA_CANDLE)
                 .add(BFBlocks.CHAMOMILE_CANDLE)
@@ -272,58 +271,58 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.TORCHFLOWER_CANDLE)
                 .add(BFBlocks.WALNUT_CANDLE);
 
-        getOrCreateTagBuilder(BFBlockTags.APPLE_LEAVES).add(BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES);
-        getOrCreateTagBuilder(BFBlockTags.ORANGE_LEAVES).add(BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES);
-        getOrCreateTagBuilder(BFBlockTags.LEMON_LEAVES).add(BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES);
-        getOrCreateTagBuilder(BFBlockTags.PLUM_LEAVES).add(BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES);
-        getOrCreateTagBuilder(BFBlockTags.GOLDEN_APPLE_LEAVES).add(BFBlocks.GOLDEN_APPLE_LEAVES, BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES);
-        getOrCreateTagBuilder(BFBlockTags.APPLE_LOGS)
+        tag(BFBlockTags.APPLE_LEAVES).add(BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES);
+        tag(BFBlockTags.ORANGE_LEAVES).add(BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES);
+        tag(BFBlockTags.LEMON_LEAVES).add(BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES);
+        tag(BFBlockTags.PLUM_LEAVES).add(BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES);
+        tag(BFBlockTags.GOLDEN_APPLE_LEAVES).add(BFBlocks.GOLDEN_APPLE_LEAVES, BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES);
+        tag(BFBlockTags.APPLE_LOGS)
                 .add(BFBlocks.APPLE_LOG)
                 .add(BFBlocks.STRIPPED_APPLE_LOG)
                 .add(BFBlocks.APPLE_WOOD)
                 .add(BFBlocks.STRIPPED_APPLE_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.GOLDEN_APPLE_LOGS)
+        tag(BFBlockTags.GOLDEN_APPLE_LOGS)
                 .add(BFBlocks.GOLDEN_APPLE_LOG)
                 .add(BFBlocks.GOLDEN_APPLE_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.ORANGE_LOGS)
+        tag(BFBlockTags.ORANGE_LOGS)
                 .add(BFBlocks.ORANGE_LOG)
                 .add(BFBlocks.STRIPPED_ORANGE_LOG)
                 .add(BFBlocks.ORANGE_WOOD)
                 .add(BFBlocks.STRIPPED_ORANGE_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.LEMON_LOGS)
+        tag(BFBlockTags.LEMON_LOGS)
                 .add(BFBlocks.LEMON_LOG)
                 .add(BFBlocks.STRIPPED_LEMON_LOG)
                 .add(BFBlocks.LEMON_WOOD)
                 .add(BFBlocks.STRIPPED_LEMON_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.PLUM_LOGS)
+        tag(BFBlockTags.PLUM_LOGS)
                 .add(BFBlocks.PLUM_LOG)
                 .add(BFBlocks.STRIPPED_PLUM_LOG)
                 .add(BFBlocks.PLUM_WOOD)
                 .add(BFBlocks.STRIPPED_PLUM_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.PALM_LOGS)
+        tag(BFBlockTags.PALM_LOGS)
                 .add(BFBlocks.PALM_LOG)
                 .add(BFBlocks.STRIPPED_PALM_LOG)
                 .add(BFBlocks.PALM_WOOD)
                 .add(BFBlocks.STRIPPED_PALM_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.WALNUT_LOGS)
+        tag(BFBlockTags.WALNUT_LOGS)
                 .add(BFBlocks.WALNUT_LOG)
                 .add(BFBlocks.STRIPPED_WALNUT_LOG)
                 .add(BFBlocks.WALNUT_WOOD)
                 .add(BFBlocks.STRIPPED_WALNUT_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.HOARY_LOGS)
+        tag(BFBlockTags.HOARY_LOGS)
                 .add(BFBlocks.HOARY_LOG)
                 .add(BFBlocks.STRIPPED_HOARY_LOG)
                 .add(BFBlocks.HOARY_WOOD)
                 .add(BFBlocks.STRIPPED_HOARY_WOOD)
         ;
-        getOrCreateTagBuilder(BFBlockTags.JACK_O_STRAWS)
+        tag(BFBlockTags.JACK_O_STRAWS)
                 .add(BFBlocks.WHITE_JACK_O_STRAW)
                 .add(BFBlocks.LIGHT_GRAY_JACK_O_STRAW)
                 .add(BFBlocks.GRAY_JACK_O_STRAW)
@@ -341,7 +340,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.MAGENTA_JACK_O_STRAW)
                 .add(BFBlocks.PINK_JACK_O_STRAW)
         ;
-        getOrCreateTagBuilder(BFBlockTags.CERAMIC_TILES)
+        tag(BFBlockTags.CERAMIC_TILES)
                 .add(BFBlocks.CERAMIC_TILES)
                 .add(BFBlocks.CERAMIC_TILE_STAIRS)
                 .add(BFBlocks.CERAMIC_TILE_SLAB)
@@ -358,7 +357,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS)
                 .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB)
         ;
-        getOrCreateTagBuilder(BFBlockTags.DYEABLE_CERAMIC_BLOCKS)
+        tag(BFBlockTags.DYEABLE_CERAMIC_BLOCKS)
                 .addTag(BFBlockTags.CERAMIC_TILES)
                 .add(BFBlocks.CERAMIC_DOOR)
                 .add(BFBlocks.CERAMIC_TRAPDOOR)
@@ -368,13 +367,13 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.CERAMIC_DISH)
         ;
 
-        getOrCreateTagBuilder(BFBlockTags.FELSIC_STONES)
+        tag(BFBlockTags.FELSIC_STONES)
                 .add(Blocks.ANDESITE)
                 .add(Blocks.GRANITE)
                 .add(Blocks.DIORITE)
                 .add(Blocks.TUFF)
         ;
-        getOrCreateTagBuilder(BFBlockTags.PICKETS)
+        tag(BFBlockTags.PICKETS)
                 .add(BFBlocks.OAK_PICKETS)
                 .add(BFBlocks.SPRUCE_PICKETS)
                 .add(BFBlocks.BIRCH_PICKETS)
@@ -389,7 +388,7 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.CRIMSON_PICKETS)
                 .add(BFBlocks.WARPED_PICKETS)
         ;
-        getOrCreateTagBuilder(BlockTags.SAPLINGS)
+        tag(BlockTags.SAPLINGS)
                 .add(BFBlocks.APPLE_SAPLING)
                 .add(BFBlocks.GOLDEN_APPLE_SAPLING)
                 .add(BFBlocks.ORANGE_SAPLING)
@@ -399,34 +398,34 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.HOARY_APPLE_SAPLING)
                 .add(BFBlocks.WALNUT_SAPLING)
         ;
-        getOrCreateTagBuilder(BFBlockTags.GRASS_SEEDS_PLANTABLE_ON)
+        tag(BFBlockTags.GRASS_SEEDS_PLANTABLE_ON)
                 .add(Blocks.DIRT)
                 .add(Blocks.COARSE_DIRT)
                 .add(Blocks.ROOTED_DIRT)
                 .add(Blocks.PODZOL)
                 .add(Blocks.MYCELIUM)
         ;
-        getOrCreateTagBuilder(BlockTags.DIRT)
+        tag(BlockTags.DIRT)
                 .add(BFBlocks.GRASSY_DIRT)
         ;
 
-        getOrCreateTagBuilder(BFBlockTags.WILD_ELDERBERRY_PLACEABLE_ON)
+        tag(BFBlockTags.WILD_ELDERBERRY_PLACEABLE_ON)
                 .addTag(BlockTags.OVERWORLD_NATURAL_LOGS)
                 .add(Blocks.MANGROVE_ROOTS)
                 ;
 
-        getOrCreateTagBuilder(BFBlockTags.PALM_SAPLINGS_PLANTABLE_ON)
+        tag(BFBlockTags.PALM_SAPLINGS_PLANTABLE_ON)
                 .addTag(BlockTags.DIRT)
                 .add(Blocks.SAND)
                 .add(Blocks.RED_SAND)
                 .add(Blocks.GRAVEL)
         ;
 
-        getOrCreateTagBuilder(BFBlockTags.SPLITS_COCONUTS)
+        tag(BFBlockTags.SPLITS_COCONUTS)
                 .add(Blocks.POINTED_DRIPSTONE);
 
 
-        getOrCreateTagBuilder(BFBlockTags.IGNORE_PARTICLE_TINT)
+        tag(BFBlockTags.IGNORE_PARTICLE_TINT)
                 .add(BFBlocks.GRASSY_DIRT)
                 .add(BFBlocks.APPLE_LOG)
                 .add(BFBlocks.APPLE_WOOD)
@@ -438,28 +437,28 @@ public class BFBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BFBlocks.PLUM_WOOD)
         ;
 
-        getOrCreateTagBuilder(BlockTags.DIRT)
+        tag(BlockTags.DIRT)
                 .add(BFBlocks.WALNUT_MULCH_BLOCK)
                 .add(BFBlocks.PALM_MULCH_BLOCK);
 
-        getOrCreateTagBuilder(BlockTags.OCCLUDES_VIBRATION_SIGNALS).add(BFBlocks.PACKED_COCONUT_COIR).add(BFBlocks.COIR_CARPET);
+        tag(BlockTags.OCCLUDES_VIBRATION_SIGNALS).add(BFBlocks.PACKED_COCONUT_COIR).add(BFBlocks.COIR_CARPET);
 
-        getOrCreateTagBuilder(BFBlockTags.PRISMARINE_PROPAGATION_SUBSTRATE)
+        tag(BFBlockTags.PRISMARINE_PROPAGATION_SUBSTRATE)
                 .add(Blocks.SEA_LANTERN);
     }
 
     public void registerTrellisBlockTags(TrellisVariant trellis) {
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                .addOptional(Identifier.of(trellis.getModId(), trellis.getBlockName()))
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .addOptional(ResourceLocation.tryBuild(trellis.getModId(), trellis.getBlockName()))
         ;
         for (VineCrop crop : TrellisUtil.VineCrops) {
-            getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                    .addOptional(Identifier.of(trellis.getModId(), crop.getName() + "_" + trellis.getBlockName()))
+            tag(BlockTags.MINEABLE_WITH_AXE)
+                    .addOptional(ResourceLocation.tryBuild(trellis.getModId(), crop.getName() + "_" + trellis.getBlockName()))
             ;
         }
         for (DecorativeVine vine : TrellisUtil.DecorativeVines) {
-            getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                    .addOptional(Identifier.of(trellis.getModId(), vine.getName() + "_" + trellis.getBlockName()))
+            tag(BlockTags.MINEABLE_WITH_AXE)
+                    .addOptional(ResourceLocation.tryBuild(trellis.getModId(), vine.getName() + "_" + trellis.getBlockName()))
             ;
         }
     }
