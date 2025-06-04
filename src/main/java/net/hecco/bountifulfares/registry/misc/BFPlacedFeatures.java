@@ -58,7 +58,7 @@ public class BFPlacedFeatures {
     }
 
     public static ResourceKey<PlacedFeature> registerKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name));
+        return ResourceKey.create(Registries.PLACED_FEATURE, BountifulFares.rl( name));
     }
 
     private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,

@@ -7,6 +7,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 
 public class BFEffectTags {
-    public static final TagKey<MobEffect> ACIDIC_BLACKLIST = TagKey.create(Registries.MOB_EFFECT, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "acidic_blacklist"));
-    public static final TagKey<MobEffect> STUPOR_BLACKLIST = TagKey.create(Registries.MOB_EFFECT, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "stupor_blacklist"));
+    public static final TagKey<MobEffect> ACIDIC_BLACKLIST = TagKey.create(Registries.MOB_EFFECT, BountifulFares.rl( "acidic_blacklist"));
+    public static final TagKey<MobEffect> STUPOR_BLACKLIST = TagKey.create(Registries.MOB_EFFECT, BountifulFares.rl( "stupor_blacklist"));
 }

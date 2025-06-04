@@ -43,7 +43,7 @@ public class BFItemGroups {
 
     private static final Comparator<Holder<PaintingVariant>> PAINTING_VARIANT_COMPARATOR = Comparator.comparing(Holder::value, Comparator.comparingInt((paintingVariant) -> 16 * 16));
 
-    public static CreativeModeTab BOUNTIFUL_FARES = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountiful_fares"),
+    public static CreativeModeTab BOUNTIFUL_FARES = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, BountifulFares.rl( "bountiful_fares"),
             FabricItemGroup.builder().title(Component.translatable("itemgroup.bountiful_fares"))
                     .icon(() -> new ItemStack(BFItems.PASSION_FRUIT)).displayItems((displayContext, entries) -> {
                         entries.accept(BFBlocks.APPLE_LOG);

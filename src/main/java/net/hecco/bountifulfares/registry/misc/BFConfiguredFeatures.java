@@ -37,7 +37,7 @@ public class BFConfiguredFeatures {
 
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, BountifulFares.rl( name));
     }
 
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context,

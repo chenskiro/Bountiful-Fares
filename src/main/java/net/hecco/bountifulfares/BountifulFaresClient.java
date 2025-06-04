@@ -324,7 +324,7 @@ public class BountifulFaresClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : FoliageColors.getDefaultColor()), BFBlocks.WILD_POTATOES, BFBlocks.WILD_CARROTS, BFBlocks.WILD_BEETROOTS, BFBlocks.WILD_LEEKS, BFBlocks.WILD_MAIZE, BFBlocks.WILD_PASSION_FRUIT_VINE, BFBlocks.WILD_ELDERBERRY_VINE);
 
         ItemProperties.register(
-                ARTISAN_BRUSH, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "dyed"),
+                ARTISAN_BRUSH, BountifulFares.rl( "dyed"),
                 (itemStack, clientWorld, livingEntity, seed) ->
                         itemStack.getComponents().get(DataComponentTypes.DYED_COLOR) != null ? 1.0F : 0.0F);
 

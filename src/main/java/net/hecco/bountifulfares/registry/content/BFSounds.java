@@ -83,12 +83,12 @@ public class BFSounds {
     public static final SoundType COIR = new SoundType(1f, 1f, COIR_BREAK, COIR_STEP, COIR_PLACE, COIR_HIT, COIR_FALL);
 
     private static Holder.Reference<SoundEvent> registerSoundReference(String name) {
-        ResourceLocation id = ResourceLocation.tryBuild(BountifulFares.MOD_ID, name);
+        ResourceLocation id = BountifulFares.rl( name);
         return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
     public static SoundEvent registerSoundEvent(String name) {
-        ResourceLocation identifier = ResourceLocation.tryBuild(BountifulFares.MOD_ID, name);
+        ResourceLocation identifier = BountifulFares.rl( name);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
     }
     public static void registerSounds() {

@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class GristmillScreen extends AbstractContainerScreen<GristmillScreenHandler> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/gristmill.png");
-    private static final ResourceLocation PROGRESS_ARROW = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/gristmill_progress_arrow.png");
+    private static final ResourceLocation TEXTURE = BountifulFares.rl( "textures/gui/gristmill.png");
+    private static final ResourceLocation PROGRESS_ARROW = BountifulFares.rl( "textures/gui/gristmill_progress_arrow.png");
     public GristmillScreen(GristmillScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }

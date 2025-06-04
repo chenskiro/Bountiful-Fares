@@ -54,7 +54,7 @@ public class EmiPropagationRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/jei/propagation.png"), 0, 0, 92, 49, 0, 0);
+        widgets.addTexture(BountifulFares.rl( "textures/gui/jei/propagation.png"), 0, 0, 92, 49, 0, 0);
         //if you want you can add a tooltip to a certain part of a bg(which means you draw a part of bg on top of bg) (look at the next line) saying smth like "Plant seeds on a sea lantern"
 //        widgets.addTexture(Identifier.of(BountifulFares.MOD_ID, "textures/gui/jei/propagation.png"), 26, 11, 14, 14, 26, 11)
 //                .tooltip((mx, my) -> List.of(TooltipComponent.of(EmiPort.ordered(Text.literal("Hi i am a test tooltip appledog")))));

@@ -3,6 +3,7 @@ package net.hecco.bountifulfares.effect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
 public class AcidicEffect extends MobEffect {
 //    private final List<StatusEffectInstance> affectedEffects;
@@ -12,17 +13,22 @@ public class AcidicEffect extends MobEffect {
     }
 
     @Override
-    public void onApplied(LivingEntity entity, int amplifier) {
-//        for (StatusEffectInstance effect : entity.getStatusEffects()) {
-//            if (effect.getEffectType() != BFEffects.ACIDIC && effect.getEffectType().isIn(BFEffectTags.ACIDIC_BLACKLIST)) {
-//                int newAmplifier = Math.min(effect.getAmplifier() + amplifier + 1, 255);
-//                StatusEffectInstance newEffect = new StatusEffectInstance(effect.getEffectType(), effect.getDuration(), newAmplifier, effect.isAmbient(), effect.shouldShowParticles(), effect.shouldShowIcon());
-//                entity.removeStatusEffect(effect.getEffectType());
-//                entity.addStatusEffect(newEffect);
-//            }
-//        }
-        super.addAttributeModifiers(entity, amplifier);
+    public void addAttributeModifiers(LivingEntity entity, AttributeMap pAttributeMap, int amplifier) {
+        super.addAttributeModifiers(entity, pAttributeMap, amplifier);
     }
+
+    //     @Override
+//     public void onApplied(LivingEntity entity, int amplifier) {
+// //        for (StatusEffectInstance effect : entity.getStatusEffects()) {
+// //            if (effect.getEffectType() != BFEffects.ACIDIC && effect.getEffectType().isIn(BFEffectTags.ACIDIC_BLACKLIST)) {
+// //                int newAmplifier = Math.min(effect.getAmplifier() + amplifier + 1, 255);
+// //                StatusEffectInstance newEffect = new StatusEffectInstance(effect.getEffectType(), effect.getDuration(), newAmplifier, effect.isAmbient(), effect.shouldShowParticles(), effect.shouldShowIcon());
+// //                entity.removeStatusEffect(effect.getEffectType());
+// //                entity.addStatusEffect(newEffect);
+// //            }
+// //        }
+//         super.addAttributeModifiers(entity, amplifier);
+//     }
 
 //    @Override
 //    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {

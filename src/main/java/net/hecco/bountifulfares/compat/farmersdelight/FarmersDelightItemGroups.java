@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block;
 public class FarmersDelightItemGroups
 {
     public static final ResourceKey<CreativeModeTab> BOUNTIFUL_FARES_TAB =
-            ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountiful_fares")
+            ResourceKey.create(Registries.CREATIVE_MODE_TAB, BountifulFares.rl( "bountiful_fares")
             );
     public static final ResourceKey<CreativeModeTab> FARMERS_DELIGHT_TAB =
             ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.tryBuild(BountifulFares.FARMERS_DELIGHT_MOD_ID, "farmersdelight")

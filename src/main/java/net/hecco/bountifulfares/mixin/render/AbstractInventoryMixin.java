@@ -28,9 +28,9 @@ public class AbstractInventoryMixin {
     @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_LARGE_TEXTURE = ResourceLocation.ofVanilla("container/inventory/effect_background_large");
     @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_SMALL_TEXTURE = ResourceLocation.ofVanilla("container/inventory/effect_background_small");
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_SMALL_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "container/inventory/acidified_effect_background_small");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_SMALL_TEXTURE = BountifulFares.rl( "container/inventory/acidified_effect_background_small");
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_LARGE_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "container/inventory/acidified_effect_background_large");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_LARGE_TEXTURE = BountifulFares.rl( "container/inventory/acidified_effect_background_large");
     @Inject(method = "drawStatusEffectBackgrounds", at = @At(value = "HEAD"), cancellable = true)
     private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, int x, int height, Iterable<MobEffectInstance> statusEffects, boolean wide, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {

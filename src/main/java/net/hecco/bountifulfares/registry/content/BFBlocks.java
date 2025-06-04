@@ -53,6 +53,9 @@ import java.util.function.ToIntFunction;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFBlocks {
+    private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
+    private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
+
     public static final Map<Item, CropTrellisBlock> CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
     public static final Map<Item, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
     public static final Map<Item, DecorativeVine> PLANTS_TO_DECORATIVE_VINES = Maps.newHashMap();
@@ -374,8 +377,8 @@ public class BFBlocks {
         attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new CeramicDishBlockItem(block, new Item.Properties()));
     }
 
-    public static void registerModBlocks() {
-    }
+    // public static void registerModBlocks() {
+    // }
 
     private static boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
         return false;
@@ -385,8 +388,6 @@ public class BFBlocks {
         return false;
     }
 
-    private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
-    private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
 
     private static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
         if (entry instanceof Item item) {

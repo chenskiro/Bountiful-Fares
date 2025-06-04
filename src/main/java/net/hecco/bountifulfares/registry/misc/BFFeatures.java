@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 public class BFFeatures {
     public static final Feature<WildVineFeatureConfig> WILD_VINE_FEATURE = register("wild_vine", new WildVineFeature(WildVineFeatureConfig.CODEC));
     private static <C extends FeatureConfiguration, F extends Feature<C>> F register(String name, F feature) {
-        return Registry.register(BuiltInRegistries.FEATURE, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), feature);
+        return Registry.register(BuiltInRegistries.FEATURE, BountifulFares.rl( name), feature);
     }
     public static void register() {
     }

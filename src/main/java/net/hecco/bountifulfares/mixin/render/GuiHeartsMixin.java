@@ -69,14 +69,14 @@ public abstract class GuiHeartsMixin
         var bf_restoration = newHeartType(
                 "BOUNTIFUL_FARES_RESTORATION",
                 last.ordinal() + i,
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_full"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_full_blinking"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_half"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_half_blinking"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_hardcore_full"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_hardcore_full_blinking"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_hardcore_half"),
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/heart/restoration_hardcore_half_blinking")
+                BountifulFares.rl( "hud/heart/restoration_full"),
+                BountifulFares.rl( "hud/heart/restoration_full_blinking"),
+                BountifulFares.rl( "hud/heart/restoration_half"),
+                BountifulFares.rl( "hud/heart/restoration_half_blinking"),
+                BountifulFares.rl( "hud/heart/restoration_hardcore_full"),
+                BountifulFares.rl( "hud/heart/restoration_hardcore_full_blinking"),
+                BountifulFares.rl( "hud/heart/restoration_hardcore_half"),
+                BountifulFares.rl( "hud/heart/restoration_hardcore_half_blinking")
         );
         BFHeartTypes.BF_RESTORATION = bf_restoration;
         hearts.add(bf_restoration);

@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 @JeiPlugin @MethodsReturnNonnullByDefault @SuppressWarnings("unused")
 public class JEIPlugin implements IModPlugin {
-    private static final ResourceLocation ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "jei_plugin");
+    private static final ResourceLocation ID = BountifulFares.rl( "jei_plugin");
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {

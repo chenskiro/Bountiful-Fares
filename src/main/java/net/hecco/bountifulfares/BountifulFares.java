@@ -55,12 +55,12 @@ public class BountifulFares  {
             return false;
         }
     }
-	@Override
+	// @Override
 	public void onInitialize() {
 		BountifulFares.CONFIG = BountifulFaresConfiguration.load();
 		BFResourcePacks.registerBuiltinResourcePacks();
 		BFItems.registerModItems();
-		BFBlocks.registerModBlocks();
+		// BFBlocks.registerModBlocks();
 		BFTrellises.registerTrellisParts();
 		TrellisUtil.registerTrellisParts();
 		BFItemGroups.registerItemGroups();
@@ -68,7 +68,7 @@ public class BountifulFares  {
 		BFRecipes.registerRecipes();
 		BFTreeGeneration.generateTrees();
 		BFFoliageGeneration.generateFlowers();
-		BFEffects.registerEffects();
+		// BFEffects.registerEffects();
 		BFBoats.registerBoats();
 		BFLootTableModifiers.modifyLootTables();
 		BFParticles.registerParticles();

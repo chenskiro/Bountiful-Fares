@@ -53,63 +53,63 @@ public class BountifulFaresDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(BFModelProvider::new);
         pack.addProvider(BFLangProvider::new);
 
-        FabricDataGenerator.Pack mintDataPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.ELS_AND_LS_DYES_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack mintDataPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.ELS_AND_LS_DYES_MOD_ID + "_dat"));
         mintDataPack.addProvider(MintBlockLootTableProvider::new);
         mintDataPack.addProvider(MintBlockTagProvider::new);
         mintDataPack.addProvider(MintRecipeProvider::new);
 
-        FabricDataGenerator.Pack artsAndCraftsDataPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.ARTS_AND_CRAFTS_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack artsAndCraftsDataPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.ARTS_AND_CRAFTS_MOD_ID + "_dat"));
         artsAndCraftsDataPack.addProvider(ArtsAndCraftsBlockLootTableProvider::new);
         artsAndCraftsDataPack.addProvider(ArtsAndCraftsBlockTagProvider::new);
         artsAndCraftsDataPack.addProvider(ArtsAndCraftsRecipeProvider::new);
 
-        FabricDataGenerator.Pack dyeDepotDataPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.DYE_DEPOT_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack dyeDepotDataPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.DYE_DEPOT_MOD_ID + "_dat"));
         dyeDepotDataPack.addProvider(DyeDepotBlockLootTableProvider::new);
         dyeDepotDataPack.addProvider(DyeDepotBlockTagProvider::new);
         dyeDepotDataPack.addProvider(DyeDepotRecipeProvider::new);
 
-        FabricDataGenerator.Pack excessiveBuildingPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.EXCESSIVE_BUILDING_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack excessiveBuildingPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.EXCESSIVE_BUILDING_MOD_ID + "_dat"));
         excessiveBuildingPack.addProvider(ExcessiveBuildingBlockLootTableProvider::new);
         excessiveBuildingPack.addProvider(ExcessiveBuildingBlockTagProvider::new);
         excessiveBuildingPack.addProvider(ExcessiveBuildingRecipeProvider::new);
 
-        FabricDataGenerator.Pack farmersDelightPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.FARMERS_DELIGHT_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack farmersDelightPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.FARMERS_DELIGHT_MOD_ID + "_dat"));
         farmersDelightPack.addProvider(FarmersDelightBlockLootTableProvider::new);
         farmersDelightPack.addProvider(FarmersDelightBlockTagProvider::new);
         farmersDelightPack.addProvider(FarmersDelightRecipeProvider::new);
 
-        FabricDataGenerator.Pack naturesSpiritPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.NATURES_SPIRIT_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack naturesSpiritPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.NATURES_SPIRIT_MOD_ID + "_dat"));
         naturesSpiritPack.addProvider(NaturesSpiritBlockLootTableProvider::new);
         naturesSpiritPack.addProvider(NaturesSpiritBlockTagProvider::new);
         naturesSpiritPack.addProvider(NaturesSpiritItemTagProvider::new);
         naturesSpiritPack.addProvider(NaturesSpiritRecipeProvider::new);
 
-        FabricDataGenerator.Pack spawnPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.SPAWN_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack spawnPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.SPAWN_MOD_ID + "_dat"));
         spawnPack.addProvider(SpawnBlockLootTableProvider::new);
         spawnPack.addProvider(SpawnBlockTagProvider::new);
         spawnPack.addProvider(SpawnRecipeProvider::new);
 
-        FabricDataGenerator.Pack twigsPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.TWIGS_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack twigsPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.TWIGS_MOD_ID + "_dat"));
         twigsPack.addProvider(SpawnBlockLootTableProvider::new);
         twigsPack.addProvider(SpawnBlockTagProvider::new);
         twigsPack.addProvider(SpawnRecipeProvider::new);
 
-        FabricDataGenerator.Pack delicateDyesPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.DELICATE_DYES_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack delicateDyesPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.DELICATE_DYES_MOD_ID + "_dat"));
         delicateDyesPack.addProvider(DelicateDyesBlockLootTableProvider::new);
         delicateDyesPack.addProvider(DelicateDyesBlockTagProvider::new);
         delicateDyesPack.addProvider(DelicateDyesRecipeProvider::new);
 
-        FabricDataGenerator.Pack appledogPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.APPLEDOG_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack appledogPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.APPLEDOG_MOD_ID + "_dat"));
         appledogPack.addProvider(AppledogBlockLootTableProvider::new);
         appledogPack.addProvider(AppledogBlockTagProvider::new);
         appledogPack.addProvider(AppledogRecipeProvider::new);
 
-        FabricDataGenerator.Pack dungeonsDelightPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, BountifulFares.DUNGEONS_DELIGHT_MOD_ID + "_dat"));
+        FabricDataGenerator.Pack dungeonsDelightPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( BountifulFares.DUNGEONS_DELIGHT_MOD_ID + "_dat"));
         dungeonsDelightPack.addProvider(DungeonsDelightBlockLootTableProvider::new);
         dungeonsDelightPack.addProvider(DungeonsDelightBlockTagProvider::new);
         dungeonsDelightPack.addProvider(DungeonsDelightRecipeProvider::new);
 
-        FabricDataGenerator.Pack disableCompatVisibilityPack = fabricDataGenerator.createBuiltinResourcePack(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hide_compat_items"));
+        FabricDataGenerator.Pack disableCompatVisibilityPack = fabricDataGenerator.createBuiltinResourcePack(BountifulFares.rl( "hide_compat_items"));
         disableCompatVisibilityPack.addProvider(DisableCompatItemsVisibility::new);
 
     }

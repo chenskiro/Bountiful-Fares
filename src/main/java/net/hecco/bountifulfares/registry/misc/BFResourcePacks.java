@@ -13,7 +13,7 @@ import java.util.Optional;
 public class BFResourcePacks {
     private static void registerBuiltinResourcePack(ModContainer modContainer, String forModID) {
             ResourceManagerHelper.registerBuiltinResourcePack(
-                    ResourceLocation.tryBuild(BountifulFares.MOD_ID, forModID + "_res"),
+                    BountifulFares.rl( forModID + "_res"),
                     modContainer,
                     Component.translatable("pack." + BountifulFares.MOD_ID + "." + forModID),
                     ResourcePackActivationType.ALWAYS_ENABLED
@@ -22,7 +22,7 @@ public class BFResourcePacks {
 
     private static void registerBuiltinResourcePack(ModContainer modContainer, String forModID, String additional) {
         ResourceManagerHelper.registerBuiltinResourcePack(
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, forModID + "_res_" + additional),
+                BountifulFares.rl( forModID + "_res_" + additional),
                 modContainer,
                 Component.translatable("pack." + BountifulFares.MOD_ID + "." + forModID),
                 ResourcePackActivationType.ALWAYS_ENABLED
@@ -31,7 +31,7 @@ public class BFResourcePacks {
 
     private static void registerBuiltinDataPack(ModContainer modContainer, String packId) {
             ResourceManagerHelper.registerBuiltinResourcePack(
-                    ResourceLocation.tryBuild(BountifulFares.MOD_ID, packId + "_dat"),
+                    BountifulFares.rl( packId + "_dat"),
                     modContainer,
                     Component.translatable("pack." + BountifulFares.MOD_ID + "." + packId),
                     ResourcePackActivationType.ALWAYS_ENABLED
@@ -40,7 +40,7 @@ public class BFResourcePacks {
 
     private static void registerBuiltinDataPack(ModContainer modContainer, String packId, String additional) {
         ResourceManagerHelper.registerBuiltinResourcePack(
-                ResourceLocation.tryBuild(BountifulFares.MOD_ID, packId + "_dat_" + additional),
+                BountifulFares.rl( packId + "_dat_" + additional),
                 modContainer,
                 Component.translatable("pack." + BountifulFares.MOD_ID + "." + packId),
                 ResourcePackActivationType.ALWAYS_ENABLED
@@ -89,20 +89,20 @@ public class BFResourcePacks {
 
             if (!BountifulFares.CONFIG.showCompatItemsInRecipeViewers) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hide_compat_items"),
+                        BountifulFares.rl( "hide_compat_items"),
                         modContainer.get(),
                         ResourcePackActivationType.ALWAYS_ENABLED);
             }
 
             ResourceManagerHelper.registerBuiltinResourcePack(
-                    ResourceLocation.tryBuild(BountifulFares.MOD_ID, "vanilla_item_override"),
+                    BountifulFares.rl( "vanilla_item_override"),
                     modContainer.get(),
                     Component.translatable("pack." + BountifulFares.MOD_ID + "." + "vanilla_item_override"),
                     ResourcePackActivationType.DEFAULT_ENABLED);
 
             if ((Calendar.getInstance().get(Calendar.MONTH) == Calendar.APRIL && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1)) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.tryBuild(BountifulFares.MOD_ID, "lime"),
+                        BountifulFares.rl( "lime"),
                         modContainer.get(),
                         ResourcePackActivationType.ALWAYS_ENABLED);
             }

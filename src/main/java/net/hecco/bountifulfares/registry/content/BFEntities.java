@@ -12,7 +12,7 @@ import net.minecraft.world.entity.MobCategory;
 
 public class BFEntities {
     public static final EntityType<FlourProjectileEntity> THROWN_FLOUR_PROJECTILE = Registry.register(BuiltInRegistries.ENTITY_TYPE,
-            ResourceLocation.tryBuild(BountifulFares.MOD_ID, "flour"),
+            BountifulFares.rl( "flour"),
             FabricEntityTypeBuilder.<FlourProjectileEntity>create(MobCategory.CREATURE, FlourProjectileEntity::new)
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(4).trackedUpdateRate(10).build());
 

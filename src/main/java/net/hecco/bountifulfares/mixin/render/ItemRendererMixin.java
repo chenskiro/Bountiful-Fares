@@ -20,7 +20,7 @@ public abstract class ItemRendererMixin {
     @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
     public BakedModel renderItemTexture(BakedModel value, ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         if (stack.is(BFItems.SUN_HAT) && renderMode == ItemDisplayContext.HEAD) {
-            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(ModelResourceLocation.ofInventoryVariant(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "sun_hat_head")));
+            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(ModelResourceLocation.ofInventoryVariant(BountifulFares.rl( "sun_hat_head")));
         }
         return value;
     }

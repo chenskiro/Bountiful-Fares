@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public abstract class SplashTextMixin
 {
     @Unique private final List<String> bountifulFaresTexts = Lists.<String>newArrayList();
-    @Unique private static final ResourceLocation BOUNTIFUL_FARES_ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID,"texts/splashes.txt");
+    @Unique private static final ResourceLocation BOUNTIFUL_FARES_ID = BountifulFares.rl("texts/splashes.txt");
 
     @ModifyReturnValue(method = "prepare(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)Ljava/util/List;", at = @At(value = "RETURN", ordinal = 0))
     protected List<String> bountifulFaresSplashMix(List<String> original, @Local(argsOnly = true) ResourceManager resourceManager, @Local(argsOnly = true) ProfilerFiller profiler)

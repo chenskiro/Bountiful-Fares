@@ -56,8 +56,8 @@ public class EmiMillingRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/gristmill.png"),  32, 10, 35, 14, 69, 37);
-        widgets.addAnimatedTexture(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/gristmill_progress_arrow.png"),
+        widgets.addTexture(BountifulFares.rl( "textures/gui/gristmill.png"),  32, 10, 35, 14, 69, 37);
+        widgets.addAnimatedTexture(BountifulFares.rl( "textures/gui/gristmill_progress_arrow.png"),
                 32, 10, 35, 14, 0, 0, BountifulFaresConfiguration.load().getMillingTime()*1000, true, false, false)
                 .tooltip((mx, my) -> List.of(TooltipComponent.of(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getMillingTime())))));
         widgets.addSlot(input, 6, 9);

@@ -17,6 +17,6 @@ public abstract class ModelLoaderMixin {
 
     @Inject(method = {"<init>"}, at = {@At(value = "invoke", ordinal = 0, target = "Lnet/minecraft/client/render/model/ModelLoader;loadItemModel(Lnet/minecraft/client/util/ModelIdentifier;)V")})
     private void addModels(CallbackInfo info) {
-        this.loadItemModel(ModelResourceLocation.ofInventoryVariant(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "sun_hat_head")));
+        this.loadItemModel(ModelResourceLocation.ofInventoryVariant(BountifulFares.rl( "sun_hat_head")));
     }
 }

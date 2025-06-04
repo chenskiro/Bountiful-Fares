@@ -8,11 +8,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 public class BFBoats {
-    public static final ResourceLocation HOARY_BOAT_ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hoary_boat");
-    public static final ResourceLocation HOARY_CHEST_BOAT_ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hoary_chest_boat");
+    public static final ResourceLocation HOARY_BOAT_ID = BountifulFares.rl( "hoary_boat");
+    public static final ResourceLocation HOARY_CHEST_BOAT_ID = BountifulFares.rl( "hoary_chest_boat");
 
-    public static final ResourceLocation WALNUT_BOAT_ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "walnut_boat");
-    public static final ResourceLocation WALNUT_CHEST_BOAT_ID = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "walnut_chest_boat");
+    public static final ResourceLocation WALNUT_BOAT_ID = BountifulFares.rl( "walnut_boat");
+    public static final ResourceLocation WALNUT_CHEST_BOAT_ID = BountifulFares.rl( "walnut_chest_boat");
 
     public static final ResourceKey<TerraformBoatType> HOARY_BOAT_KEY = TerraformBoatTypeRegistry.createKey(HOARY_BOAT_ID);
     public static final ResourceKey<TerraformBoatType> WALNUT_BOAT_KEY = TerraformBoatTypeRegistry.createKey(WALNUT_BOAT_ID);

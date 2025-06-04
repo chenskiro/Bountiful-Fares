@@ -59,8 +59,8 @@ public class EmiFermentationRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/jei/fermenting.png"), 0, 0, 89, 76, 0, 0);
-        widgets.addTexture(ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/jei/fermenting.png"),
+        widgets.addTexture(BountifulFares.rl( "textures/gui/jei/fermenting.png"), 0, 0, 89, 76, 0, 0);
+        widgets.addTexture(BountifulFares.rl( "textures/gui/jei/fermenting.png"),
                         29, 54, 24, 8, 29, 54)
                 .tooltip((mx, my) -> List.of(TooltipComponent.of(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getFermentationTime())))));
         widgets.addSlot(EmiIngredient.of(List.of(EmiStack.of(Items.WATER_BUCKET), EmiStack.of(EmiPort.setPotion(new ItemStack(Items.POTION), Potions.WATER.value())))), 6, 5);

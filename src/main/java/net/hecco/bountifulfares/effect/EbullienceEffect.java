@@ -10,14 +10,24 @@ public class EbullienceEffect extends MobEffect {
         super(category, color);
     }
 
+
     @Override
-    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         super.applyEffectTick(entity, amplifier);
         if (entity instanceof Player) {
             ((Player) entity).getFoodData().setExhaustion(0f);
         }
-        return true;
+        // return true;
     }
+
+    // @Override
+    // public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    //     super.applyEffectTick(entity, amplifier);
+    //     if (entity instanceof Player) {
+    //         ((Player) entity).getFoodData().setExhaustion(0f);
+    //     }
+    //     return true;
+    // }
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {

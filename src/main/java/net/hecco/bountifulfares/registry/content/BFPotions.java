@@ -9,15 +9,15 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.alchemy.Potion;
 
 public class BFPotions {
-    public static final Holder<Potion> ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountifulfares.acidic"),
+    public static final Holder<Potion> ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, BountifulFares.rl( "bountifulfares.acidic"),
             new Potion(new MobEffectInstance(BFEffects.ACIDIC, 2000, 0)));
-    public static final Holder<Potion> LONG_ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountifulfares.long_acidic"),
+    public static final Holder<Potion> LONG_ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, BountifulFares.rl( "bountifulfares.long_acidic"),
             new Potion(new MobEffectInstance(BFEffects.ACIDIC, 3600, 0)));
-    public static final Holder<Potion> STRONG_ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountifulfares.strong_acidic"),
+    public static final Holder<Potion> STRONG_ACIDIC = Registry.registerForHolder(BuiltInRegistries.POTION, BountifulFares.rl( "bountifulfares.strong_acidic"),
             new Potion(new MobEffectInstance(BFEffects.ACIDIC, 1000, 1)));
-    public static final Holder<Potion> STUPOR = Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountifulfares.stupor"),
+    public static final Holder<Potion> STUPOR = Registry.registerForHolder(BuiltInRegistries.POTION, BountifulFares.rl( "bountifulfares.stupor"),
             new Potion(new MobEffectInstance(BFEffects.STUPOR, 2000, 0)));
-    public static final Holder<Potion> LONG_STUPOR = Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "bountifulfares.long_stupor"),
+    public static final Holder<Potion> LONG_STUPOR = Registry.registerForHolder(BuiltInRegistries.POTION, BountifulFares.rl( "bountifulfares.long_stupor"),
             new Potion(new MobEffectInstance(BFEffects.STUPOR, 3600, 0)));
     public static void registerPotions() {
 //        BountifulFares.LOGGER.info("Registering Mod Potions for " + BountifulFares.MOD_ID);

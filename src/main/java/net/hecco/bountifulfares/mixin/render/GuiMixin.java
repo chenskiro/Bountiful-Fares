@@ -74,9 +74,9 @@ public class GuiMixin {
     //}
 
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/acidified_effect_background");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = BountifulFares.rl( "hud/acidified_effect_background");
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "hud/acidified_effect_background_ambient");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = BountifulFares.rl( "hud/acidified_effect_background_ambient");
 
 //    @Inject(method = "renderStatusEffectOverlay",
 //            at = @At(value = "INVOKE",

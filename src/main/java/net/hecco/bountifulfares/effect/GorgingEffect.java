@@ -3,6 +3,7 @@ package net.hecco.bountifulfares.effect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 
 public class GorgingEffect extends MobEffect {
@@ -10,22 +11,38 @@ public class GorgingEffect extends MobEffect {
         super(category, color);
     }
 
+    // @Override
+    // public void onApplied(LivingEntity entity, int amplifier) {
+    //     if (entity instanceof  Player) {
+    //         ((Player) entity).getFoodData().setFoodLevel(20);
+    //     }
+    //     super.addAttributeModifiers(entity, amplifier);
+    // }
+
     @Override
-    public void onApplied(LivingEntity entity, int amplifier) {
+    public void addAttributeModifiers(LivingEntity entity, AttributeMap pAttributeMap, int pAmplifier) {
         if (entity instanceof  Player) {
             ((Player) entity).getFoodData().setFoodLevel(20);
         }
-        super.addAttributeModifiers(entity, amplifier);
+        super.addAttributeModifiers(entity, pAttributeMap, pAmplifier);
     }
 
     @Override
-    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         super.applyEffectTick(entity, amplifier);
         if (entity instanceof Player) {
             ((Player) entity).getFoodData().setExhaustion(0f);
         }
-        return true;
     }
+
+    // @Override
+    // public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    //     super.applyEffectTick(entity, amplifier);
+    //     if (entity instanceof Player) {
+    //         ((Player) entity).getFoodData().setExhaustion(0f);
+    //     }
+    //     return true;
+    // }
 
 //    @Override
 //    public void onRemoved(AttributeContainer attributeContainer) {

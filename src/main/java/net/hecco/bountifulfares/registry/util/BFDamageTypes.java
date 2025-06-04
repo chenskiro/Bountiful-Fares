@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageType;
 
 public class BFDamageTypes {
-    public static final ResourceKey<DamageType> FALLING_COCONUT = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.tryBuild(BountifulFares.MOD_ID, "falling_coconut"));
+    public static final ResourceKey<DamageType> FALLING_COCONUT = ResourceKey.create(Registries.DAMAGE_TYPE, BountifulFares.rl( "falling_coconut"));
 
     public static void registerDamageTypes() {}
 }

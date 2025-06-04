@@ -15,7 +15,7 @@ public class BFRecipes {
     public static final RecipeType<FermentationRecipe> FERMENTING = register("fermenting");
 
     public static <T extends Recipe<?>> RecipeType<T> register(final String id) {
-        return Registry.register(BuiltInRegistries.RECIPE_TYPE, ResourceLocation.tryBuild(BountifulFares.MOD_ID, id), new RecipeType<T>(){
+        return Registry.register(BuiltInRegistries.RECIPE_TYPE, BountifulFares.rl( id), new RecipeType<T>(){
             public String toString() {
                 return id;
             }
@@ -29,7 +29,7 @@ public class BFRecipes {
             new FermentationRecipe.Serializer(FermentationRecipe::new));
 
     public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerSerializer(String id, S serializer) {
-        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.tryBuild(BountifulFares.MOD_ID, id), serializer);
+        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, BountifulFares.rl( id), serializer);
     }
 
     public static void registerRecipes() {

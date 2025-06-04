@@ -31,7 +31,7 @@ public class PrismarinePropagationCategory implements IRecipeCategory<Propagatio
 
     public PrismarinePropagationCategory(IGuiHelper helper) {
         icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.PRISMARINE_BLOSSOM));
-        ResourceLocation backgroundImage = ResourceLocation.tryBuild(BountifulFares.MOD_ID, "textures/gui/jei/propagation.png");
+        ResourceLocation backgroundImage = BountifulFares.rl( "textures/gui/jei/propagation.png");
         background = helper.createDrawable(backgroundImage, 0, 0, 92, 49);
     }
 
