@@ -1,11 +1,14 @@
 package net.hecco.bountifulfares.item.custom;
 
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class BlockItemWithInfo extends BlockItem {
@@ -15,16 +18,21 @@ public class BlockItemWithInfo extends BlockItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
-        //        if (BountifulFares.CONFIG.isEnableItemGuideTooltips()) {
-//            if (Screen.hasShiftDown()) {
-//                writeInfo(tooltip);
-//            } else {
-//                tooltip.add(Text.literal("§8Hold Shift for More Info..."));
-//            }
-//        }
+    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
     }
+
+//     @Override
+//     public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
+//         //        if (BountifulFares.CONFIG.isEnableItemGuideTooltips()) {
+// //            if (Screen.hasShiftDown()) {
+// //                writeInfo(tooltip);
+// //            } else {
+// //                tooltip.add(Text.literal("§8Hold Shift for More Info..."));
+// //            }
+// //        }
+//         super.appendHoverText(stack, context, tooltip, type);
+//     }
 
     public void writeInfo(List<Component> tooltip) {
         if (this == BFBlocks.FERMENTATION_VESSEL.asItem()) {

@@ -17,7 +17,7 @@ import net.hecco.bountifulfares.registry.content.BFPotions;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
-import net.minecraft.component.DataComponentTypes;
+
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.core.Holder;

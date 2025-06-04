@@ -5,7 +5,7 @@ import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.hecco.bountifulfares.compat.CompatUtil;
 import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.hecco.bountifulfares.registry.content.BFItems;
-// import net.minecraft.component.DataComponentTypes;
+// 
 // import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -8,12 +8,13 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import static net.hecco.bountifulfares.registry.content.BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY;
 
 public interface CeramicDishBlockInterface extends EntityBlock {
     @Override
-    default BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    default BlockEntity newBlockEntity(BlockPos pos,BlockState state) {
         return new CeramicDishBlockEntity(pos, state);
     }
 

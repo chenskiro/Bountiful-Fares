@@ -4,9 +4,6 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.core.Holder;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,12 +16,11 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +37,7 @@ public class TeaBottleItem extends Item {
         if (user instanceof ServerPlayer serverPlayerEntity) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.awardStat(Stats.ITEM_USED.get(this));
-            for (Holder<MobEffect> effect : getStatusEffectsToRemove()) {
+            for (MobEffect effect : getStatusEffectsToRemove()) {
                 user.removeEffect(effect);
             }
         }
@@ -59,7 +55,7 @@ public class TeaBottleItem extends Item {
             return stack;
         }
     }
-    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
+    public ArrayList<MobEffect> getStatusEffectsToRemove() {
         return new ArrayList<>();
     }
 
@@ -80,14 +76,14 @@ public class TeaBottleItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
+    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         if (BountifulFares.CONFIG.effectTooltips) {
-            PotionContentsComponent.buildTooltip(List.of(new MobEffectInstance(BFEffects.EBULLIENCE, 3600, 0, true, true)), tooltip::add, 1.0F, context.getUpdateTickRate());
+            PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(BFEffects.EBULLIENCE, 3600, 0, true, true)), tooltip, 1.0F);
             tooltip.add(CommonComponents.EMPTY);
             tooltip.add(Component.translatable("tooltip.bountifulfares.removes").withStyle(ChatFormatting.GRAY));
             for (MobEffectInstance effect : removedEffects) {
-                tooltip.add(Component.translatable(effect.getDescriptionId().formatted(effect.getEffect().value().getCategory().getFormatting())).formatted(ChatFormatting.RED));
+                tooltip.add(Component.translatable(effect.getDescriptionId().formatted(effect.getEffect().getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
             }
         }
     }

@@ -3,8 +3,6 @@ package net.hecco.bountifulfares.item.custom;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -15,7 +13,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class EdibleJarItem extends Item {
@@ -48,9 +51,9 @@ public class EdibleJarItem extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(BFItems.JAR);
         } else {
-            if (user instanceof Player && !((Player)user).getAbilities().instabuild) {
+            if (user instanceof Player && !((Player) user).getAbilities().instabuild) {
                 ItemStack itemStack = new ItemStack(BFItems.JAR);
-                Player playerEntity = (Player)user;
+                Player playerEntity = (Player) user;
                 if (!playerEntity.getInventory().add(itemStack)) {
                     playerEntity.drop(itemStack, false);
                 }
@@ -65,11 +68,20 @@ public class EdibleJarItem extends Item {
         return eatSound;
     }
 
+
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
-        super.appendHoverText(stack, context, tooltip, type);
+    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> tooltip, TooltipFlag type) {
+        super.appendHoverText(stack, pLevel, tooltip, type);
         if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-            PotionContentsComponent.buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
+            PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
         }
     }
+
+    // @Override
+    // public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
+    //     super.appendHoverText(stack, context, tooltip, type);
+    //     if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
+    //         PotionContentsComponent.buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
+    //     }
+    // }
 }

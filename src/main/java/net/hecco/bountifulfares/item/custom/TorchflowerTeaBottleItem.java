@@ -12,8 +12,8 @@ public class TorchflowerTeaBottleItem extends TeaBottleItem{
     public TorchflowerTeaBottleItem(Properties settings) {
         super(List.of(new MobEffectInstance(MobEffects.DARKNESS), new MobEffectInstance(MobEffects.BLINDNESS), new MobEffectInstance(BFEffects.ACIDIC)), settings);
     }
-    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
-        ArrayList<Holder<MobEffect>> list = new ArrayList<>();
+    public ArrayList<MobEffect> getStatusEffectsToRemove() {
+        ArrayList<MobEffect> list = new ArrayList<>();
         list.add(MobEffects.DARKNESS);
         list.add(MobEffects.BLINDNESS);
         list.add(BFEffects.ACIDIC);

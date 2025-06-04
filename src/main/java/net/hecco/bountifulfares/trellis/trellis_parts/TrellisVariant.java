@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.trellis.trellis_parts;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.custom.CropTrellisBlock;
 import net.hecco.bountifulfares.block.custom.DecorativeTrellisBlock;
@@ -18,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,27 +137,27 @@ public class TrellisVariant {
 
     private void registerTrellis(ArrayList<Block> renderCutoutList) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.TRELLISES.put(this.getBlockName(), registerBlock(this.getModId(), this.getBlockName(), new TrellisBlock(this, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
+            BFTrellises.TRELLISES.put(this.getBlockName(), registerBlock(this.getModId(), this.getBlockName(), new TrellisBlock(this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
         } else {
-            BFTrellises.TRELLISES.put(this.getBlockName(), registerCompatBlock(this.getModId(), this.getBlockName(), new CompatTrellisBlock(this.MOD_ID, this, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
+            BFTrellises.TRELLISES.put(this.getBlockName(), registerCompatBlock(this.getModId(), this.getBlockName(), new CompatTrellisBlock(this.MOD_ID, this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
         }
         renderCutoutList.add(BFTrellises.TRELLISES.get(this.getBlockName()));
     }
 
     private void registerCropTrellis(ArrayList<Block> renderCutoutList, VineCrop crop) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), new CropTrellisBlock(crop.getSeedsItem(), crop.getCropItem(), this, crop, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), new CropTrellisBlock(crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
         } else {
-            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), new CompatCropTrellisBlock(this.MOD_ID, crop.getSeedsItem(), crop.getCropItem(), this, crop, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), new CompatCropTrellisBlock(this.MOD_ID, crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
         }
         renderCutoutList.add(BFTrellises.CROP_TRELLISES.get(crop.getName() + this.getBlockName()));
     }
 
     private void registerDecorativeTrellis(ArrayList<Block> renderCutoutList, DecorativeVine vine) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), new DecorativeTrellisBlock(vine.canDuplicate(), vine.getPlantItem(), this, vine, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), new DecorativeTrellisBlock(vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
         } else {
-            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), new CompatDecorativeTrellisBlock(this.MOD_ID, vine.canDuplicate(), vine.getPlantItem(), this, vine, FabricBlockSettings.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), new CompatDecorativeTrellisBlock(this.MOD_ID, vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
         }
         renderCutoutList.add(BFTrellises.DECORATIVE_TRELLISES.get(vine.getName() + this.getBlockName()));
     }

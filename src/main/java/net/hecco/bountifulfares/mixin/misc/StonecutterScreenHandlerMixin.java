@@ -2,7 +2,7 @@ package net.hecco.bountifulfares.mixin.misc;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.hecco.bountifulfares.BountifulFares;
-import net.minecraft.component.DataComponentTypes;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.StonecutterMenu;

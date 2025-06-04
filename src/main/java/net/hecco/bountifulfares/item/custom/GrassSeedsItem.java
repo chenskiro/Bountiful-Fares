@@ -35,7 +35,7 @@ public class GrassSeedsItem extends Item {
             return InteractionResult.sidedSuccess(true);
         }  else if (world.getBlockState(pos).is(Blocks.GRASS_BLOCK) && context.getClickedFace() == Direction.UP && world.getBlockState(pos.above()).isAir()) {
             pos = pos.above();
-            world.setBlockAndUpdate(pos, Blocks.SHORT_GRASS.getDefaultState());
+            world.setBlockAndUpdate(pos, Blocks.GRASS.defaultBlockState());
             world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
             for (int i = 0; i < 16; i++) {
                 world.addParticle(ParticleTypes.HAPPY_VILLAGER, (pos.getX() - 0.2) + (world.random.nextFloat() * 1.4), pos.getY() + (world.random.nextFloat() * 0.5) + 0.8, (pos.getZ() - 0.2) + (world.random.nextFloat() * 1.4), (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);

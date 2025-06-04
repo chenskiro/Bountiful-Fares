@@ -2,7 +2,6 @@ package net.hecco.bountifulfares.registry.util;
 
 import net.hecco.bountifulfares.BountifulFares;
 import net.minecraft.ChatFormatting;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;

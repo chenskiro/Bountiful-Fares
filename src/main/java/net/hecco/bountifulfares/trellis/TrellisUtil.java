@@ -2,8 +2,8 @@ package net.hecco.bountifulfares.trellis;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.hecco.bountifulfares.BountifulFares;
+import net.fabricmc.fabric.api.datagen.v1.provider.;
+import net.hecco.bountifulfares.BountifulFares;FabricTagProvider
 import net.hecco.bountifulfares.datagen.bountifulfares.BFTemplateModels;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
@@ -27,7 +27,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static net.hecco.bountifulfares.BountifulFaresUtil.toSentenceCase;
-import static net.minecraft.data.recipes.RecipeProvider.has;
 
 public class TrellisUtil extends FabricTagProvider.BlockTagProvider {
 

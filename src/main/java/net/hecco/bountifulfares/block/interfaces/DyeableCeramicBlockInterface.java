@@ -1,7 +1,7 @@
 package net.hecco.bountifulfares.block.interfaces;
 
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
-import net.minecraft.component.DataComponentTypes;
+
 import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;

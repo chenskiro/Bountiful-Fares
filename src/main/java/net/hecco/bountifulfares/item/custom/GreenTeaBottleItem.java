@@ -12,8 +12,8 @@ public class GreenTeaBottleItem extends TeaBottleItem{
     public GreenTeaBottleItem(Properties settings) {
         super(List.of(new MobEffectInstance(BFEffects.STUPOR), new MobEffectInstance(MobEffects.HUNGER), new MobEffectInstance(BFEffects.ACIDIC)), settings);
     }
-    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
-        ArrayList<Holder<MobEffect>> list = new ArrayList<>();
+    public ArrayList<MobEffect> getStatusEffectsToRemove() {
+        ArrayList<MobEffect> list = new ArrayList<>();
         list.add(BFEffects.STUPOR);
         list.add(MobEffects.HUNGER);
         list.add(BFEffects.ACIDIC);

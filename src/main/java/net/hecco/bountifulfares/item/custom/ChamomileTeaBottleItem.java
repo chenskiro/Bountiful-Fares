@@ -12,8 +12,8 @@ public class ChamomileTeaBottleItem extends TeaBottleItem{
     public ChamomileTeaBottleItem(Properties settings) {
         super(List.of(new MobEffectInstance(MobEffects.CONFUSION), new MobEffectInstance(MobEffects.POISON), new MobEffectInstance(BFEffects.ACIDIC)), settings);
     }
-    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
-        ArrayList<Holder<MobEffect>> list = new ArrayList<>();
+    public ArrayList<MobEffect> getStatusEffectsToRemove() {
+        ArrayList<MobEffect> list = new ArrayList<>();
         list.add(MobEffects.CONFUSION);
         list.add(MobEffects.POISON);
         list.add(BFEffects.ACIDIC);

@@ -3,12 +3,15 @@ package net.hecco.bountifulfares.item.custom;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.minecraft.ChatFormatting;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.tooltip.TooltipType;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class DyeableCeramicBlockItem extends BlockItem {
@@ -28,7 +31,7 @@ public class DyeableCeramicBlockItem extends BlockItem {
 //    }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
+    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
         if (!stack.getComponents().contains(DataComponentTypes.DYED_COLOR)) {
             tooltip.add(Component.translatable("tooltip." + BountifulFares.MOD_ID + ".dyeable").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
