@@ -8,9 +8,11 @@ import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +37,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
 
     public TrellisVariant variant;
     public DecorativeVine vine;
+
     public DecorativeTrellisBlock(boolean canDuplicate, Item item, TrellisVariant variant, DecorativeVine vine, Properties settings) {
         super(variant, settings);
         this.canDuplicate = canDuplicate;
@@ -51,10 +54,11 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         Direction facing = state.getValue(FACING);
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
-            player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).defaultBlockState().setValue(FACING, facing), 2);
             popResource(world, pos, new ItemStack(DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -70,13 +74,13 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     }
 
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return new ItemStack(TrellisUtil.getTrellisFromVariant(variant));
     }
 
 
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
         return canDuplicate;
     }
 
@@ -100,16 +104,16 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
         }
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
+    //     return null;
+    // }
 
-    //Hey Hecco i have noticed that you have like 20-22 lang files for the same translation of trellises
-    //You can use this method to make these hundreds of lang lines redundant
-    //P.S. i tested this with WTHIT and it works
-    //if you accept this, this will allow to remove like 500 lines from every lang file
-    //they are so annoying to translate through "find and replace"
+    // Hey Hecco i have noticed that you have like 20-22 lang files for the same translation of trellises
+    // You can use this method to make these hundreds of lang lines redundant
+    // P.S. i tested this with WTHIT and it works
+    // if you accept this, this will allow to remove like 500 lines from every lang file
+    // they are so annoying to translate through "find and replace"
     @Override
     public String getDescriptionId() {
         return "block." + variant.getModId() + "." + variant.getBlockName();

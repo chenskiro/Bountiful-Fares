@@ -172,9 +172,13 @@ public class PicketsBlock extends Block implements SimpleWaterloggedBlock {
         }
         return super.getFluidState(state);
     }
-
     @Override
-    protected boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
     }
+
+    // @Override
+    // public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    //     return false;
+    // }
 }

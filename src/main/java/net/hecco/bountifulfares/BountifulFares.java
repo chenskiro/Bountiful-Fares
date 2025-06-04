@@ -1,8 +1,5 @@
 package net.hecco.bountifulfares;
 
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
-import net.fabricmc.loader.api.FabricLoader;
 import net.hecco.bountifulfares.recipe.BFSpecialRecipes;
 import net.hecco.bountifulfares.registry.content.*;
 import net.hecco.bountifulfares.registry.misc.*;
@@ -17,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +43,9 @@ public class BountifulFares  {
 	public static BountifulFaresConfiguration CONFIG = new BountifulFaresConfiguration();
 
 	public static boolean isModLoaded(String modId) {
-		return FabricLoader.getInstance().isModLoaded(modId);
+		return FMLLoader.getLoadingModList().getModFileById(modId) != null;
 	}
+
 	public static boolean isDatagen() {
 		try {
 			Class.forName("net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint");
@@ -59,7 +58,7 @@ public class BountifulFares  {
 	public void onInitialize() {
 		BountifulFares.CONFIG = BountifulFaresConfiguration.load();
 		BFResourcePacks.registerBuiltinResourcePacks();
-		BFItems.registerModItems();
+		// BFItems.registerModItems();
 		// BFBlocks.registerModBlocks();
 		BFTrellises.registerTrellisParts();
 		TrellisUtil.registerTrellisParts();
@@ -79,7 +78,7 @@ public class BountifulFares  {
 		BFBlockEntities.registerBlockEntities();
 		BFScreenHandlers.registerScreenHandlers();
 		BFEntities.registerModEntities();
-		BFSounds.registerSounds();
+		// BFSounds.registerSounds();
 		BFDamageTypes.registerDamageTypes();
 		BFSpecialRecipes.registerSpecialRecipes();
 		BFCompat.registerCompatContent();

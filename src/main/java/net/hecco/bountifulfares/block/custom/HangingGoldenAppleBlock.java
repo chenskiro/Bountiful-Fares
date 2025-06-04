@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -83,10 +84,10 @@ public class HangingGoldenAppleBlock extends BushBlock {
         return super.getMaxHorizontalOffset();
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BushBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -132,7 +133,7 @@ public class HangingGoldenAppleBlock extends BushBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     private static boolean isFullyGrown(BlockState state) {

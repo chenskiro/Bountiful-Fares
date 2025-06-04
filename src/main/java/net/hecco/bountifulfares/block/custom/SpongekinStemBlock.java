@@ -3,7 +3,7 @@ package net.hecco.bountifulfares.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -92,7 +92,7 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
     }
 
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
         return !isFullyGrown(state);
     }
 
@@ -149,8 +149,13 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
         return Fluids.WATER.getSource(false);
     }
 
+    // @Override
+    // public boolean canFillWithFluid(@Nullable Player player, BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    //     return false;
+    // }
+
     @Override
-    public boolean canFillWithFluid(@Nullable Player player, BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
         return false;
     }
 

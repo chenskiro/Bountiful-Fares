@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 public class CeramicTrapdoorBlock extends TrapDoorBlock implements EntityBlock {
     private final BlockSetType blockSetType;
     public CeramicTrapdoorBlock(Properties settings, BlockSetType blockSetType) {
-        super(blockSetType, settings);
+        super(settings, blockSetType);
         this.blockSetType = blockSetType;
     }
 
@@ -33,7 +33,7 @@ public class CeramicTrapdoorBlock extends TrapDoorBlock implements EntityBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 

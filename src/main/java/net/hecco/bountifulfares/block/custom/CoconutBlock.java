@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -122,7 +123,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     }
 
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
         return new ItemStack(BFItems.COCONUT);
     }
 
@@ -260,7 +261,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
         return !isFullyGrown(state);
     }
 

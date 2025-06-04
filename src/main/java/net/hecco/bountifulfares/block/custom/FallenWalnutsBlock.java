@@ -59,7 +59,7 @@ public class FallenWalnutsBlock extends Block {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return BFItems.WALNUT.getDefaultInstance();
     // }
 

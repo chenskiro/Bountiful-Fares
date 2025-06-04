@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -30,15 +31,16 @@ import net.minecraft.world.phys.BlockHitResult;
 public class FruitBlock extends FallingBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty SLICES = IntegerProperty.create("slices", 0, 3);
+
     public FruitBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.getStateDefinition().any().setValue(SLICES, 0).setValue(FACING, Direction.NORTH));
     }
 
-    @Override
-    protected MapCodec<? extends FallingBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends FallingBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -59,7 +61,7 @@ public class FruitBlock extends FallingBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (state.getValue(SLICES) != 3 && player.canEat(false)) {
             world.setBlock(pos, state.cycle(SLICES), Block.UPDATE_CLIENTS);
             player.getFoodData().eat(4, 0.1f);

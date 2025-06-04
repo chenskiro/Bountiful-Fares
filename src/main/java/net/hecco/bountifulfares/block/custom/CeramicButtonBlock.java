@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +28,7 @@ public class CeramicButtonBlock extends ButtonBlock implements EntityBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 

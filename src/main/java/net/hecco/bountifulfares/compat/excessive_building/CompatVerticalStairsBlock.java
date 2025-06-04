@@ -3,7 +3,6 @@ package net.hecco.bountifulfares.compat.excessive_building;
 
 import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.BountifulFares;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -79,10 +78,10 @@ public class CompatVerticalStairsBlock extends HorizontalDirectionalBlock implem
         return this.defaultBlockState().setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER)
                 .setValue(FACING, ctx.getHorizontalDirection().getOpposite());
     }
-    public static final MapCodec<CompatVerticalStairsBlock> CODEC = CompatVerticalStairsBlock.createCodec(CompatVerticalStairsBlock::new);
+    // public static final MapCodec<CompatVerticalStairsBlock> CODEC = CompatVerticalStairsBlock.createCodec(CompatVerticalStairsBlock::new);
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
-        return CODEC;
-    }
+    // @Override
+    // protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
+    //     return CODEC;
+    // }
 }

@@ -74,10 +74,10 @@ public class HangingWitheredGoldenAppleBlock extends BushBlock {
         return super.getMaxHorizontalOffset();
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BushBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

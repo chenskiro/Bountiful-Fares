@@ -6,7 +6,7 @@ import net.hecco.bountifulfares.compat.CompatUtil;
 import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.hecco.bountifulfares.item.custom.DyeableCeramicBlockItem;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -51,7 +51,7 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 

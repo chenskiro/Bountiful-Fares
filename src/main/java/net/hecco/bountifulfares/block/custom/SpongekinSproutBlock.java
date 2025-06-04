@@ -22,10 +22,10 @@ public class SpongekinSproutBlock extends BushBlock implements LiquidBlockContai
         super(settings);
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BushBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
@@ -54,8 +54,13 @@ public class SpongekinSproutBlock extends BushBlock implements LiquidBlockContai
     public FluidState getFluidState(BlockState state) {
         return Fluids.WATER.getSource(false);
     }
+    // @Override
+    // public boolean canFillWithFluid(@Nullable Player player, BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    //     return false;
+    // }
+
     @Override
-    public boolean canFillWithFluid(@Nullable Player player, BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
         return false;
     }
 

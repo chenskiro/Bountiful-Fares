@@ -3,6 +3,7 @@ package net.hecco.bountifulfares.block.custom;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
@@ -18,7 +19,7 @@ public class PalmCrownBlock extends RotatedPillarBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BoneMealItem) {
             if (hit.getDirection() != Direction.DOWN && hit.getDirection() != Direction.UP) {
                 if (world.getBlockState(pos.relative(hit.getDirection(), 1)).isAir()) {
@@ -49,6 +50,6 @@ public class PalmCrownBlock extends RotatedPillarBlock {
                 }
             }
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 }

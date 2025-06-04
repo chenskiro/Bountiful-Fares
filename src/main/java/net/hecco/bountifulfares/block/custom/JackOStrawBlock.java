@@ -2,11 +2,12 @@ package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -67,7 +68,6 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
     }
 
 
-
     public JackOStrawBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER).setValue(LIT, false).setValue(WATERLOGGED, false));
@@ -82,6 +82,7 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
         }
         return blockState.is(this);
     }
+
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (world.getBlockState(pos.above(1)).is(Blocks.AIR) && state.getValue(HALF) == DoubleBlockHalf.LOWER) {
@@ -131,9 +132,8 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
             world.destroyBlock(pos, true);
             world.destroyBlock(pos.below(), false);
         }
-         super.playerWillDestroy(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
-
 
 
     @Override
@@ -146,7 +146,7 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER & !state.getValue(LIT) & player.getItemInHand(player.getUsedItemHand()).is(BFItemTags.JACK_O_STRAW_LIGHTABLE)) {
             if (!player.isCreative()) {
                 player.getItemInHand(player.getUsedItemHand()).shrink(1);

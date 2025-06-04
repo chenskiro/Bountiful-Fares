@@ -3,14 +3,16 @@ package net.hecco.bountifulfares.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -47,10 +49,10 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(SNIPPED, false));
     }
 
-    @Override
-    protected MapCodec<? extends FallingBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends FallingBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
@@ -95,15 +97,17 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         super.onBrokenAfterFall(world, pos, fallingBlockEntity);
     }
 
+
     @Override
-    protected InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS) && !state.getValue(SNIPPED)) {
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
-            player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     @Override
@@ -137,11 +141,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 
     }
-
-    @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
-        return false;
-    }
+    
 
     public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return !isFullyGrown(state);
@@ -181,7 +181,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return BFItems.WALNUT.getDefaultInstance();
     // }
 

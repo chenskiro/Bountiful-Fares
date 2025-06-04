@@ -5,7 +5,7 @@ import net.hecco.bountifulfares.compat.block.*;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
-import net.minecraft.block.*;
+
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

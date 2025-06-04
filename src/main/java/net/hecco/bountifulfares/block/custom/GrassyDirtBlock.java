@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -20,7 +20,7 @@ public class GrassyDirtBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
         return world.getBlockState(pos.above()).isAir();
     }
 
@@ -34,7 +34,8 @@ public class GrassyDirtBlock extends Block implements BonemealableBlock {
         world.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.defaultBlockState());
     }
 
-    private static boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+    @Override
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         BlockPos blockPos = pos.above();
         BlockState blockState = world.getBlockState(blockPos);
         if (blockState.is(Blocks.SNOW) && blockState.getValue(SnowLayerBlock.LAYERS) == 1) {

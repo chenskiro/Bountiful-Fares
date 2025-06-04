@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -32,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CabinetBlock extends BaseEntityBlock {
 
-    public static final MapCodec<CabinetBlock> CODEC = CabinetBlock.createCodec(CabinetBlock::new);
+    // public static final MapCodec<CabinetBlock> CODEC = CabinetBlock.createCodec(CabinetBlock::new);
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
@@ -51,10 +52,10 @@ public class CabinetBlock extends BaseEntityBlock {
         this.modId = BountifulFares.FARMERS_DELIGHT_MOD_ID;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> getCodec() {
-        return CODEC;
-    }
+    // @Override
+    // protected MapCodec<? extends BaseEntityBlock> getCodec() {
+    //     return CODEC;
+    // }
 
     @Override
     public boolean isEnabled(FeatureFlagSet enabledFeatures) {

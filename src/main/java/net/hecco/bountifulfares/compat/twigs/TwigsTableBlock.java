@@ -3,7 +3,7 @@ package net.hecco.bountifulfares.compat.twigs;
 
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.block.CompatBlock;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.flag.FeatureFlagSet;

@@ -2,7 +2,7 @@ package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFSounds;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -40,10 +40,10 @@ public class CeramicPressurePlateBlock extends BasePressurePlateBlock implements
         return DyeableCeramicBlock.createBlockEntity(pos, state);
     }
 
-    @Override
-    protected MapCodec<? extends BasePressurePlateBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BasePressurePlateBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected int getPressedTime() {
@@ -100,7 +100,7 @@ public class CeramicPressurePlateBlock extends BasePressurePlateBlock implements
 
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 

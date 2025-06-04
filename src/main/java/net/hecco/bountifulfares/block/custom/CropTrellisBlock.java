@@ -4,15 +4,17 @@ import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,6 +42,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -60,6 +63,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     private final VineCrop crop;
     private String berryItemID;
     private final int harvestResetAge;
+
     public CropTrellisBlock(Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
@@ -79,6 +83,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         this.harvestResetAge = harvestResetAge;
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(AGE, 0).setValue(SNIPPED, false));
     }
+
     public CropTrellisBlock(Item seedsItem, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
@@ -108,7 +113,8 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         popResource((Level) world, pos, new ItemStack(crop.getSeedsItem()));
         super.destroy(world, pos, state);
     }
-    //same note as in DecorativeTrellisBlock
+
+    // same note as in DecorativeTrellisBlock
     @Override
     public String getDescriptionId() {
         return "block." + variant.getModId() + "." + variant.getBlockName();
@@ -119,16 +125,17 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         int i = state.getValue(AGE);
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS) && !state.getValue(SNIPPED)) {
-            player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
-        } else if(i != 3) {
+        } else if (i != 3) {
             return InteractionResult.PASS;
-        } else if(state.getValue(AGE) == 3 & !state.getValue(SNIPPED)) {
+        } else if (state.getValue(AGE) == 3 & !state.getValue(SNIPPED)) {
             int j = 1 + world.random.nextInt(2);
             if (this.berryItem != null) {
                 popResource(world, pos, new ItemStack(this.berryItem, world.random.nextIntBetweenInclusive(1, 2)));
@@ -142,12 +149,12 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
             world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if(state.getValue(SNIPPED)) {
+        if (state.getValue(SNIPPED)) {
 
         } else if (!isFullyGrown(state)) {
             if (world.random.nextFloat() < 0.2f) {
@@ -155,9 +162,10 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
             }
         }
     }
+
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
-        if(state.getValue(SNIPPED)) {
+        if (state.getValue(SNIPPED)) {
 
         } else if (!isFullyGrown(state)) {
             world.setBlock(pos, state.cycle(AGE), Block.UPDATE_CLIENTS);
@@ -166,7 +174,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite())
-        .setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
+                .setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
     }
 
     @Override
@@ -178,7 +186,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return new ItemStack(TrellisUtil.getTrellisFromVariant(variant));
     }
 
@@ -191,13 +199,19 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-    protected boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
     }
 
+    // @Override
+    // public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    //     return false;
+    // }
+
+
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
-        if(isFullyGrown(state)) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
+        if (isFullyGrown(state)) {
             return false;
         }
         return !state.getValue(SNIPPED);
@@ -205,7 +219,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     @Override
     public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
-        if(isFullyGrown(state)) {
+        if (isFullyGrown(state)) {
             return false;
         }
         return !state.getValue(SNIPPED);
@@ -226,6 +240,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
         return state.getFluidState().isEmpty();
     }
+
     public static BlockState getCropTrellisFromCrop(Item seedsItem) {
         if (seedsItem != null && CROPS_TO_CROP_TRELLISES.containsKey(seedsItem)) {
             return (CROPS_TO_CROP_TRELLISES.get(seedsItem)).defaultBlockState();

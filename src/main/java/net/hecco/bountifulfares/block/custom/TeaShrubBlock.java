@@ -4,9 +4,11 @@ import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -87,7 +89,8 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
         public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         if (itemStack.is(Items.SHEARS) && canHarvestLeaves(state)) {
-            itemStack.hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (state.getValue(AGE) == 4) {
                 popResource(world, pos, new ItemStack(BFItems.TEA_LEAVES, 3 + world.random.nextInt(2)));
@@ -113,7 +116,7 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return new ItemStack(BFItems.TEA_BERRIES);
     // }
 

@@ -2,8 +2,8 @@ package net.hecco.bountifulfares.block.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,12 +16,20 @@ public class NoCandleCakeBlock extends CakeBlock {
         super(settings);
     }
 
+    // @Override
+    // protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    //     if (stack.is(ItemTags.CANDLES) && state.getValue(BITES) == 0) {
+    //         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    //     } else {
+    //         return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+    //     }
+    // }
+
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack stack = player.getItemInHand(hand);
         if (stack.is(ItemTags.CANDLES) && state.getValue(BITES) == 0) {
-            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        } else {
-            return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
-        }
+            return InteractionResult.PASS;
+        } else return super.use(state, world, pos, player, hand, hit);
     }
 }

@@ -1,12 +1,14 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -68,7 +70,8 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
         } else if (player.getItemInHand(player.getUsedItemHand()).is(Items.FLINT_AND_STEEL)) {
             setLit(world, state, pos, true);
             world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
-            player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             return InteractionResult.SUCCESS;
         } else if (player.getItemInHand(player.getUsedItemHand()).is(Items.FIRE_CHARGE)) {
             setLit(world, state, pos, true);
@@ -81,7 +84,7 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
         return InteractionResult.PASS;
     }
 
-    protected boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         return !context.isSecondaryUseActive() && context.getItemInHand().getItem() == this.asItem() && state.getValue(CANDLES) < 3 || super.canBeReplaced(state, context);
     }
 

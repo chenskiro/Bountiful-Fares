@@ -1,13 +1,12 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -30,34 +29,41 @@ import net.minecraft.world.phys.BlockHitResult;
 public class SpongeCakeBlock extends NoCandleCakeBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty PICKLED = BooleanProperty.create("pickled");
+
     public SpongeCakeBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.getStateDefinition().any().setValue(PICKLED, false).setValue(WATERLOGGED, false));
     }
 
+    // @Override
+    // protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    //
+    //     return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+    // }
+
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+        // onUseWithItem
+        ItemStack stack = player.getItemInHand(pHand);
         if (!state.getValue(PICKLED) && stack.is(Items.SEA_PICKLE) && state.getValue(BITES) == 0) {
-            stack.decrementUnlessCreative(1, player);
+            if (!player.isCreative())
+                stack.shrink(1);
             world.playSound(null, pos, SoundEvents.SLIME_BLOCK_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
             world.setBlockAndUpdate(pos, state.setValue(PICKLED, true));
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-            return ItemActionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
-    }
 
-    @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+        // empty
         if (state.getValue(PICKLED) && state.getValue(BITES) == 0) {
             InteractionResult actionResult = SpongeCakeBlock.eat(world, pos, state.setValue(PICKLED, false), player);
             if (actionResult.consumesAction()) {
-                world.setBlockAndUpdate(pos ,state.setValue(PICKLED, false));
+                world.setBlockAndUpdate(pos, state.setValue(PICKLED, false));
                 popResource(world, pos, new ItemStack(Items.SEA_PICKLE));
             }
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     @Override

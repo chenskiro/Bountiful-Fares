@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class ModHangingSignBlock extends CeilingHangingSignBlock {
     public ModHangingSignBlock(WoodType woodType, Properties settings) {
-        super(woodType, settings);
+        super(settings, woodType);
     }
 
     @Override

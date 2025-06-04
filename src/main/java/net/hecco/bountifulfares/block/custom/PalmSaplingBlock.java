@@ -2,13 +2,14 @@ package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PalmSaplingBlock extends SaplingBlock {
     public static final BooleanProperty NATURAL = BooleanProperty.create("natural");
-    public PalmSaplingBlock(SaplingGenerator generator, Properties settings) {
+    public PalmSaplingBlock(AbstractTreeGrower generator, Properties settings) {
         super(generator, settings);
         this.registerDefaultState(this.getStateDefinition().any().setValue(NATURAL, true));
     }

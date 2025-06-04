@@ -16,7 +16,7 @@ public class OrangeLeavesBlock extends LeavesBlock implements BonemealableBlock 
         super(settings);
     }
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
         return world.getBlockState(pos.below()).isAir();
     }
     @Override

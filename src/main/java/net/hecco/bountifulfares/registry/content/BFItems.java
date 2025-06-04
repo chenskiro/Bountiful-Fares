@@ -13,12 +13,14 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFItems {
     private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
 
@@ -37,8 +39,7 @@ public class BFItems {
     public static final Item HOARY_HANGING_SIGN = registerItem("hoary_hanging_sign", new HangingSignItem(BFBlocks.HOARY_HANGING_SIGN, BFBlocks.HOARY_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
     public static final Item HOARY_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_BOAT_ID, BFBoats.HOARY_BOAT_KEY, false);
     public static final Item HOARY_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_CHEST_BOAT_ID, BFBoats.HOARY_BOAT_KEY, true);
-static {new BoatItem
-}
+
     public static final Item SWEET_BERRY_PIPS = registerItem("sweet_berry_pips", new SweetBerryPipsItem(Blocks.SWEET_BERRY_BUSH, new Item.Properties()));
 
     public static final Item WALNUT = registerItem("walnut", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0).fast().build())));
@@ -155,8 +156,8 @@ static {new BoatItem
         // return Registry.register(BuiltInRegistries.ITEM, BountifulFares.rl( name), item);
         return items.put(ResourceKey.create(Registries.ITEM, BountifulFares.rl(name)), item);
     }
-    public static void registerModItems() {
-    }
+    // public static void registerModItems() {
+    // }
 
     @SubscribeEvent
     public static void blockRegister(RegisterEvent event) {

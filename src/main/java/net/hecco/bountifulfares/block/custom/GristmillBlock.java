@@ -4,12 +4,13 @@ import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.block.entity.GristmillBlockEntity;
 import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.registry.content.BFSounds;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -40,10 +41,10 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(MILLING, false));
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BaseEntityBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

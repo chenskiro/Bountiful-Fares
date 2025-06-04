@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -185,7 +185,12 @@ public class FruitLogBlock extends RotatedPillarBlock implements SimpleWaterlogg
     }
 
     @Override
-    public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
     }
+
+    // @Override
+    // public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    //     return false;
+    // }
 }

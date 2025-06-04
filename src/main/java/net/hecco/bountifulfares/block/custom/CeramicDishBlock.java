@@ -6,7 +6,7 @@ import net.hecco.bountifulfares.block.interfaces.CeramicDishBlockInterface;
 import net.hecco.bountifulfares.compat.CompatUtil;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;

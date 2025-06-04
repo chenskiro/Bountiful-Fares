@@ -5,6 +5,7 @@ import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +31,8 @@ public class SpongekinBlock extends Block {
                 world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, BFBlocks.SPONGEKIN.defaultBlockState()), (pos.getX() - 0.2) + (world.random.nextFloat() * 1.4), pos.getY() + (world.random.nextFloat() * 1.2), (pos.getZ() - 0.2) + (world.random.nextFloat() * 1.4), (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
             }
             world.setBlock(pos, Blocks.WET_SPONGE.defaultBlockState(), 2);
-            player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+            if (player instanceof ServerPlayer serverPlayer)
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.playSound(player, player.getX(), player.getY(), player.getZ(), BFSounds.SPONGEKIN_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8f + world.random.nextFloat() / 4);
             return InteractionResult.SUCCESS;
         }

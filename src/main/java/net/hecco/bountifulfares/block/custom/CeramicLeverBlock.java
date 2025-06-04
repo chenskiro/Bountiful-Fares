@@ -38,7 +38,7 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 

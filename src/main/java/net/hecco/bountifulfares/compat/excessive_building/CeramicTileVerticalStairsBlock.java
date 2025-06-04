@@ -15,10 +15,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class CeramicTileVerticalStairsBlock extends CompatVerticalStairsBlock implements DyeableCeramicBlockInterface {
     private final String modId;
@@ -32,9 +34,9 @@ public class CeramicTileVerticalStairsBlock extends CompatVerticalStairsBlock im
         return BountifulFares.isModLoaded(modId) || BountifulFares.isDatagen();
     }
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         if (DyeableCeramicBlockEntity.getColor(world, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
-            ItemStack stack = super.getCloneItemStack(world, pos, state);
+            ItemStack stack = super.getCloneItemStack(state, target, world, pos, player);
             return pickBlock(world,pos,stack);
         } else {
             return new ItemStack(this);

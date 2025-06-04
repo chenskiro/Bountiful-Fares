@@ -1,7 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
-import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.FastColor;
@@ -33,7 +32,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
     }
 
     // @Override
-    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 
@@ -51,7 +50,8 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         ItemStack itemStack = context.getItemInHand();
         SlabType slabType = state.getValue(TYPE);
-        if (slabType != SlabType.DOUBLE && itemStack.is(this.asItem()) && DyedColorComponent.getColor(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.fullAlpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))) {
+        if (slabType != SlabType.DOUBLE && itemStack.is(this.asItem())
+                && DyedColorComponent.getColor(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.fullAlpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))) {
             if (context.replacingClickedOnBlock()) {
                 boolean bl = context.getClickLocation().y - (double)context.getClickedPos().getY() > 0.5;
                 Direction direction = context.getClickedFace();

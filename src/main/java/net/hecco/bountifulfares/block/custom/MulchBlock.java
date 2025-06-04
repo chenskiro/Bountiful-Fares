@@ -1,7 +1,7 @@
 package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.*;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -46,10 +46,10 @@ public class MulchBlock extends FallingBlock {
         this.registerDefaultState((this.stateDefinition.any()).setValue(LAYERS, 1));
     }
 
-    @Override
-    protected MapCodec<? extends FallingBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends FallingBlock> getCodec() {
+    //     return null;
+    // }
 
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.causeFallDamage(fallDistance, 0.2F, world.damageSources().fall());

@@ -6,6 +6,7 @@ import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -93,11 +95,11 @@ public class HangingAppleBlock extends HangingFruitBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        return super.onUse(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
         return new ItemStack(Items.APPLE);
     }
 }
