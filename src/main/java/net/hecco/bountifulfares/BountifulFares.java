@@ -70,8 +70,8 @@ public class BountifulFares  {
 		// BFEffects.registerEffects();
 		BFBoats.registerBoats();
 		BFLootTableModifiers.modifyLootTables();
-		BFParticles.registerParticles();
-		BFPotions.registerPotions();
+		// BFParticles.registerParticles();
+		// BFPotions.registerPotions();
 		BFTrunkPlacerTypes.register();
 		BFFeatures.register();
 		BFRegistries.RegisterModStuffs();

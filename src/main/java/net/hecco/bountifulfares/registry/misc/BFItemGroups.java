@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.registry.misc;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.appledog.AppledogBlocks;
 import net.hecco.bountifulfares.compat.arts_and_crafts.ArtsAndCraftsBlocks;
@@ -18,38 +17,42 @@ import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.registry.*;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
 public class BFItemGroups {
+    private static final Map<ResourceKey<CreativeModeTab>, CreativeModeTab> creativeModeTabs = new HashMap<>();
 
     private static final Comparator<Holder<PaintingVariant>> PAINTING_VARIANT_COMPARATOR = Comparator.comparing(Holder::value, Comparator.comparingInt((paintingVariant) -> 16 * 16));
 
-    public static CreativeModeTab BOUNTIFUL_FARES = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, BountifulFares.rl( "bountiful_fares"),
-            FabricItemGroup.builder().title(Component.translatable("itemgroup.bountiful_fares"))
+    public static CreativeModeTab BOUNTIFUL_FARES = creativeModeTabs.put(ResourceKey.create(Registries.CREATIVE_MODE_TAB, BountifulFares.rl("bountiful_fares")),
+            CreativeModeTab.builder().title(Component.translatable("itemgroup.bountiful_fares"))
                     .icon(() -> new ItemStack(BFItems.PASSION_FRUIT)).displayItems((displayContext, entries) -> {
                         entries.accept(BFBlocks.APPLE_LOG);
                         entries.accept(BFBlocks.APPLE_WOOD);
@@ -406,26 +409,26 @@ public class BFItemGroups {
                         entries.accept(BFItems.HOARY_COMPOTE_JAR);
                         entries.accept(BFItems.CITRUS_ESSENCE);
                         entries.accept(BFItems.PICKLED_SPONGEKIN);
-                        entries.accept(PotionContentsComponent.createStack(Items.POTION, BFPotions.ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.POTION, BFPotions.LONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.POTION, BFPotions.STRONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.SPLASH_POTION, BFPotions.ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.SPLASH_POTION, BFPotions.LONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.SPLASH_POTION, BFPotions.STRONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.LINGERING_POTION, BFPotions.ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.LINGERING_POTION, BFPotions.LONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.LINGERING_POTION, BFPotions.STRONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.TIPPED_ARROW, BFPotions.ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.TIPPED_ARROW, BFPotions.LONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.TIPPED_ARROW, BFPotions.STRONG_ACIDIC));
-                        entries.accept(PotionContentsComponent.createStack(Items.POTION, BFPotions.STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.POTION, BFPotions.LONG_STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.SPLASH_POTION, BFPotions.STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.SPLASH_POTION, BFPotions.LONG_STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.LINGERING_POTION, BFPotions.STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.LINGERING_POTION, BFPotions.LONG_STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.TIPPED_ARROW, BFPotions.STUPOR));
-                        entries.accept(PotionContentsComponent.createStack(Items.TIPPED_ARROW, BFPotions.LONG_STUPOR));
+                        entries.accept(setPotion(Items.POTION, BFPotions.ACIDIC));
+                        entries.accept(setPotion(Items.POTION, BFPotions.LONG_ACIDIC));
+                        entries.accept(setPotion(Items.POTION, BFPotions.STRONG_ACIDIC));
+                        entries.accept(setPotion(Items.SPLASH_POTION, BFPotions.ACIDIC));
+                        entries.accept(setPotion(Items.SPLASH_POTION, BFPotions.LONG_ACIDIC));
+                        entries.accept(setPotion(Items.SPLASH_POTION, BFPotions.STRONG_ACIDIC));
+                        entries.accept(setPotion(Items.LINGERING_POTION, BFPotions.ACIDIC));
+                        entries.accept(setPotion(Items.LINGERING_POTION, BFPotions.LONG_ACIDIC));
+                        entries.accept(setPotion(Items.LINGERING_POTION, BFPotions.STRONG_ACIDIC));
+                        entries.accept(setPotion(Items.TIPPED_ARROW, BFPotions.ACIDIC));
+                        entries.accept(setPotion(Items.TIPPED_ARROW, BFPotions.LONG_ACIDIC));
+                        entries.accept(setPotion(Items.TIPPED_ARROW, BFPotions.STRONG_ACIDIC));
+                        entries.accept(setPotion(Items.POTION, BFPotions.STUPOR));
+                        entries.accept(setPotion(Items.POTION, BFPotions.LONG_STUPOR));
+                        entries.accept(setPotion(Items.SPLASH_POTION, BFPotions.STUPOR));
+                        entries.accept(setPotion(Items.SPLASH_POTION, BFPotions.LONG_STUPOR));
+                        entries.accept(setPotion(Items.LINGERING_POTION, BFPotions.STUPOR));
+                        entries.accept(setPotion(Items.LINGERING_POTION, BFPotions.LONG_STUPOR));
+                        entries.accept(setPotion(Items.TIPPED_ARROW, BFPotions.STUPOR));
+                        entries.accept(setPotion(Items.TIPPED_ARROW, BFPotions.LONG_STUPOR));
                         entries.accept(BFBlocks.ARTISAN_BREAD);
                         entries.accept(BFItems.ARTISAN_COOKIE);
                         entries.accept(BFBlocks.APPLE_PIE);
@@ -492,23 +495,36 @@ public class BFItemGroups {
 
                     }).build());
 
+    private static ItemStack setPotion(Item potion, Potion acidic) {
+        return PotionUtils.setPotion(potion.getDefaultInstance(), acidic);
+    }
+
     private static void addPaintings(CreativeModeTab.Output entries, HolderLookup.Provider registryLookup, HolderLookup.RegistryLookup<PaintingVariant> registryWrapper, Predicate<Holder<PaintingVariant>> filter, CreativeModeTab.TabVisibility stackVisibility) {
-        RegistryOps<Tag> registryOps = registryLookup.getOps(NbtOps.INSTANCE);
+        RegistryOps<Tag> registryOps = RegistryOps.create(NbtOps.INSTANCE, registryLookup);
         registryWrapper.listElements().filter(filter).sorted(PAINTING_VARIANT_COMPARATOR).forEach((paintingVariantEntry) -> {
-            NbtComponent nbtComponent = NbtComponent.DEFAULT.with(registryOps, PaintingEntity.VARIANT_MAP_CODEC, paintingVariantEntry).getOrThrow().apply((nbt) -> {
-                nbt.putString("id", "minecraft:painting");
-            });
+            // NbtComponent nbtComponent = NbtComponent.DEFAULT.with(registryOps, PaintingEntity.VARIANT_MAP_CODEC, paintingVariantEntry).getOrThrow().apply((nbt) -> {
+            //     nbt.putString("id", "minecraft:painting");
+            // });
             ItemStack itemStack = new ItemStack(Items.PAINTING);
-            itemStack.set(DataComponentTypes.ENTITY_DATA, nbtComponent);
+            // itemStack.set(DataComponentTypes.ENTITY_DATA, nbtComponent);
+            CompoundTag compoundtag = itemStack.getOrCreateTagElement("EntityTag");
+            Painting.storeVariant(compoundtag, paintingVariantEntry);
             entries.accept(itemStack, stackVisibility);
         });
     }
 
     @SubscribeEvent
-    public static void registerItemGroups(BuildCreativeModeTabContentsEvent event)
-    {
+    public static void blockRegister(RegisterEvent event) {
+        event.register(Registries.CREATIVE_MODE_TAB, registerHelper -> {
+            creativeModeTabs.forEach(registerHelper::register);
+        });
+    }
+
+    @SubscribeEvent
+    public static void registerItemGroups(BuildCreativeModeTabContentsEvent event) {
         // Can be used to register item mod tabs if the mod is loaded
-        if (BountifulFares.isModLoaded(BountifulFares.FARMERS_DELIGHT_MOD_ID)) FarmersDelightItemGroups.onBuildCreativeModeTabContentsEvent(event);
+        if (BountifulFares.isModLoaded(BountifulFares.FARMERS_DELIGHT_MOD_ID))
+            FarmersDelightItemGroups.onBuildCreativeModeTabContentsEvent(event);
 
         // Oh my god kaupenjoe reference        - Artyrian
         //        BountifulFares.LOGGER.info("Registering Item Group Entries for " + BountifulFares.MOD_ID);
