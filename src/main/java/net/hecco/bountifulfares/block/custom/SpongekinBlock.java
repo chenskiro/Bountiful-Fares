@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,14 +24,14 @@ public class SpongekinBlock extends Block {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
             for (int i = 0; i < 32 + world.random.nextIntBetweenInclusive(0, 16); i++) {
                 world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, BFBlocks.SPONGEKIN.defaultBlockState()), (pos.getX() - 0.2) + (world.random.nextFloat() * 1.4), pos.getY() + (world.random.nextFloat() * 1.2), (pos.getZ() - 0.2) + (world.random.nextFloat() * 1.4), (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
             }
             world.setBlock(pos, Blocks.WET_SPONGE.defaultBlockState(), 2);
             player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), BFSounds.SPONGEKIN_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8f + world.random.nextFloat()/4);
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), BFSounds.SPONGEKIN_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8f + world.random.nextFloat() / 4);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

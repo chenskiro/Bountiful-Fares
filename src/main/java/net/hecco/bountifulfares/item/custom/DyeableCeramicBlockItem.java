@@ -34,4 +34,8 @@ public class DyeableCeramicBlockItem extends BlockItem {
         }
         super.appendHoverText(stack, context, tooltip, type);
     }
+
+    public int getColor(ItemStack itemStack) {
+        return 0;
+    }
 }

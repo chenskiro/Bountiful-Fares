@@ -3,10 +3,12 @@ package net.hecco.bountifulfares.block.custom;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.hecco.bountifulfares.compat.CompatUtil;
+import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.DyedColorComponent;
+// import net.minecraft.component.DataComponentTypes;
+// import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -31,14 +33,16 @@ public class DyeableCeramicBlock {
     public static ItemStack getPickStack(BlockGetter world, BlockPos pos, Block block) {
         if (DyeableCeramicBlockEntity.getColor(world, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
             ItemStack stack = new ItemStack(block);
-            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world,pos);
+            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world, pos);
             int color;
-            if(blockEntity != null){
+            if (blockEntity != null) {
                 color = blockEntity.color;
             } else {
                 color = DyeableCeramicBlockEntity.DEFAULT_COLOR;
             }
-            stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
+            // stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
+            CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
+            subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
             return stack;
         } else {
             return new ItemStack(block);
@@ -47,8 +51,13 @@ public class DyeableCeramicBlock {
 
     public static InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, Block block) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown() && itemStack.get(DataComponentTypes.DYED_COLOR) != null) {
-            int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
+        if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown()
+                && itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)
+                && itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).contains(ArtisanBrushItem.COLOR_KEY)
+            // && itemStack.get(DataComponentTypes.DYED_COLOR) != null
+        ) {
+            // int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
+            int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
             world.removeBlock(pos, false);
             world.setBlockAndUpdate(pos, block.withPropertiesOf(state));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));

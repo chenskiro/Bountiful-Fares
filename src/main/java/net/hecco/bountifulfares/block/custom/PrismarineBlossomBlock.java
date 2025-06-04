@@ -32,10 +32,10 @@ public class PrismarineBlossomBlock extends BushBlock implements SimpleWaterlogg
         this.registerDefaultState(this.getStateDefinition().any().setValue(WATERLOGGED, false));
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BushBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

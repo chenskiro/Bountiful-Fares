@@ -49,7 +49,7 @@ public class SpongeCakeBlock extends NoCandleCakeBlock implements SimpleWaterlog
     }
 
     @Override
-    protected InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (state.getValue(PICKLED) && state.getValue(BITES) == 0) {
             InteractionResult actionResult = SpongeCakeBlock.eat(world, pos, state.setValue(PICKLED, false), player);
             if (actionResult.consumesAction()) {

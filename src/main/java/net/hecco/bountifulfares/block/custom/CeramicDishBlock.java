@@ -76,7 +76,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack item = player.getItemInHand(player.getUsedItemHand());
         if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity blockEntity) {
             ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());

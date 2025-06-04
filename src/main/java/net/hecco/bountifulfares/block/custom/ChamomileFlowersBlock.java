@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -16,8 +15,13 @@ public class ChamomileFlowersBlock extends PinkPetalsBlock implements Bonemealab
         super(settings);
     }
 
+    // @Override
+    // public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    //     return world.getBlockState(pos.below()).is(Blocks.FARMLAND);
+    // }
+
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState p_273662_, boolean p_273778_) {
         return world.getBlockState(pos.below()).is(Blocks.FARMLAND);
     }
 

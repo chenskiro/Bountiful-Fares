@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import static net.hecco.bountifulfares.block.custom.GristmillBlock.validateTicker;
+
 public class BlackTeaCandleBlock extends InfusedCandleBlock {
     public BlackTeaCandleBlock(Properties settings) {
         super(MobEffects.DAMAGE_RESISTANCE, settings);
@@ -23,6 +25,6 @@ public class BlackTeaCandleBlock extends InfusedCandleBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, BFBlockEntities.BLACK_TEA_CANDLE_BLOCK_ENTITY, BlackTeaCandleBlockEntity::tick);
+        return createTickerHelper(type, BFBlockEntities.BLACK_TEA_CANDLE_BLOCK_ENTITY, BlackTeaCandleBlockEntity::tick);
     }
 }

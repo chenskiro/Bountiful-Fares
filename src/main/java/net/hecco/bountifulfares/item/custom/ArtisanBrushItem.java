@@ -21,6 +21,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public class ArtisanBrushItem extends Item {
+    public static final String DISPLAY_KEY = "display";
+    public static final String COLOR_KEY = "color";
+
     public static int DEFAULT_COLOR = DyeableBlockEntity.DEFAULT_COLOR;
     public ArtisanBrushItem(Properties settings) {
         super(settings);

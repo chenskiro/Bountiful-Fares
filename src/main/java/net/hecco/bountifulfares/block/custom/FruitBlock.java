@@ -59,7 +59,7 @@ public class FruitBlock extends FallingBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (state.getValue(SLICES) != 3 && player.canEat(false)) {
             world.setBlock(pos, state.cycle(SLICES), Block.UPDATE_CLIENTS);
             player.getFoodData().eat(4, 0.1f);

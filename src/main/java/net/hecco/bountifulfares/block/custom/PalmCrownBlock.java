@@ -18,7 +18,7 @@ public class PalmCrownBlock extends RotatedPillarBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BoneMealItem) {
             if (hit.getDirection() != Direction.DOWN && hit.getDirection() != Direction.UP) {
                 if (world.getBlockState(pos.relative(hit.getDirection(), 1)).isAir()) {

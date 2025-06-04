@@ -62,7 +62,7 @@ public class CabinetBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (!world.isClientSide() && world.getBlockEntity(pos) instanceof CabinetBlockEntity cabinetBlockEntity) {
             player.openMenu(cabinetBlockEntity);
         }

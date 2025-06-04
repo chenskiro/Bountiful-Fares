@@ -191,4 +191,6 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     public BooleanProperty getLit() {
         return LIT;
     }
+
+
 }

@@ -5,7 +5,6 @@ import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.hecco.bountifulfares.registry.util.BFDamageTypes;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -81,10 +80,10 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0));
     }
 
-    @Override
-    protected MapCodec<? extends FallingBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends FallingBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

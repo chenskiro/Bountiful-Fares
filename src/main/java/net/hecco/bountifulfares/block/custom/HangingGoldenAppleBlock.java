@@ -116,7 +116,7 @@ public class HangingGoldenAppleBlock extends BushBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         int i = state.getValue(AGE);
         if (i == 5) {
             HangingGoldenAppleBlock.popResource(world, pos, new ItemStack(Items.GOLDEN_APPLE, 1));

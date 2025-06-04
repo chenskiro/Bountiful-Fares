@@ -51,7 +51,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         Direction facing = state.getValue(FACING);
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
             player.getItemInHand(player.getUsedItemHand()).hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));

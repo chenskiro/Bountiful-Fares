@@ -84,7 +84,7 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
 
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         if (itemStack.is(Items.SHEARS) && canHarvestLeaves(state)) {
             itemStack.hurt(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));

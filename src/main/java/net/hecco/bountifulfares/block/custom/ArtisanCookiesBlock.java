@@ -47,7 +47,7 @@ public class ArtisanCookiesBlock extends Block {
         return SHAPES[state.getValue(COUNT)];
     }
 
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         if (itemStack.is(BFItems.ARTISAN_COOKIE) && state.getValue(COUNT) < MAX_COUNT) {
             return InteractionResult.PASS;

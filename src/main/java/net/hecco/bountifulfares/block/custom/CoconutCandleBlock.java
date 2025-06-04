@@ -58,7 +58,7 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).isEmpty() && state.getValue(LIT)) {
             extinguish(player, state, world, pos);
             return InteractionResult.SUCCESS;

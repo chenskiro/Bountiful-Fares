@@ -93,7 +93,7 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (!world.isClientSide) {
             MenuProvider screenHandlerFactory = (MenuProvider) world.getBlockEntity(pos);
             if (screenHandlerFactory != null) {
@@ -120,7 +120,7 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
 
     @Nullable
     protected static <T extends BlockEntity> BlockEntityTicker<T> validateTicker(Level world, BlockEntityType<T> givenType) {
-        return world.isClientSide ? null : validateTicker(givenType, BFBlockEntities.GRISTMILL_BLOCK_ENTITY, (level, pos, state, blockEntity) -> blockEntity.tick(level, pos, state, blockEntity));
+        return world.isClientSide ? null : createTickerHelper(givenType, BFBlockEntities.GRISTMILL_BLOCK_ENTITY, (level, pos, state, blockEntity) -> blockEntity.tick(level, pos, state));
     }
 
     @Nullable

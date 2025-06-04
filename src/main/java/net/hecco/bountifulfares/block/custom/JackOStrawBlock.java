@@ -146,7 +146,7 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER & !state.getValue(LIT) & player.getItemInHand(player.getUsedItemHand()).is(BFItemTags.JACK_O_STRAW_LIGHTABLE)) {
             if (!player.isCreative()) {
                 player.getItemInHand(player.getUsedItemHand()).shrink(1);
