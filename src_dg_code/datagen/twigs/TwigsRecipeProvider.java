@@ -1,24 +1,24 @@
 package net.hecco.bountifulfares.datagen.twigs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.hecco.bountifulfares.compat.twigs.TwigsBlocks;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.world.item.Items;
-import java.util.concurrent.CompletableFuture;
 
-public class TwigsRecipeProvider extends FabricRecipeProvider {
-    public TwigsRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+import java.util.function.Consumer;
+
+public class TwigsRecipeProvider extends VanillaRecipeProvider {
+    public TwigsRecipeProvider(PackOutput output) {
+        super(output);
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TwigsBlocks.WALNUT_TABLE)
                 .pattern("___")
                 .pattern("0 0")

@@ -1,8 +1,6 @@
 package net.hecco.bountifulfares.datagen.bountifulfares;
 
 import com.google.common.collect.ImmutableList;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.hecco.bountifulfares.datagen.recipe.FermentingRecipeBuilder;
 import net.hecco.bountifulfares.datagen.recipe.MillingRecipeBuilder;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
@@ -13,11 +11,13 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
 
+import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -31,18 +31,20 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import static net.minecraft.data.BlockFamilies.familyBuilder;
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 
-public class BFRecipeProvider extends FabricRecipeProvider {
+public class BFRecipeProvider extends VanillaRecipeProvider {
 
-    public BFRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+
+    public BFRecipeProvider(PackOutput output) {
+        super(output);
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BFBlocks.GRISTMILL)
                 .pattern("IP")
                 .pattern("BB")
@@ -1047,7 +1049,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
 
 
 
-    public static void offerCandiedFruitRecipe(RecipeExporter exporter, ItemLike input, ItemLike output, int count) {
+    public static void offerCandiedFruitRecipe(Consumer<FinishedRecipe> exporter, ItemLike input, ItemLike output, int count) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output, count)
                 .requires(input)
                 .requires(BFItemTags.SUGAR_INGREDIENTS)
@@ -1055,7 +1057,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .save(exporter);
     }
 
-    public static void offerCandiedFruitRecipe(RecipeExporter exporter, ItemLike input, TagKey<Item> tag, ItemLike output, int count) {
+    public static void offerCandiedFruitRecipe(Consumer<FinishedRecipe> exporter, ItemLike input, TagKey<Item> tag, ItemLike output, int count) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output, count)
                 .requires(tag)
                 .requires(BFItemTags.SUGAR_INGREDIENTS)
@@ -1063,26 +1065,26 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .save(exporter);
     }
 
-    public static void offerCeramicUndyingRecipe(RecipeExporter exporter, ItemLike item) {
+    public static void offerCeramicUndyingRecipe(Consumer<FinishedRecipe> exporter, ItemLike item) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, item, 1).requires(item)
                 .unlockedBy("has_item", has(item)).save(exporter, getDefaultRecipeId(item) + "_undying");
     }
 
-    public static void offerCeramicUndyingRecipe(RecipeExporter exporter, ItemLike input, ItemLike output) {
+    public static void offerCeramicUndyingRecipe(Consumer<FinishedRecipe> exporter, ItemLike input, ItemLike output) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output, 1).requires(input)
                 .unlockedBy("has_item", has(input)).save(exporter, getDefaultRecipeId(input) + "_undying");
     }
 
-    public static void offerPicketsRecipe(RecipeExporter exporter, ItemLike output, ItemLike input) {
+    public static void offerPicketsRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike input) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4).define('#', input).define('S', Items.STICK)
                 .pattern("#S#").unlockedBy("has_planks", has(input)).save(exporter);
     }
 
-    public static void offerPicketsRecipe(RecipeExporter exporter, ItemLike output, ResourceLocation input) {
+    public static void offerPicketsRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ResourceLocation input) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4).define('#', BuiltInRegistries.ITEM.get(input)).define('S', Items.STICK)
                 .pattern("#S#").unlockedBy("has_planks", has(BuiltInRegistries.ITEM.get(input))).save(exporter);
     }
-    public static void offerTeaRecipes(RecipeExporter exporter, ItemLike teaBottle, ItemLike teaCandle, ItemLike teaBlendItem) {
+    public static void offerTeaRecipes(Consumer<FinishedRecipe> exporter, ItemLike teaBottle, ItemLike teaCandle, ItemLike teaBlendItem) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, teaBottle)
                 .requires(teaBlendItem, 1)
                 .requires(Items.POTION)
@@ -1101,7 +1103,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
 
 
     }
-    public static void offerCompoteJarRecipe(RecipeExporter exporter, ItemLike output, ItemLike input) {
+    public static void offerCompoteJarRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input, 2)
                 .requires(BFItems.CITRUS_ESSENCE)
@@ -1110,7 +1112,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
-    public static void offerCompoteJarRecipe(RecipeExporter exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
+    public static void offerCompoteJarRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(tag)
                 .requires(tag)
@@ -1120,7 +1122,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(input), has(tag))
                 .save(exporter);
     }
-    public static void offerCandyRecipe(RecipeExporter exporter, ItemLike output, ItemLike input) {
+    public static void offerCandyRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input)
                 .requires(Items.SUGAR)
@@ -1128,7 +1130,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
-    public static void offerCandyRecipe(RecipeExporter exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
+    public static void offerCandyRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(tag)
                 .requires(Items.SUGAR)
@@ -1136,7 +1138,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(getHasName(input), has(tag))
                 .save(exporter);
     }
-    public static void offerJackOStrawRecipes(RecipeExporter exporter, ItemLike output, ItemLike wool) {
+    public static void offerJackOStrawRecipes(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike wool) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT)
                 .requires(Items.CARVED_PUMPKIN)
@@ -1158,7 +1160,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy("has_wool", has(wool))
                 .save(exporter, getDefaultRecipeId(output) + "_with_pumpkin");
     }
-    public static void offerJackOStrawRecipes(RecipeExporter exporter, ItemLike output, ItemLike wool, String specifier) {
+    public static void offerJackOStrawRecipes(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike wool, String specifier) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT)
                 .requires(Items.CARVED_PUMPKIN)
@@ -1180,7 +1182,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy("has_wool", has(wool))
                 .save(exporter, getDefaultRecipeId(output) + "_with_pumpkin_" + specifier);
     }
-    public static void offerTartAndPieRecipe(RecipeExporter exporter, ItemLike output, ItemLike input) {
+    public static void offerTartAndPieRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input)
                 .requires(BFItemTags.C_FLOUR)
@@ -1192,7 +1194,7 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .save(exporter);
     }
 
-    public static void offerTartAndPieRecipe(RecipeExporter exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
+    public static void offerTartAndPieRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(tag)
                 .requires(BFItemTags.C_FLOUR)
@@ -1204,13 +1206,13 @@ public class BFRecipeProvider extends FabricRecipeProvider {
                 .save(exporter);
     }
 
-    public static void offerMillingRecipe(RecipeExporter exporter, ItemLike input, ItemLike output, int count) {
+    public static void offerMillingRecipe(Consumer<FinishedRecipe> exporter, ItemLike input, ItemLike output, int count) {
         MillingRecipeBuilder.create(input.asItem(), output, count)
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
 
-    public static void offerFermentingRecipe(RecipeExporter exporter, ItemLike input, ItemLike output, int count, int particleColor) {
+    public static void offerFermentingRecipe(Consumer<FinishedRecipe> exporter, ItemLike input, ItemLike output, int count, int particleColor) {
         FermentingRecipeBuilder.create(input.asItem(), output, count, particleColor)
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);

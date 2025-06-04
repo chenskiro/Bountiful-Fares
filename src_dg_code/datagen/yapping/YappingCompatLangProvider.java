@@ -1,21 +1,21 @@
 package net.hecco.bountifulfares.datagen.yapping;
 
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.data.LanguageProvider;
 
 public class YappingCompatLangProvider {
 
-    public static void generate(FabricLanguageProvider.TranslationBuilder builder, Block block, String tooltip) {
+    public static void generate(LanguageProvider builder, Block block, String tooltip) {
         builder.add("yapping_tooltips." + block.getDescriptionId() + ".desc", tooltip);
     }
 
-    public static void generate(FabricLanguageProvider.TranslationBuilder builder, Item item, String tooltip) {
+    public static void generate(LanguageProvider builder, Item item, String tooltip) {
         builder.add("yapping_tooltips." + item.getDescriptionId() + ".desc", tooltip);
     }
 
-    public static void generateTranslations(FabricLanguageProvider.TranslationBuilder translationBuilder) {
+    public static void generateTranslations(LanguageProvider translationBuilder) {
         generate(translationBuilder, BFItems.ORANGE, "A citrus fruit found in tropical areas");
         generate(translationBuilder, BFItems.LEMON, "A citrus fruit found near rivers");
         generate(translationBuilder, BFItems.PLUM, "");

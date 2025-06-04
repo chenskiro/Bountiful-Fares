@@ -1,16 +1,20 @@
 package net.hecco.bountifulfares.datagen.twigs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.twigs.TwigsBlockTags;
 import net.hecco.bountifulfares.compat.twigs.TwigsBlocks;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.concurrent.CompletableFuture;
 
-public class TwigsBlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public TwigsBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+public class TwigsBlockTagProvider extends BlockTagsProvider {
+    public TwigsBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, registriesFuture, BountifulFares.MOD_ID, existingFileHelper);
     }
 
     @Override

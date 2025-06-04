@@ -1,9 +1,7 @@
 package net.hecco.bountifulfares.trellis;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.;
-import net.hecco.bountifulfares.BountifulFares;FabricTagProvider
+
+import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.datagen.bountifulfares.BFTemplateModels;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
@@ -13,6 +11,7 @@ import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -22,6 +21,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.LanguageProvider;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -29,11 +33,10 @@ import java.util.function.Consumer;
 
 import static net.hecco.bountifulfares.BountifulFaresUtil.toSentenceCase;
 
-public class TrellisUtil extends FabricTagProvider.BlockTagProvider {
+public class TrellisUtil extends BlockTagsProvider {
 
-
-    public TrellisUtil(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+    public TrellisUtil(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, registriesFuture, BountifulFares.MOD_ID, existingFileHelper);
     }
 
     public static List<TrellisVariant> TrellisVariants = new ArrayList<>();
@@ -218,7 +221,7 @@ public class TrellisUtil extends FabricTagProvider.BlockTagProvider {
                 variant.getModId());
     }
 
-    public static void registerTrellisTranslations(FabricLanguageProvider.TranslationBuilder translationBuilder, TrellisVariant trellis) {
+    public static void registerTrellisTranslations(LanguageProvider translationBuilder, TrellisVariant trellis) {
         String temp = toSentenceCase(BuiltInRegistries.ITEM.getKey(TrellisUtil.getTrellisFromVariant(trellis).asItem()).getPath());
         translationBuilder.add(TrellisUtil.getTrellisFromVariant(trellis), temp);
         for (VineCrop crop : TrellisUtil.VineCrops) {
