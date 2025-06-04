@@ -19,8 +19,8 @@ public class BFSpecialRecipes {
     public static void registerSpecialRecipes() {
     }
 
-    private static RecipeSerializer<? extends CustomRecipe> registerSpecialRecipe(String name, Function<CraftingBookCategory, CustomRecipe> toRecipe){
+    private static RecipeSerializer<? extends CustomRecipe> registerSpecialRecipe(String name,SimpleCraftingRecipeSerializer.Factory<?> toRecipe){
         return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, BountifulFares.rl( name),
-                new SimpleCraftingRecipeSerializer<>(toRecipe::apply));
+                new SimpleCraftingRecipeSerializer<>(toRecipe));
     }
 }

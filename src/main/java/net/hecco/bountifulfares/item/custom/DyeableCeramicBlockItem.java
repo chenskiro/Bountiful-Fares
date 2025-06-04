@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DyeableCeramicBlockItem extends BlockItem {
+public class DyeableCeramicBlockItem extends BlockItem implements BFDyeableLeatherItem{
     public int DEFAULT_COLOR = DyeableCeramicBlockEntity.DEFAULT_COLOR;
     public DyeableCeramicBlockItem(Block block, Properties settings) {
         super(block, settings);
@@ -32,7 +32,7 @@ public class DyeableCeramicBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
-        if (!stack.getComponents().contains(DataComponentTypes.DYED_COLOR)) {
+        if (!hasCustomColor(stack)) {
             tooltip.add(Component.translatable("tooltip." + BountifulFares.MOD_ID + ".dyeable").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
         super.appendHoverText(stack, context, tooltip, type);

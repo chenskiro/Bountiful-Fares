@@ -5,23 +5,26 @@ import net.hecco.bountifulfares.block.entity.CeramicDishBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CeramicDishBlockItem extends BlockItem {
-    public int DefColor = CeramicDishBlockEntity.DEFAULT_COLOR;
+public class CeramicDishBlockItem extends BlockItem implements BFDyeableLeatherItem {
+    // public int DefColor = CeramicDishBlockEntity.DEFAULT_COLOR;
+
     public CeramicDishBlockItem(Block block, Properties settings) {
         super(block, settings);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
-        if (!stack.getComponents().contains(DataComponentTypes.DYED_COLOR)) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
+        if (!hasCustomColor(stack)) {
             tooltip.add(Component.translatable("tooltip." + BountifulFares.MOD_ID + ".dyeable").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
         super.appendHoverText(stack, context, tooltip, type);

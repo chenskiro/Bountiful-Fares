@@ -1,7 +1,7 @@
 package net.hecco.bountifulfares;
 
 import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.nio.file.Files;
 
 public class BountifulFaresConfiguration {
 
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "bountifulfares.json");
+    private static final File CONFIG_FILE = new File(FMLLoader.getGamePath().toFile(), "config/bountifulfares.json");
 
 //    private boolean enableItemGuideTooltips = true;
     private boolean fruitReplaceWhenPicked = true;

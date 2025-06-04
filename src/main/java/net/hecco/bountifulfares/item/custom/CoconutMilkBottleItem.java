@@ -36,7 +36,7 @@ public class CoconutMilkBottleItem extends LiquidBottleItem {
         if (user instanceof Player playerEntity) {
             return ItemUtils.createFilledResult(stack, playerEntity, new ItemStack(Items.GLASS_BOTTLE), false);
         } else {
-            stack.decrementUnlessCreative(1, user);
+            stack.shrink(1);
             return stack;
         }
     }
