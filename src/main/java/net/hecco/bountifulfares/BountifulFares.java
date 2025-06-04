@@ -63,7 +63,7 @@ public class BountifulFares  {
 		BFTrellises.registerTrellisParts();
 		TrellisUtil.registerTrellisParts();
 		// BFItemGroups.registerItemGroups();
-		BFItemGroupAdditions.registerItemGroupAdditions();
+		// BFItemGroupAdditions.registerItemGroupAdditions();
 		BFRecipes.registerRecipes();
 		BFTreeGeneration.generateTrees();
 		BFFoliageGeneration.generateFlowers();
@@ -77,10 +77,10 @@ public class BountifulFares  {
 		BFRegistries.RegisterModStuffs();
 		BFBlockEntities.registerBlockEntities();
 		BFScreenHandlers.registerScreenHandlers();
-		BFEntities.registerModEntities();
+		// BFEntities.registerModEntities();
 		// BFSounds.registerSounds();
-		BFDamageTypes.registerDamageTypes();
-		BFSpecialRecipes.registerSpecialRecipes();
+		// BFDamageTypes.registerDamageTypes();
+		// BFSpecialRecipes.registerSpecialRecipes();
 		BFCompat.registerCompatContent();
 		DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
 			LOGGER.info("DynamicRegistrySetupCallback triggered!");

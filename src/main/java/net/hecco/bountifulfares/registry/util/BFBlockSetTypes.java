@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.registry.util;
 
 import net.hecco.bountifulfares.registry.content.BFSounds;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class BFBlockSetTypes {
@@ -8,9 +9,9 @@ public class BFBlockSetTypes {
     public static final BlockSetType WALNUT = BFBlockSetTypes.register(new BlockSetType("walnut"));
     public static final BlockSetType CERAMIC = BFBlockSetTypes.register(new BlockSetType("ceramic",
             true,
-            true,
-            true,
-            BlockSetType.ActivationRule.EVERYTHING,
+            // true,
+            // true,
+            // BlockSetType.ActivationRule.EVERYTHING,
             BFSounds.CERAMIC_DECORATION,
             BFSounds.CERAMIC_DOOR_TOGGLE,
             BFSounds.CERAMIC_DOOR_TOGGLE,

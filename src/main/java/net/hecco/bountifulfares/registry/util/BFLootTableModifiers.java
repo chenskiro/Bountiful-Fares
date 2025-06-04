@@ -37,7 +37,7 @@ import static net.minecraft.data.loot.BlockLootSubProvider.HAS_SHEARS;
 
 public class BFLootTableModifiers {
 
-    private static final ResourceKey<LootTable> SHORT_GRASS_ID = Blocks.SHORT_GRASS.getLootTableKey();
+    private static final ResourceKey<LootTable> SHORT_GRASS_ID = Blocks.GRASS.getLootTableKey();
     private static final ResourceKey<LootTable> TALL_GRASS_ID = Blocks.TALL_GRASS.getLootTableKey();
     private static final ResourceKey<LootTable> FERN_ID = Blocks.FERN.getLootTableKey();
     private static final ResourceKey<LootTable> LARGE_FERN_ID = Blocks.LARGE_FERN.getLootTableKey();
