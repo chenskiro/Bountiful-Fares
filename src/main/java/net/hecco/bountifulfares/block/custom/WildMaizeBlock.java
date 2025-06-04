@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.block.custom;
 
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -39,8 +38,9 @@ public class WildMaizeBlock extends DoublePlantBlock {
             return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
         }
     }
+
     @Override
-    public BlockState onBreak(Level world, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if (doubleBlockHalf == DoubleBlockHalf.UPPER) {
             BlockPos blockPos = pos.below();
@@ -61,6 +61,7 @@ public class WildMaizeBlock extends DoublePlantBlock {
                 world.destroyBlock(blockPos, false);
             }
         }
-        return super.playerWillDestroy(world, pos, state, player);
+
+        super.playerWillDestroy(world, pos, state, player);
     }
 }

@@ -12,14 +12,16 @@ import net.hecco.bountifulfares.registry.util.BFNoteBlockInstruments;
 import net.hecco.bountifulfares.registry.util.BFWoodTypes;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
-import net.minecraft.block.*;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -39,9 +41,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegisterEvent;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.ToIntFunction;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFBlocks {
     public static final Map<Item, CropTrellisBlock> CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
     public static final Map<Item, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
@@ -58,7 +68,7 @@ public class BFBlocks {
     public static final Block FLOWERING_APPLE_LEAVES = registerBlock("flowering_apple_leaves", new AppleLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
     public static final Block HANGING_APPLE = registerBlockNoItem("hanging_apple", new HangingAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).dynamicShape().sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ)));
     public static final Block APPLE_SAPLING = registerBlock("apple_sapling", new SaplingBlock(BFSaplingGenerators.APPLE_SAPLING_GENERATOR, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING).sound(SoundType.CHERRY_SAPLING)));
-    public static final Block POTTED_APPLE_SAPLING = registerBlockNoItem("potted_apple_sapling", new FlowerPotBlock(BFBlocks.APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
+    public static final Block POTTED_APPLE_SAPLING = registerBlockNoItem("potted_apple_sapling", new FlowerPotBlock(null, () -> BFBlocks.APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
     public static final Block ORANGE_LOG = registerBlock("orange_log", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_LOG)));
     public static final Block ORANGE_WOOD = registerBlock("orange_wood", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_WOOD)));
     public static final Block STRIPPED_ORANGE_LOG = registerBlock("stripped_orange_log", new StrippedFruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.STRIPPED_APPLE_LOG)));
@@ -67,7 +77,7 @@ public class BFBlocks {
     public static final Block FLOWERING_ORANGE_LEAVES = registerBlock("flowering_orange_leaves", new OrangeLeavesBlock(BlockBehaviour.Properties.copy(BFBlocks.FLOWERING_APPLE_LEAVES)));
     public static final Block HANGING_ORANGE = registerBlockNoItem("hanging_orange", new HangingOrangeBlock(BlockBehaviour.Properties.copy(BFBlocks.HANGING_APPLE)));
     public static final Block ORANGE_SAPLING = registerBlock("orange_sapling", new SaplingBlock(BFSaplingGenerators.ORANGE_SAPLING_GENERATOR, BlockBehaviour.Properties.copy(BFBlocks.APPLE_SAPLING)));
-    public static final Block POTTED_ORANGE_SAPLING = registerBlockNoItem("potted_orange_sapling", new FlowerPotBlock(BFBlocks.ORANGE_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
+    public static final Block POTTED_ORANGE_SAPLING = registerBlockNoItem("potted_orange_sapling", new FlowerPotBlock(null, () -> BFBlocks.ORANGE_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
     public static final Block LEMON_LOG = registerBlock("lemon_log", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_LOG)));
     public static final Block LEMON_WOOD = registerBlock("lemon_wood", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_WOOD)));
     public static final Block STRIPPED_LEMON_LOG = registerBlock("stripped_lemon_log", new StrippedFruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.STRIPPED_APPLE_LOG)));
@@ -76,7 +86,7 @@ public class BFBlocks {
     public static final Block FLOWERING_LEMON_LEAVES = registerBlock("flowering_lemon_leaves", new LemonLeavesBlock(BlockBehaviour.Properties.copy(BFBlocks.FLOWERING_APPLE_LEAVES)));
     public static final Block HANGING_LEMON = registerBlockNoItem("hanging_lemon", new HangingLemonBlock(BlockBehaviour.Properties.copy(BFBlocks.HANGING_APPLE)));
     public static final Block LEMON_SAPLING = registerBlock("lemon_sapling", new SaplingBlock(BFSaplingGenerators.LEMON_SAPLING_GENERATOR, BlockBehaviour.Properties.copy(BFBlocks.APPLE_SAPLING)));
-    public static final Block POTTED_LEMON_SAPLING = registerBlockNoItem("potted_lemon_sapling", new FlowerPotBlock(BFBlocks.LEMON_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
+    public static final Block POTTED_LEMON_SAPLING = registerBlockNoItem("potted_lemon_sapling", new FlowerPotBlock(null, () -> BFBlocks.LEMON_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
     public static final Block PLUM_LOG = registerBlock("plum_log", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_LOG)));
     public static final Block PLUM_WOOD = registerBlock("plum_wood", new FruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.APPLE_WOOD)));
     public static final Block STRIPPED_PLUM_LOG = registerBlock("stripped_plum_log", new StrippedFruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.STRIPPED_APPLE_LOG)));
@@ -85,10 +95,10 @@ public class BFBlocks {
     public static final Block FLOWERING_PLUM_LEAVES = registerBlock("flowering_plum_leaves", new PlumLeavesBlock(BFBlocks.HANGING_PLUM, BlockBehaviour.Properties.copy(BFBlocks.FLOWERING_APPLE_LEAVES)));
     public static final Block HANGING_PLUM = registerBlockNoItem("hanging_plum", new HangingPlumBlock(BlockBehaviour.Properties.copy(BFBlocks.HANGING_APPLE)));
     public static final Block PLUM_SAPLING = registerBlock("plum_sapling", new SaplingBlock(BFSaplingGenerators.PLUM_SAPLING_GENERATOR, BlockBehaviour.Properties.copy(BFBlocks.APPLE_SAPLING)));
-    public static final Block POTTED_PLUM_SAPLING = registerBlockNoItem("potted_plum_sapling", new FlowerPotBlock(BFBlocks.PLUM_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
+    public static final Block POTTED_PLUM_SAPLING = registerBlockNoItem("potted_plum_sapling", new FlowerPotBlock(null, () -> BFBlocks.PLUM_SAPLING, BlockBehaviour.Properties.copy(BFBlocks.POTTED_APPLE_SAPLING)));
     public static final Block HOARY_APPLE_SAPLING_CROP = registerBlockNoItem("hoary_apple_sapling_crop", new HoaryAppleSaplingCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).randomTicks().noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final Block HOARY_APPLE_SAPLING = registerBlock("hoary_apple_sapling", new SaplingBlock(BFSaplingGenerators.HOARY_SAPLING_GENERATOR, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).randomTicks().noCollission().instabreak().sound(SoundType.CHERRY_SAPLING).pushReaction(PushReaction.DESTROY)));
-    public static final Block POTTED_HOARY_APPLE_SAPLING = registerBlockNoItem("potted_hoary_apple_sapling", new FlowerPotBlock(BFBlocks.HOARY_APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
+    public static final Block POTTED_HOARY_APPLE_SAPLING = registerBlockNoItem("potted_hoary_apple_sapling", new FlowerPotBlock(null, () -> BFBlocks.HOARY_APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING)));
     public static final Block HOARY_LOG = registerBlock("hoary_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
     public static final Block HOARY_WOOD = registerBlock("hoary_wood", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).mapColor(MapColor.TERRACOTTA_GRAY)));
     public static final Block STRIPPED_HOARY_LOG = registerBlock("stripped_hoary_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
@@ -106,11 +116,11 @@ public class BFBlocks {
     public static final Block HOARY_WALL_SIGN = registerBlockNoItem("hoary_wall_sign", new ModWallSignBlock(BFWoodTypes.HOARY, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.TERRACOTTA_GRAY)));
     public static final Block HOARY_HANGING_SIGN = registerBlockNoItem("hoary_hanging_sign", new ModHangingSignBlock(BFWoodTypes.HOARY, BlockBehaviour.Properties.copy(Blocks.OAK_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.TERRACOTTA_GRAY)));
     public static final Block HOARY_WALL_HANGING_SIGN = registerBlockNoItem("hoary_wall_hanging_sign", new ModWallHangingSignBlock(BFWoodTypes.HOARY, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.TERRACOTTA_GRAY)));
-    public static final Block HOARY_LEAVES = registerBlock("hoary_leaves", new HoaryLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::ocelotOrParrot).isSuffocating(Blocks::never).isViewBlocking(Blocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(Blocks::never)));
+    public static final Block HOARY_LEAVES = registerBlock("hoary_leaves", new HoaryLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BFBlocks::never).isSuffocating(BFBlocks::never).isViewBlocking(BFBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BFBlocks::never)));
     public static final Block HANGING_HOARY_APPLE = registerBlockNoItem("hanging_hoary_apple", new HangingHoaryAppleBlock(BlockBehaviour.Properties.copy(BFBlocks.HANGING_APPLE)));
 
     public static final Block WALNUT_SAPLING = registerBlock("walnut_sapling", new SaplingBlock(BFSaplingGenerators.WALNUT_SAPLING_GENERATOR, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollission().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
-    public static final Block POTTED_WALNUT_SAPLING = registerBlockNoItem("potted_walnut_sapling", new FlowerPotBlock(BFBlocks.WALNUT_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
+    public static final Block POTTED_WALNUT_SAPLING = registerBlockNoItem("potted_walnut_sapling", new FlowerPotBlock(null, () -> BFBlocks.WALNUT_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
     public static final Block WALNUT_LOG = registerBlock("walnut_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_WOOD = registerBlock("walnut_wood", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).mapColor(MapColor.COLOR_BROWN)));
     public static final Block STRIPPED_WALNUT_LOG = registerBlock("stripped_walnut_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
@@ -120,7 +130,7 @@ public class BFBlocks {
     public static final Block WALNUT_SLAB = registerBlock("walnut_slab", new SlabBlock(BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS)));
     public static final Block WALNUT_FENCE = registerBlock("walnut_fence", new FenceBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE).strength(2.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_FENCE_GATE = registerBlock("walnut_fence_gate", new ModFenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE).strength(2.0f, 5.0f).mapColor(MapColor.COLOR_BROWN), BFWoodTypes.WALNUT));
-    public static final Block WALNUT_DOOR = registerBlock("walnut_door", new DoorBlock(BFBlockSetTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(2.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
+    public static final Block WALNUT_DOOR = registerBlock("walnut_door", new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(2.0f, 5.0f).mapColor(MapColor.COLOR_BROWN), BFBlockSetTypes.WALNUT));
     public static final Block WALNUT_TRAPDOOR = registerBlock("walnut_trapdoor", new ModTrapdoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(2.0f, 5.0f).mapColor(MapColor.COLOR_BROWN), BFBlockSetTypes.WALNUT));
     public static final Block WALNUT_PRESSURE_PLATE = registerBlock("walnut_pressure_plate", new PressurePlateBlock(BFBlockSetTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).mapColor(MapColor.COLOR_BROWN).strength(0.5f, 5.0f)));
     public static final Block WALNUT_BUTTON = registerBlock("walnut_button", new ButtonBlock(BFBlockSetTypes.WALNUT, 30, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS).mapColor(MapColor.COLOR_BROWN).noCollission().strength(0.5f, 5f)));
@@ -128,7 +138,7 @@ public class BFBlocks {
     public static final Block WALNUT_WALL_SIGN = registerBlockNoItem("walnut_wall_sign", new ModWallSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_HANGING_SIGN = registerBlockNoItem("walnut_hanging_sign", new ModHangingSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_WALL_HANGING_SIGN = registerBlockNoItem("walnut_wall_hanging_sign", new ModWallHangingSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
-    public static final Block WALNUT_LEAVES = registerBlock("walnut_leaves", new WalnutLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::ocelotOrParrot).isSuffocating(Blocks::never).isViewBlocking(Blocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(Blocks::never)));
+    public static final Block WALNUT_LEAVES = registerBlock("walnut_leaves", new WalnutLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::ocelotOrParrot).isSuffocating(BFBlocks::never).isViewBlocking(BFBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BFBlocks::never)));
     public static final Block WALNUT_MULCH = registerBlock("walnut_mulch", new MulchBlock(BlockBehaviour.Properties.of().forceSolidOff().mapColor(MapColor.COLOR_BROWN).forceSolidOff().strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
     public static final Block WALNUT_MULCH_BLOCK = registerBlock("walnut_mulch_block", new MulchBlockBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
 
@@ -144,18 +154,18 @@ public class BFBlocks {
     public static final Block STRIPPED_PALM_WOOD = registerBlock("stripped_palm_wood", new StrippedFruitLogBlock(BlockBehaviour.Properties.copy(BFBlocks.STRIPPED_APPLE_WOOD)));
     public static final Block PALM_CROWN = registerBlock("palm_crown", new PalmCrownBlock(BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)));
     public static final Block PALM_FROND = registerBlockNoItem("palm_frond", new PalmFrondBlock(BlockBehaviour.Properties.of().noCollission().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(0.2F).sound(SoundType.AZALEA_LEAVES).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY).forceSolidOff()));
-    public static final Block POTTED_PALM_FROND = registerBlockNoItem("potted_palm_frond", new FlowerPotBlock(PALM_FROND, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
+    public static final Block POTTED_PALM_FROND = registerBlockNoItem("potted_palm_frond", new FlowerPotBlock(null, () -> PALM_FROND, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
     public static final Block WALL_PALM_FROND = registerBlockNoItem("wall_palm_frond", new WallPalmFrondBlock(BlockBehaviour.Properties.of().noCollission().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(0.2F).sound(SoundType.AZALEA_LEAVES).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY).forceSolidOff()));
     public static final Block COCONUT = registerBlockNoItem("coconut", new CoconutBlock(BlockBehaviour.Properties.of().strength(0.2f).mapColor(MapColor.COLOR_BROWN).dynamicShape().sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY).randomTicks().noOcclusion()));
     public static final Block PALM_MULCH = registerBlock("palm_mulch", new MulchBlock(BlockBehaviour.Properties.of().forceSolidOff().mapColor(MapColor.COLOR_BROWN).forceSolidOff().strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
     public static final Block PALM_MULCH_BLOCK = registerBlock("palm_mulch_block", new MulchBlockBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
     public static final Block COCONUT_CAKE = registerBlockUnstackableItem("coconut_cake", new NoCandleCakeBlock(BlockBehaviour.Properties.of().noOcclusion().forceSolidOn().strength(0.5F).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY)));
-    public static final Block PACKED_COCONUT_COIR = registerBlock("packed_coconut_coir", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).strength(0.5F, 1.0F).sounds(BFSounds.COIR)));
+    public static final Block PACKED_COCONUT_COIR = registerBlock("packed_coconut_coir", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).strength(0.5F, 1.0F).sound(BFSounds.COIR)));
     public static final Block COIR_CARPET = registerBlock("coir_carpet", new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_CARPET).mapColor(MapColor.WOOD).sound(BFSounds.COIR)));
-    public static final Block COIR_BRICKS = registerBlock("coir_bricks", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sounds(SoundType.PACKED_MUD)));
-    public static final Block COIR_BRICK_SLAB = registerBlock("coir_brick_slab", new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sounds(SoundType.PACKED_MUD)));
-    public static final Block COIR_BRICK_STAIRS = registerBlock("coir_brick_stairs", new ModStairsBlock(COIR_BRICKS.defaultBlockState(), BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sounds(SoundType.PACKED_MUD)));
-    public static final Block COIR_BRICK_WALL = registerBlock("coir_brick_wall", new WallBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sounds(SoundType.PACKED_MUD)));
+    public static final Block COIR_BRICKS = registerBlock("coir_bricks", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sound(SoundType.PACKED_MUD)));
+    public static final Block COIR_BRICK_SLAB = registerBlock("coir_brick_slab", new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sound(SoundType.PACKED_MUD)));
+    public static final Block COIR_BRICK_STAIRS = registerBlock("coir_brick_stairs", new ModStairsBlock(COIR_BRICKS.defaultBlockState(), BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sound(SoundType.PACKED_MUD)));
+    public static final Block COIR_BRICK_WALL = registerBlock("coir_brick_wall", new WallBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(0.5F, 1.0F).sound(SoundType.PACKED_MUD)));
     public static final Block COCONUT_CANDLE = registerBlock("coconut_candle", new CoconutCandleBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1f).sound(SoundType.CANDLE).lightLevel(createLightLevelFromLitBlockState(12)).pushReaction(PushReaction.DESTROY)));
 
     public static final Block WILD_WHEAT = registerBlock("wild_wheat", new WildCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).replaceable().noCollission().instabreak().sound(SoundType.CROP).offsetType(BlockBehaviour.OffsetType.XYZ).pushReaction(PushReaction.DESTROY)));
@@ -166,15 +176,15 @@ public class BFBlocks {
     public static final Block WILD_MAIZE = registerBlock("wild_maize", new WildMaizeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable().noCollission().instabreak().sound(SoundType.CROP).offsetType(BlockBehaviour.OffsetType.XYZ).pushReaction(PushReaction.DESTROY)));
     public static final Block WILD_PASSION_FRUIT_VINE = registerBlock("wild_passion_fruit_vine", new WildVineCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable().noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final Block WILD_ELDERBERRY_VINE = registerBlock("wild_elderberry_vine", new WildVineCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable().noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
-    public static final Block FELDSPAR_BLOCK = registerBlock("feldspar_block", new Block(BlockBehaviour.Properties.copy(Blocks.STONE).mapColor(MapColor.TERRACOTTA_WHITE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5f).sounds(SoundType.TUFF)));
+    public static final Block FELDSPAR_BLOCK = registerBlock("feldspar_block", new Block(BlockBehaviour.Properties.copy(Blocks.STONE).mapColor(MapColor.TERRACOTTA_WHITE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5f).sound(SoundType.TUFF)));
     public static final Block CUT_FELDSPAR_BLOCK = registerBlock("cut_feldspar_block", new Block(BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_BRICKS = registerBlock("feldspar_bricks", new Block(BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_BRICK_STAIRS = registerBlock("feldspar_brick_stairs", new ModStairsBlock(BFBlocks.FELDSPAR_BRICKS.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_BRICK_SLAB = registerBlock("feldspar_brick_slab", new SlabBlock(BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_LANTERN = registerBlock("feldspar_lantern", new FeldsparLanternBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).forceSolidOn().requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel(state -> 8).noOcclusion().pushReaction(PushReaction.DESTROY)));
-    public static final Block TINGED_GLASS = registerBlock("tinged_glass", new TingedGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(Blocks::never).solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)));
+    public static final Block TINGED_GLASS = registerBlock("tinged_glass", new TingedGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(BFBlocks::never).solidBlock(BFBlocks::never).suffocates(BFBlocks::never).blockVision(BFBlocks::never)));
     public static final Block CERAMIC_CLAY_BLOCK = registerBlock("ceramic_clay_block", new Block(BlockBehaviour.Properties.copy(Blocks.CLAY).instrument(NoteBlockInstrument.FLUTE).mapColor(MapColor.SNOW)));
-    public static final Block CERAMIC_TILES = registerDyeableCeramicBlock("ceramic_tiles", new CeramicTilesBlock(BlockBehaviour.Properties.of().isRedstoneConductor(Blocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_TILES).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ)));
+    public static final Block CERAMIC_TILES = registerDyeableCeramicBlock("ceramic_tiles", new CeramicTilesBlock(BlockBehaviour.Properties.of().isRedstoneConductor(BFBlocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_TILES).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ)));
     public static final Block CERAMIC_TILE_STAIRS = registerDyeableCeramicBlock("ceramic_tile_stairs", new CeramicTileStairsBlock(BFBlocks.CERAMIC_TILES.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
     public static final Block CERAMIC_TILE_SLAB = registerDyeableCeramicBlock("ceramic_tile_slab", new CeramicTileSlabBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
     public static final Block CRACKED_CERAMIC_TILES = registerDyeableCeramicBlock("cracked_ceramic_tiles", new CeramicTilesBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
@@ -183,42 +193,42 @@ public class BFBlocks {
     public static final Block CHECKERED_CERAMIC_TILE_SLAB = registerDyeableCeramicBlock("checkered_ceramic_tile_slab", new CeramicTileSlabBlock(BlockBehaviour.Properties.copy(BFBlocks.CHECKERED_CERAMIC_TILES)));
     public static final Block CRACKED_CHECKERED_CERAMIC_TILES = registerDyeableCeramicBlock("cracked_checkered_ceramic_tiles", new CeramicTilesBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
     public static final Block CERAMIC_TILE_PILLAR = registerDyeableCeramicBlock("ceramic_tile_pillar", new CeramicTilePillarBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
-    public static final Block CERAMIC_MOSAIC = registerDyeableCeramicBlock("ceramic_mosaic", new CeramicTilesBlock(BlockBehaviour.Properties.of().isRedstoneConductor(Blocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_TILES).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ)));
+    public static final Block CERAMIC_MOSAIC = registerDyeableCeramicBlock("ceramic_mosaic", new CeramicTilesBlock(BlockBehaviour.Properties.of().isRedstoneConductor(BFBlocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_TILES).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ)));
     public static final Block CERAMIC_MOSAIC_STAIRS = registerDyeableCeramicBlock("ceramic_mosaic_stairs", new CeramicTileStairsBlock(BFBlocks.CERAMIC_MOSAIC.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_MOSAIC)));
     public static final Block CERAMIC_MOSAIC_SLAB = registerDyeableCeramicBlock("ceramic_mosaic_slab", new CeramicTileSlabBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_MOSAIC)));
     public static final Block CHECKERED_CERAMIC_MOSAIC = registerDyeableCeramicBlock("checkered_ceramic_mosaic", new CeramicTilesBlock(BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_MOSAIC)));
     public static final Block CHECKERED_CERAMIC_MOSAIC_STAIRS = registerDyeableCeramicBlock("checkered_ceramic_mosaic_stairs", new CeramicTileStairsBlock(BFBlocks.CHECKERED_CERAMIC_MOSAIC.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.CHECKERED_CERAMIC_MOSAIC)));
     public static final Block CHECKERED_CERAMIC_MOSAIC_SLAB = registerDyeableCeramicBlock("checkered_ceramic_mosaic_slab", new CeramicTileSlabBlock(BlockBehaviour.Properties.copy(BFBlocks.CHECKERED_CERAMIC_MOSAIC)));
 
-    public static final Block CERAMIC_PRESSURE_PLATE = registerDyeableCeramicBlock("ceramic_pressure_plate", new CeramicPressurePlateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY), BFBlockSetTypes.CERAMIC));
-    public static final Block CERAMIC_BUTTON = registerDyeableCeramicBlock("ceramic_button", new CeramicButtonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY), BFBlockSetTypes.CERAMIC, 10, true));
-    public static final Block CERAMIC_LEVER = registerDyeableCeramicBlock("ceramic_lever", new CeramicLeverBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+    public static final Block CERAMIC_PRESSURE_PLATE = registerDyeableCeramicBlock("ceramic_pressure_plate", new CeramicPressurePlateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BFBlockSetTypes.CERAMIC));
+    public static final Block CERAMIC_BUTTON = registerDyeableCeramicBlock("ceramic_button", new CeramicButtonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BFBlockSetTypes.CERAMIC, 10, true));
+    public static final Block CERAMIC_LEVER = registerDyeableCeramicBlock("ceramic_lever", new CeramicLeverBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).forceSolidOn().sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY)));
     public static final Block CERAMIC_DISH = registerCeramicDishBlock("ceramic_dish", new CeramicDishBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).sound(BFSounds.CERAMIC_DECORATION).strength(0.2F).pushReaction(PushReaction.DESTROY)));
-    public static final Block CERAMIC_DOOR = registerDyeableCeramicBlock("ceramic_door", new CeramicDoorBlock(BlockBehaviour.Properties.of().isRedstoneConductor(Blocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ), BFBlockSetTypes.CERAMIC));
-    public static final Block CERAMIC_TRAPDOOR = registerDyeableCeramicBlock("ceramic_trapdoor", new CeramicTrapdoorBlock(BlockBehaviour.Properties.of().isRedstoneConductor(Blocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ), BFBlockSetTypes.CERAMIC));
+    public static final Block CERAMIC_DOOR = registerDyeableCeramicBlock("ceramic_door", new CeramicDoorBlock(BlockBehaviour.Properties.of().isRedstoneConductor(BFBlocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ), BFBlockSetTypes.CERAMIC));
+    public static final Block CERAMIC_TRAPDOOR = registerDyeableCeramicBlock("ceramic_trapdoor", new CeramicTrapdoorBlock(BlockBehaviour.Properties.of().isRedstoneConductor(BFBlocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_DECORATION).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ), BFBlockSetTypes.CERAMIC));
 
 
-    public static final Block FERMENTATION_VESSEL = registerBlock("fermentation_vessel", new FermentationVesselBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(2, 5).instrument(BFNoteBlockInstruments.OCARINA).requiresTool().noOcclusion().sounds(BFSounds.CERAMIC_DECORATION)));
-    public static final Block APPLE_BLOCK = registerBlock("apple_block", new AppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1f).instrument(NoteBlockInstrument.DIDGERIDOO).sounds(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
-    public static final Block GOLDEN_APPLE_BLOCK = registerBlock("golden_apple_block", new GoldenAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(1f).instrument(NoteBlockInstrument.DIDGERIDOO).sounds(SoundType.METAL).pushReaction(PushReaction.DESTROY)), Rarity.EPIC);
-    public static final Block ORANGE_BLOCK = registerBlock("orange_block", new OrangeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sounds(SoundType.WOOD)));
-    public static final Block LEMON_BLOCK = registerBlock("lemon_block", new LemonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sounds(SoundType.WOOD)));
-    public static final Block PLUM_BLOCK = registerBlock("plum_block", new PlumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_HYPHAE).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sounds(SoundType.WOOD)));
-    public static final Block HOARY_APPLE_BLOCK = registerBlock("hoary_apple_block", new HoaryAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GRAY).strength(0.5f).instrument(BFNoteBlockInstruments.OLD_PIANO).sounds(SoundType.WOOD)));
+    public static final Block FERMENTATION_VESSEL = registerBlock("fermentation_vessel", new FermentationVesselBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(2, 5).instrument(BFNoteBlockInstruments.OCARINA).requiresCorrectToolForDrops().noOcclusion().sound(BFSounds.CERAMIC_DECORATION)));
+    public static final Block APPLE_BLOCK = registerBlock("apple_block", new AppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1f).instrument(NoteBlockInstrument.DIDGERIDOO).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
+    public static final Block GOLDEN_APPLE_BLOCK = registerBlock("golden_apple_block", new GoldenAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(1f).instrument(NoteBlockInstrument.DIDGERIDOO).sound(SoundType.METAL).pushReaction(PushReaction.DESTROY)), Rarity.EPIC);
+    public static final Block ORANGE_BLOCK = registerBlock("orange_block", new OrangeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sound(SoundType.WOOD)));
+    public static final Block LEMON_BLOCK = registerBlock("lemon_block", new LemonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sound(SoundType.WOOD)));
+    public static final Block PLUM_BLOCK = registerBlock("plum_block", new PlumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_HYPHAE).strength(0.5f).instrument(NoteBlockInstrument.DIDGERIDOO).sound(SoundType.WOOD)));
+    public static final Block HOARY_APPLE_BLOCK = registerBlock("hoary_apple_block", new HoaryAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GRAY).strength(0.5f).instrument(BFNoteBlockInstruments.OLD_PIANO).sound(SoundType.WOOD)));
     public static final Block LEEKS = registerBlockNoItem("leeks", new LeekCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final Block MAIZE_CROP = registerBlockNoItem("maize_crop", new MaizeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final Block SPONGEKIN_SPROUT = registerBlock("spongekin_sprout", new SpongekinSproutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
     public static final Block SPONGEKIN_STEM = registerBlockNoItem("spongekin_stem", new SpongekinStemBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).noCollission().randomTicks().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
-    public static final Block SPONGEKIN = registerBlock("spongekin", new SpongekinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_WART_BLOCK).instrument(BFNoteBlockInstruments.STEEL_DRUM).strength(1.0f).sounds(BFSounds.SPONGEKIN).pushReaction(PushReaction.DESTROY)));
+    public static final Block SPONGEKIN = registerBlock("spongekin", new SpongekinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_WART_BLOCK).instrument(BFNoteBlockInstruments.STEEL_DRUM).strength(1.0f).sound(BFSounds.SPONGEKIN).pushReaction(PushReaction.DESTROY)));
     public static final Block PRISMARINE_BLOSSOM = registerBlock("prismarine_blossom", new PrismarineBlossomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).randomTicks().strength(0.4f).noOcclusion().noCollission().sound(SoundType.CALCITE).lightLevel(state -> state.getValue(BlockStateProperties.WATERLOGGED) ? 12 : 0).pushReaction(PushReaction.DESTROY)));
     public static final Block SCORCHKIN_STEM = registerBlockNoItem("scorchkin_stem", new ScorchkinStemBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE).noCollission().randomTicks().instabreak().sound(SoundType.NETHER_WART).pushReaction(PushReaction.DESTROY)));
-    public static final Block SCORCHKIN = registerBlock("scorchkin", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).instrument(NoteBlockInstrument.DIDGERIDOO).strength(1.0f).sounds(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
+    public static final Block SCORCHKIN = registerBlock("scorchkin", new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).instrument(NoteBlockInstrument.DIDGERIDOO).strength(1.0f).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
     public static final Block TEA_SHRUB = registerBlockNoItem("tea_shrub", new TeaShrubBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f).randomTicks().noCollission().mapColor(MapColor.COLOR_GREEN).sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY)));
     public static final Block CHAMOMILE_FLOWERS = registerBlock("chamomile_flowers", new ChamomileFlowersBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).noCollission().sound(SoundType.PINK_PETALS).pushReaction(PushReaction.DESTROY)));
-    public static final Block HONEYSUCKLE = registerBlock("honeysuckle", new TeaFlowerBlock(MobEffects.REGENERATION, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)));
-    public static final Block POTTED_HONEYSUCKLE = registerBlockNoItem("potted_honeysuckle", new FlowerPotBlock(BFBlocks.HONEYSUCKLE, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
-    public static final Block VIOLET_BELLFLOWER = registerBlock("violet_bellflower", new TeaFlowerBlock(MobEffects.INVISIBILITY, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)));
-    public static final Block POTTED_VIOLET_BELLFLOWER = registerBlockNoItem("potted_violet_bellflower", new FlowerPotBlock(BFBlocks.VIOLET_BELLFLOWER, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
+    public static final Block HONEYSUCKLE = registerBlock("honeysuckle", new TeaFlowerBlock(() -> MobEffects.REGENERATION, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)));
+    public static final Block POTTED_HONEYSUCKLE = registerBlockNoItem("potted_honeysuckle", new FlowerPotBlock(null, () -> BFBlocks.HONEYSUCKLE, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
+    public static final Block VIOLET_BELLFLOWER = registerBlock("violet_bellflower", new TeaFlowerBlock(() -> MobEffects.INVISIBILITY, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)));
+    public static final Block POTTED_VIOLET_BELLFLOWER = registerBlockNoItem("potted_violet_bellflower", new FlowerPotBlock(null, () -> BFBlocks.VIOLET_BELLFLOWER, BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
     public static final Block WHITE_JACK_O_STRAW = registerBlock("white_jack_o_straw", new JackOStrawBlock(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).lightLevel(createLightLevelFromLitBlockState(12)).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Block LIGHT_GRAY_JACK_O_STRAW = registerBlock("light_gray_jack_o_straw", new JackOStrawBlock(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).lightLevel(createLightLevelFromLitBlockState(12)).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Block GRAY_JACK_O_STRAW = registerBlock("gray_jack_o_straw", new JackOStrawBlock(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).lightLevel(createLightLevelFromLitBlockState(12)).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion().pushReaction(PushReaction.DESTROY)));
@@ -236,7 +246,7 @@ public class BFBlocks {
     public static final Block MAGENTA_JACK_O_STRAW = registerBlock("magenta_jack_o_straw", new JackOStrawBlock(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).lightLevel(createLightLevelFromLitBlockState(12)).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Block PINK_JACK_O_STRAW = registerBlock("pink_jack_o_straw", new JackOStrawBlock(BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).lightLevel(createLightLevelFromLitBlockState(12)).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
-    public static final Block GRISTMILL = registerBlock("gristmill", new GristmillBlock(BlockBehaviour.Properties.of().destroyTime(2.5f).instrument(NoteBlockInstrument.DIDGERIDOO).mapColor(MapColor.WOOD).sounds(SoundType.WOOD)));
+    public static final Block GRISTMILL = registerBlock("gristmill", new GristmillBlock(BlockBehaviour.Properties.of().destroyTime(2.5f).instrument(NoteBlockInstrument.DIDGERIDOO).mapColor(MapColor.WOOD).sound(SoundType.WOOD)));
     public static final Block GREEN_TEA_CANDLE = registerBlock("green_tea_candle", new GreenTeaCandleBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1f).sound(SoundType.CANDLE).lightLevel(createLightLevelFromLitBlockState(12)).pushReaction(PushReaction.DESTROY)));
     public static final Block BLACK_TEA_CANDLE = registerBlock("black_tea_candle", new BlackTeaCandleBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1f).sound(SoundType.CANDLE).lightLevel(createLightLevelFromLitBlockState(12)).pushReaction(PushReaction.DESTROY)));
     public static final Block CHAMOMILE_CANDLE = registerBlock("chamomile_candle", new ChamomileCandleBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1f).sound(SoundType.CANDLE).lightLevel(createLightLevelFromLitBlockState(12)).pushReaction(PushReaction.DESTROY)));
@@ -284,10 +294,9 @@ public class BFBlocks {
     public static final Block GOLDEN_APPLE_LEAVES = registerBlock("golden_apple_leaves", new GoldenAppleLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).mapColor(MapColor.GOLD)), Rarity.UNCOMMON);
     public static final Block FLOWERING_GOLDEN_APPLE_LEAVES = registerBlock("flowering_golden_apple_leaves", new GoldenAppleLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).mapColor(MapColor.GOLD)), Rarity.UNCOMMON);
     public static final Block GOLDEN_APPLE_SAPLING = registerBlock("golden_apple_sapling", new SaplingBlock(BFSaplingGenerators.GOLDEN_APPLE_SAPLING_GENERATOR, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING).lightLevel(state -> 7)), Rarity.RARE);
-    public static final Block POTTED_GOLDEN_APPLE_SAPLING = registerBlockNoItem("potted_golden_apple_sapling", new FlowerPotBlock(BFBlocks.GOLDEN_APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).lightLevel(state -> 7)));
+    public static final Block POTTED_GOLDEN_APPLE_SAPLING = registerBlockNoItem("potted_golden_apple_sapling", new FlowerPotBlock(null, () -> BFBlocks.GOLDEN_APPLE_SAPLING, BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).lightLevel(state -> 7)));
     public static final Block HANGING_GOLDEN_APPLE = registerBlockNoItem("hanging_golden_apple", new HangingGoldenAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).dynamicShape().sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).lightLevel((state) -> 7)));
     public static final Block HANGING_WITHERED_GOLDEN_APPLE = registerBlockNoItem("hanging_withered_golden_apple", new HangingWitheredGoldenAppleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLACK).dynamicShape().sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)));
-
 
 
     public static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
@@ -300,68 +309,102 @@ public class BFBlocks {
 
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
 
     public static Block registerBlock(String name, Block block, Rarity rarity) {
         registerBlockItem(name, block, rarity);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
 
     private static Block registerBlockWithInfo(String name, Block block) {
         registerBlockItemWithInfo(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
 
     private static void registerBlockItemWithInfo(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new BlockItemWithInfo(block, new Item.Properties()));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new BlockItemWithInfo(block, new Item.Properties()));
     }
 
     private static Block registerBlockUnstackableItem(String name, Block block) {
         registerUnstackableBlockItem(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
 
     private static Block registerBlock16StackItem(String name, Block block) {
         register16StackItem(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
+
     private static Block registerBlockNoItem(String name, Block block) {
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
 
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new BlockItem(block, new Item.Properties()));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new BlockItem(block, new Item.Properties()));
     }
 
     private static void registerBlockItem(String name, Block block, Rarity rarity) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new BlockItem(block, new Item.Properties().rarity(rarity)));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new BlockItem(block, new Item.Properties().rarity(rarity)));
     }
 
     private static void register16StackItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new BlockItem(block, new Item.Properties().stacksTo(16)));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new BlockItem(block, new Item.Properties().stacksTo(16)));
     }
 
     private static void registerUnstackableBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new BlockItem(block, new Item.Properties().stacksTo(1)));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new BlockItem(block, new Item.Properties().stacksTo(1)));
     }
 
     private static Block registerDyeableCeramicBlock(String name, Block block) {
         registerDyeableCeramicBlockItem(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
+
     private static void registerDyeableCeramicBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new DyeableCeramicBlockItem(block, new Item.Properties()));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new DyeableCeramicBlockItem(block, new Item.Properties()));
     }
 
     private static Block registerCeramicDishBlock(String name, Block block) {
         registerCeramicDishBlockItem(name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), block);
+        return attachCache(ForgeRegistries.BLOCKS, BountifulFares.rl(name), block);
     }
+
     private static void registerCeramicDishBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.MOD_ID, name), new CeramicDishBlockItem(block, new Item.Properties()));
+        attachCache(ForgeRegistries.ITEMS, BountifulFares.rl(name), new CeramicDishBlockItem(block, new Item.Properties()));
     }
 
     public static void registerModBlocks() {
     }
+
+    private static boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
+        return false;
+    }
+
+    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
+    }
+
+    private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
+    private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
+
+    private static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
+        if (entry instanceof Item item) {
+            items.put(ResourceKey.create(Registries.ITEM, id), item);
+        } else if (entry instanceof Block block) {
+            blocks.put(ResourceKey.create(Registries.BLOCK, id), block);
+        }
+        return entry;
+    }
+
+    @SubscribeEvent
+    public static void onRegister(RegisterEvent event) {
+        event.register(Registries.BLOCK, registerHelper -> {
+            blocks.forEach(registerHelper::register);
+        });
+        event.register(Registries.ITEM, registerHelper -> {
+            items.forEach(registerHelper::register);
+        });
+    }
+
 }

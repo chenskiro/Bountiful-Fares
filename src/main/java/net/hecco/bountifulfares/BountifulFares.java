@@ -13,6 +13,7 @@ import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -102,4 +103,8 @@ public class BountifulFares  {
 	} //appledog - Lydia
 	//appledog - Hecco
 	//appledog - Diemond_Player (holy self-insert)
+
+	public static ResourceLocation rl(String id) {
+		return new ResourceLocation(MOD_ID, id);
+	}
 }

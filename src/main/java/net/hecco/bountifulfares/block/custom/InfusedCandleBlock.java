@@ -1,12 +1,9 @@
 package net.hecco.bountifulfares.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.minecraft.ChatFormatting;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -56,9 +53,9 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty LIT = AbstractCandleBlock.LIT;
     public static boolean canBeLit;
-    private Holder<MobEffect> effect;
+    private MobEffect effect;
 
-    public InfusedCandleBlock(Holder<MobEffect> effect, Properties settings) {
+    public InfusedCandleBlock(MobEffect effect, Properties settings) {
         super(settings);
         this.effect = effect;
         canBeLit = canBeLit(defaultBlockState());
@@ -71,7 +68,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
         super.appendHoverText(stack, world, tooltip, options);
         tooltip.add(CommonComponents.EMPTY);
         tooltip.add(Component.translatable("tooltip.bountifulfares.when_lit").withStyle(ChatFormatting.GRAY));
-        PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(effect.value(), 1, 0)), List.of(), 1.0F);
+        PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(effect, 1, 0)), List.of(), 1.0F);
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.hecco.bountifulfares.block.custom;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -46,13 +48,23 @@ public class FallenWalnutsBlock extends Block {
         return state.getFluidState().isEmpty();
     }
 
-    @Override
-    protected boolean canPathfindThrough(BlockState state, PathComputationType type) {
-        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
-    }
+    // @Override
+    // protected boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    //     return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
+    // }
 
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isPathfindable(BlockState state, BlockGetter pLevel, BlockPos pPos, PathComputationType type) {
+        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, pLevel, pPos, type);
+    }
+
+    // @Override
+    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    //     return BFItems.WALNUT.getDefaultInstance();
+    // }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         return BFItems.WALNUT.getDefaultInstance();
     }
 }

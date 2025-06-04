@@ -1,7 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
@@ -44,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
 public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_5;
-    public static final VoxelShape[] NORTH_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] NORTH_SHAPES = new VoxelShape[]{
             Block.box(5, 10, 10, 11, 16, 16),
             Block.box(4, 8, 8, 12, 16, 16),
             Block.box(6, 9, 10, 10, 14, 14),
@@ -52,7 +51,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
             Block.box(3.5, 4, 6, 12.5, 14, 15),
             Block.box(3, 1, 5, 13, 13, 15)
     };
-    public static final VoxelShape[] EAST_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] EAST_SHAPES = new VoxelShape[]{
             Block.box(0, 10, 5, 6, 16, 11),
             Block.box(0, 8, 4, 8, 16, 12),
             Block.box(2, 9, 6, 6, 14, 10),
@@ -60,7 +59,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
             Block.box(1, 4, 3.5, 10, 14, 12.5),
             Block.box(1, 1, 3, 11, 13, 13)
     };
-    public static final VoxelShape[] SOUTH_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] SOUTH_SHAPES = new VoxelShape[]{
             Block.box(5, 10, 0, 11, 16, 6),
             Block.box(4, 8, 0, 12, 16, 8),
             Block.box(6, 9, 2, 10, 14, 6),
@@ -68,7 +67,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
             Block.box(3.5, 4, 1, 12.5, 14, 10),
             Block.box(3, 1, 1, 13, 13, 11)
     };
-    public static final VoxelShape[] WEST_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] WEST_SHAPES = new VoxelShape[]{
             Block.box(10, 10, 5, 16, 16, 11),
             Block.box(8, 8, 4, 16, 16, 12),
             Block.box(10, 9, 6, 14, 14, 10),
@@ -76,6 +75,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
             Block.box(6, 4, 3.5, 15, 14, 12.5),
             Block.box(5, 1, 3, 15, 13, 13)
     };
+
     public CoconutBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0));
@@ -168,14 +168,14 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     }
 
     @Override
-    public BlockState onBreak(Level world, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         if (!player.isCreative() && state.getValue(AGE) == 5 && (isFree(world.getBlockState(pos.below())) || world.getBlockState(pos.below()).is(BFBlockTags.SPLITS_COCONUTS))) {
             FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(world, pos, state);
             this.falling(fallingBlockEntity);
             world.removeBlock(pos, false);
-            return Blocks.AIR.defaultBlockState();
+            // Blocks.AIR.defaultBlockState();
         } else {
-            return super.playerWillDestroy(world, pos, state, player);
+            super.playerWillDestroy(world, pos, state, player);
         }
     }
 
@@ -203,7 +203,6 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     }
 
 
-
     @Override
     public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         DamageSource damageSource = new DamageSource(
@@ -218,9 +217,9 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
         if (!world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).isEmpty()) {
             world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).forEach((entity) ->
                     entity.hurt(damageSource, 4));
-            world.playSound(null, pos, BFSounds.COCONUT_BONK, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat()/3);
+            world.playSound(null, pos, BFSounds.COCONUT_BONK, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat() / 3);
         } else {
-            world.playSound(null, pos, BFSounds.COCONUT_LAND, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat()/3);
+            world.playSound(null, pos, BFSounds.COCONUT_LAND, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat() / 3);
         }
         fallingBlockEntity.discard();
         super.onBrokenAfterFall(world, pos, fallingBlockEntity);
@@ -240,9 +239,9 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
         if (!world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).isEmpty()) {
             world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).forEach((entity) ->
                     entity.hurt(damageSource, 4));
-            world.playSound(null, pos, BFSounds.COCONUT_BONK, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat()/3);
+            world.playSound(null, pos, BFSounds.COCONUT_BONK, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat() / 3);
         } else {
-            world.playSound(null, pos, BFSounds.COCONUT_LAND, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat()/3);
+            world.playSound(null, pos, BFSounds.COCONUT_LAND, SoundSource.BLOCKS, 1, 0.8f + world.random.nextFloat() / 3);
         }
         fallingBlockEntity.discard();
         world.removeBlock(pos, false);
@@ -287,7 +286,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
         Direction[] var6 = directions;
         int var7 = directions.length;
 
-        for(int var8 = 0; var8 < var7; ++var8) {
+        for (int var8 = 0; var8 < var7; ++var8) {
             Direction direction = var6[var8];
             if (direction.getAxis().isHorizontal()) {
                 blockState = blockState.setValue(FACING, direction.getOpposite());

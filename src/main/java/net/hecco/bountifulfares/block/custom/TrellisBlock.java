@@ -6,13 +6,13 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -68,7 +68,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         Direction facing = state.getValue(FACING);
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         boolean isSurvival = !player.isCreative();
@@ -186,7 +186,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hit);
+        return super.use(state, world, pos, player, pHand, hit);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -215,14 +215,19 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
     }
 
     @Override
-    public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
     }
 
-    public static final MapCodec<TrellisBlock> CODEC = TrellisBlock.createCodec(TrellisBlock::new);
+    // @Override
+    // public boolean canPathfindThrough(BlockState state, PathComputationType type) {
+    //     return false;
+    // }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
-        return CODEC;
-    }
+    // public static final MapCodec<TrellisBlock> CODEC = TrellisBlock.createCodec(TrellisBlock::new);
+    //
+    // @Override
+    // protected MapCodec<? extends HorizontalDirectionalBlock> getCodec() {
+    //     return CODEC;
+    // }
 }

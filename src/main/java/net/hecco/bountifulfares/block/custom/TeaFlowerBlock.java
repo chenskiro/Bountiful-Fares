@@ -14,11 +14,17 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TeaFlowerBlock extends FlowerBlock implements BonemealableBlock {
-    public TeaFlowerBlock(Holder<MobEffect> suspiciousStewEffect, int effectDuration, Properties settings) {
+    public TeaFlowerBlock(java.util.function.Supplier<MobEffect> suspiciousStewEffect, int effectDuration, Properties settings) {
         super(suspiciousStewEffect, effectDuration, settings);
     }
+
+    // @Override
+    // public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    //     return world.getBlockState(pos.below()).is(Blocks.FARMLAND);
+    // }
+
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState pState, boolean pIsClient) {
         return world.getBlockState(pos.below()).is(Blocks.FARMLAND);
     }
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CeramicButtonBlock extends ButtonBlock implements EntityBlock {
     public CeramicButtonBlock(Properties settings, BlockSetType blockSetType, int pressTicks, boolean wooden) {
-        super(blockSetType, pressTicks, settings);
+        super(settings, blockSetType, pressTicks, wooden);
     }
 
     @Override

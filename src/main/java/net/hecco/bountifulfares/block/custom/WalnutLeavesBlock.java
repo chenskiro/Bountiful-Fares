@@ -16,8 +16,13 @@ public class WalnutLeavesBlock extends LeavesBlock implements BonemealableBlock 
         super(settings);
     }
 
+    // @Override
+    // public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    //     return world.getBlockState(pos.below()).isAir();
+    // }
+
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState pState, boolean pIsClient) {
         return world.getBlockState(pos.below()).isAir();
     }
 

@@ -115,7 +115,7 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
     }
 
     @Override
-    public BlockState onBreak(Level world, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         if (!world.isClientSide && player.isCreative()) {
             onBreakInCreative(world, pos, state, player);
         } else if (world.getBlockState(pos.above()).is(this) && state.getValue(HALF) == DoubleBlockHalf.LOWER) {
@@ -125,7 +125,7 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
             world.destroyBlock(pos, true);
             world.destroyBlock(pos.below(), false);
         }
-        return super.playerWillDestroy(world, pos, state, player);
+         super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override

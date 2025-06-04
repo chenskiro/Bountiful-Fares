@@ -2,7 +2,6 @@ package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -35,13 +35,13 @@ import org.jetbrains.annotations.Nullable;
 public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF;
     public static final IntegerProperty AGE;
-    public static final VoxelShape[] LOWER_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] LOWER_SHAPES = new VoxelShape[]{
             Block.box(0, 0, 0, 16, 2, 16),
             Block.box(0, 0, 0, 16, 6, 16),
             Block.box(0, 0, 0, 16, 12, 16),
             Block.box(0, 0, 0, 16, 16, 16)
     };
-    public static final VoxelShape[] UPPER_SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] UPPER_SHAPES = new VoxelShape[]{
             Block.box(0, 0, 0, 16, 4, 16),
             Block.box(0, 0, 0, 16, 8, 16),
             Block.box(0, 0, 0, 16, 16, 16),
@@ -97,16 +97,22 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
         }
     }
 
+    // @Override
+    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    //     return new ItemStack(BFItems.MAIZE_SEEDS);
+    // }
+
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         return new ItemStack(BFItems.MAIZE_SEEDS);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE, HALF);
     }
+
     @Override
-    public BlockState onBreak(Level world, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if (doubleBlockHalf == DoubleBlockHalf.LOWER && state.getValue(AGE) < 7) {
             popResource(world, pos, BFItems.MAIZE_SEEDS.getDefaultInstance());
@@ -118,7 +124,7 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
                 dropResources(state, world, pos, null, player, player.getMainHandItem());
             }
         }
-        return super.playerWillDestroy(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
 
     protected static void onBreakInCreative(Level world, BlockPos pos, BlockState state, Player player) {
@@ -139,8 +145,8 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
         float f = 1.0F;
         BlockPos blockPos = pos.below();
 
-        for(int i = -1; i <= 1; ++i) {
-            for(int j = -1; j <= 1; ++j) {
+        for (int i = -1; i <= 1; ++i) {
+            for (int j = -1; j <= 1; ++j) {
                 float g = 0.0F;
                 BlockState blockState = world.getBlockState(blockPos.offset(i, 0, j));
                 if (blockState.is(Blocks.FARMLAND)) {

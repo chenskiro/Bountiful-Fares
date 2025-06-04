@@ -2,7 +2,6 @@ package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFItems;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -65,10 +65,10 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(BERRIES, false));
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> getCodec() {
-        return null;
-    }
+    // @Override
+    // protected MapCodec<? extends BushBlock> getCodec() {
+    //     return null;
+    // }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -112,13 +112,23 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
         return InteractionResult.PASS;
     }
 
+    // @Override
+    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    //     return new ItemStack(BFItems.TEA_BERRIES);
+    // }
+
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         return new ItemStack(BFItems.TEA_BERRIES);
     }
 
+    // @Override
+    // public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    //     return true;
+    // }
+
     @Override
-    public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
         return true;
     }
 

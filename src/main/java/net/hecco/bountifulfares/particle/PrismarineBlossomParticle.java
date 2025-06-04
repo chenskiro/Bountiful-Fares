@@ -2,7 +2,7 @@ package net.hecco.bountifulfares.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 
 public class PrismarineBlossomParticle extends TextureSheetParticle {
     public PrismarineBlossomParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet, double xd, double yd, double zd) {

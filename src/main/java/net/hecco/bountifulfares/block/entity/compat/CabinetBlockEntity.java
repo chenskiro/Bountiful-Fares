@@ -89,14 +89,24 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity
     }
 
     @Override
-    protected NonNullList<ItemStack> getHeldStacks() {
+    protected NonNullList<ItemStack> getItems() {
         return content;
     }
 
     @Override
-    protected void setHeldStacks(NonNullList<ItemStack> list) {
+    protected void setItems(NonNullList<ItemStack> list) {
         content = list;
     }
+
+    // @Override
+    // protected NonNullList<ItemStack> getHeldStacks() {
+    //     return content;
+    // }
+
+    // @Override
+    // protected void setHeldStacks(NonNullList<ItemStack> list) {
+    //     content = list;
+    // }
 
     @Override
     public int getContainerSize() {
@@ -124,19 +134,19 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity
     }
 
     @Override
-    public void writeNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(tag, registryLookup);
-        if (!writeLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, content, registryLookup);
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (!trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, content);
         }
     }
 
     @Override
-    public void readNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.load(tag, registryLookup);
+   public void load(CompoundTag tag) {
+        super.load(tag);
         content = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-        if (!readLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, content, registryLookup);
+        if (!tryLoadLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, content);
         }
     }
 
@@ -146,13 +156,13 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
-    public CompoundTag toInitialChunkDataNbt(HolderLookup.Provider registryLookup) {
-        CompoundTag nbtCompound = new CompoundTag();
-        ContainerHelper.saveAllItems(nbtCompound, content, registryLookup);
-
-        return nbtCompound;
-    }
+    // @Override
+    // public CompoundTag toInitialChunkDataNbt() {
+    //     CompoundTag nbtCompound = new CompoundTag();
+    //     ContainerHelper.saveAllItems(nbtCompound, content);
+    //
+    //     return nbtCompound;
+    // }
 
     public void tick() {
         if (!this.remove) {

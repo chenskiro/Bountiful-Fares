@@ -1,12 +1,12 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.registry.content.BFSounds;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -36,13 +37,19 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
         return DyeableCeramicBlock.createBlockEntity(pos, state);
     }
 
+    // @Override
+    // public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
+    // }
+
     @Override
-    public ItemStack getPickStack(LevelReader world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
+
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock()) == InteractionResult.PASS) {
             BlockState blockState;
             if (world.isClientSide) {
@@ -53,7 +60,7 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
 
                 return InteractionResult.SUCCESS;
             } else {
-                this.pull(state, world, pos, player);
+                this.pull(state, world, pos);
                 SoundEvent f = state.getValue(POWERED) ? BFSounds.CERAMIC_LEVER_OFF : BFSounds.CERAMIC_LEVER_ON;
                 world.playSound(null, pos, f, SoundSource.BLOCKS, 0.8F, 1);
                 world.gameEvent(player, state.getValue(POWERED) ? GameEvent.BLOCK_ACTIVATE : GameEvent.BLOCK_DEACTIVATE, pos);
