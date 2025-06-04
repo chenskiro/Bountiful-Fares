@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.compat.farmersdelight;
 
 import net.hecco.bountifulfares.compat.block.CompatBlockItem;
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -20,10 +21,10 @@ public class FarmersDelightBlocks {
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), block);
     }
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), new CompatBlockItem(FARMERS_DELIGHT_MOD_ID, block, new Item.Properties()));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), new CompatBlockItem(FARMERS_DELIGHT_MOD_ID, block, new Item.Properties()));
     }
     public static void registerFarmersDelightBlocks()
     {

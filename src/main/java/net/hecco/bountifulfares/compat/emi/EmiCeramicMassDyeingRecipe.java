@@ -6,11 +6,13 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.GeneratedSlotWidget;
 import dev.emi.emi.api.widget.SlotWidget;
-import net.minecraft.component.type.DyedColorComponent;
+import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import java.util.List;
@@ -49,7 +51,8 @@ public class EmiCeramicMassDyeingRecipe extends EmiPatternCraftingRecipe {
         return new GeneratedSlotWidget(r -> {
             List<DyeItem> dyes = getDyes(r);
             int ceramicAmount = r.nextInt(2, 10 - dyes.size());
-            EmiStack emiStack = EmiStack.of(DyedColorComponent.setColor(getCeramicStack(r), dyes));
+
+            EmiStack emiStack = EmiStack.of(DyeableLeatherItem.dyeArmor(getCeramicStack(r), dyes));
             emiStack.setAmount(ceramicAmount);
             return emiStack;
         }, unique, x, y);
@@ -72,6 +75,7 @@ public class EmiCeramicMassDyeingRecipe extends EmiPatternCraftingRecipe {
         for (int i = 0; i < amount; i++) {
             dyes.add(DYES.get(random.nextInt(DYES.size())));
         }
-        return DyedColorComponent.setColor(new ItemStack(ceramicItem), dyes);
+
+        return DyeableLeatherItem.dyeArmor(new ItemStack(ceramicItem), dyes);
     }
 }

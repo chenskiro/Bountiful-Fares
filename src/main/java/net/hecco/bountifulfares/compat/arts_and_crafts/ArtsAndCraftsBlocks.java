@@ -26,12 +26,13 @@ public class ArtsAndCraftsBlocks {
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), block);
     }
 
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), new CompatBlockItem(ARTS_AND_CRAFTS_MOD_ID, block, new Item.Properties()));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), new CompatBlockItem(ARTS_AND_CRAFTS_MOD_ID, block, new Item.Properties()));
     }
     public static void registerArtsAndCraftsBlocks() {
+
     }
 }

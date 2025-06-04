@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.compat;
 
 import net.hecco.bountifulfares.BountifulFares;
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -12,7 +13,7 @@ import static net.hecco.bountifulfares.BountifulFares.*;
 public class DatagenOnlyItems {
     private static void registerDatagenOnlyItem(String modId, String name) {
         if (BountifulFares.isDatagen()) {
-            Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(modId, name), new Item(new Item.Properties()));
+            BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(modId, name), new Item(new Item.Properties()));
         }
     }
 

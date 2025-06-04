@@ -6,7 +6,6 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 
-import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import static net.hecco.bountifulfares.BountifulFares.EXCESSIVE_BUILDING_MOD_ID;
@@ -21,7 +21,7 @@ import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_REND
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class ExcessiveBuildingBlocks {
-    public static final Block ANCIENT_PICKETS = registerBlock("ancient_pickets", new CompatPicketsBlock(EXCESSIVE_BUILDING_MOD_ID, BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.NONE).strength(0.5F).sound(BFSounds.LIGHT_WOOD).instrument(NoteBlockInstrument.BASS).notSolid().nonOpaque()));
+    public static final Block ANCIENT_PICKETS = registerBlock("ancient_pickets", new CompatPicketsBlock(EXCESSIVE_BUILDING_MOD_ID, BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.NONE).strength(0.5F).sound(BFSounds.LIGHT_WOOD).instrument(NoteBlockInstrument.BASS).forceSolidOff().noOcclusion()));
     public static final Block WALNUT_VERTICAL_STAIRS = registerBlock("walnut_vertical_stairs", new CompatVerticalStairsBlock(EXCESSIVE_BUILDING_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS)));
     public static final Block CHISELED_WALNUT_PLANKS = registerBlock("chiseled_walnut_planks", new CompatBlock(EXCESSIVE_BUILDING_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS)));
     public static final Block WALNUT_MOSAIC = registerBlock("walnut_mosaic", new CompatBlock(EXCESSIVE_BUILDING_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS)));
@@ -59,10 +59,10 @@ public class ExcessiveBuildingBlocks {
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(EXCESSIVE_BUILDING_MOD_ID, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(EXCESSIVE_BUILDING_MOD_ID, name), block);
     }
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(EXCESSIVE_BUILDING_MOD_ID, name), new CompatBlockItem(EXCESSIVE_BUILDING_MOD_ID, block, new Item.Properties()));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(EXCESSIVE_BUILDING_MOD_ID, name), new CompatBlockItem(EXCESSIVE_BUILDING_MOD_ID, block, new Item.Properties()));
     }
     public static void registerExcessiveBuildingBlocks() {
 

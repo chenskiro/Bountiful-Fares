@@ -18,11 +18,11 @@ public class AppledogBlocks {
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), block);
     }
 
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), new CompatBlockItem(APPLEDOG_MOD_ID, block, new Item.Properties().rarity(Rarity.EPIC)));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), new CompatBlockItem(APPLEDOG_MOD_ID, block, new Item.Properties().rarity(Rarity.EPIC)));
     }
     public static void registerAppledogBlocks() {
     }

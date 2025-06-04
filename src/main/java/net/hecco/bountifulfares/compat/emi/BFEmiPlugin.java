@@ -16,14 +16,15 @@ import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.hecco.bountifulfares.registry.misc.BFScreenHandlers;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.minecraft.core.Holder;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -33,7 +34,7 @@ import java.util.stream.Stream;
 public class BFEmiPlugin implements EmiPlugin {
 
     Set<Item> hiddenItems = Stream.concat(
-            EmiUtil.values(TagKey.create(EmiPort.getItemRegistry().getKey(), EmiTags.HIDDEN_FROM_RECIPE_VIEWERS)).map(Holder::value),
+            EmiUtil.values(TagKey.create(Registries.ITEM, EmiTags.HIDDEN_FROM_RECIPE_VIEWERS)).map(Holder::value),
             EmiPort.getDisabledItems()
     ).collect(Collectors.toSet());
     List<Item> dyeableCeramicItems = EmiUtil.values(BFItemTags.DYEABLE_CERAMIC_BLOCKS).map(Holder::value).collect(Collectors.toList());
@@ -68,8 +69,8 @@ public class BFEmiPlugin implements EmiPlugin {
         addRecipeSafePropagation(registry, EmiPropagationRecipe::new);
     }
 
-    private static <C extends RecipeInput, T extends Recipe<C>> Iterable<T> getRecipes(EmiRegistry registry, RecipeType<T> type) {
-        return registry.getRecipeManager().listAllOfType(type).stream().map(RecipeEntry::value)::iterator;
+    private static <C extends Container, T extends Recipe<C>> Iterable<T> getRecipes(EmiRegistry registry, RecipeType<T> type) {
+        return registry.getRecipeManager().getAllRecipesFor(type).stream()::iterator;
     }
 
     private static void addRecipeSafe(EmiRegistry registry, Supplier<EmiRecipe> supplier, Recipe<?> recipe) {
@@ -77,7 +78,7 @@ public class BFEmiPlugin implements EmiPlugin {
             registry.addRecipe(supplier.get());
         } catch (Throwable e) {
             EmiReloadLog.warn("Exception thrown when parsing bountifulfares recipe" + EmiPort.getId(recipe));
-            EmiReloadLog.error(e);
+            EmiReloadLog.warn(e.getMessage(), e);
         }
     }
 
@@ -86,7 +87,7 @@ public class BFEmiPlugin implements EmiPlugin {
             registry.addRecipe(supplier.get());
         } catch (Throwable e) {
             EmiReloadLog.warn("Exception thrown when parsing bountifulfares prismarine propagation recipe");
-            EmiReloadLog.error(e);
+            EmiReloadLog.warn(e.getMessage(), e);
         }
     }
 

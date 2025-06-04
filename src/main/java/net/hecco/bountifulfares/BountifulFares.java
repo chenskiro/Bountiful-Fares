@@ -62,7 +62,7 @@ public class BountifulFares  {
 		// BFBlocks.registerModBlocks();
 		BFTrellises.registerTrellisParts();
 		TrellisUtil.registerTrellisParts();
-		BFItemGroups.registerItemGroups();
+		// BFItemGroups.registerItemGroups();
 		BFItemGroupAdditions.registerItemGroupAdditions();
 		BFRecipes.registerRecipes();
 		BFTreeGeneration.generateTrees();

@@ -10,6 +10,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresConfiguration;
 import net.hecco.bountifulfares.recipe.FermentationRecipe;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,7 +24,7 @@ public class EmiFermentationRecipe implements EmiRecipe {
 
     public EmiFermentationRecipe(FermentationRecipe recipe) {
         this.id = EmiPort.getId(recipe);
-        input = EmiIngredient.of(recipe.getIngredient());
+        input = EmiIngredient.of(recipe.getIngredients().stream().map(EmiIngredient::of).toList());
         output = EmiStack.of(EmiPort.getOutput(recipe));
     }
 
@@ -39,7 +40,7 @@ public class EmiFermentationRecipe implements EmiRecipe {
 
     @Override
     public List<EmiIngredient> getInputs() {
-        return List.of(input, EmiIngredient.of(List.of(EmiStack.of(Items.WATER_BUCKET), EmiStack.of(EmiPort.setPotion(new ItemStack(Items.POTION), Potions.WATER.value())))));
+        return List.of(input, EmiIngredient.of(List.of(EmiStack.of(Items.WATER_BUCKET), EmiStack.of(EmiPort.setPotion(new ItemStack(Items.POTION), Potions.WATER)))));
     }
 
     @Override
@@ -62,8 +63,8 @@ public class EmiFermentationRecipe implements EmiRecipe {
         widgets.addTexture(BountifulFares.rl( "textures/gui/jei/fermenting.png"), 0, 0, 89, 76, 0, 0);
         widgets.addTexture(BountifulFares.rl( "textures/gui/jei/fermenting.png"),
                         29, 54, 24, 8, 29, 54)
-                .tooltip((mx, my) -> List.of(TooltipComponent.of(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getFermentationTime())))));
-        widgets.addSlot(EmiIngredient.of(List.of(EmiStack.of(Items.WATER_BUCKET), EmiStack.of(EmiPort.setPotion(new ItemStack(Items.POTION), Potions.WATER.value())))), 6, 5);
+                .tooltip((mx, my) -> List.of(ClientTooltipComponent.create(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getFermentationTime())))));
+        widgets.addSlot(EmiIngredient.of(List.of(EmiStack.of(Items.WATER_BUCKET), EmiStack.of(EmiPort.setPotion(new ItemStack(Items.POTION), Potions.WATER)))), 6, 5);
         widgets.addSlot(input, 6, 49).drawBack(false);
         widgets.add(new SlotWidget(output, 58, 45).large(true)).recipeContext(this);
     }

@@ -6,7 +6,7 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.recipe.*;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
@@ -41,7 +41,7 @@ public class FermentationRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack craft(SimpleContainer inventory, RegistryAccess registryManager) {
+    public ItemStack assemble(SimpleContainer inventory, RegistryAccess registryManager) {
         return output.copy();
     }
 
@@ -123,7 +123,7 @@ public class FermentationRecipe implements Recipe<SimpleContainer> {
         }
 
         @Override
-        public void write(FriendlyByteBuf buf, FermentationRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buf, FermentationRecipe recipe) {
             buf.writeInt(recipe.getIngredients().size());
             for (Ingredient ing : recipe.getIngredients()) {
                 ing.toNetwork(buf);

@@ -6,7 +6,7 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.recipe.*;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
@@ -39,9 +39,13 @@ public class MillingRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack craft(SimpleContainer inventory, RegistryAccess registryManager) {
-        return output.copy();
-    }
+    public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
+        return output.copy();    }
+
+    // @Override
+    // public ItemStack craft(SimpleContainer inventory, RegistryAccess registryManager) {
+    //     return output.copy();
+    // }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
@@ -116,7 +120,7 @@ public class MillingRecipe implements Recipe<SimpleContainer> {
         }
 
         @Override
-        public void write(FriendlyByteBuf buf, MillingRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buf, MillingRecipe recipe) {
             buf.writeInt(recipe.getIngredients().size());
             for (Ingredient ing : recipe.getIngredients()) {
                 ing.toNetwork(buf);

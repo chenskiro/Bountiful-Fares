@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.;
 import net.hecco.bountifulfares.BountifulFares;FabricTagProvider
 import net.hecco.bountifulfares.datagen.bountifulfares.BFTemplateModels;
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
@@ -74,11 +75,11 @@ public class TrellisUtil extends FabricTagProvider.BlockTagProvider {
 
     public static Block registerBlock(String id, String name, Block block) {
         registerBlockItem(id, name, block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(id, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(id, name), block);
     }
 
     private static Item registerBlockItem(String id, String name, Block block) {
-        return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(id, name), new BlockItem(block, new Item.Properties()));
+        return BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(id, name), new BlockItem(block, new Item.Properties()));
     }
 
     public static Block getTrellisFromVariant(TrellisVariant variant) {

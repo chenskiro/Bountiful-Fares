@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.compat.natures_spirit;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.custom.PicketsBlock;
 import net.hecco.bountifulfares.compat.block.CompatBlockItem;
@@ -59,10 +58,10 @@ public class NaturesSpiritBlocks {
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(NATURES_SPIRIT_MOD_ID, name), block);
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(NATURES_SPIRIT_MOD_ID, name), block);
     }
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(NATURES_SPIRIT_MOD_ID, name), new CompatBlockItem(NATURES_SPIRIT_MOD_ID, block, new Item.Properties()));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(NATURES_SPIRIT_MOD_ID, name), new CompatBlockItem(NATURES_SPIRIT_MOD_ID, block, new Item.Properties()));
     }
     public static void registerNaturesSpiritBlocks() {
 

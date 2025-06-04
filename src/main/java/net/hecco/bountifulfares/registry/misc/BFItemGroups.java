@@ -35,10 +35,15 @@ import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+@Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
 public class BFItemGroups {
 
     private static final Comparator<Holder<PaintingVariant>> PAINTING_VARIANT_COMPARATOR = Comparator.comparing(Holder::value, Comparator.comparingInt((paintingVariant) -> 16 * 16));
@@ -498,10 +503,12 @@ public class BFItemGroups {
             entries.accept(itemStack, stackVisibility);
         });
     }
-    public static void registerItemGroups()
+
+    @SubscribeEvent
+    public static void registerItemGroups(BuildCreativeModeTabContentsEvent event)
     {
         // Can be used to register item mod tabs if the mod is loaded
-        if (BountifulFares.isModLoaded(BountifulFares.FARMERS_DELIGHT_MOD_ID)) FarmersDelightItemGroups.registerModItemTabs();
+        if (BountifulFares.isModLoaded(BountifulFares.FARMERS_DELIGHT_MOD_ID)) FarmersDelightItemGroups.onBuildCreativeModeTabContentsEvent(event);
 
         // Oh my god kaupenjoe reference        - Artyrian
         //        BountifulFares.LOGGER.info("Registering Item Group Entries for " + BountifulFares.MOD_ID);

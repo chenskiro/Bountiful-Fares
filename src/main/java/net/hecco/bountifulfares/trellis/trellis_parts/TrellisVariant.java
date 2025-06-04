@@ -8,6 +8,7 @@ import net.hecco.bountifulfares.compat.block.CompatBlockItem;
 import net.hecco.bountifulfares.compat.block.CompatCropTrellisBlock;
 import net.hecco.bountifulfares.compat.block.CompatDecorativeTrellisBlock;
 import net.hecco.bountifulfares.compat.block.CompatTrellisBlock;
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
@@ -163,8 +164,8 @@ public class TrellisVariant {
     }
 
     public Block registerCompatBlock(String id, String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), new CompatBlockItem(this.MOD_ID, block, new Item.Properties()));
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), new CompatBlockItem(this.MOD_ID, block, new Item.Properties()));
+        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
     }
 
     public String getVariantName() {

@@ -13,6 +13,7 @@ import net.hecco.bountifulfares.registry.util.BFWoodTypes;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -389,7 +390,16 @@ public class BFBlocks {
     }
 
 
-    private static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
+    public static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
+        if (entry instanceof Item item) {
+            items.put(ResourceKey.create(Registries.ITEM, id), item);
+        } else if (entry instanceof Block block) {
+            blocks.put(ResourceKey.create(Registries.BLOCK, id), block);
+        }
+        return entry;
+    }
+
+    public static <T> T attachCache(Registry<T> registry, ResourceLocation id, T entry) {
         if (entry instanceof Item item) {
             items.put(ResourceKey.create(Registries.ITEM, id), item);
         } else if (entry instanceof Block block) {

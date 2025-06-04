@@ -10,6 +10,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresConfiguration;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
@@ -20,8 +21,7 @@ public class EmiMillingRecipe implements EmiRecipe {
 
     public EmiMillingRecipe(MillingRecipe recipe) {
         this.id = EmiPort.getId(recipe);
-        input = EmiIngredient.of(recipe.getIngredient());
-        output = EmiStack.of(EmiPort.getOutput(recipe));
+        input = EmiIngredient.of(recipe.getIngredients().stream().map(EmiIngredient::of).toList());        output = EmiStack.of(EmiPort.getOutput(recipe));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class EmiMillingRecipe implements EmiRecipe {
         widgets.addTexture(BountifulFares.rl( "textures/gui/gristmill.png"),  32, 10, 35, 14, 69, 37);
         widgets.addAnimatedTexture(BountifulFares.rl( "textures/gui/gristmill_progress_arrow.png"),
                 32, 10, 35, 14, 0, 0, BountifulFaresConfiguration.load().getMillingTime()*1000, true, false, false)
-                .tooltip((mx, my) -> List.of(TooltipComponent.of(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getMillingTime())))));
+                .tooltip((mx, my) -> List.of(ClientTooltipComponent.create(EmiPort.ordered(EmiPort.translatable("emi.cooking.time", BountifulFaresConfiguration.load().getMillingTime())))));
         widgets.addSlot(input, 6, 9);
         widgets.add(new SlotWidget(output, 74, 5).large(true)).recipeContext(this);
     }
