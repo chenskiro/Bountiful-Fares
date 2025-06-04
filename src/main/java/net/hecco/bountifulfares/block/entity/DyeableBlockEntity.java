@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.block.entity;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+// import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -65,9 +65,9 @@ public abstract class DyeableBlockEntity extends BlockEntity {
 
     @Override
     public void setChanged() {
-        FriendlyByteBuf data = PacketByteBufs.create();
-        data.writeInt(color);
-        data.writeBlockPos(getBlockPos());
+        // FriendlyByteBuf data = PacketByteBufs.create();
+        // data.writeInt(color);
+        // data.writeBlockPos(getBlockPos());
         super.setChanged();
     }
 

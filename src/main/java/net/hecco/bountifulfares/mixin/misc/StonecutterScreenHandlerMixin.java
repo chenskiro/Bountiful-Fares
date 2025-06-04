@@ -3,7 +3,9 @@ package net.hecco.bountifulfares.mixin.misc;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.hecco.bountifulfares.BountifulFares;
 
+import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.StonecutterMenu;
 import net.minecraft.world.item.ItemStack;
@@ -29,8 +31,11 @@ public abstract class StonecutterScreenHandlerMixin {
         //because this currently will apply to ANY dyeable item put into stonecutter that has recipes
         //not that it is a bad thing, just saying...
         //if you DO change it, also check out StonecutterScreenMixin
-        if(Objects.equals(BuiltInRegistries.ITEM.getKey(this.inputSlot.getItem().getItem()).getNamespace(), BountifulFares.MOD_ID) && this.inputSlot.getItem().contains(DataComponentTypes.DYED_COLOR)){
-            itemStack.set(DataComponentTypes.DYED_COLOR, this.inputSlot.getItem().get(DataComponentTypes.DYED_COLOR));
+        if(Objects.equals(BuiltInRegistries.ITEM.getKey(this.inputSlot.getItem().getItem()).getNamespace(), BountifulFares.MOD_ID)
+                && this.inputSlot.getItem().getTagElement(ArtisanBrushItem.DISPLAY_KEY)!=null){
+            CompoundTag subNbt = itemStack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
+            subNbt.putInt(ArtisanBrushItem.COLOR_KEY, this.inputSlot.getItem().getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY));
+            // itemStack.set(DataComponentTypes.DYED_COLOR, this.inputSlot.getItem().get(DataComponentTypes.DYED_COLOR));
         }
     }
 }

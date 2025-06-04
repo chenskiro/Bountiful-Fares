@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.block.entity;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+// import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.custom.GristmillBlock;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
@@ -14,6 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +29,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class GristmillBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class GristmillBlockEntity extends BlockEntity implements
+        // ExtendedScreenHandlerFactory,
+        MenuProvider,
+        ImplementedInventory {
 
     private static BooleanProperty millingState;
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -68,10 +72,10 @@ public class GristmillBlockEntity extends BlockEntity implements ExtendedScreenH
         };
     }
 
-    @Override
-    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-        buf.writeBlockPos(this.worldPosition);
-    }
+    // @Override
+    // public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
+    //     buf.writeBlockPos(this.worldPosition);
+    // }
 
     @Override
     public Component getDisplayName() {

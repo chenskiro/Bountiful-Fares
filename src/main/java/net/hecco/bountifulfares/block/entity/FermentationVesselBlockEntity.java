@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
@@ -75,21 +76,37 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
+    public void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
+        ContainerHelper.saveAllItems(nbt, this.inventory);
         nbt.putInt("fermenting.progress", this.progress);
         nbt.putInt("particleColor", this.particleColor);
     }
 
 
     @Override
-    public void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
+    public void load(CompoundTag nbt) {
+        ContainerHelper.loadAllItems(nbt, this.inventory);
         this.progress = nbt.getInt("fermenting.progress");
         this.particleColor = nbt.getInt("particleColor");
-        super.load(nbt, registryLookup);
+        super.load(nbt);
     }
+    // @Override
+    // protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    //     super.saveAdditional(nbt, registryLookup);
+    //     ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
+    //     nbt.putInt("fermenting.progress", this.progress);
+    //     nbt.putInt("particleColor", this.particleColor);
+    // }
+    //
+    //
+    // @Override
+    // public void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    //     ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
+    //     this.progress = nbt.getInt("fermenting.progress");
+    //     this.particleColor = nbt.getInt("particleColor");
+    //     super.load(nbt, registryLookup);
+    // }
 
     @Nullable
     @Override
@@ -106,10 +123,10 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
         return this.particleColor == 0 ? Optional.empty() : Optional.of(this.particleColor);
     }
 
-    @Override
-    public CompoundTag toInitialChunkDataNbt(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
-    }
+    // @Override
+    // public CompoundTag toInitialChunkDataNbt(HolderLookup.Provider registryLookup) {
+    //     return saveWithoutMetadata(registryLookup);
+    // }
 
     public boolean canInsertItem() {
         return this.getItem(0).isEmpty();
@@ -167,12 +184,12 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
     }
 
     public Optional<FermentationRecipe> getCurrentRecipe() {
-        Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, inventory, this.getLevel());
-        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, inventory, this.getLevel());
+        Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
+        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
     }
     public InteractionResult tryExtractItem(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
         if (this.fermented) {
-            ItemStack output = getCurrentRecipe().isEmpty() ? null : getCurrentRecipe().get().value().getOutput();
+            ItemStack output = getCurrentRecipe().isEmpty() ? null : getCurrentRecipe().get().getResultItem(world.registryAccess());
             if (output != null) {
                 Item collector = output.getItem().getCraftingRemainingItem();
                 if (collector == null) {

@@ -30,16 +30,29 @@ public class CeramicDishBlockEntity extends DyeableBlockEntity implements Implem
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        ContainerHelper.saveAllItems(nbt, inventory, registryLookup);
-        super.saveAdditional(nbt, registryLookup);
+    public void saveAdditional(CompoundTag nbt) {
+        ContainerHelper.saveAllItems(nbt, inventory);
+        super.saveAdditional(nbt);
     }
 
+    // @Override
+    // protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    //     ContainerHelper.saveAllItems(nbt, inventory, registryLookup);
+    //     super.saveAdditional(nbt, registryLookup);
+    // }
+
+
     @Override
-    protected void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        ContainerHelper.loadAllItems(nbt, inventory, registryLookup);
-        super.load(nbt, registryLookup);
+    public void load(CompoundTag nbt) {
+        ContainerHelper.loadAllItems(nbt, inventory);
+        super.load(nbt);
     }
+
+    // @Override
+    // protected void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+    //     ContainerHelper.loadAllItems(nbt, inventory, registryLookup);
+    //     super.load(nbt, registryLookup);
+    // }
 
     public void insertItem(ItemStack item) {
         assert level != null;
