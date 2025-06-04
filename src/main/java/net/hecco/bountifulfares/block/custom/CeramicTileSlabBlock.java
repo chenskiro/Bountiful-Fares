@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.block.custom;
 
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
+import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.FastColor;
@@ -26,6 +27,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(TYPE, SlabType.BOTTOM).setValue(WATERLOGGED, false));
     }
+
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return DyeableCeramicBlock.createBlockEntity(pos, state);
@@ -42,7 +44,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit){
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
     }
 
@@ -51,9 +53,11 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
         ItemStack itemStack = context.getItemInHand();
         SlabType slabType = state.getValue(TYPE);
         if (slabType != SlabType.DOUBLE && itemStack.is(this.asItem())
-                && DyedColorComponent.getColor(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.fullAlpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))) {
+                && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY) == DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos())
+            // && DyedColorComponent.getColor(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.fullAlpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))
+        ) {
             if (context.replacingClickedOnBlock()) {
-                boolean bl = context.getClickLocation().y - (double)context.getClickedPos().getY() > 0.5;
+                boolean bl = context.getClickLocation().y - (double) context.getClickedPos().getY() > 0.5;
                 Direction direction = context.getClickedFace();
                 return slabType == SlabType.BOTTOM
                         ? direction == Direction.UP || bl && direction.getAxis().isHorizontal()

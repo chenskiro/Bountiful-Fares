@@ -5,8 +5,8 @@ import net.hecco.bountifulfares.block.entity.DyeableBlockEntity;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.ChatFormatting;
 
-import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,6 +27,7 @@ public class ArtisanBrushItem extends Item {
     public static final String COLOR_KEY = "color";
 
     public static int DEFAULT_COLOR = DyeableBlockEntity.DEFAULT_COLOR;
+
     public ArtisanBrushItem(Properties settings) {
         super(settings);
     }
@@ -38,22 +39,28 @@ public class ArtisanBrushItem extends Item {
         Player player = context.getPlayer();
         BlockState current = world.getBlockState(pos);
         int oldColor = DyeableBlockEntity.getColor(world, pos);
-        DyedColorComponent component = context.getItemInHand().get(DataComponentTypes.DYED_COLOR);
-        if (BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.containsKey(current.getBlock()) && DyeableBlockEntity.getColor(world, pos) != DyeableBlockEntity.DEFAULT_COLOR) {
-            if ((component != null ? component.rgb() : DEFAULT_COLOR) == DyeableBlockEntity.getColor(world, pos)) {
-                    world.setBlockAndUpdate(pos, BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.get(current.getBlock()).withPropertiesOf(current));
-                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    if (world.getBlockEntity(pos) instanceof DyeableBlockEntity ceramicTilesBlockEntity) {
+        ItemStack stack = context.getItemInHand();
+        // DyedColorComponent component = stack.get(DataComponentTypes.DYED_COLOR);
+        CompoundTag tag = stack.getTag();
+        if (BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.containsKey(current.getBlock()) && oldColor != DyeableBlockEntity.DEFAULT_COLOR) {
+            if ((tag != null&&tag.contains(ArtisanBrushItem.DISPLAY_KEY) ? tag.getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY)  : DEFAULT_COLOR) == oldColor) {
+                world.setBlockAndUpdate(pos, BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.get(current.getBlock()).withPropertiesOf(current));
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (world.getBlockEntity(pos) instanceof DyeableBlockEntity ceramicTilesBlockEntity) {
                     ceramicTilesBlockEntity.color = oldColor;
                     ceramicTilesBlockEntity.setChanged();
                     return InteractionResult.SUCCESS;
                 }
             }
         }
-        if (world.getBlockEntity(pos) instanceof DyeableBlockEntity && DyeableBlockEntity.getColor(world, pos) != DyeableBlockEntity.DEFAULT_COLOR) {
+        if (world.getBlockEntity(pos) instanceof DyeableBlockEntity && oldColor != DyeableBlockEntity.DEFAULT_COLOR) {
             if (world.getBlockEntity(pos) instanceof DyeableBlockEntity) {
-                if (DyedColorComponent.getColor(context.getItemInHand(), DEFAULT_COLOR) != DyeableBlockEntity.getColor(world, pos)) {
-                    context.getItemInHand().set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(DyeableBlockEntity.getColor(world, pos), true));
+                if (tag == null
+                        || (tag.contains(ArtisanBrushItem.DISPLAY_KEY)
+                   && tag.getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY) != oldColor)){
+                    // context.getItemInHand().set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(oldColor, true));
+                    CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
+                    subNbt.putInt(ArtisanBrushItem.COLOR_KEY, oldColor);
                     world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.SUCCESS;
                 }
@@ -63,7 +70,7 @@ public class ArtisanBrushItem extends Item {
     }
 //        if (ModBlocks.CERAMIC_TO_CHECKERED_CERAMIC.containsKey(current.getBlock()) && Objects.requireNonNull(context.getPlayer()).isSneaking()) {
 //            if (world.getBlockEntity(pos) instanceof DyeableBlockEntity ceramicTilesBlockEntity && ceramicTilesBlockEntity.color != DyeableBlockEntity.DEFAULT_COLOR) {
-//                int oldColor = DyeableBlockEntity.getColor(world, pos);
+//                int oldColor = oldColor;
 //                world.setBlockState(pos, ModBlocks.CERAMIC_TO_CHECKERED_CERAMIC.get(current.getBlock()).getStateWithProperties(current));
 //                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat());
 //                ceramicTilesBlockEntity.color = oldColor;
@@ -76,7 +83,7 @@ public class ArtisanBrushItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
-        if (!stack.getComponents().contains(DataComponentTypes.DYED_COLOR)) {
+        if (stack.getTag() == null || stack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)) {
             tooltip.add(Component.translatable("tooltip." + BountifulFares.MOD_ID + ".dyeable").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
         super.appendHoverText(stack, context, tooltip, type);

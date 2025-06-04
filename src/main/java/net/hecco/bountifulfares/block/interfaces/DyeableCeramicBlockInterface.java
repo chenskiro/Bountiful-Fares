@@ -2,8 +2,9 @@ package net.hecco.bountifulfares.block.interfaces;
 
 import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 
-import net.minecraft.component.type.DyedColorComponent;
+import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.EntityBlock;
@@ -18,15 +19,17 @@ public interface DyeableCeramicBlockInterface extends EntityBlock {
         return new DyeableCeramicBlockEntity(pos, state);
     }
 
-    default ItemStack pickBlock(BlockGetter world, BlockPos pos, ItemStack stack){
-        DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world,pos);
+    default ItemStack pickBlock(BlockGetter world, BlockPos pos, ItemStack stack) {
+        DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world, pos);
         int color;
-        if(blockEntity != null){
+        if (blockEntity != null) {
             color = blockEntity.color;
         } else {
             color = DyeableCeramicBlockEntity.DEFAULT_COLOR;
         }
-        stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
+        // stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
+        CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
+        subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
         return stack;
     }
 
