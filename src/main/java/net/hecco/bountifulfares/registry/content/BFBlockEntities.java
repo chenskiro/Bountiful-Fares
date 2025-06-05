@@ -23,7 +23,7 @@ import static net.hecco.bountifulfares.registry.content.BFBlocks.*;
 
 @Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
 public class BFBlockEntities {
-    private static final Map<ResourceKey<BlockEntityType<? extends BlockEntity>>, BlockEntityType<? extends BlockEntity>> blockEntityTypes = new HashMap<>();
+    private static final Map<ResourceKey<BlockEntityType<?>>, BlockEntityType<?>> blockEntityTypes = new HashMap<>();
 
     public static final BlockEntityType<DyeableCeramicBlockEntity> CERAMIC_TILES_BLOCK_ENTITY = registerForCache(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,

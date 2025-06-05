@@ -23,10 +23,10 @@ public class BFRecipes {
     }
 
     public static final RecipeSerializer<MillingRecipe> MILLING_SERIALIZER = registerSerializer("milling",
-            new MillingRecipe.Serializer(MillingRecipe::new));
+            new MillingRecipe.Serializer());
 
     public static final RecipeSerializer<FermentationRecipe> FERMENTING_SERIALIZER = registerSerializer("fermenting",
-            new FermentationRecipe.Serializer(FermentationRecipe::new));
+            new FermentationRecipe.Serializer());
 
     public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerSerializer(String id, S serializer) {
         return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, BountifulFares.rl( id), serializer);

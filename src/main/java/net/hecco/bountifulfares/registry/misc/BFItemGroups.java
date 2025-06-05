@@ -114,8 +114,8 @@ public class BFItemGroups {
                         entries.accept(BFBlocks.HOARY_BUTTON);
                         entries.accept(BFItems.HOARY_SIGN);
                         entries.accept(BFItems.HOARY_HANGING_SIGN);
-                        entries.accept(BFItems.HOARY_BOAT);
-                        entries.accept(BFItems.HOARY_CHEST_BOAT);
+                        // entries.accept(BFItems.HOARY_BOAT);
+                        // entries.accept(BFItems.HOARY_CHEST_BOAT);
                         entries.accept(ExcessiveBuildingBlocks.CHISELED_HOARY_PLANKS);
                         entries.accept(ExcessiveBuildingBlocks.HOARY_MOSAIC);
                         entries.accept(ExcessiveBuildingBlocks.HOARY_MOSAIC_STAIRS);
@@ -143,8 +143,8 @@ public class BFItemGroups {
                         entries.accept(BFBlocks.WALNUT_BUTTON);
                         entries.accept(BFItems.WALNUT_SIGN);
                         entries.accept(BFItems.WALNUT_HANGING_SIGN);
-                        entries.accept(BFItems.WALNUT_BOAT);
-                        entries.accept(BFItems.WALNUT_CHEST_BOAT);
+                        // entries.accept(BFItems.WALNUT_BOAT);
+                        // entries.accept(BFItems.WALNUT_CHEST_BOAT);
                         entries.accept(ExcessiveBuildingBlocks.CHISELED_WALNUT_PLANKS);
                         entries.accept(ExcessiveBuildingBlocks.WALNUT_MOSAIC);
                         entries.accept(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS);

@@ -16,6 +16,7 @@
     "render.ItemRendererMixin",
     "render.ModelLoaderMixin",
     "util.BrewingRecipeRegistryMixin",
+    "util.FireBlockAccessor",
     "util.HandledScreenMixin",
     "util.ItemRendererAccessor"
   ],

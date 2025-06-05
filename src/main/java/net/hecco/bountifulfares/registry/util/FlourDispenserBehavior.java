@@ -16,9 +16,9 @@ public abstract class FlourDispenserBehavior extends DefaultDispenseItemBehavior
     }
 
     public ItemStack execute(BlockSource pointer, ItemStack stack) {
-        Level world = pointer.world();
+        Level world = pointer.getLevel();
         Position position = DispenserBlock.getDispensePosition(pointer);
-        Direction direction = pointer.state().get(DispenserBlock.FACING);
+        Direction direction = pointer.getBlockState().getValue(DispenserBlock.FACING);
         Projectile projectileEntity = this.createProjectile(world, position, stack);
         projectileEntity.shoot(direction.getStepX(), ((float)direction.getStepY() + 0.1F), direction.getStepZ(), this.getForce(), this.getVariation());
         world.addFreshEntity(projectileEntity);
@@ -28,7 +28,7 @@ public abstract class FlourDispenserBehavior extends DefaultDispenseItemBehavior
     }
 
     protected void playSound(BlockSource pointer) {
-        pointer.world().syncWorldEvent(1002, pointer.pos(), 0);
+        pointer.getLevel().levelEvent(1002, pointer.getPos(), 0);
     }
 
     protected abstract Projectile createProjectile(Level world, Position position, ItemStack stack);

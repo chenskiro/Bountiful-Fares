@@ -275,10 +275,10 @@ public class BFItemGroupAdditions {
         {
             addAfter(event, Items.LEAD, BFItems.SUN_HAT);
             addAfter(event, Items.BRUSH, BFItems.ARTISAN_BRUSH);
-            addAfter(event, Items.BAMBOO_CHEST_RAFT, BFItems.WALNUT_BOAT);
-            addAfter(event, BFItems.WALNUT_BOAT, BFItems.WALNUT_CHEST_BOAT);
-            addAfter(event, BFItems.WALNUT_CHEST_BOAT, BFItems.HOARY_BOAT);
-            addAfter(event, BFItems.HOARY_BOAT, BFItems.HOARY_CHEST_BOAT);
+            // addAfter(event, Items.BAMBOO_CHEST_RAFT, BFItems.WALNUT_BOAT);
+            // addAfter(event, BFItems.WALNUT_BOAT, BFItems.WALNUT_CHEST_BOAT);
+            // addAfter(event, BFItems.WALNUT_CHEST_BOAT, BFItems.HOARY_BOAT);
+            // addAfter(event, BFItems.HOARY_BOAT, BFItems.HOARY_CHEST_BOAT);
         }
         // );
 

@@ -10,6 +10,7 @@ import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
 import net.hecco.bountifulfares.compat.mint.MintBlocks;
 import net.hecco.bountifulfares.entity.FlourProjectileEntity;
+import net.hecco.bountifulfares.mixin.util.FireBlockAccessor;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
@@ -17,7 +18,10 @@ import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.minecraft.core.BlockSource;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.AxeItem;
@@ -26,14 +30,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 // import static net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register;
 import static net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES;
@@ -43,6 +52,10 @@ public class BFRegistries {
 
     public static final Reference2IntMap<Item> fuel_items = new Reference2IntOpenHashMap<>();
     public static final List<Pair<TagKey<Item>, Integer>> fuel_item_tags = new ArrayList<>();
+    public static final Map<Block, Pair<Integer, Integer>> flam_blocks = new IdentityHashMap<>();
+    public static final Map<Block, Pair<Integer, Integer>> flam_blocks_from_tag = new IdentityHashMap<>();
+    public static final List<Pair<TagKey<Block>, Pair<Integer, Integer>>> flam_block_tags = new ArrayList<>();
+    public static final Map<Block, Block> stripple_blocks = new IdentityHashMap<>();
 
     @SubscribeEvent
     public static void setFuels(FurnaceFuelBurnTimeEvent event) {
@@ -57,6 +70,51 @@ public class BFRegistries {
                     return;
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void setAxe(BlockEvent.BlockToolModificationEvent event) {
+        if (event.getToolAction() == ToolActions.AXE_STRIP) {
+            Block orDefault = stripple_blocks.getOrDefault(event.getState().getBlock(), null);
+            if (orDefault != null) {
+                event.setFinalState(orDefault.defaultBlockState());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void setFireBlock(TagsUpdatedEvent event) {
+        if (FMLLoader.getDist() == Dist.DEDICATED_SERVER
+                || event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED) {
+            FireBlockAccessor fireBlockAccessor = (FireBlockAccessor) (Blocks.FIRE);
+            flam_blocks.forEach((block, integerIntegerPair) -> {
+                if (fireBlockAccessor.getBurnOdds().getInt(block) < 1) {
+                    fireBlockAccessor.getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
+                    fireBlockAccessor.getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
+                }
+            });
+            flam_blocks_from_tag.forEach((block, integerIntegerPair) -> {
+                fireBlockAccessor.getIgniteOdds().removeInt(block);
+                fireBlockAccessor.getBurnOdds().removeInt(block);
+            });
+            flam_blocks_from_tag.clear();
+            Registry<Block> registry = event.getRegistryAccess().registryOrThrow(Registries.BLOCK);
+            for (Pair<TagKey<Block>, Pair<Integer, Integer>> flamBlockTag : flam_block_tags) {
+                registry.getTag(flamBlockTag.getFirst()).ifPresent(
+                        blocks->{
+                            for (Holder<Block> block : blocks) {
+                                flam_blocks_from_tag.put(block.value(),flamBlockTag.getSecond());
+                            }
+                        }
+                );
+            }
+            flam_blocks_from_tag.forEach((block, integerIntegerPair) -> {
+                if (fireBlockAccessor.getBurnOdds().getInt(block) < 1) {
+                    fireBlockAccessor.getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
+                    fireBlockAccessor.getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
+                }
+            });
         }
     }
 
@@ -191,42 +249,50 @@ public class BFRegistries {
         fuel_items.put(block.asItem(), i);
     }
 
+    private static void addToFlammableMap(TagKey<Block> blockTagKey, int encouragement, int flammability) {
+        flam_block_tags.add(Pair.of(blockTagKey, Pair.of(encouragement, flammability)));
+    }
+
+    private static void addToFlammableMap(Block block, int encouragement, int flammability) {
+        flam_blocks.put(block, Pair.of(encouragement, flammability));
+    }
+
     public static void registerFlammables() {
-        FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
-        registry.add(BFBlockTags.APPLE_LEAVES, 60, 30);
-        registry.add(BFBlockTags.ORANGE_LEAVES, 60, 30);
-        registry.add(BFBlockTags.LEMON_LEAVES, 60, 30);
-        registry.add(BFBlockTags.PLUM_LEAVES, 60, 30);
-        registry.add(BFBlocks.HOARY_LEAVES, 60, 30);
-        registry.add(BFBlocks.PALM_FROND, 60, 30);
-        registry.add(BFBlocks.WALL_PALM_FROND, 60, 30);
-        registry.add(BFBlockTags.APPLE_LOGS, 10, 5);
-        registry.add(BFBlockTags.ORANGE_LOGS, 10, 5);
-        registry.add(BFBlockTags.LEMON_LOGS, 10, 5);
-        registry.add(BFBlockTags.PLUM_LOGS, 10, 5);
-        registry.add(BFBlocks.PALM_CROWN, 10, 5);
-        registry.add(BFBlockTags.PALM_LOGS, 10, 5);
-        registry.add(BFBlockTags.HOARY_LOGS, 10, 5);
-        registry.add(BFBlockTags.WALNUT_LOGS, 10, 5);
-        registry.add(BFBlocks.HOARY_PLANKS, 10, 5);
-        registry.add(BFBlocks.HOARY_STAIRS, 10, 5);
-        registry.add(BFBlocks.HOARY_SLAB, 20, 5);
-        registry.add(BFBlocks.HOARY_FENCE, 20, 5);
-        registry.add(BFBlocks.HOARY_FENCE_GATE, 20, 5);
-        registry.add(BFBlocks.HOARY_DOOR, 20, 5);
-        registry.add(BFBlocks.HOARY_TRAPDOOR, 20, 5);
-        registry.add(BFBlocks.WALNUT_PLANKS, 10, 5);
-        registry.add(BFBlocks.WALNUT_STAIRS, 10, 5);
-        registry.add(BFBlocks.WALNUT_SLAB, 20, 5);
-        registry.add(BFBlocks.WALNUT_FENCE, 20, 5);
-        registry.add(BFBlocks.WALNUT_FENCE_GATE, 20, 5);
-        registry.add(BFBlocks.WALNUT_DOOR, 20, 5);
-        registry.add(BFBlocks.WALNUT_TRAPDOOR, 20, 5);
-        registry.add(BFBlocks.WALNUT_MULCH, 60, 30);
-        registry.add(BFBlocks.WALNUT_MULCH_BLOCK, 20, 30);
-        registry.add(BFBlocks.PALM_MULCH, 60, 30);
-        registry.add(BFBlocks.PALM_MULCH_BLOCK, 20, 30);
-        registry.add(BFBlockTags.PICKETS, 20, 5);
+        // FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
+        addToFlammableMap(BFBlockTags.APPLE_LEAVES, 60, 30);
+        addToFlammableMap(BFBlockTags.ORANGE_LEAVES, 60, 30);
+        addToFlammableMap(BFBlockTags.LEMON_LEAVES, 60, 30);
+        addToFlammableMap(BFBlockTags.PLUM_LEAVES, 60, 30);
+        addToFlammableMap(BFBlocks.HOARY_LEAVES, 60, 30);
+        addToFlammableMap(BFBlocks.PALM_FROND, 60, 30);
+        addToFlammableMap(BFBlocks.WALL_PALM_FROND, 60, 30);
+        addToFlammableMap(BFBlockTags.APPLE_LOGS, 10, 5);
+        addToFlammableMap(BFBlockTags.ORANGE_LOGS, 10, 5);
+        addToFlammableMap(BFBlockTags.LEMON_LOGS, 10, 5);
+        addToFlammableMap(BFBlockTags.PLUM_LOGS, 10, 5);
+        addToFlammableMap(BFBlocks.PALM_CROWN, 10, 5);
+        addToFlammableMap(BFBlockTags.PALM_LOGS, 10, 5);
+        addToFlammableMap(BFBlockTags.HOARY_LOGS, 10, 5);
+        addToFlammableMap(BFBlockTags.WALNUT_LOGS, 10, 5);
+        addToFlammableMap(BFBlocks.HOARY_PLANKS, 10, 5);
+        addToFlammableMap(BFBlocks.HOARY_STAIRS, 10, 5);
+        addToFlammableMap(BFBlocks.HOARY_SLAB, 20, 5);
+        addToFlammableMap(BFBlocks.HOARY_FENCE, 20, 5);
+        addToFlammableMap(BFBlocks.HOARY_FENCE_GATE, 20, 5);
+        addToFlammableMap(BFBlocks.HOARY_DOOR, 20, 5);
+        addToFlammableMap(BFBlocks.HOARY_TRAPDOOR, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_PLANKS, 10, 5);
+        addToFlammableMap(BFBlocks.WALNUT_STAIRS, 10, 5);
+        addToFlammableMap(BFBlocks.WALNUT_SLAB, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_FENCE, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_FENCE_GATE, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_DOOR, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_TRAPDOOR, 20, 5);
+        addToFlammableMap(BFBlocks.WALNUT_MULCH, 60, 30);
+        addToFlammableMap(BFBlocks.WALNUT_MULCH_BLOCK, 20, 30);
+        addToFlammableMap(BFBlocks.PALM_MULCH, 60, 30);
+        addToFlammableMap(BFBlocks.PALM_MULCH_BLOCK, 20, 30);
+        addToFlammableMap(BFBlockTags.PICKETS, 20, 5);
     }
 
     public static void registerCeramicCheckeredConversions() {
@@ -249,22 +315,22 @@ public class BFRegistries {
     }
 
     public static void registerStrippables() {
-        register(BFBlocks.APPLE_LOG, BFBlocks.STRIPPED_APPLE_LOG);
-        register(BFBlocks.APPLE_WOOD, BFBlocks.STRIPPED_APPLE_WOOD);
-        register(BFBlocks.GOLDEN_APPLE_LOG, BFBlocks.STRIPPED_APPLE_LOG);
-        register(BFBlocks.GOLDEN_APPLE_WOOD, BFBlocks.STRIPPED_APPLE_WOOD);
-        register(BFBlocks.ORANGE_LOG, BFBlocks.STRIPPED_ORANGE_LOG);
-        register(BFBlocks.ORANGE_WOOD, BFBlocks.STRIPPED_ORANGE_WOOD);
-        register(BFBlocks.LEMON_LOG, BFBlocks.STRIPPED_LEMON_LOG);
-        register(BFBlocks.LEMON_WOOD, BFBlocks.STRIPPED_LEMON_WOOD);
-        register(BFBlocks.PLUM_LOG, BFBlocks.STRIPPED_PLUM_LOG);
-        register(BFBlocks.PLUM_WOOD, BFBlocks.STRIPPED_PLUM_WOOD);
-        register(BFBlocks.HOARY_LOG, BFBlocks.STRIPPED_HOARY_LOG);
-        register(BFBlocks.HOARY_WOOD, BFBlocks.STRIPPED_HOARY_WOOD);
-        register(BFBlocks.WALNUT_LOG, BFBlocks.STRIPPED_WALNUT_LOG);
-        register(BFBlocks.WALNUT_WOOD, BFBlocks.STRIPPED_WALNUT_WOOD);
-        register(BFBlocks.PALM_LOG, BFBlocks.STRIPPED_PALM_LOG);
-        register(BFBlocks.PALM_WOOD, BFBlocks.STRIPPED_PALM_WOOD);
+        stripple_blocks.put(BFBlocks.APPLE_LOG, BFBlocks.STRIPPED_APPLE_LOG);
+        stripple_blocks.put(BFBlocks.APPLE_WOOD, BFBlocks.STRIPPED_APPLE_WOOD);
+        stripple_blocks.put(BFBlocks.GOLDEN_APPLE_LOG, BFBlocks.STRIPPED_APPLE_LOG);
+        stripple_blocks.put(BFBlocks.GOLDEN_APPLE_WOOD, BFBlocks.STRIPPED_APPLE_WOOD);
+        stripple_blocks.put(BFBlocks.ORANGE_LOG, BFBlocks.STRIPPED_ORANGE_LOG);
+        stripple_blocks.put(BFBlocks.ORANGE_WOOD, BFBlocks.STRIPPED_ORANGE_WOOD);
+        stripple_blocks.put(BFBlocks.LEMON_LOG, BFBlocks.STRIPPED_LEMON_LOG);
+        stripple_blocks.put(BFBlocks.LEMON_WOOD, BFBlocks.STRIPPED_LEMON_WOOD);
+        stripple_blocks.put(BFBlocks.PLUM_LOG, BFBlocks.STRIPPED_PLUM_LOG);
+        stripple_blocks.put(BFBlocks.PLUM_WOOD, BFBlocks.STRIPPED_PLUM_WOOD);
+        stripple_blocks.put(BFBlocks.HOARY_LOG, BFBlocks.STRIPPED_HOARY_LOG);
+        stripple_blocks.put(BFBlocks.HOARY_WOOD, BFBlocks.STRIPPED_HOARY_WOOD);
+        stripple_blocks.put(BFBlocks.WALNUT_LOG, BFBlocks.STRIPPED_WALNUT_LOG);
+        stripple_blocks.put(BFBlocks.WALNUT_WOOD, BFBlocks.STRIPPED_WALNUT_WOOD);
+        stripple_blocks.put(BFBlocks.PALM_LOG, BFBlocks.STRIPPED_PALM_LOG);
+        stripple_blocks.put(BFBlocks.PALM_WOOD, BFBlocks.STRIPPED_PALM_WOOD);
     }
 
     private static void registerModCompostables() {

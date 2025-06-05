@@ -12,11 +12,14 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.jei.BFRecipeTypes;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 @SuppressWarnings("removal")
 public class MillingRecipeCategory implements IRecipeCategory<MillingRecipe> {
@@ -36,8 +39,8 @@ public class MillingRecipeCategory implements IRecipeCategory<MillingRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MillingRecipe recipe, IFocusGroup focusGroup) {
-        Ingredient recipeIngredients = recipe.getIngredient();
-        ItemStack resultStack = recipe.getResultItem();
+        Ingredient recipeIngredients = Ingredient.of(recipe.getIngredients().stream().flatMap(i-> Arrays.stream(i.getItems())));
+        ItemStack resultStack = recipe.getResultItem(Minecraft.getInstance().level.registryAccess());
 
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 10).addItemStack(recipeIngredients.getItems()[0]);
         builder.addSlot(RecipeIngredientRole.OUTPUT, 79, 10).addItemStack(resultStack);

@@ -142,7 +142,7 @@ public class BFBlocks {
     public static final Block WALNUT_WALL_SIGN = registerBlockNoItem("walnut_wall_sign", new ModWallSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_HANGING_SIGN = registerBlockNoItem("walnut_hanging_sign", new ModHangingSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
     public static final Block WALNUT_WALL_HANGING_SIGN = registerBlockNoItem("walnut_wall_hanging_sign", new ModWallHangingSignBlock(BFWoodTypes.WALNUT, BlockBehaviour.Properties.copy(Blocks.OAK_WALL_HANGING_SIGN).strength(1.0f, 5.0f).mapColor(MapColor.COLOR_BROWN)));
-    public static final Block WALNUT_LEAVES = registerBlock("walnut_leaves", new WalnutLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::ocelotOrParrot).isSuffocating(BFBlocks::never).isViewBlocking(BFBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BFBlocks::never)));
+    public static final Block WALNUT_LEAVES = registerBlock("walnut_leaves", new WalnutLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BFBlocks::ocelotOrParrot).isSuffocating(BFBlocks::never).isViewBlocking(BFBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BFBlocks::never)));
     public static final Block WALNUT_MULCH = registerBlock("walnut_mulch", new MulchBlock(BlockBehaviour.Properties.of().forceSolidOff().mapColor(MapColor.COLOR_BROWN).forceSolidOff().strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
     public static final Block WALNUT_MULCH_BLOCK = registerBlock("walnut_mulch_block", new MulchBlockBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.4f).sound(SoundType.ROOTED_DIRT).ignitedByLava()));
 
@@ -186,7 +186,9 @@ public class BFBlocks {
     public static final Block FELDSPAR_BRICK_STAIRS = registerBlock("feldspar_brick_stairs", new ModStairsBlock(BFBlocks.FELDSPAR_BRICKS.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_BRICK_SLAB = registerBlock("feldspar_brick_slab", new SlabBlock(BlockBehaviour.Properties.copy(BFBlocks.FELDSPAR_BLOCK)));
     public static final Block FELDSPAR_LANTERN = registerBlock("feldspar_lantern", new FeldsparLanternBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).forceSolidOn().requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel(state -> 8).noOcclusion().pushReaction(PushReaction.DESTROY)));
-    public static final Block TINGED_GLASS = registerBlock("tinged_glass", new TingedGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(BFBlocks::never).solidBlock(BFBlocks::never).suffocates(BFBlocks::never).blockVision(BFBlocks::never)));
+    public static final Block TINGED_GLASS = registerBlock("tinged_glass", new TingedGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(BFBlocks::never)
+            // .(BFBlocks::never)
+            .isSuffocating(BFBlocks::never).isViewBlocking(BFBlocks::never)));
     public static final Block CERAMIC_CLAY_BLOCK = registerBlock("ceramic_clay_block", new Block(BlockBehaviour.Properties.copy(Blocks.CLAY).instrument(NoteBlockInstrument.FLUTE).mapColor(MapColor.SNOW)));
     public static final Block CERAMIC_TILES = registerDyeableCeramicBlock("ceramic_tiles", new CeramicTilesBlock(BlockBehaviour.Properties.of().isRedstoneConductor(BFBlocks::never).requiresCorrectToolForDrops().strength(2f, 16f).sound(BFSounds.CERAMIC_TILES).instrument(BFNoteBlockInstruments.OCARINA).mapColor(MapColor.QUARTZ)));
     public static final Block CERAMIC_TILE_STAIRS = registerDyeableCeramicBlock("ceramic_tile_stairs", new CeramicTileStairsBlock(BFBlocks.CERAMIC_TILES.defaultBlockState(), BlockBehaviour.Properties.copy(BFBlocks.CERAMIC_TILES)));
@@ -389,6 +391,9 @@ public class BFBlocks {
         return false;
     }
 
+    private static boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
+        return (boolean)(p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT);
+    }
 
     public static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
         if (entry instanceof Item item) {

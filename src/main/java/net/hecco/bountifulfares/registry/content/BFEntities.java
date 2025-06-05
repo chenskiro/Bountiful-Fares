@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFEntities {
-    private static final Map<ResourceKey<EntityType<? extends Entity>>, EntityType<? extends Entity>> entityTypes = new HashMap<>();
+    private static final Map<ResourceKey<EntityType<?>>, EntityType<?>> entityTypes = new HashMap<>();
 
     public static final EntityType<FlourProjectileEntity> THROWN_FLOUR_PROJECTILE = registerForCache(
             BuiltInRegistries.ENTITY_TYPE,BountifulFares.rl("flour"),
