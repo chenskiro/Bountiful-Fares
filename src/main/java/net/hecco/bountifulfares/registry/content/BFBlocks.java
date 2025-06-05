@@ -321,63 +321,68 @@ public class BFBlocks {
     }
 
     public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        registerBlockItem(name, block);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        registerBlockItem(name, rBlock);
+        return rBlock;
     }
 
     public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block, Rarity rarity) {
-        registerBlockItem(name, block, rarity);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        registerBlockItem(name, rBlock, rarity);
+        return rBlock;
     }
 
 
     private static RegistryObject<Block> registerBlockUnstackableItem(String name, Supplier<Block> block) {
-        registerUnstackableBlockItem(name, block);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        registerUnstackableBlockItem(name, rBlock);
+        return rBlock;
     }
 
     private static RegistryObject<Block> registerBlock16StackItem(String name, Supplier<Block> block) {
-        register16StackItem(name, block);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        register16StackItem(name, rBlock);
+        return rBlock;
 
     }
 
     private static RegistryObject<Block> registerBlockNoItem(String name, Supplier<Block> block) {
         return BLOCK_DEFERRED_REGISTER.register(name, block);
-
     }
 
-    private static void registerBlockItem(String name, Supplier<Block> block) {
+    private static void registerBlockItem(String name, RegistryObject<Block> block) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private static void registerBlockItem(String name, Supplier<Block> block, Rarity rarity) {
+    private static void registerBlockItem(String name, RegistryObject<Block> block, Rarity rarity) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new DyeableCeramicBlockItem(block.get(), new Item.Properties().rarity(rarity)));
     }
 
-    private static void register16StackItem(String name, Supplier<Block> block) {
+    private static void register16StackItem(String name, RegistryObject<Block> block) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new DyeableCeramicBlockItem(block.get(), new Item.Properties().stacksTo(16)));
     }
 
-    private static void registerUnstackableBlockItem(String name, Supplier<Block> block) {
+    private static void registerUnstackableBlockItem(String name, RegistryObject<Block> block) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new DyeableCeramicBlockItem(block.get(), new Item.Properties().stacksTo(1)));
     }
 
     private static RegistryObject<Block> registerDyeableCeramicBlock(String name, Supplier<Block> block) {
-        registerDyeableCeramicBlockItem(name, block);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        registerDyeableCeramicBlockItem(name, rBlock);
+        return rBlock;
     }
 
-    private static void registerDyeableCeramicBlockItem(String name, Supplier<Block> block) {
+    private static void registerDyeableCeramicBlockItem(String name, RegistryObject<Block> block) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new DyeableCeramicBlockItem(block.get(), new Item.Properties()));
     }
 
     private static RegistryObject<Block> registerCeramicDishBlock(String name, Supplier<Block> block) {
-        registerCeramicDishBlockItem(name, block);
-        return BLOCK_DEFERRED_REGISTER.register(name, block);
+        RegistryObject<Block> rBlock = BLOCK_DEFERRED_REGISTER.register(name, block);
+        registerCeramicDishBlockItem(name, rBlock);
+        return rBlock;
     }
 
-    private static void registerCeramicDishBlockItem(String name, Supplier<Block> block) {
+    private static void registerCeramicDishBlockItem(String name, RegistryObject<Block> block) {
         ITEM_DEFERRED_REGISTER.register(name, () -> new CeramicDishBlockItem(block.get(), new Item.Properties()));
     }
 
