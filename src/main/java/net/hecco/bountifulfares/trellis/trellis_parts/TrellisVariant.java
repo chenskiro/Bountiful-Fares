@@ -168,8 +168,9 @@ public class TrellisVariant {
     }
 
     public RegistryObject<Block> registerCompatBlock(String id, String name, Supplier<Block> block) {
-        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), () -> new CompatBlockItem(this.MOD_ID, block.get(), new Item.Properties()));
-        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
+        RegistryObject<Block> rBlock = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), () -> new CompatBlockItem(this.MOD_ID, rBlock.get(), new Item.Properties()));
+        return rBlock;
     }
 
     public String getVariantName() {

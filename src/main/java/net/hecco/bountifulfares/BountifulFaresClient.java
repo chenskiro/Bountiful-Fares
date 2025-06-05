@@ -24,6 +24,8 @@ import net.hecco.bountifulfares.registry.misc.BFScreenHandlers;
 import net.hecco.bountifulfares.registry.util.BFWoodTypes;
 import net.hecco.bountifulfares.screen.GristmillScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -48,6 +50,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -116,10 +120,6 @@ public class BountifulFaresClient {
             setRenderLayer(ExcessiveBuildingBlocks.HOARY_LADDER.get(), RenderType.cutout());
             setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get(), RenderType.cutout());
             setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get(), RenderType.cutout());
-            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS.get());
-            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get());
-            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
-            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
 
 //        NaturesSpirit compat
             setRenderLayer(NaturesSpiritBlocks.ASPEN_PICKETS.get(), RenderType.cutout());
@@ -286,8 +286,6 @@ public class BountifulFaresClient {
             BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY.get(), HangingSignRenderer::new);
 
 
-
-
             MenuScreens.register(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, GristmillScreen::new);
 
 
@@ -301,6 +299,7 @@ public class BountifulFaresClient {
             }
         });
     }
+
     @SubscribeEvent
     public static void onRegisterParticleProvidersEvent(EntityRenderersEvent.AddLayers event) {
         // TerraformBoatClientHelper.registerModelLayers(BFBoats.HOARY_BOAT_ID, false);
@@ -321,46 +320,59 @@ public class BountifulFaresClient {
     }
 
 
-    private static void registerBlockColor(Block ModCeramicBlocksItems) {
+    private static void registerBlockColor(RegisterColorHandlersEvent.Block event, Block ModCeramicBlocksItems) {
 //        Registers tint for ceramic blocks
         registerItemColor(ModCeramicBlocksItems.asItem());
-        Minecraft.getInstance().getBlockColors()
-                .register((state, world, pos, tintIndex) -> FastColorAttach.opaque(DyeableBlockEntity.getColor(world, pos)), ModCeramicBlocksItems);
+        event.register((state, world, pos, tintIndex) -> FastColorAttach.opaque(DyeableBlockEntity.getColor(world, pos)),
+                ModCeramicBlocksItems);
     }
+
+    private static final Map<Item, ItemColor> colorItems = new HashMap<>();
 
     private static void registerItemColor(Item item) {
 //        Registers tint for ceramic items
-        Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
+//         Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
+//             if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
+//                 return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
+//             }
+//             return DyeableBlockEntity.DEFAULT_COLOR;
+//         }, item);
+        colorItems.put(item, (stack, tintIndex) -> {
             if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
                 return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
             }
             return DyeableBlockEntity.DEFAULT_COLOR;
-        }, item);
+        });
     }
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.Block event) {
-        registerBlockColor(BFBlocks.CERAMIC_TILES.get());
-        registerBlockColor(BFBlocks.CERAMIC_TILE_STAIRS.get());
-        registerBlockColor(BFBlocks.CERAMIC_TILE_SLAB.get());
-        registerBlockColor(BFBlocks.CRACKED_CERAMIC_TILES.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILES.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get());
-        registerBlockColor(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get());
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC.get());
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_STAIRS.get());
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_SLAB.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get());
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get());
-        registerBlockColor(BFBlocks.CERAMIC_TILE_PILLAR.get());
-        registerBlockColor(BFBlocks.CERAMIC_PRESSURE_PLATE.get());
-        registerBlockColor(BFBlocks.CERAMIC_BUTTON.get());
-        registerBlockColor(BFBlocks.CERAMIC_LEVER.get());
-        registerBlockColor(BFBlocks.CERAMIC_DOOR.get());
-        registerBlockColor(BFBlocks.CERAMIC_TRAPDOOR.get());
-        registerBlockColor(BFBlocks.CERAMIC_DISH.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_TILES.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_TILE_STAIRS.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_TILE_SLAB.get());
+        registerBlockColor(event, BFBlocks.CRACKED_CERAMIC_TILES.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_TILES.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get());
+        registerBlockColor(event, BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_MOSAIC.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_MOSAIC_STAIRS.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_MOSAIC_SLAB.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_MOSAIC.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get());
+        registerBlockColor(event, BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_TILE_PILLAR.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_PRESSURE_PLATE.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_BUTTON.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_LEVER.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_DOOR.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_TRAPDOOR.get());
+        registerBlockColor(event, BFBlocks.CERAMIC_DISH.get());
+
+        registerBlockColor(event, ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS.get());
+        registerBlockColor(event, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get());
+        registerBlockColor(event, ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
+        registerBlockColor(event, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
 
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos)
                 : GrassColor.getDefaultColor(), BFBlocks.CHAMOMILE_FLOWERS.get(), BFBlocks.GRASSY_DIRT.get());
@@ -382,6 +394,9 @@ public class BountifulFaresClient {
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
+        colorItems.forEach(
+                (item, itemColor) -> event.register(itemColor, item)
+        );
         event.register(((stack, tintIndex) -> GrassColor.getDefaultColor()), BFBlocks.GRASSY_DIRT.get());
         event.register((stack, tintIndex) -> FastColorAttach.opaque(FoliageColor.getDefaultColor()), BFBlocks.APPLE_LEAVES.get(), BFBlocks.FLOWERING_APPLE_LEAVES.get(), BFBlocks.ORANGE_LEAVES.get(), BFBlocks.FLOWERING_ORANGE_LEAVES.get(), BFBlocks.LEMON_LEAVES.get(), BFBlocks.FLOWERING_LEMON_LEAVES.get(), BFBlocks.PLUM_LEAVES.get(), BFBlocks.FLOWERING_PLUM_LEAVES.get(), BFBlocks.ORANGE_LEAVES.get());
         event.register((stack, tintIndex) -> FastColorAttach.opaque(5809764), BFBlocks.WALNUT_LEAVES.get());

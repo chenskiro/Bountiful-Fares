@@ -58,11 +58,12 @@ public class TrellisUtil {
     }
 
     public static RegistryObject<Block> registerBlock(String id, String name, Supplier<Block> block) {
-        registerBlockItem(id, name, block);
-        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(id, name), block);
+        RegistryObject<Block> rBlock = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(id, name), block);
+        registerBlockItem(id, name, rBlock);
+        return rBlock;
     }
 
-    private static RegistryObject<Item> registerBlockItem(String id, String name, Supplier<Block> block) {
+    private static RegistryObject<Item> registerBlockItem(String id, String name, RegistryObject<Block> block) {
         return BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(id, name), () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
