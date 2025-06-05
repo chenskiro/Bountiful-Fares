@@ -99,12 +99,12 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
 
     // @Override
     // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return new ItemStack(BFItems.MAIZE_SEEDS);
+    //     return new ItemStack(BFItems.MAIZE_SEEDS.get());
     // }
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
-        return new ItemStack(BFItems.MAIZE_SEEDS);
+        return new ItemStack(BFItems.MAIZE_SEEDS.get());
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -115,7 +115,7 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
     public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if (doubleBlockHalf == DoubleBlockHalf.LOWER && state.getValue(AGE) < 7) {
-            popResource(world, pos, BFItems.MAIZE_SEEDS.getDefaultInstance());
+            popResource(world, pos, BFItems.MAIZE_SEEDS.get().getDefaultInstance());
         }
         if (!world.isClientSide) {
             if (player.isCreative()) {

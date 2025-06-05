@@ -52,7 +52,7 @@ public class CeramicTileVerticalStairsBlock extends CompatVerticalStairsBlock im
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY)!=null) {
+        if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY)!=null) {
             int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
             world.removeBlock(pos, false);
             world.setBlockAndUpdate(pos, this.withPropertiesOf(state));

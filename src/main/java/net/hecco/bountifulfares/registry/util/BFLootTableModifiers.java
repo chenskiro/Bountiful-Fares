@@ -60,28 +60,28 @@
 //         // Short Grass
 //         LootTableEvents.REPLACE.register((key, original, source, wrapperLookup) -> {
 //             if (SHORT_GRASS_ID.equals(key) && do_grass_override) {
-//                 return newGrassDropsShort(Blocks.SHORT_GRASS, BFItems.GRASS_SEEDS, wrapperLookup).build();
+//                 return newGrassDropsShort(Blocks.SHORT_GRASS, BFItems.GRASS_SEEDS.get(), wrapperLookup).build();
 //             }
 //             return null;
 //         });
 //         // Tall Grass
 //         LootTableEvents.REPLACE.register((key, original, source, wrapperLookup) -> {
 //             if (TALL_GRASS_ID.equals(key) && do_grass_override) {
-//                 return newGrassDropsTall(Blocks.TALL_GRASS, Blocks.SHORT_GRASS, BFItems.GRASS_SEEDS).build();
+//                 return newGrassDropsTall(Blocks.TALL_GRASS, Blocks.SHORT_GRASS, BFItems.GRASS_SEEDS.get()).build();
 //             }
 //             return null;
 //         });
 //         // Short Fern
 //         LootTableEvents.REPLACE.register((key, original, source, wrapperLookup) -> {
 //             if (FERN_ID.equals(key) && do_grass_override) {
-//                 return newGrassDropsShort(Blocks.FERN, BFItems.GRASS_SEEDS, wrapperLookup).build();
+//                 return newGrassDropsShort(Blocks.FERN, BFItems.GRASS_SEEDS.get(), wrapperLookup).build();
 //             }
 //             return null;
 //         });
 //         // Large Fern
 //         LootTableEvents.REPLACE.register((key, original, source, wrapperLookup) -> {
 //             if (LARGE_FERN_ID.equals(key) && do_grass_override) {
-//                 return newGrassDropsTall(Blocks.LARGE_FERN, Blocks.FERN, BFItems.GRASS_SEEDS).build();
+//                 return newGrassDropsTall(Blocks.LARGE_FERN, Blocks.FERN, BFItems.GRASS_SEEDS.get()).build();
 //             }
 //             return null;
 //         });
@@ -91,12 +91,12 @@
 //
 //                 // Lapisberries
 //                 if (do_lapisberries) tableBuilder.modifyPools(itemEntry -> {
-//                     itemEntry.with((ItemEntry.builder(BFItems.LAPISBERRY_SEEDS)).build());
+//                     itemEntry.with((ItemEntry.builder(BFItems.LAPISBERRY_SEEDS.get())).build());
 //                 });
 //
 //                 // Hoary Seeds
 //                 if (do_hoaryseeds) tableBuilder.modifyPools(itemEntry -> {
-//                     itemEntry.with((ItemEntry.builder(BFItems.HOARY_SEEDS)).build());
+//                     itemEntry.with((ItemEntry.builder(BFItems.HOARY_SEEDS.get())).build());
 //                 });
 //             }
 //         });
@@ -105,7 +105,7 @@
 //             if (ELDER_GUARDIAN_ID.equals(key) && do_spongekinseed_elderguardian) {
 //                 original.pool(LootPool.builder()
 //                         .rolls(ConstantLootNumberProvider.create(1.0F))
-//                         .with(ItemEntry.builder(BFItems.SPONGEKIN_SEEDS))
+//                         .with(ItemEntry.builder(BFItems.SPONGEKIN_SEEDS.get()))
 //                 );
 //             }
 //         });
@@ -114,7 +114,7 @@
 //             if (GUARDIAN_ID.equals(key) && do_spongekinseed_guardian) {
 //                 original.pool(LootPool.builder()
 //                         .rolls(ConstantLootNumberProvider.create(1.0F))
-//                         .with(ItemEntry.builder(BFItems.SPONGEKIN_SEEDS).weight(1))
+//                         .with(ItemEntry.builder(BFItems.SPONGEKIN_SEEDS.get()).weight(1))
 //                         .with(EmptyEntry.builder().weight(5))
 //                 );
 //             }

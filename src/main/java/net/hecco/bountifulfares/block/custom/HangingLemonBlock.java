@@ -85,7 +85,7 @@ public class HangingLemonBlock extends HangingFruitBlock {
             return InteractionResult.PASS;
         }
         if (i == 4) {
-            HangingFruitBlock.popResource(world, pos, new ItemStack(BFItems.LEMON, 1));
+            HangingFruitBlock.popResource(world, pos, new ItemStack(BFItems.LEMON.get(), 1));
             world.playSound(null, pos, BFSounds.HANGING_FRUIT_PICK, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
             if (!world.isClientSide()) {
                 if (BountifulFares.CONFIG.isFruitReplaceWhenPicked()) {
@@ -103,6 +103,6 @@ public class HangingLemonBlock extends HangingFruitBlock {
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-        return new ItemStack(BFItems.LEMON);
+        return new ItemStack(BFItems.LEMON.get());
     }
 }

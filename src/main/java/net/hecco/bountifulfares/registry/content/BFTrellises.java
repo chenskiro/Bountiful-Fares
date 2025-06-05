@@ -18,9 +18,9 @@ public class BFTrellises {
     public static final ArrayList<Block> TRELLIS_RENDER_CUTOUT = new ArrayList<>();
 
 
-    public static final VineCrop PASSION_FRUIT = new VineCrop(BountifulFares.MOD_ID, "passion_fruit", BFItems.PASSION_FRUIT);
-    public static final VineCrop ELDERBERRY = new VineCrop(BountifulFares.MOD_ID, "elderberry", BFItems.ELDERBERRIES);
-    public static final VineCrop LAPISBERRY = new VineCrop(BountifulFares.MOD_ID, "lapisberry", BFItems.LAPISBERRIES, BFItems.LAPISBERRY_SEEDS);
+    public static final VineCrop PASSION_FRUIT = new VineCrop(BountifulFares.MOD_ID, "passion_fruit", BFItems.PASSION_FRUIT.get());
+    public static final VineCrop ELDERBERRY = new VineCrop(BountifulFares.MOD_ID, "elderberry", BFItems.ELDERBERRIES.get());
+    public static final VineCrop LAPISBERRY = new VineCrop(BountifulFares.MOD_ID, "lapisberry", BFItems.LAPISBERRIES.get(), BFItems.LAPISBERRY_SEEDS.get());
     public static final VineCrop GLOW_BERRY = new VineCrop(BountifulFares.MOD_ID, "glow_berry", Items.GLOW_BERRIES);
 
     public static final DecorativeVine ROSE = new DecorativeVine(true, BountifulFares.MOD_ID, "rose", Items.ROSE_BUSH);

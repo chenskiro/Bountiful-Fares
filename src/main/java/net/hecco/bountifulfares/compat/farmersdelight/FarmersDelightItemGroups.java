@@ -35,8 +35,8 @@ public class FarmersDelightItemGroups {
     // }
     //
     // public static void tabBountifulFares(FabricItemGroupEntries tab) {
-    //     tab.addAfter(BFItems.HOARY_CHEST_BOAT, FarmersDelightBlocks.HOARY_CABINET);
-    //     tab.addAfter(BFItems.WALNUT_CHEST_BOAT, FarmersDelightBlocks.WALNUT_CABINET);
+    //     tab.addAfter(BFItems.HOARY_CHEST_BOAT.get(), FarmersDelightBlocks.HOARY_CABINET);
+    //     tab.addAfter(BFItems.WALNUT_CHEST_BOAT.get(), FarmersDelightBlocks.WALNUT_CABINET);
     // }
     //
     // public static void registerModItemTabs() {

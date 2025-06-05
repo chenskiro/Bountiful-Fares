@@ -55,7 +55,7 @@ public class BountifulFares  {
 		// todo make forge version
 		// BFResourcePacks.registerBuiltinResourcePacks();
 
-		// BFItems.registerModItems();
+		// BFItems.registerModItems.get()();
 		// BFBlocks.registerModBlocks();
 		BFTrellises.registerTrellisParts();
 		TrellisUtil.registerTrellisParts();

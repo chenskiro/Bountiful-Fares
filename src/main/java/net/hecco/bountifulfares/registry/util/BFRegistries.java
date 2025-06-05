@@ -125,13 +125,13 @@ public class BFRegistries {
         registerModCompostables();
         registerFermentationRecipes();
         registerFlammables();
-        DispenserBlock.registerBehavior(BFItems.FLOUR, new FlourDispenserBehavior() {
+        DispenserBlock.registerBehavior(BFItems.FLOUR.get(), new FlourDispenserBehavior() {
             @Override
             protected Projectile createProjectile(Level world, Position position, ItemStack stack) {
                 return new FlourProjectileEntity(world, position.x(), position.y(), position.z());
             }
         });
-        DispenserBlock.registerBehavior(BFItems.GRASS_SEEDS, new GrassSeedsDispenserBehavior() {
+        DispenserBlock.registerBehavior(BFItems.GRASS_SEEDS.get(), new GrassSeedsDispenserBehavior() {
             @Override
             public ItemStack execute(BlockSource pointer, ItemStack stack) {
                 return super.execute(pointer, stack);
@@ -140,14 +140,14 @@ public class BFRegistries {
     }
 
     public static void registerFermentationRecipes() {
-//        FermentationRecipes.addRecipe(BFItems.ELDERBERRIES, null, BFItems.ELDERBERRY_WINE_BOTTLE, Items.GLASS_BOTTLE, null, 13803457);
-//        FermentationRecipes.addRecipe(BFItems.LAPISBERRIES, null, BFItems.LAPISBERRY_WINE_BOTTLE, Items.GLASS_BOTTLE, null, 11512561);
-//        FermentationRecipes.addRecipe(Items.HONEY_BOTTLE, Items.GLASS_BOTTLE, BFItems.MEAD_BOTTLE, Items.GLASS_BOTTLE, null, 16774088);
-//        FermentationRecipes.addRecipe(Items.APPLE, null, BFItems.APPLE_CIDER_JAR, BFItems.JAR, null, 16771237);
-//        FermentationRecipes.addRecipe(BFItems.PLUM, null, BFItems.PLUM_CIDER_JAR, BFItems.JAR, null, 14532546);
-//        FermentationRecipes.addRecipe(BFItems.HOARY_APPLE, null, BFItems.HOARY_CIDER_JAR, BFItems.JAR, null, 15714738);
-//        FermentationRecipes.addRecipe(BFItems.ORANGE, null, BFItems.CITRUS_ESSENCE, null, 4, 15200149);
-//        FermentationRecipes.addRecipe(BFItems.LEMON, null, BFItems.CITRUS_ESSENCE, null, 4, 15200149);
+//        FermentationRecipes.addRecipe(BFItems.ELDERBERRIES.get(), null, BFItems.ELDERBERRY_WINE_BOTTLE.get(), Items.GLASS_BOTTLE, null, 13803457);
+//        FermentationRecipes.addRecipe(BFItems.LAPISBERRIES.get(), null, BFItems.LAPISBERRY_WINE_BOTTLE.get(), Items.GLASS_BOTTLE, null, 11512561);
+//        FermentationRecipes.addRecipe(Items.HONEY_BOTTLE, Items.GLASS_BOTTLE, BFItems.MEAD_BOTTLE.get(), Items.GLASS_BOTTLE, null, 16774088);
+//        FermentationRecipes.addRecipe(Items.APPLE, null, BFItems.APPLE_CIDER_JAR.get(), BFItems.JAR.get(), null, 16771237);
+//        FermentationRecipes.addRecipe(BFItems.PLUM.get(), null, BFItems.PLUM_CIDER_JAR.get(), BFItems.JAR.get(), null, 14532546);
+//        FermentationRecipes.addRecipe(BFItems.HOARY_APPLE.get(), null, BFItems.HOARY_CIDER_JAR.get(), BFItems.JAR.get(), null, 15714738);
+//        FermentationRecipes.addRecipe(BFItems.ORANGE.get(), null, BFItems.CITRUS_ESSENCE.get(), null, 4, 15200149);
+//        FermentationRecipes.addRecipe(BFItems.LEMON.get(), null, BFItems.CITRUS_ESSENCE.get(), null, 4, 15200149);
 //        FermentationRecipes.addRecipe(Items.SPIDER_EYE, null, Items.FERMENTED_SPIDER_EYE, null, null, 10250865);
     }
 
@@ -181,7 +181,7 @@ public class BFRegistries {
         addToMap(BFBlocks.MAGENTA_JACK_O_STRAW, 400);
         addToMap(BFBlocks.PINK_JACK_O_STRAW, 400);
         addToMap(BFBlocks.PALM_FROND, 100);
-        addToMap(BFItems.COCONUT_COIR, 100);
+        addToMap(BFItems.COCONUT_COIR.get(), 100);
         addToMap(BFBlocks.PACKED_COCONUT_COIR, 400);
         addToMap(BFBlocks.COIR_CARPET, 200);
         addToMap(BFBlocks.COIR_BRICKS, 400);
@@ -342,67 +342,67 @@ public class BFRegistries {
         COMPOSTABLES.put(BFBlocks.FLOWERING_ORANGE_LEAVES.asItem(), 0.5f);
         COMPOSTABLES.put(BFBlocks.ORANGE_SAPLING.asItem(), 0.85f);
         COMPOSTABLES.put(BFBlocks.ORANGE_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.ORANGE, 0.65f);
+        COMPOSTABLES.put(BFItems.ORANGE.get(), 0.65f);
         COMPOSTABLES.put(BFBlocks.LEMON_LEAVES.asItem(), 0.3f);
         COMPOSTABLES.put(BFBlocks.FLOWERING_LEMON_LEAVES.asItem(), 0.5f);
         COMPOSTABLES.put(BFBlocks.LEMON_SAPLING.asItem(), 0.85f);
         COMPOSTABLES.put(BFBlocks.LEMON_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.LEMON, 0.65f);
+        COMPOSTABLES.put(BFItems.LEMON.get(), 0.65f);
         COMPOSTABLES.put(BFBlocks.PLUM_LEAVES.asItem(), 0.3f);
         COMPOSTABLES.put(BFBlocks.FLOWERING_PLUM_LEAVES.asItem(), 0.5f);
         COMPOSTABLES.put(BFBlocks.PLUM_SAPLING.asItem(), 0.85f);
         COMPOSTABLES.put(BFBlocks.PLUM_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.PLUM, 0.65f);
-        COMPOSTABLES.put(BFItems.HOARY_SEEDS, 0.3f);
+        COMPOSTABLES.put(BFItems.PLUM.get(), 0.65f);
+        COMPOSTABLES.put(BFItems.HOARY_SEEDS.get(), 0.3f);
         COMPOSTABLES.put(BFBlocks.HOARY_LEAVES.asItem(), 0.65f);
         COMPOSTABLES.put(BFBlocks.HOARY_APPLE_SAPLING.asItem(), 0.85f);
         COMPOSTABLES.put(BFBlocks.HOARY_APPLE_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.HOARY_APPLE, 0.65f);
+        COMPOSTABLES.put(BFItems.HOARY_APPLE.get(), 0.65f);
         COMPOSTABLES.put(BFBlocks.WALNUT_LEAVES.asItem(), 0.65f);
         COMPOSTABLES.put(BFBlocks.WALNUT_SAPLING.asItem(), 0.85f);
-        COMPOSTABLES.put(BFItems.WALNUT, 0.3f);
+        COMPOSTABLES.put(BFItems.WALNUT.get(), 0.3f);
         COMPOSTABLES.put(BFBlocks.WALNUT_MULCH.asItem(), 0.65f);
         COMPOSTABLES.put(BFBlocks.WALNUT_MULCH_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.COCONUT, 0.5f);
-        COMPOSTABLES.put(BFItems.COCONUT_HALF, 0.3f);
-        COMPOSTABLES.put(BFItems.PALM_FROND, 0.5f);
-        COMPOSTABLES.put(BFItems.COCONUT_COIR, 0.5f);
+        COMPOSTABLES.put(BFItems.COCONUT.get(), 0.5f);
+        COMPOSTABLES.put(BFItems.COCONUT_HALF.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.PALM_FROND.get(), 0.5f);
+        COMPOSTABLES.put(BFItems.COCONUT_COIR.get(), 0.5f);
         COMPOSTABLES.put(BFBlocks.PACKED_COCONUT_COIR, 0.85f);
         COMPOSTABLES.put(BFBlocks.COIR_CARPET, 0.5f);
         COMPOSTABLES.put(BFBlocks.PALM_MULCH.asItem(), 0.65f);
         COMPOSTABLES.put(BFBlocks.PALM_MULCH_BLOCK.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.PASSION_FRUIT, 0.3f);
-        COMPOSTABLES.put(BFItems.ELDERBERRIES, 0.3f);
-        COMPOSTABLES.put(BFItems.LAPISBERRY_SEEDS, 0.3f);
-        COMPOSTABLES.put(BFItems.LAPISBERRIES, 0.3f);
+        COMPOSTABLES.put(BFItems.PASSION_FRUIT.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.ELDERBERRIES.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.LAPISBERRY_SEEDS.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.LAPISBERRIES.get(), 0.3f);
         COMPOSTABLES.put(BFBlocks.WILD_WHEAT, 0.3f);
         COMPOSTABLES.put(BFBlocks.WILD_POTATOES, 0.3f);
         COMPOSTABLES.put(BFBlocks.WILD_CARROTS, 0.3f);
         COMPOSTABLES.put(BFBlocks.WILD_BEETROOTS, 0.3f);
         COMPOSTABLES.put(BFBlocks.WILD_MAIZE, 0.5f);
         COMPOSTABLES.put(BFBlocks.WILD_LEEKS, 0.3f);
-        COMPOSTABLES.put(BFItems.GRASS_SEEDS, 0.3f);
-        COMPOSTABLES.put(BFItems.MAIZE_SEEDS, 0.3f);
-        COMPOSTABLES.put(BFItems.MAIZE, 0.65f);
-        COMPOSTABLES.put(BFItems.LEEK_SEEDS, 0.3f);
-        COMPOSTABLES.put(BFItems.LEEK, 0.65f);
-        COMPOSTABLES.put(BFItems.FLOUR, 0.3f);
-        COMPOSTABLES.put(BFItems.SPONGEKIN_SEEDS, 0.3f);
+        COMPOSTABLES.put(BFItems.GRASS_SEEDS.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.MAIZE_SEEDS.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.MAIZE.get(), 0.65f);
+        COMPOSTABLES.put(BFItems.LEEK_SEEDS.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.LEEK.get(), 0.65f);
+        COMPOSTABLES.put(BFItems.FLOUR.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.SPONGEKIN_SEEDS.get(), 0.3f);
         COMPOSTABLES.put(BFBlocks.SPONGEKIN.asItem(), 1f);
-        COMPOSTABLES.put(BFItems.SPONGEKIN_SLICE, 0.65f);
-        COMPOSTABLES.put(BFItems.TEA_BERRIES, 0.5f);
-        COMPOSTABLES.put(BFItems.TEA_LEAVES, 0.5f);
-        COMPOSTABLES.put(BFItems.DRIED_TEA_LEAVES, 0.5f);
+        COMPOSTABLES.put(BFItems.SPONGEKIN_SLICE.get(), 0.65f);
+        COMPOSTABLES.put(BFItems.TEA_BERRIES.get(), 0.5f);
+        COMPOSTABLES.put(BFItems.TEA_LEAVES.get(), 0.5f);
+        COMPOSTABLES.put(BFItems.DRIED_TEA_LEAVES.get(), 0.5f);
         COMPOSTABLES.put(BFBlocks.CHAMOMILE_FLOWERS.asItem(), 0.5f);
         COMPOSTABLES.put(BFBlocks.HONEYSUCKLE.asItem(), 0.65f);
         COMPOSTABLES.put(BFBlocks.VIOLET_BELLFLOWER.asItem(), 0.65f);
-        COMPOSTABLES.put(BFItems.GREEN_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.BLACK_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.CHAMOMILE_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.HONEYSUCKLE_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.BELLFLOWER_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.TORCHFLOWER_TEA_BLEND, 0.3f);
-        COMPOSTABLES.put(BFItems.MAIZE_BREAD, 0.85f);
-        COMPOSTABLES.put(BFItems.WALNUT_COOKIE, 0.85f);
+        COMPOSTABLES.put(BFItems.GREEN_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.BLACK_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.CHAMOMILE_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.HONEYSUCKLE_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.BELLFLOWER_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.TORCHFLOWER_TEA_BLEND.get(), 0.3f);
+        COMPOSTABLES.put(BFItems.MAIZE_BREAD.get(), 0.85f);
+        COMPOSTABLES.put(BFItems.WALNUT_COOKIE.get(), 0.85f);
     }
 }

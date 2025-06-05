@@ -50,7 +50,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Objects;
 
-import static net.hecco.bountifulfares.registry.content.BFItems.ARTISAN_BRUSH;
+// import static net.hecco.bountifulfares.registry.content.BFItems.ARTISAN_BRUSH;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BountifulFaresClient {
@@ -291,7 +291,7 @@ public class BountifulFaresClient {
 
 
             ItemProperties.register(
-                    ARTISAN_BRUSH, BountifulFares.rl("dyed"),
+                    BFItems.ARTISAN_BRUSH.get(), BountifulFares.rl("dyed"),
                     (itemStack, clientWorld, livingEntity, seed) ->
                             BFDyeableLeatherItem.hasColorStatic(itemStack) ? 1.0F : 0.0F);
 
@@ -390,6 +390,6 @@ public class BountifulFaresClient {
                 return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
             }
             return ArtisanBrushItem.DEFAULT_COLOR;
-        }, ARTISAN_BRUSH);
+        }, BFItems.ARTISAN_BRUSH.get());
     }
 }

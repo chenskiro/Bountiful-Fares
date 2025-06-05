@@ -68,10 +68,10 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
             Item item = player.getItemInHand(player.getUsedItemHand()).getItem();
             if (CompatUtil.isItemPaintbrush(item)) {
                 brushColor = CompatUtil.getIntColorFromPaintbrush(item);
-            } else if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
+            } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
                 brushColor = itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
             }
-        } else if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
+        } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
             brushColor = itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
         }
         if (brushColor != 1 && !player.isShiftKeyDown()) {

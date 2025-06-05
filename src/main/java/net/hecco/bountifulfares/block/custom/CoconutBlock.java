@@ -124,7 +124,7 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-        return new ItemStack(BFItems.COCONUT);
+        return new ItemStack(BFItems.COCONUT.get());
     }
 
     @Override
@@ -210,9 +210,9 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
                         .registryOrThrow(Registries.DAMAGE_TYPE)
                         .getHolderOrThrow(BFDamageTypes.FALLING_COCONUT));
         if (world.getBlockState(pos).is(BFBlockTags.SPLITS_COCONUTS) || world.getBlockState(pos.below()).is(BFBlockTags.SPLITS_COCONUTS)) {
-            popResource(world, pos, new ItemStack(BFItems.COCONUT_HALF, 2));
+            popResource(world, pos, new ItemStack(BFItems.COCONUT_HALF.get(), 2));
         } else {
-            popResource(world, pos, new ItemStack(BFItems.COCONUT));
+            popResource(world, pos, new ItemStack(BFItems.COCONUT.get()));
         }
         if (!world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).isEmpty()) {
             world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).forEach((entity) ->
@@ -232,9 +232,9 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
                         .registryOrThrow(Registries.DAMAGE_TYPE)
                         .getHolderOrThrow(BFDamageTypes.FALLING_COCONUT));
         if (world.getBlockState(pos).is(BFBlockTags.SPLITS_COCONUTS) || world.getBlockState(pos.below()).is(BFBlockTags.SPLITS_COCONUTS)) {
-            popResource(world, pos, new ItemStack(BFItems.COCONUT_HALF, 2));
+            popResource(world, pos, new ItemStack(BFItems.COCONUT_HALF.get(), 2));
         } else {
-            popResource(world, pos, new ItemStack(BFItems.COCONUT));
+            popResource(world, pos, new ItemStack(BFItems.COCONUT.get()));
         }
         if (!world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).isEmpty()) {
             world.getEntities(fallingBlockEntity, fallingBlockEntity.getBoundingBox(), EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)).forEach((entity) ->

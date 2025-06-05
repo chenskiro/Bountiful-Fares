@@ -29,7 +29,7 @@ public class JEIPlugin implements IModPlugin {
         registration.addRecipes(BFRecipeTypes.PRISMARINE_PROPAGATION, ImmutableList.of(new PropagationRecipe()));
 
         //Example of information tooltip for JEI
-//        registration.addIngredientInfo(new ItemStack(BFItems.CITRUS_ESSENCE), VanillaTypes.ITEM_STACK, Text.translatable("jei.info.citrus_essence"));
+//        registration.addIngredientInfo(new ItemStack(BFItems.CITRUS_ESSENCE.get()), VanillaTypes.ITEM_STACK, Text.translatable("jei.info.citrus_essence"));
     }
 
     @Override

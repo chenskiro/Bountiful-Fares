@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EmiPropagationRecipe implements EmiRecipe {
     private final ResourceLocation id =  EmiPort.id("bountifulfares", "/" + "prismarine_propagation"); //synthetic id because emi would complain otherwise
-    private final List<EmiIngredient> inputs = List.of(EmiStack.of(BFItems.SPONGEKIN_SEEDS), EmiStack.of(Blocks.SEA_LANTERN));
+    private final List<EmiIngredient> inputs = List.of(EmiStack.of(BFItems.SPONGEKIN_SEEDS.get()), EmiStack.of(Blocks.SEA_LANTERN));
     private final List<EmiStack> outputs = List.of(EmiStack.of(BFBlocks.SPONGEKIN), EmiStack.of(BFBlocks.PRISMARINE_BLOSSOM));
 
     public EmiPropagationRecipe() {

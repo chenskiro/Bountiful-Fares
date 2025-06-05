@@ -182,11 +182,11 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
 
     // @Override
     // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return BFItems.WALNUT.getDefaultInstance();
+    //     return BFItems.WALNUT.get().getDefaultInstance();
     // }
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
-        return BFItems.WALNUT.getDefaultInstance();
+        return BFItems.WALNUT.get().getDefaultInstance();
     }
 }

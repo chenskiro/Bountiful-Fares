@@ -159,14 +159,14 @@ public class BFItemGroupAdditions {
             addAfter(event, BFBlocks.GOLDEN_APPLE_LEAVES, BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES);
             addAfter(event, BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES, BFBlocks.WALNUT_LEAVES);
             addAfter(event, BFBlocks.WALNUT_LEAVES, BFBlocks.HOARY_LEAVES);
-            addAfter(event, BFBlocks.HOARY_LEAVES, BFItems.PALM_FROND);
+            addAfter(event, BFBlocks.HOARY_LEAVES, BFItems.PALM_FROND.get());
             addAfter(event, Items.CHERRY_SAPLING, BFBlocks.APPLE_SAPLING);
             addAfter(event, BFBlocks.APPLE_SAPLING, BFBlocks.ORANGE_SAPLING);
             addAfter(event, BFBlocks.ORANGE_SAPLING, BFBlocks.LEMON_SAPLING);
             addAfter(event, BFBlocks.LEMON_SAPLING, BFBlocks.PLUM_SAPLING);
             addAfter(event, BFBlocks.PLUM_SAPLING, BFBlocks.HOARY_APPLE_SAPLING);
             addAfter(event, BFBlocks.HOARY_APPLE_SAPLING, BFBlocks.WALNUT_SAPLING);
-            addAfter(event, Blocks.FLOWERING_AZALEA, BFItems.COCONUT);
+            addAfter(event, Blocks.FLOWERING_AZALEA, BFItems.COCONUT.get());
             addAfter(event, Items.SNIFFER_EGG, BFBlocks.WILD_WHEAT);
             addAfter(event, BFBlocks.WILD_WHEAT, BFBlocks.WILD_CARROTS);
             addAfter(event, BFBlocks.WILD_CARROTS, BFBlocks.WILD_POTATOES);
@@ -175,19 +175,19 @@ public class BFItemGroupAdditions {
             addAfter(event, BFBlocks.WILD_LEEKS, BFBlocks.WILD_MAIZE);
             addAfter(event, BFBlocks.WILD_MAIZE, BFBlocks.WILD_PASSION_FRUIT_VINE);
             addAfter(event, BFBlocks.WILD_PASSION_FRUIT_VINE, BFBlocks.WILD_ELDERBERRY_VINE);
-            addAfter(event, BFBlocks.WILD_ELDERBERRY_VINE, BFItems.GRASS_SEEDS);
-            addAfter(event, BFItems.GRASS_SEEDS, BFItems.SWEET_BERRY_PIPS);
+            addAfter(event, BFBlocks.WILD_ELDERBERRY_VINE, BFItems.GRASS_SEEDS.get());
+            addAfter(event, BFItems.GRASS_SEEDS.get(), BFItems.SWEET_BERRY_PIPS.get());
             addAfter(event, Items.KELP, BFBlocks.SPONGEKIN);
             addAfter(event, BFBlocks.SPONGEKIN, BFBlocks.PRISMARINE_BLOSSOM);
             addAfter(event, Items.LILY_OF_THE_VALLEY, BFBlocks.CHAMOMILE_FLOWERS);
             addAfter(event, BFBlocks.CHAMOMILE_FLOWERS, BFBlocks.HONEYSUCKLE);
             addAfter(event, BFBlocks.HONEYSUCKLE, BFBlocks.VIOLET_BELLFLOWER);
-            addAfter(event, Items.BEETROOT_SEEDS, BFItems.MAIZE_SEEDS);
-            addAfter(event, BFItems.MAIZE_SEEDS, BFItems.LEEK_SEEDS);
-            addAfter(event, BFItems.LEEK_SEEDS, BFItems.TEA_BERRIES);
-            addAfter(event, BFItems.TEA_BERRIES, BFItems.SPONGEKIN_SEEDS);
-            addAfter(event, Items.PITCHER_POD, BFItems.LAPISBERRY_SEEDS);
-            addAfter(event, BFItems.LAPISBERRY_SEEDS, BFItems.HOARY_SEEDS);
+            addAfter(event, Items.BEETROOT_SEEDS, BFItems.MAIZE_SEEDS.get());
+            addAfter(event, BFItems.MAIZE_SEEDS.get(), BFItems.LEEK_SEEDS.get());
+            addAfter(event, BFItems.LEEK_SEEDS.get(), BFItems.TEA_BERRIES.get());
+            addAfter(event, BFItems.TEA_BERRIES.get(), BFItems.SPONGEKIN_SEEDS.get());
+            addAfter(event, Items.PITCHER_POD, BFItems.LAPISBERRY_SEEDS.get());
+            addAfter(event, BFItems.LAPISBERRY_SEEDS.get(), BFItems.HOARY_SEEDS.get());
         }
         // );
 
@@ -253,10 +253,10 @@ public class BFItemGroupAdditions {
                 prevTrellis = SpawnBlocks.ROTTEN;
             }
             addAfter(event, Items.TINTED_GLASS, BFBlocks.TINGED_GLASS);
-            addAfter(event, Items.BAMBOO_HANGING_SIGN, BFItems.WALNUT_SIGN);
-            addAfter(event, BFItems.WALNUT_SIGN, BFItems.WALNUT_HANGING_SIGN);
-            addAfter(event, BFItems.WALNUT_HANGING_SIGN, BFItems.HOARY_SIGN);
-            addAfter(event, BFItems.HOARY_SIGN, BFItems.HOARY_HANGING_SIGN);
+            addAfter(event, Items.BAMBOO_HANGING_SIGN, BFItems.WALNUT_SIGN.get());
+            addAfter(event, BFItems.WALNUT_SIGN.get(), BFItems.WALNUT_HANGING_SIGN.get());
+            addAfter(event, BFItems.WALNUT_HANGING_SIGN.get(), BFItems.HOARY_SIGN.get());
+            addAfter(event, BFItems.HOARY_SIGN.get(), BFItems.HOARY_HANGING_SIGN.get());
         }
         // );
 
@@ -273,71 +273,71 @@ public class BFItemGroupAdditions {
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
         // ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
         {
-            addAfter(event, Items.LEAD, BFItems.SUN_HAT);
-            addAfter(event, Items.BRUSH, BFItems.ARTISAN_BRUSH);
-            // addAfter(event, Items.BAMBOO_CHEST_RAFT, BFItems.WALNUT_BOAT);
-            // addAfter(event, BFItems.WALNUT_BOAT, BFItems.WALNUT_CHEST_BOAT);
-            // addAfter(event, BFItems.WALNUT_CHEST_BOAT, BFItems.HOARY_BOAT);
-            // addAfter(event, BFItems.HOARY_BOAT, BFItems.HOARY_CHEST_BOAT);
+            addAfter(event, Items.LEAD, BFItems.SUN_HAT.get());
+            addAfter(event, Items.BRUSH, BFItems.ARTISAN_BRUSH.get());
+            // addAfter(event, Items.BAMBOO_CHEST_RAFT, BFItems.WALNUT_BOAT.get());
+            // addAfter(event, BFItems.WALNUT_BOAT.get(), BFItems.WALNUT_CHEST_BOAT.get());
+            // addAfter(event, BFItems.WALNUT_CHEST_BOAT.get(), BFItems.HOARY_BOAT.get());
+            // addAfter(event, BFItems.HOARY_BOAT.get(), BFItems.HOARY_CHEST_BOAT.get());
         }
         // );
 
         if (event.getTabKey().equals(CreativeModeTabs.COMBAT))
         // ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries ->
         {
-            addAfter(event, Items.EGG, BFItems.FLOUR);
+            addAfter(event, Items.EGG, BFItems.FLOUR.get());
         }
         // );
         if (event.getTabKey().equals(CreativeModeTabs.FOOD_AND_DRINKS))
         // ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries ->
         {
-            addAfter(event, Items.APPLE, BFItems.APPLE_COMPOTE_JAR);
-            addAfter(event, BFItems.APPLE_COMPOTE_JAR, BFItems.APPLE_CIDER_JAR);
-            addAfter(event, BFItems.APPLE_CIDER_JAR, BFBlocks.APPLE_BLOCK);
-            addAfter(event, BFBlocks.APPLE_BLOCK, BFItems.ORANGE);
-            addAfter(event, BFItems.ORANGE, BFItems.ORANGE_COMPOTE_JAR);
-            addAfter(event, BFItems.ORANGE_COMPOTE_JAR, BFBlocks.ORANGE_BLOCK);
-            addAfter(event, BFBlocks.ORANGE_BLOCK, BFItems.LEMON);
-            addAfter(event, BFItems.LEMON, BFItems.LEMON_COMPOTE_JAR);
-            addAfter(event, BFItems.LEMON_COMPOTE_JAR, BFBlocks.LEMON_BLOCK);
-            addAfter(event, BFBlocks.LEMON_BLOCK, BFItems.PLUM);
-            addAfter(event, BFItems.PLUM, BFItems.PLUM_COMPOTE_JAR);
-            addAfter(event, BFItems.PLUM_COMPOTE_JAR, BFItems.PLUM_CIDER_JAR);
-            addAfter(event, BFItems.PLUM_CIDER_JAR, BFBlocks.PLUM_BLOCK);
-            addAfter(event, BFBlocks.PLUM_BLOCK, BFItems.HOARY_APPLE);
-            addAfter(event, BFItems.HOARY_APPLE, BFItems.STUFFED_HOARY_APPLE);
-            addAfter(event, BFItems.STUFFED_HOARY_APPLE, BFItems.HOARY_COMPOTE_JAR);
-            addAfter(event, BFItems.HOARY_COMPOTE_JAR, BFItems.HOARY_CIDER_JAR);
-            addAfter(event, BFItems.HOARY_CIDER_JAR, BFBlocks.HOARY_APPLE_BLOCK);
-            addAfter(event, BFBlocks.HOARY_APPLE_BLOCK, BFItems.COCONUT_HALF);
+            addAfter(event, Items.APPLE, BFItems.APPLE_COMPOTE_JAR.get());
+            addAfter(event, BFItems.APPLE_COMPOTE_JAR.get(), BFItems.APPLE_CIDER_JAR.get());
+            addAfter(event, BFItems.APPLE_CIDER_JAR.get(), BFBlocks.APPLE_BLOCK);
+            addAfter(event, BFBlocks.APPLE_BLOCK, BFItems.ORANGE.get());
+            addAfter(event, BFItems.ORANGE.get(), BFItems.ORANGE_COMPOTE_JAR.get());
+            addAfter(event, BFItems.ORANGE_COMPOTE_JAR.get(), BFBlocks.ORANGE_BLOCK);
+            addAfter(event, BFBlocks.ORANGE_BLOCK, BFItems.LEMON.get());
+            addAfter(event, BFItems.LEMON.get(), BFItems.LEMON_COMPOTE_JAR.get());
+            addAfter(event, BFItems.LEMON_COMPOTE_JAR.get(), BFBlocks.LEMON_BLOCK);
+            addAfter(event, BFBlocks.LEMON_BLOCK, BFItems.PLUM.get());
+            addAfter(event, BFItems.PLUM.get(), BFItems.PLUM_COMPOTE_JAR.get());
+            addAfter(event, BFItems.PLUM_COMPOTE_JAR.get(), BFItems.PLUM_CIDER_JAR.get());
+            addAfter(event, BFItems.PLUM_CIDER_JAR.get(), BFBlocks.PLUM_BLOCK);
+            addAfter(event, BFBlocks.PLUM_BLOCK, BFItems.HOARY_APPLE.get());
+            addAfter(event, BFItems.HOARY_APPLE.get(), BFItems.STUFFED_HOARY_APPLE.get());
+            addAfter(event, BFItems.STUFFED_HOARY_APPLE.get(), BFItems.HOARY_COMPOTE_JAR.get());
+            addAfter(event, BFItems.HOARY_COMPOTE_JAR.get(), BFItems.HOARY_CIDER_JAR.get());
+            addAfter(event, BFItems.HOARY_CIDER_JAR.get(), BFBlocks.HOARY_APPLE_BLOCK);
+            addAfter(event, BFBlocks.HOARY_APPLE_BLOCK, BFItems.COCONUT_HALF.get());
             addAfter(event, Items.ENCHANTED_GOLDEN_APPLE, BFBlocks.GOLDEN_APPLE_BLOCK);
-            addAfter(event, Items.MELON_SLICE, BFItems.SPONGEKIN_SLICE);
-            addAfter(event, BFItems.SPONGEKIN_SLICE, BFItems.PICKLED_SPONGEKIN);
-            addAfter(event, Items.SWEET_BERRIES, BFItems.PASSION_FRUIT);
-            addAfter(event, BFItems.PASSION_FRUIT, BFItems.ELDERBERRIES);
-            addAfter(event, BFItems.ELDERBERRIES, BFItems.ELDERBERRY_WINE_BOTTLE);
-            addAfter(event, Items.GLOW_BERRIES, BFItems.LAPISBERRIES);
-            addAfter(event, BFItems.LAPISBERRIES, BFItems.LAPISBERRY_WINE_BOTTLE);
-            addAfter(event, Items.MILK_BUCKET, BFItems.COCONUT_MILK_BOTTLE);
-            addAfter(event, BFItems.COCONUT_MILK_BOTTLE, BFItems.GREEN_TEA_BOTTLE);
-            addAfter(event, BFItems.GREEN_TEA_BOTTLE, BFItems.BLACK_TEA_BOTTLE);
-            addAfter(event, BFItems.BLACK_TEA_BOTTLE, BFItems.CHAMOMILE_TEA_BOTTLE);
-            addAfter(event, BFItems.CHAMOMILE_TEA_BOTTLE, BFItems.HONEYSUCKLE_TEA_BOTTLE);
-            addAfter(event, BFItems.HONEYSUCKLE_TEA_BOTTLE, BFItems.BELLFLOWER_TEA_BOTTLE);
-            addAfter(event, BFItems.BELLFLOWER_TEA_BOTTLE, BFItems.TORCHFLOWER_TEA_BOTTLE);
-            addAfter(event, Items.HONEY_BOTTLE, BFItems.MEAD_BOTTLE);
-            addAfter(event, Items.BAKED_POTATO, BFItems.MUSHROOM_STUFFED_POTATO);
-            addAfter(event, BFItems.MUSHROOM_STUFFED_POTATO, BFItems.BERRY_STUFFED_POTATO);
-            addAfter(event, BFItems.BERRY_STUFFED_POTATO, BFItems.MAIZE_STUFFED_POTATO);
-            addAfter(event, Items.BEETROOT, BFItems.MAIZE);
-            addAfter(event, BFItems.MAIZE, BFItems.LEEK);
-            addAfter(event, BFItems.LEEK, BFItems.WALNUT);
-            addAfter(event, BFItems.WALNUT, BFItems.POPPED_MAIZE);
-            addAfter(event, Items.BREAD, BFItems.MAIZE_BREAD);
-            addAfter(event, BFItems.MAIZE_BREAD, BFBlocks.ARTISAN_BREAD);
-            addAfter(event, Items.COOKIE, BFItems.WALNUT_COOKIE);
-            addAfter(event, BFItems.WALNUT_COOKIE, BFItems.ARTISAN_COOKIE);
-            addAfter(event, BFItems.ARTISAN_COOKIE, BFBlocks.PASSION_FRUIT_TART);
+            addAfter(event, Items.MELON_SLICE, BFItems.SPONGEKIN_SLICE.get());
+            addAfter(event, BFItems.SPONGEKIN_SLICE.get(), BFItems.PICKLED_SPONGEKIN.get());
+            addAfter(event, Items.SWEET_BERRIES, BFItems.PASSION_FRUIT.get());
+            addAfter(event, BFItems.PASSION_FRUIT.get(), BFItems.ELDERBERRIES.get());
+            addAfter(event, BFItems.ELDERBERRIES.get(), BFItems.ELDERBERRY_WINE_BOTTLE.get());
+            addAfter(event, Items.GLOW_BERRIES, BFItems.LAPISBERRIES.get());
+            addAfter(event, BFItems.LAPISBERRIES.get(), BFItems.LAPISBERRY_WINE_BOTTLE.get());
+            addAfter(event, Items.MILK_BUCKET, BFItems.COCONUT_MILK_BOTTLE.get());
+            addAfter(event, BFItems.COCONUT_MILK_BOTTLE.get(), BFItems.GREEN_TEA_BOTTLE.get());
+            addAfter(event, BFItems.GREEN_TEA_BOTTLE.get(), BFItems.BLACK_TEA_BOTTLE.get());
+            addAfter(event, BFItems.BLACK_TEA_BOTTLE.get(), BFItems.CHAMOMILE_TEA_BOTTLE.get());
+            addAfter(event, BFItems.CHAMOMILE_TEA_BOTTLE.get(), BFItems.HONEYSUCKLE_TEA_BOTTLE.get());
+            addAfter(event, BFItems.HONEYSUCKLE_TEA_BOTTLE.get(), BFItems.BELLFLOWER_TEA_BOTTLE.get());
+            addAfter(event, BFItems.BELLFLOWER_TEA_BOTTLE.get(), BFItems.TORCHFLOWER_TEA_BOTTLE.get());
+            addAfter(event, Items.HONEY_BOTTLE, BFItems.MEAD_BOTTLE.get());
+            addAfter(event, Items.BAKED_POTATO, BFItems.MUSHROOM_STUFFED_POTATO.get());
+            addAfter(event, BFItems.MUSHROOM_STUFFED_POTATO.get(), BFItems.BERRY_STUFFED_POTATO.get());
+            addAfter(event, BFItems.BERRY_STUFFED_POTATO.get(), BFItems.MAIZE_STUFFED_POTATO.get());
+            addAfter(event, Items.BEETROOT, BFItems.MAIZE.get());
+            addAfter(event, BFItems.MAIZE.get(), BFItems.LEEK.get());
+            addAfter(event, BFItems.LEEK.get(), BFItems.WALNUT.get());
+            addAfter(event, BFItems.WALNUT.get(), BFItems.POPPED_MAIZE.get());
+            addAfter(event, Items.BREAD, BFItems.MAIZE_BREAD.get());
+            addAfter(event, BFItems.MAIZE_BREAD.get(), BFBlocks.ARTISAN_BREAD);
+            addAfter(event, Items.COOKIE, BFItems.WALNUT_COOKIE.get());
+            addAfter(event, BFItems.WALNUT_COOKIE.get(), BFItems.ARTISAN_COOKIE.get());
+            addAfter(event, BFItems.ARTISAN_COOKIE.get(), BFBlocks.PASSION_FRUIT_TART);
             addAfter(event, BFBlocks.PASSION_FRUIT_TART, BFBlocks.ELDERBERRY_TART);
             addAfter(event, BFBlocks.ELDERBERRY_TART, BFBlocks.GLOW_BERRY_TART);
             addAfter(event, BFBlocks.GLOW_BERRY_TART, BFBlocks.SWEET_BERRY_TART);
@@ -350,63 +350,63 @@ public class BFItemGroupAdditions {
             addAfter(event, BFBlocks.ORANGE_PIE, BFBlocks.LEMON_PIE);
             addAfter(event, BFBlocks.LEMON_PIE, BFBlocks.PLUM_PIE);
             addAfter(event, BFBlocks.PLUM_PIE, BFBlocks.HOARY_PIE);
-            addAfter(event, Items.SPIDER_EYE, BFItems.CITRUS_ESSENCE);
-            addAfter(event, BFItems.CITRUS_ESSENCE, BFItems.CANDY);
-            addAfter(event, BFItems.CANDY, BFItems.PIQUANT_CANDY);
-            addAfter(event, BFItems.PIQUANT_CANDY, BFItems.SOUR_CANDY);
-            addAfter(event, BFItems.SOUR_CANDY, BFItems.BITTER_CANDY);
-            addAfter(event, BFItems.BITTER_CANDY, BFItems.STRANGE_CANDY);
-            addAfter(event, BFItems.STRANGE_CANDY, BFItems.CANDIED_APPLE);
-            addAfter(event, BFItems.CANDIED_APPLE, BFItems.CANDIED_PLUM);
-            addAfter(event, BFItems.CANDIED_PLUM, BFItems.CANDIED_ORANGE);
-            addAfter(event, BFItems.CANDIED_ORANGE, BFItems.CANDIED_LEMON);
-            addAfter(event, BFItems.CANDIED_LEMON, BFItems.FOREST_MEDLEY);
-            addAfter(event, BFItems.FOREST_MEDLEY, BFItems.ARID_MEDLEY);
-            addAfter(event, BFItems.ARID_MEDLEY, BFItems.MEADOW_MEDLEY);
-            addAfter(event, BFItems.MEADOW_MEDLEY, BFItems.MIRE_MEDLEY);
-            addAfter(event, BFItems.MIRE_MEDLEY, BFItems.COASTAL_MEDLEY);
-            addAfter(event, BFItems.COASTAL_MEDLEY, BFItems.TROPICAL_MEDLEY);
-            addAfter(event, BFItems.TROPICAL_MEDLEY, BFItems.SEA_SALAD);
-            addAfter(event, Items.RABBIT_STEW, BFItems.LEEK_STEW);
-            addAfter(event, BFItems.LEEK_STEW, BFItems.FISH_STEW);
-            addAfter(event, BFItems.FISH_STEW, BFItems.APPLE_STEW);
-            addAfter(event, BFItems.APPLE_STEW, BFItems.COCONUT_STEW);
-            addAfter(event, BFItems.COCONUT_STEW, BFItems.STONE_STEW);
-            addAfter(event, BFItems.STONE_STEW, BFItems.BOUNTIFUL_STEW);
-            addAfter(event, BFItems.BOUNTIFUL_STEW, BFItems.COCONUT_CRUSTED_COD);
-            addAfter(event, BFItems.COCONUT_CRUSTED_COD, BFItems.PASSION_GLAZED_SALMON);
-            addAfter(event, BFItems.PASSION_GLAZED_SALMON, BFItems.CRUSTED_BEEF);
-            addAfter(event, BFItems.CRUSTED_BEEF, BFItems.CRIMSON_CHOW);
-            addAfter(event, BFItems.CRIMSON_CHOW, BFItems.WARPED_CHOW);
-            addAfter(event, BFItems.WARPED_CHOW, BFItems.CUSTARD);
-            addAfter(event, BFItems.CUSTARD, BFItems.PIQUANT_CUSTARD);
-            addAfter(event, BFItems.PIQUANT_CUSTARD, BFItems.PASSION_CUSTARD);
-            addAfter(event, BFItems.PASSION_CUSTARD, BFItems.COCOA_CUSTARD);
-            addAfter(event, BFItems.COCOA_CUSTARD, BFItems.ANCIENT_CUSTARD);
+            addAfter(event, Items.SPIDER_EYE, BFItems.CITRUS_ESSENCE.get());
+            addAfter(event, BFItems.CITRUS_ESSENCE.get(), BFItems.CANDY.get());
+            addAfter(event, BFItems.CANDY.get(), BFItems.PIQUANT_CANDY.get());
+            addAfter(event, BFItems.PIQUANT_CANDY.get(), BFItems.SOUR_CANDY.get());
+            addAfter(event, BFItems.SOUR_CANDY.get(), BFItems.BITTER_CANDY.get());
+            addAfter(event, BFItems.BITTER_CANDY.get(), BFItems.STRANGE_CANDY.get());
+            addAfter(event, BFItems.STRANGE_CANDY.get(), BFItems.CANDIED_APPLE.get());
+            addAfter(event, BFItems.CANDIED_APPLE.get(), BFItems.CANDIED_PLUM.get());
+            addAfter(event, BFItems.CANDIED_PLUM.get(), BFItems.CANDIED_ORANGE.get());
+            addAfter(event, BFItems.CANDIED_ORANGE.get(), BFItems.CANDIED_LEMON.get());
+            addAfter(event, BFItems.CANDIED_LEMON.get(), BFItems.FOREST_MEDLEY.get());
+            addAfter(event, BFItems.FOREST_MEDLEY.get(), BFItems.ARID_MEDLEY.get());
+            addAfter(event, BFItems.ARID_MEDLEY.get(), BFItems.MEADOW_MEDLEY.get());
+            addAfter(event, BFItems.MEADOW_MEDLEY.get(), BFItems.MIRE_MEDLEY.get());
+            addAfter(event, BFItems.MIRE_MEDLEY.get(), BFItems.COASTAL_MEDLEY.get());
+            addAfter(event, BFItems.COASTAL_MEDLEY.get(), BFItems.TROPICAL_MEDLEY.get());
+            addAfter(event, BFItems.TROPICAL_MEDLEY.get(), BFItems.SEA_SALAD.get());
+            addAfter(event, Items.RABBIT_STEW, BFItems.LEEK_STEW.get());
+            addAfter(event, BFItems.LEEK_STEW.get(), BFItems.FISH_STEW.get());
+            addAfter(event, BFItems.FISH_STEW.get(), BFItems.APPLE_STEW.get());
+            addAfter(event, BFItems.APPLE_STEW.get(), BFItems.COCONUT_STEW.get());
+            addAfter(event, BFItems.COCONUT_STEW.get(), BFItems.STONE_STEW.get());
+            addAfter(event, BFItems.STONE_STEW.get(), BFItems.BOUNTIFUL_STEW.get());
+            addAfter(event, BFItems.BOUNTIFUL_STEW.get(), BFItems.COCONUT_CRUSTED_COD.get());
+            addAfter(event, BFItems.COCONUT_CRUSTED_COD.get(), BFItems.PASSION_GLAZED_SALMON.get());
+            addAfter(event, BFItems.PASSION_GLAZED_SALMON.get(), BFItems.CRUSTED_BEEF.get());
+            addAfter(event, BFItems.CRUSTED_BEEF.get(), BFItems.CRIMSON_CHOW.get());
+            addAfter(event, BFItems.CRIMSON_CHOW.get(), BFItems.WARPED_CHOW.get());
+            addAfter(event, BFItems.WARPED_CHOW.get(), BFItems.CUSTARD.get());
+            addAfter(event, BFItems.CUSTARD.get(), BFItems.PIQUANT_CUSTARD.get());
+            addAfter(event, BFItems.PIQUANT_CUSTARD.get(), BFItems.PASSION_CUSTARD.get());
+            addAfter(event, BFItems.PASSION_CUSTARD.get(), BFItems.COCOA_CUSTARD.get());
+            addAfter(event, BFItems.COCOA_CUSTARD.get(), BFItems.ANCIENT_CUSTARD.get());
         }
         // );
 
         if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS))
         // ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries ->
         {
-            addAfter(event, Items.WHEAT, BFItems.MAIZE);
-            addAfter(event, BFItems.MAIZE, BFItems.FLOUR);
-            addAfter(event, Items.SLIME_BALL, BFItems.FELDSPAR);
-            addAfter(event, BFItems.FELDSPAR, BFItems.CERAMIC_CLAY);
-            addAfter(event, BFItems.CERAMIC_CLAY, BFItems.CERAMIC_TILE);
+            addAfter(event, Items.WHEAT, BFItems.MAIZE.get());
+            addAfter(event, BFItems.MAIZE.get(), BFItems.FLOUR.get());
+            addAfter(event, Items.SLIME_BALL, BFItems.FELDSPAR.get());
+            addAfter(event, BFItems.FELDSPAR.get(), BFItems.CERAMIC_CLAY.get());
+            addAfter(event, BFItems.CERAMIC_CLAY.get(), BFItems.CERAMIC_TILE.get());
             addAfter(event, Items.BOWL, BFBlocks.CERAMIC_DISH);
-            addAfter(event, BFBlocks.CERAMIC_DISH, BFItems.JAR);
-            addAfter(event, Items.FIREWORK_STAR, BFItems.COCONUT);
-            addAfter(event, BFItems.COCONUT, BFItems.COCONUT_HALF);
-            addAfter(event, BFItems.COCONUT_HALF, BFItems.COCONUT_COIR);
-            addAfter(event, BFItems.COCONUT_COIR, BFItems.TEA_LEAVES);
-            addAfter(event, BFItems.TEA_LEAVES, BFItems.DRIED_TEA_LEAVES);
-            addAfter(event, BFItems.DRIED_TEA_LEAVES, BFItems.GREEN_TEA_BLEND);
-            addAfter(event, BFItems.GREEN_TEA_BLEND, BFItems.BLACK_TEA_BLEND);
-            addAfter(event, BFItems.BLACK_TEA_BLEND, BFItems.CHAMOMILE_TEA_BLEND);
-            addAfter(event, BFItems.CHAMOMILE_TEA_BLEND, BFItems.HONEYSUCKLE_TEA_BLEND);
-            addAfter(event, BFItems.HONEYSUCKLE_TEA_BLEND, BFItems.BELLFLOWER_TEA_BLEND);
-            addAfter(event, BFItems.BELLFLOWER_TEA_BLEND, BFItems.TORCHFLOWER_TEA_BLEND);
+            addAfter(event, BFBlocks.CERAMIC_DISH, BFItems.JAR.get());
+            addAfter(event, Items.FIREWORK_STAR, BFItems.COCONUT.get());
+            addAfter(event, BFItems.COCONUT.get(), BFItems.COCONUT_HALF.get());
+            addAfter(event, BFItems.COCONUT_HALF.get(), BFItems.COCONUT_COIR.get());
+            addAfter(event, BFItems.COCONUT_COIR.get(), BFItems.TEA_LEAVES.get());
+            addAfter(event, BFItems.TEA_LEAVES.get(), BFItems.DRIED_TEA_LEAVES.get());
+            addAfter(event, BFItems.DRIED_TEA_LEAVES.get(), BFItems.GREEN_TEA_BLEND.get());
+            addAfter(event, BFItems.GREEN_TEA_BLEND.get(), BFItems.BLACK_TEA_BLEND.get());
+            addAfter(event, BFItems.BLACK_TEA_BLEND.get(), BFItems.CHAMOMILE_TEA_BLEND.get());
+            addAfter(event, BFItems.CHAMOMILE_TEA_BLEND.get(), BFItems.HONEYSUCKLE_TEA_BLEND.get());
+            addAfter(event, BFItems.HONEYSUCKLE_TEA_BLEND.get(), BFItems.BELLFLOWER_TEA_BLEND.get());
+            addAfter(event, BFItems.BELLFLOWER_TEA_BLEND.get(), BFItems.TORCHFLOWER_TEA_BLEND.get());
         }
         // );
 

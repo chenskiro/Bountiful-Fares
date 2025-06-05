@@ -49,7 +49,7 @@ public class HoaryAppleSaplingCropBlock extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return BFItems.HOARY_SEEDS;
+        return BFItems.HOARY_SEEDS.get();
     }
 
     @Override

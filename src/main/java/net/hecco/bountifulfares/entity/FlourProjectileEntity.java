@@ -28,7 +28,7 @@ public class FlourProjectileEntity extends ThrowableItemProjectile {
 
     @Override
     protected Item getDefaultItem() {
-        return BFItems.FLOUR;
+        return BFItems.FLOUR.get();
     }
 
 

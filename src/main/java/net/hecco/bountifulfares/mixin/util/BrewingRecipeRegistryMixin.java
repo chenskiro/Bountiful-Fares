@@ -23,7 +23,7 @@ public abstract class BrewingRecipeRegistryMixin {
     @Inject(method = "bootStrap", at = @At("TAIL"))
     private static void registerDefaults(CallbackInfo ci) {
         // todo
-        // addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE, BFPotions.ACIDIC);
+        // addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.ACIDIC);
         // addMix(BFPotions.ACIDIC, Items.REDSTONE, BFPotions.LONG_ACIDIC);
         // addMix(BFPotions.ACIDIC, Items.GLOWSTONE_DUST, BFPotions.STRONG_ACIDIC);
         // addMix(BFPotions.ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.STUPOR);

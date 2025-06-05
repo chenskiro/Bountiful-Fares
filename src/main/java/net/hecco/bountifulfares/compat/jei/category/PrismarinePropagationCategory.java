@@ -42,7 +42,7 @@ public class PrismarinePropagationCategory implements IRecipeCategory<Propagatio
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PropagationRecipe recipe, IFocusGroup focusGroup) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 6, 6).addItemStack(BFItems.SPONGEKIN_SEEDS.getDefaultInstance());
+        builder.addSlot(RecipeIngredientRole.INPUT, 6, 6).addItemStack(BFItems.SPONGEKIN_SEEDS.get().getDefaultInstance());
         builder.addSlot(RecipeIngredientRole.CATALYST, 27, 27).addItemStacks(BuiltInRegistries.BLOCK.getTag(
                 BFBlockTags.PRISMARINE_PROPAGATION_SUBSTRATE)
                 .map(tag -> tag.stream()

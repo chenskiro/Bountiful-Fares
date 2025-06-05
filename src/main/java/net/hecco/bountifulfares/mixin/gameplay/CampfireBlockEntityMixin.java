@@ -25,13 +25,13 @@ public class CampfireBlockEntityMixin {
 
     @Unique
     @Final
-    private static ItemParticleOption POP = new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(BFItems.POPPED_MAIZE));
+    private static ItemParticleOption POP = new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(BFItems.POPPED_MAIZE.get()));
 
     @Inject(method = "cookTick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/Containers;dropItemStack(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)V"))
     private static void bf_addMaizePoppingSound(Level world, BlockPos pos, BlockState state, CampfireBlockEntity pBlockEntity, CallbackInfo ci,
                                                 @Local(ordinal = 1) ItemStack itemStack) {
-        if (itemStack.is(BFItems.MAIZE_SEEDS)) {
+        if (itemStack.is(BFItems.MAIZE_SEEDS.get())) {
             world.playSound(null, pos, BFSounds.POPPED_MAIZE_POP, SoundSource.BLOCKS, 1.0f, 1.0f + world.random.nextFloat() / 3);
             ((ServerLevel) world).sendParticles(
                     POP,

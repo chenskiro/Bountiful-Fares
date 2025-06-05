@@ -51,7 +51,7 @@ public class DyeableCeramicBlock {
 
     public static InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, Block block) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(BFItems.ARTISAN_BRUSH) && !player.isShiftKeyDown()
+        if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown()
                 && itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)
                 && itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).contains(ArtisanBrushItem.COLOR_KEY)
             // && itemStack.get(DataComponentTypes.DYED_COLOR) != null
