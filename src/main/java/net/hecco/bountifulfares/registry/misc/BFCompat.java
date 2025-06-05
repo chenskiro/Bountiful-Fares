@@ -45,9 +45,9 @@ public class BFCompat {
 
 //        twigs
         TwigsBlocks.registerTwigsBlocks();
-        if (BountifulFares.isModLoaded(TWIGS_MOD_ID)) {
-            TwigsSounds.registerSounds();
-        }
+        // if (BountifulFares.isModLoaded(TWIGS_MOD_ID)) {
+        //     TwigsSounds.registerSounds();
+        // }
 
 //        spawn
         SpawnBlocks.registerSpawnBlocks();

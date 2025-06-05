@@ -6,10 +6,11 @@ import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.util.LazyOptional;
 
 public class CompatCropTrellisBlock extends CropTrellisBlock {
     private final String modId;
-    public CompatCropTrellisBlock(String modId, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CompatCropTrellisBlock(String modId, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(berryItem, variant, crop, settings);
         this.modId = modId;
     }
@@ -18,7 +19,7 @@ public class CompatCropTrellisBlock extends CropTrellisBlock {
         super(harvestResetAge, berryItemID, variant, crop, settings);
         this.modId = modId;
     }
-    public CompatCropTrellisBlock(String modId, Item seedsItem, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CompatCropTrellisBlock(String modId, LazyOptional<Item> seedsItem, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(seedsItem, berryItem, variant, crop, settings);
         this.modId = modId;
     }

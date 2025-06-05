@@ -77,9 +77,9 @@ public class BountifulFares  {
 
 		// BFParticles.registerParticles();
 		// BFPotions.registerPotions();
-		BFTrunkPlacerTypes.register();
+		// BFTrunkPlacerTypes.register();
 		// BFFeatures.register();
-		BFRegistries.RegisterModStuffs();
+		// BFRegistries.RegisterModStuffs();
 		// BFScreenHandlers.registerScreenHandlers();
 		BFBlockEntities.cacheExtraBlockEntities(); //change to cache model
 		// BFEntities.registerModEntities();

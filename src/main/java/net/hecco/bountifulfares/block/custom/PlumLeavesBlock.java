@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class PlumLeavesBlock extends LeavesBlock implements BonemealableBlock {
 
-    public PlumLeavesBlock(Block fruit, Properties settings) {
+    public PlumLeavesBlock(Properties settings) {
         super(settings);
     }
     @Override

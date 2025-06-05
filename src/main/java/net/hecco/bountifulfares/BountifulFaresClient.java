@@ -60,7 +60,7 @@ public class BountifulFaresClient {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY.get(), CeramicDishBlockEntityRenderer::new);
 
-        event.registerEntityRenderer(BFEntities.THROWN_FLOUR_PROJECTILE, ThrownItemRenderer::new);
+        event.registerEntityRenderer(BFEntities.THROWN_FLOUR_PROJECTILE.get(), ThrownItemRenderer::new);
     }
 
 

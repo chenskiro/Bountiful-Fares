@@ -6,10 +6,11 @@ import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraftforge.common.util.LazyOptional;
 
 public class SpawnSunflowerCropTrellisBlock extends CropTrellisBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-    public SpawnSunflowerCropTrellisBlock(Item seedsItem, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public SpawnSunflowerCropTrellisBlock(LazyOptional<Item> seedsItem, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(seedsItem, berryItem, variant, crop, settings);
     }
 }

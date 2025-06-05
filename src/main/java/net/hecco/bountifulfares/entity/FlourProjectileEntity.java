@@ -19,11 +19,11 @@ public class FlourProjectileEntity extends ThrowableItemProjectile {
     }
 
     public FlourProjectileEntity(LivingEntity livingEntity, Level world) {
-        super(BFEntities.THROWN_FLOUR_PROJECTILE, livingEntity, world);
+        super(BFEntities.THROWN_FLOUR_PROJECTILE.get(), livingEntity, world);
     }
 
     public FlourProjectileEntity(Level world, double x, double y, double z) {
-        super(BFEntities.THROWN_FLOUR_PROJECTILE, x, y, z, world);
+        super(BFEntities.THROWN_FLOUR_PROJECTILE.get(), x, y, z, world);
     }
 
     @Override

@@ -46,13 +46,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.util.LazyOptional;
 
 
 public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, BonemealableBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty FACING;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-    private final Item berryItem;
+    private final LazyOptional<Item> berryItem;
     protected static final VoxelShape NORTH_SHAPE = Block.box(0, 0, 15, 16, 16, 16);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(0, 0, 0, 16, 16, 1);
     protected static final VoxelShape WEST_SHAPE = Block.box(15, 0, 0, 16, 16, 16);
@@ -64,7 +65,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     private String berryItemID;
     private final int harvestResetAge;
 
-    public CropTrellisBlock(Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CropTrellisBlock(LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
         BFBlocks.CROPS_TO_CROP_TRELLISES.put(berryItem, this);
@@ -76,7 +77,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     public CropTrellisBlock(int harvestResetAge, String berryItemID, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
-        this.berryItem = null;
+        this.berryItem = LazyOptional.empty();
         this.berryItemID = berryItemID;
         this.variant = variant;
         this.crop = crop;
@@ -84,7 +85,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(AGE, 0).setValue(SNIPPED, false));
     }
 
-    public CropTrellisBlock(Item seedsItem, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CropTrellisBlock(LazyOptional<Item> seedsItem, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
         BFBlocks.CROPS_TO_CROP_TRELLISES.put(seedsItem, this);
@@ -110,7 +111,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     @Override
     public void destroy(LevelAccessor world, BlockPos pos, BlockState state) {
-        popResource((Level) world, pos, new ItemStack(crop.getSeedsItem()));
+        popResource((Level) world, pos, new ItemStack(crop.getSeedsItem().orElse(Items.AIR)));
         super.destroy(world, pos, state);
     }
 
@@ -138,7 +139,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         } else if (state.getValue(AGE) == 3 & !state.getValue(SNIPPED)) {
             int j = 1 + world.random.nextInt(2);
             if (this.berryItem != null) {
-                popResource(world, pos, new ItemStack(this.berryItem, world.random.nextIntBetweenInclusive(1, 2)));
+                popResource(world, pos, new ItemStack(this.berryItem.orElse(Items.AIR), world.random.nextIntBetweenInclusive(1, 2)));
                 world.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
             } else if (this.berryItemID != null) {
                 popResource(world, pos, new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(crop.getId(), this.berryItemID)), world.random.nextIntBetweenInclusive(1, 2)));

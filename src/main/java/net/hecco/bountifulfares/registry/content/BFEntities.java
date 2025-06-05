@@ -17,33 +17,31 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFEntities {
-    private static final Map<ResourceKey<EntityType<?>>, EntityType<?>> entityTypes = new HashMap<>();
+    // private static final Map<ResourceKey<EntityType<?>>, EntityType<?>> entityTypes = new HashMap<>();
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, BountifulFares.MOD_ID);
 
-    public static final EntityType<FlourProjectileEntity> THROWN_FLOUR_PROJECTILE = registerForCache(
-            BuiltInRegistries.ENTITY_TYPE,BountifulFares.rl("flour"),
-            EntityType.Builder.<FlourProjectileEntity>of(FlourProjectileEntity::new, MobCategory.CREATURE)
-                    .sized(0.25f, 0.25f).setTrackingRange(4).setUpdateInterval(10).build(null));
+    public static final RegistryObject<EntityType<FlourProjectileEntity>> THROWN_FLOUR_PROJECTILE = ENTITY_TYPE_DEFERRED_REGISTER.register(
+            "flour",
+            ()->EntityType.Builder.<FlourProjectileEntity>of(FlourProjectileEntity::new, MobCategory.CREATURE)
+                    .sized(0.25f, 0.25f).setTrackingRange(4).setUpdateInterval(10).build("flour"));
 
-    public static void registerModEntities() {
-//        BountifulFares.LOGGER.info("Registering Mod Entities for " + BountifulFares.MOD_ID);
-    }
+//     public static void registerModEntities() {
+// //        BountifulFares.LOGGER.info("Registering Mod Entities for " + BountifulFares.MOD_ID);
+//     }
+//
+//     private static <T extends Entity> EntityType<T> registerForCache(Registry<EntityType<?>> registry, ResourceLocation rl, EntityType<T> type) {
+//         entityTypes.put(ResourceKey.create(Registries.ENTITY_TYPE, rl), type);
+//         return type;
+//     }
 
-    private static <T extends Entity> EntityType<T> registerForCache(Registry<EntityType<?>> registry, ResourceLocation rl, EntityType<T> type) {
-        entityTypes.put(ResourceKey.create(Registries.ENTITY_TYPE, rl), type);
-        return type;
-    }
 
-    @SubscribeEvent
-    public static void blockRegister(RegisterEvent event) {
-        event.register(Registries.ENTITY_TYPE, registerHelper -> {
-            entityTypes.forEach(registerHelper::register);
-        });
-    }
 }

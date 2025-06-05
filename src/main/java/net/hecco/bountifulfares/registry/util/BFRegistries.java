@@ -40,6 +40,7 @@ import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.*;
@@ -47,7 +48,7 @@ import java.util.*;
 // import static net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register;
 import static net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BFRegistries {
 
     public static final Reference2IntMap<Item> fuel_items = new Reference2IntOpenHashMap<>();
@@ -118,24 +119,26 @@ public class BFRegistries {
         }
     }
 
-    public static void RegisterModStuffs() {
-        registerStrippables();
-        registerCeramicCheckeredConversions();
-        registerFuels();
-        registerModCompostables();
-        registerFermentationRecipes();
-        registerFlammables();
-        DispenserBlock.registerBehavior(BFItems.FLOUR.get(), new FlourDispenserBehavior() {
-            @Override
-            protected Projectile createProjectile(Level world, Position position, ItemStack stack) {
-                return new FlourProjectileEntity(world, position.x(), position.y(), position.z());
-            }
-        });
-        DispenserBlock.registerBehavior(BFItems.GRASS_SEEDS.get(), new GrassSeedsDispenserBehavior() {
-            @Override
-            public ItemStack execute(BlockSource pointer, ItemStack stack) {
-                return super.execute(pointer, stack);
-            }
+    public static void RegisterModStuffs(FMLCommonSetupEvent fmlCommonSetupEvent) {
+        fmlCommonSetupEvent.enqueueWork(()->{
+            registerStrippables();
+            registerCeramicCheckeredConversions();
+            registerFuels();
+            registerModCompostables();
+            registerFermentationRecipes();
+            registerFlammables();
+            DispenserBlock.registerBehavior(BFItems.FLOUR.get(), new FlourDispenserBehavior() {
+                @Override
+                protected Projectile createProjectile(Level world, Position position, ItemStack stack) {
+                    return new FlourProjectileEntity(world, position.x(), position.y(), position.z());
+                }
+            });
+            DispenserBlock.registerBehavior(BFItems.GRASS_SEEDS.get(), new GrassSeedsDispenserBehavior() {
+                @Override
+                public ItemStack execute(BlockSource pointer, ItemStack stack) {
+                    return super.execute(pointer, stack);
+                }
+            });
         });
     }
 

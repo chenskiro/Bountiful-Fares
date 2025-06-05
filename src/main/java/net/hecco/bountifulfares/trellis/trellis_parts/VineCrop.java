@@ -50,12 +50,12 @@ public class VineCrop {
         return this.MOD_ID;
     }
 
-    public Item getCropItem() {
-        return this.CROP_ITEM.orElse(Items.AIR);
+    public LazyOptional<Item> getCropItem() {
+        return this.CROP_ITEM;
     }
 
-    public Item getSeedsItem() {
-        return this.SEEDS_ITEM.orElse(Items.AIR);
+    public LazyOptional<Item> getSeedsItem() {
+        return this.SEEDS_ITEM;
     }
 
 //    public Block getBlockClass() {

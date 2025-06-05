@@ -3,7 +3,9 @@ package com.xueluoanping.bountifulfaresforge;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
+import net.hecco.bountifulfares.registry.content.BFEntities;
 import net.hecco.bountifulfares.registry.content.BFItems;
+import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -30,5 +32,8 @@ public class BountifulFaresForge {
             }
         }
         BFBlockEntities.BLOCK_ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
+        BFEntities.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(BFRegistries::RegisterModStuffs);
     }
 }
