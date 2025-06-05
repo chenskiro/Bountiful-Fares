@@ -4,16 +4,25 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.DeferredRegister;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.hecco.bountifulfares.BountifulFares.*;
 
 
 public class DatagenOnlyItems {
+
     private static void registerDatagenOnlyItem(String modId, String name) {
         if (BountifulFares.isDatagen()) {
-            BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(modId, name), new Item(new Item.Properties()));
+            BFBlocks.getOrCreateDeferredRegister(
+                    Registries.ITEM,modId
+            ).register(name, () -> new Item(new Item.Properties()));
+            // BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(modId, name), new Item(new Item.Properties()));
         }
     }
 

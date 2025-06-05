@@ -12,10 +12,13 @@ import net.hecco.bountifulfares.registry.util.BFWoodTypes;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -48,13 +51,17 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+// @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFBlocks {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(Registries.ITEM, BountifulFares.MOD_ID);
     public static final DeferredRegister<Block> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(Registries.BLOCK, BountifulFares.MOD_ID);
 
-    private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
-    private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
+    // public static final Map<String, DeferredRegister<Item>> ITEM_REGISTER_MAP = new HashMap<>();
+    // public static final Map<String, DeferredRegister<Block>> BLOCK_REGISTER_MAP = new HashMap<>();
+    public static final Map<ResourceKey<? extends Registry<?>>, Map<String, DeferredRegister<?>>> REGISTER_MAP = new HashMap<>();
+
+    // private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
+    // private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
 
     public static final Map<Item, CropTrellisBlock> CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
     public static final Map<Item, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
@@ -388,35 +395,46 @@ public class BFBlocks {
         return (boolean) (p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT);
     }
 
-    // public static <T> T attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
+    @SuppressWarnings("unchecked")
+    public static <T> DeferredRegister<T> getOrCreateDeferredRegister(ResourceKey<? extends Registry<T>> resourceKey, String modId) {
+        Map<String, DeferredRegister<?>> stringDeferredRegisterMap = REGISTER_MAP.computeIfAbsent(resourceKey, (c) -> new HashMap<>());
+        DeferredRegister<?> itemDeferredRegister = stringDeferredRegisterMap.get(modId);
+        if (itemDeferredRegister == null) {
+            itemDeferredRegister = DeferredRegister.create(resourceKey, modId);
+            stringDeferredRegisterMap.put(modId, itemDeferredRegister);
+        }
+        return (DeferredRegister<T>) itemDeferredRegister;
+    }
+
+    // @SuppressWarnings("unchecked")
+    // public static <T> RegistryObject<T> attachCache(IForgeRegistry<T> registry, ResourceLocation id, T entry) {
     //     if (entry instanceof Item item) {
-    //         items.put(ResourceKey.create(Registries.ITEM, id), item);
+    //         return (RegistryObject<T>) getOrCreateDeferredRegister(Registries.ITEM, id.getNamespace(), Item.class)
+    //                 .register(id.getPath(), () -> item);
     //     } else if (entry instanceof Block block) {
-    //         blocks.put(ResourceKey.create(Registries.BLOCK, id), block);
+    //         return (RegistryObject<T>) getOrCreateDeferredRegister(Registries.BLOCK, id.getNamespace(), Block.class)
+    //                 .register(id.getPath(), () -> block);
     //     }
-    //     return entry;
-    // }
-    //
-    // public static <T> T attachCache(Registry<T> registry, ResourceLocation id, T entry) {
-    //     if (entry instanceof Item item) {
-    //         items.put(ResourceKey.create(Registries.ITEM, id), item);
-    //     } else if (entry instanceof Block block) {
-    //         blocks.put(ResourceKey.create(Registries.BLOCK, id), block);
-    //     }
-    //     return entry;
+    //     return null;
     // }
 
-    @SubscribeEvent
-    public static void onRegister(RegisterEvent event) {
-        event.register(Registries.BLOCK, registerHelper -> {
-            blocks.forEach(registerHelper::register);
-        });
-        if (event.getRegistryKey().equals(Registries.BLOCK)) {
-            BFWoodTypes.registerWoodTypes();
-        }
-        event.register(Registries.ITEM, registerHelper -> {
-            items.forEach(registerHelper::register);
-        });
+    public static <T, E extends T> RegistryObject<T> attachCache(Registry<T> registry, ResourceLocation id, Supplier<E> entry) {
+        return getOrCreateDeferredRegister(registry.key(), id.getNamespace())
+                .register(id.getPath(), entry);
     }
+
+
+    // @SubscribeEvent
+    // public static void onRegister(RegisterEvent event) {
+    //     event.register(Registries.BLOCK, registerHelper -> {
+    //         blocks.forEach(registerHelper::register);
+    //     });
+    //     if (event.getRegistryKey().equals(Registries.BLOCK)) {
+    //         BFWoodTypes.registerWoodTypes();
+    //     }
+    //     event.register(Registries.ITEM, registerHelper -> {
+    //         items.forEach(registerHelper::register);
+    //     });
+    // }
 
 }

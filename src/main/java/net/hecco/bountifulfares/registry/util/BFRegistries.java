@@ -161,7 +161,7 @@ public class BFRegistries {
         addToMap(BFItemTags.PICKETS, 200);
         for (TrellisVariant trellis : TrellisUtil.TrellisVariants) {
             if (!(Objects.equals(trellis.getBlockName(), "warped_trellis") || Objects.equals(trellis.getBlockName(), "crimson_trellis")))
-                addToMap(TrellisUtil.getTrellisFromVariant(trellis), 300);
+                addToMap(TrellisUtil.getTrellisFromVariant(trellis).get(), 300);
         }
         addToMap(BFBlocks.GRISTMILL.get(), 300);
         addToMap(BFBlocks.WHITE_JACK_O_STRAW.get(), 400);
@@ -188,56 +188,56 @@ public class BFRegistries {
         addToMap(BFBlocks.COIR_BRICK_SLAB.get(), 400);
         addToMap(BFBlocks.COIR_BRICK_STAIRS.get(), 400);
         addToMap(BFBlocks.COIR_BRICK_WALL.get(), 400);
-        addToMap(MintBlocks.ACORN_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.AMBER_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.ARTICHOKE_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.BANANA_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.CERULEAN_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.FUCHSIA_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.GRAPE_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.INDIGO_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.MAROON_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.MAUVE_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.MINT_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.MOLD_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.NAVY_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.PEACH_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.PERIWINKLE_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.SAGE_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.SAP_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.SHAMROCK_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.VELVET_JACK_O_STRAW, 400);
-        addToMap(MintBlocks.VERMILION_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.MAROON_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.ROSE_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.CORAL_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.GINGER_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.TAN_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.BEIGE_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.AMBER_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.OLIVE_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.FOREST_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.VERDANT_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.TEAL_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.MINT_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.AQUA_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.SLATE_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.NAVY_JACK_O_STRAW, 400);
-        addToMap(DyeDepotBlocks.INDIGO_JACK_O_STRAW, 400);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_VERTICAL_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.CHISELED_WALNUT_PLANKS, 300);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC, 300);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_SLAB, 300);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_VERTICAL_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.WALNUT_LADDER, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_VERTICAL_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.CHISELED_HOARY_PLANKS, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_SLAB, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_VERTICAL_STAIRS, 300);
-        addToMap(ExcessiveBuildingBlocks.HOARY_LADDER, 300);
+        addToMap(MintBlocks.ACORN_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.AMBER_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.ARTICHOKE_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.BANANA_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.CERULEAN_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.FUCHSIA_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.GRAPE_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.INDIGO_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.MAROON_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.MAUVE_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.MINT_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.MOLD_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.NAVY_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.PEACH_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.PERIWINKLE_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.SAGE_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.SAP_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.SHAMROCK_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.VELVET_JACK_O_STRAW.get(), 400);
+        addToMap(MintBlocks.VERMILION_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.MAROON_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.ROSE_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.CORAL_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.GINGER_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.TAN_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.BEIGE_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.AMBER_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.OLIVE_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.FOREST_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.VERDANT_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.TEAL_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.MINT_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.AQUA_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.SLATE_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.NAVY_JACK_O_STRAW.get(), 400);
+        addToMap(DyeDepotBlocks.INDIGO_JACK_O_STRAW.get(), 400);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_VERTICAL_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.CHISELED_WALNUT_PLANKS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_SLAB.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_VERTICAL_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_LADDER.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_VERTICAL_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.CHISELED_HOARY_PLANKS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_SLAB.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_VERTICAL_STAIRS.get(), 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_LADDER.get(), 300);
 
     }
 
@@ -304,8 +304,8 @@ public class BFRegistries {
         registerCheckeredCeramic(BFBlocks.CERAMIC_MOSAIC_STAIRS.get(), BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get());
         registerCheckeredCeramic(BFBlocks.CERAMIC_MOSAIC_SLAB.get(), BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get());
         if (BountifulFares.isModLoaded(BountifulFares.EXCESSIVE_BUILDING_MOD_ID)) {
-            registerCheckeredCeramic(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS);
-            registerCheckeredCeramic(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS);
+            registerCheckeredCeramic(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS.get(), ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get());
+            registerCheckeredCeramic(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS.get(), ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
         }
     }
 

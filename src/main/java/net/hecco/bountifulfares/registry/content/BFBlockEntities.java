@@ -28,7 +28,7 @@ public class BFBlockEntities {
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
             BountifulFares.rl("ceramic_tiles_block_entity"),
             BlockEntityType.Builder.of(DyeableCeramicBlockEntity::new, BFBlocks.CERAMIC_TILES.get(), BFBlocks.CERAMIC_TILE_STAIRS.get(), BFBlocks.CERAMIC_TILE_SLAB.get(), BFBlocks.CERAMIC_PRESSURE_PLATE.get(), BFBlocks.CERAMIC_BUTTON.get(), BFBlocks.CERAMIC_LEVER.get(), BFBlocks.CHECKERED_CERAMIC_TILES.get(), BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get(), BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get(), BFBlocks.CRACKED_CERAMIC_TILES.get(), BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get(), BFBlocks.CERAMIC_TILE_PILLAR.get(), BFBlocks.CERAMIC_MOSAIC.get(), BFBlocks.CERAMIC_MOSAIC_STAIRS.get(), BFBlocks.CERAMIC_MOSAIC_SLAB.get(), BFBlocks.CHECKERED_CERAMIC_MOSAIC.get(), BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get(), BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get(), BFBlocks.CERAMIC_DOOR.get(), BFBlocks.CERAMIC_TRAPDOOR.get(),
-                    ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS, ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS, ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS).build(null)
+                    ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS.get(), ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get(), ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS.get(), ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get()).build(null)
     );
 
     public static final BlockEntityType<CeramicDishBlockEntity> CERAMIC_DISH_BLOCK_ENTITY = registerForCache(
@@ -105,7 +105,7 @@ public class BFBlockEntities {
             CABINET_BLOCK_ENTITY = registerForCache(
                     BuiltInRegistries.BLOCK_ENTITY_TYPE,
                     BountifulFares.rl("cabinet_block_entity"),
-                    BlockEntityType.Builder.of(CabinetBlockEntity::new, FarmersDelightBlocks.WALNUT_CABINET, FarmersDelightBlocks.HOARY_CABINET).build(null)
+                    BlockEntityType.Builder.of(CabinetBlockEntity::new, FarmersDelightBlocks.WALNUT_CABINET.get(), FarmersDelightBlocks.HOARY_CABINET.get()).build(null)
             );
         }
     }

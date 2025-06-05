@@ -74,7 +74,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
         boolean isSurvival = !player.isCreative();
         if (BFBlocks.CROPS_TO_CROP_TRELLISES.containsKey(itemStack.getItem())) {
             if (!world.isClientSide()) {
-                world.setBlock(pos, BFTrellises.CROP_TRELLISES.get(BFBlocks.CROPS_TO_VINE_CROPS.get(itemStack.getItem()).getName() + variant.getBlockName()).defaultBlockState().setValue(FACING, facing), 2);
+                world.setBlock(pos, BFTrellises.CROP_TRELLISES.get(BFBlocks.CROPS_TO_VINE_CROPS.get(itemStack.getItem()).getName() + variant.getBlockName()).get().defaultBlockState().setValue(FACING, facing), 2);
             }
             world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -85,7 +85,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
         }
         if (BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.containsKey(itemStack.getItem())) {
             if (!world.isClientSide()) {
-                world.setBlock(pos, BFTrellises.DECORATIVE_TRELLISES.get(BFBlocks.PLANTS_TO_DECORATIVE_VINES.get(itemStack.getItem()).getName() + variant.getBlockName()).defaultBlockState().setValue(FACING, facing), 2);
+                world.setBlock(pos, BFTrellises.DECORATIVE_TRELLISES.get(BFBlocks.PLANTS_TO_DECORATIVE_VINES.get(itemStack.getItem()).getName() + variant.getBlockName()).get().defaultBlockState().setValue(FACING, facing), 2);
             }
             world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -97,7 +97,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
         if (BountifulFares.isModLoaded(BountifulFares.NATURES_SPIRIT_MOD_ID)) {
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "lavender")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_LAVENDER).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_LAVENDER).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -108,7 +108,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "bleeding_heart")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_BLEEDING_HEART).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_BLEEDING_HEART).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -119,7 +119,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "blue_bulbs")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_BLUE_BULB).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_BLUE_BULB).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -130,7 +130,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "carnation")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_CARNATION).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_CARNATION).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -141,7 +141,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "gardenia")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_GARDENIA).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_GARDENIA).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -152,7 +152,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "marigold")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_MARIGOLD).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_MARIGOLD).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -163,7 +163,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             }
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.NATURES_SPIRIT_MOD_ID, "foxglove")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_FOXGLOVE).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getDecorTrellisFromVariant(variant, BFTrellises.NS_FOXGLOVE).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -176,7 +176,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
         if (BountifulFares.isModLoaded(BountifulFares.SPAWN_MOD_ID)) {
             if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(BountifulFares.SPAWN_MOD_ID, "sunflower_seeds")))) {
                 if (!world.isClientSide()) {
-                    world.setBlock(pos, TrellisUtil.getCropTrellisFromVariant(variant, BFTrellises.SPAWN_SUNFLOWER).defaultBlockState().setValue(FACING, facing), 2);
+                    world.setBlock(pos, TrellisUtil.getCropTrellisFromVariant(variant, BFTrellises.SPAWN_SUNFLOWER).get().defaultBlockState().setValue(FACING, facing), 2);
                 }
                 world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 1.0f);
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);

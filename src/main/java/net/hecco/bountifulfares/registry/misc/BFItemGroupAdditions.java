@@ -207,7 +207,7 @@ public class BFItemGroupAdditions {
             addAfter(event, BFBlocks.WALNUT_CANDLE.get(), BFBlocks.FERMENTATION_VESSEL.get());
             addAfter(event, BFBlocks.FERMENTATION_VESSEL.get(), BFBlocks.COCONUT_CANDLE.get());
             addAfter(event, BFBlocks.COCONUT_CANDLE.get(), BFBlocks.GOLDEN_APPLE_SAPLING.get());
-            addAfter(event, Blocks.COMPOSTER, TrellisUtil.getTrellisFromVariant(BFTrellises.OAK));
+            addAfter(event, Blocks.COMPOSTER, TrellisUtil.getTrellisFromVariant(BFTrellises.OAK).get());
             TrellisVariant prevTrellis = BFTrellises.OAK;
             for (TrellisVariant trellis : TrellisUtil.TrellisVariants) {
                 if (Objects.equals(trellis.getModId(), BountifulFares.MOD_ID)) {
@@ -215,7 +215,7 @@ public class BFItemGroupAdditions {
                         continue;
                     }
                     if (TrellisUtil.getTrellisFromVariant(trellis) != null) {
-                        addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis), TrellisUtil.getTrellisFromVariant(trellis));
+                        addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis).get(), TrellisUtil.getTrellisFromVariant(trellis).get());
                         prevTrellis = trellis;
                     }
                 }
@@ -225,31 +225,31 @@ public class BFItemGroupAdditions {
 //                prevTrellis = BFTrellises.WINTERGREEN;
 //            }
             if (BountifulFares.isModLoaded(BountifulFares.NATURES_SPIRIT_MOD_ID)) {
-                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.REDWOOD));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.REDWOOD), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SUGI));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SUGI), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WISTERIA));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WISTERIA), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.FIR));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.FIR), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WILLOW));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WILLOW), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.ASPEN));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.ASPEN), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAPLE));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAPLE), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CYPRESS));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CYPRESS), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.OLIVE));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.OLIVE), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.JOSHUA));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.JOSHUA), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.GHAF));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.GHAF), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.PALO_VERDE));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.PALO_VERDE), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.COCONUT));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.COCONUT), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CEDAR));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CEDAR), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.LARCH));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.LARCH), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAHOGANY));
-                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAHOGANY), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SAXAUL));
+                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.REDWOOD).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.REDWOOD).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SUGI).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SUGI).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WISTERIA).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WISTERIA).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.FIR).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.FIR).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WILLOW).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.WILLOW).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.ASPEN).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.ASPEN).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAPLE).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAPLE).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CYPRESS).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CYPRESS).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.OLIVE).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.OLIVE).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.JOSHUA).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.JOSHUA).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.GHAF).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.GHAF).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.PALO_VERDE).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.PALO_VERDE).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.COCONUT).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.COCONUT).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CEDAR).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.CEDAR).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.LARCH).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.LARCH).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAHOGANY).get());
+                addAfter(event, TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.MAHOGANY).get(), TrellisUtil.getTrellisFromVariant(NaturesSpiritBlocks.SAXAUL).get());
                 prevTrellis = NaturesSpiritBlocks.SAXAUL;
             }
             if (BountifulFares.isModLoaded(BountifulFares.EXCESSIVE_BUILDING_MOD_ID)) {
-                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis), TrellisUtil.getTrellisFromVariant(ExcessiveBuildingBlocks.ANCIENT));
+                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis).get(), TrellisUtil.getTrellisFromVariant(ExcessiveBuildingBlocks.ANCIENT).get());
                 prevTrellis = ExcessiveBuildingBlocks.ANCIENT;
             }
             if (BountifulFares.isModLoaded(BountifulFares.SPAWN_MOD_ID)) {
-                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis), TrellisUtil.getTrellisFromVariant(SpawnBlocks.ROTTEN));
+                addAfter(event, TrellisUtil.getTrellisFromVariant(prevTrellis).get(), TrellisUtil.getTrellisFromVariant(SpawnBlocks.ROTTEN).get());
                 prevTrellis = SpawnBlocks.ROTTEN;
             }
             addAfter(event, Items.TINTED_GLASS, BFBlocks.TINGED_GLASS.get());

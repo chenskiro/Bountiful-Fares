@@ -7,15 +7,18 @@ import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.RegistryObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class BFTrellises {
-    public static Map<String, Block> TRELLISES = new HashMap<>();
-    public static Map<String, Block> CROP_TRELLISES = new HashMap<>();
-    public static Map<String, Block> DECORATIVE_TRELLISES = new HashMap<>();
-    public static final ArrayList<Block> TRELLIS_RENDER_CUTOUT = new ArrayList<>();
+    public static Map<String, RegistryObject<Block>> TRELLISES = new HashMap<>();
+    public static Map<String, RegistryObject<Block>> CROP_TRELLISES = new HashMap<>();
+    public static Map<String, RegistryObject<Block>> DECORATIVE_TRELLISES = new HashMap<>();
+    public static final ArrayList<Supplier<Block>> TRELLIS_RENDER_CUTOUT = new ArrayList<>();
 
 
     public static final VineCrop PASSION_FRUIT = new VineCrop(BountifulFares.MOD_ID, "passion_fruit", BFItems.PASSION_FRUIT.get());

@@ -60,7 +60,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
             if (player instanceof ServerPlayer serverPlayer)
                 player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
-            world.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).defaultBlockState().setValue(FACING, facing), 2);
+            world.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).get().defaultBlockState().setValue(FACING, facing), 2);
             popResource(world, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
@@ -76,7 +76,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        return new ItemStack(TrellisUtil.getTrellisFromVariant(variant));
+        return new ItemStack(TrellisUtil.getTrellisFromVariant(variant).get());
     }
 
 
@@ -101,7 +101,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
         if (item != null && BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.containsKey(item)) {
             return (BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.get(item)).defaultBlockState();
         } else {
-            return BFTrellises.TRELLISES.get("trellis").defaultBlockState();
+            return BFTrellises.TRELLISES.get("trellis").get().defaultBlockState();
         }
     }
 

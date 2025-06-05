@@ -12,24 +12,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 import static net.hecco.bountifulfares.BountifulFares.SPAWN_MOD_ID;
 import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_RENDER_CUTOUT;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class SpawnBlocks {
-    public static Block ROTTEN_PICKETS = registerBlock("rotten_pickets", new CompatPicketsBlock(SPAWN_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
+    public static RegistryObject<Block> ROTTEN_PICKETS = registerBlock("rotten_pickets",()-> new CompatPicketsBlock(SPAWN_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant ROTTEN = new TrellisVariant(BountifulFares.SPAWN_MOD_ID, "rotten", ResourceLocation.tryBuild(SPAWN_MOD_ID, "rotten_planks"), TRELLIS_RENDER_CUTOUT);
 
-    public static Block registerBlock(String name, Block block) {
-        registerBlockItem(name, block);
-        compatBlocks.add(block);
-        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(SPAWN_MOD_ID, name), block);
+    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
+        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.SPAWN_MOD_ID, name), block);
+        registerBlockItem(name, blockRegistryObject);
+        compatBlocks.add(blockRegistryObject);
+        return blockRegistryObject;
     }
-    private static void registerBlockItem(String name, Block block) {
-        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(SPAWN_MOD_ID, name), new CompatBlockItem(SPAWN_MOD_ID, block, new Item.Properties()));
+
+    private static void registerBlockItem(String name, Supplier<Block> block) {
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.SPAWN_MOD_ID, name), () -> new CompatBlockItem(BountifulFares.SPAWN_MOD_ID, block.get(), new Item.Properties()));
     }
+    
     public static void registerSpawnBlocks() {
 
     }

@@ -49,6 +49,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 // import static net.hecco.bountifulfares.registry.content.BFItems.ARTISAN_BRUSH;
 
@@ -70,96 +71,96 @@ public class BountifulFaresClient {
             // ItemTooltipCallback.EVENT.register(BFTooltipEvents::addTooltipsToVanillaItems);
             // BlockEntityRenderers.register(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, CeramicDishBlockEntityRenderer::new);
 //        ElsAndLsDyes compat
-            setRenderLayer(MintBlocks.ACORN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.ARTICHOKE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.BANANA_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.CERULEAN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.FUCHSIA_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.GRAPE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.MAUVE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.MOLD_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.PEACH_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.PERIWINKLE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.SAGE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.SAP_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.SHAMROCK_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.VELVET_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.VERMILION_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(MintBlocks.WINTERGREEN_PICKETS, RenderType.cutout());
+            setRenderLayer(MintBlocks.ACORN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.ARTICHOKE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.AMBER_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.BANANA_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.CERULEAN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.FUCHSIA_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.GRAPE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.INDIGO_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.MAROON_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.MAUVE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.MOLD_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.MINT_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.NAVY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.PEACH_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.PERIWINKLE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.SAGE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.SAP_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.SHAMROCK_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.VELVET_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.VERMILION_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(MintBlocks.WINTERGREEN_PICKETS.get(), RenderType.cutout());
 
 //        DyeDepot compat
-            setRenderLayer(DyeDepotBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.GINGER_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.TAN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.BEIGE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.OLIVE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.FOREST_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.VERDANT_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.TEAL_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.AQUA_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.SLATE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DyeDepotBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.MAROON_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.ROSE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.CORAL_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.GINGER_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.TAN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.BEIGE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.AMBER_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.OLIVE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.FOREST_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.VERDANT_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.TEAL_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.MINT_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.AQUA_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.SLATE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.NAVY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.INDIGO_JACK_O_STRAW.get(), RenderType.cutout());
 //        ExcessiveBuilding compat
-            setRenderLayer(ExcessiveBuildingBlocks.ANCIENT_PICKETS, RenderType.cutout());
-            setRenderLayer(ExcessiveBuildingBlocks.WALNUT_LADDER, RenderType.cutout());
-            setRenderLayer(ExcessiveBuildingBlocks.HOARY_LADDER, RenderType.cutout());
-            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS, RenderType.cutout());
-            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS, RenderType.cutout());
-            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS);
-            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS);
-            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS);
-            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS);
+            setRenderLayer(ExcessiveBuildingBlocks.ANCIENT_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.WALNUT_LADDER.get(), RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.HOARY_LADDER.get(), RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get(), RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get(), RenderType.cutout());
+            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS.get());
+            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS.get());
+            registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
+            registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS.get());
 
 //        NaturesSpirit compat
-            setRenderLayer(NaturesSpiritBlocks.ASPEN_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.CEDAR_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.COCONUT_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.CYPRESS_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.FIR_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.JOSHUA_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.GHAF_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.LARCH_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.MAPLE_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.OLIVE_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.PALO_VERDE_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.REDWOOD_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.SAXAUL_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.SUGI_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.WILLOW_PICKETS, RenderType.cutout());
-            setRenderLayer(NaturesSpiritBlocks.WISTERIA_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.ASPEN_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.CEDAR_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.COCONUT_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.CYPRESS_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.FIR_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.JOSHUA_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.GHAF_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.LARCH_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAPLE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.OLIVE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.PALO_VERDE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.REDWOOD_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.SAXAUL_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.SUGI_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.WILLOW_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.WISTERIA_PICKETS.get(), RenderType.cutout());
 
             //        Spawn compat
-            setRenderLayer(SpawnBlocks.ROTTEN_PICKETS, RenderType.cutout());
+            setRenderLayer(SpawnBlocks.ROTTEN_PICKETS.get(), RenderType.cutout());
             //        ArtsAndCrafts compat
-            setRenderLayer(ArtsAndCraftsBlocks.CORK_PICKETS, RenderType.cutout());
+            setRenderLayer(ArtsAndCraftsBlocks.CORK_PICKETS.get(), RenderType.cutout());
 
             //        DelicateDyes compat
-            setRenderLayer(DelicateDyesBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.CANARY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.WASABI_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.SACRAMENTO_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.SKY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.BLURPLE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.SANGRIA_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(DelicateDyesBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.CORAL_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.CANARY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.WASABI_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SACRAMENTO_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SKY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.BLURPLE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SANGRIA_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.ROSE_JACK_O_STRAW.get(), RenderType.cutout());
 
             //          Appledog compat
-            setRenderLayer(AppledogBlocks.APPLEDOG_BLOCK, RenderType.cutout());
+            setRenderLayer(AppledogBlocks.APPLEDOG_BLOCK.get(), RenderType.cutout());
 
             //          DungeonsDelight compat
-            setRenderLayer(DungeonsDelightBlocks.WORMWOOD_PICKETS, RenderType.cutout());
+            setRenderLayer(DungeonsDelightBlocks.WORMWOOD_PICKETS.get(), RenderType.cutout());
 
             setRenderLayer(BFBlocks.APPLE_LOG.get(), RenderType.cutout());
             setRenderLayer(BFBlocks.APPLE_WOOD.get(), RenderType.cutout());
@@ -295,8 +296,8 @@ public class BountifulFaresClient {
                     (itemStack, clientWorld, livingEntity, seed) ->
                             BFDyeableLeatherItem.hasColorStatic(itemStack) ? 1.0F : 0.0F);
 
-            for (Block block : BFTrellises.TRELLIS_RENDER_CUTOUT) {
-                setRenderLayer(block, RenderType.cutout());
+            for (Supplier<Block> block : BFTrellises.TRELLIS_RENDER_CUTOUT) {
+                setRenderLayer(block.get(), RenderType.cutout());
             }
         });
     }

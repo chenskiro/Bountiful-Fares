@@ -187,7 +187,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        return new ItemStack(TrellisUtil.getTrellisFromVariant(variant));
+        return new ItemStack(TrellisUtil.getTrellisFromVariant(variant).get());
     }
 
     @Override
@@ -245,7 +245,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         if (seedsItem != null && BFBlocks.CROPS_TO_CROP_TRELLISES.containsKey(seedsItem)) {
             return (BFBlocks.CROPS_TO_CROP_TRELLISES.get(seedsItem)).defaultBlockState();
         } else {
-            return BFTrellises.TRELLISES.get("trellis").defaultBlockState();
+            return BFTrellises.TRELLISES.get("trellis").get().defaultBlockState();
         }
     }
 

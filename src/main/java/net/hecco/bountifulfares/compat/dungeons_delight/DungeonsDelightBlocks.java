@@ -12,27 +12,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.registries.RegistryObject;
 
-import static net.hecco.bountifulfares.BountifulFares.ARTS_AND_CRAFTS_MOD_ID;
-import static net.hecco.bountifulfares.BountifulFares.DUNGEONS_DELIGHT_MOD_ID;
+import java.util.function.Supplier;
+
 import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_RENDER_CUTOUT;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class DungeonsDelightBlocks {
-    public static Block WORMWOOD_PICKETS = registerBlock("wormwood_pickets", new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
+    public static RegistryObject<Block> WORMWOOD_PICKETS = registerBlock("wormwood_pickets", ()->new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
-    public static final TrellisVariant WORMWOOD = new TrellisVariant(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood", ResourceLocation.tryBuild(DUNGEONS_DELIGHT_MOD_ID, "wormwood_planks"), TRELLIS_RENDER_CUTOUT);
+    public static final TrellisVariant WORMWOOD = new TrellisVariant(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood", ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood_planks"), TRELLIS_RENDER_CUTOUT);
 
 
-    public static Block registerBlock(String name, Block block) {
-        registerBlockItem(name, block);
-        compatBlocks.add(block);
-        return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(DUNGEONS_DELIGHT_MOD_ID, name), block);
+    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
+        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, name), block);
+        registerBlockItem(name, blockRegistryObject);
+        compatBlocks.add(blockRegistryObject);
+        return blockRegistryObject;
     }
 
-    private static void registerBlockItem(String name, Block block) {
-        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(DUNGEONS_DELIGHT_MOD_ID, name), new CompatBlockItem(DUNGEONS_DELIGHT_MOD_ID, block, new Item.Properties()));
+    private static void registerBlockItem(String name, Supplier<Block> block) {
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, name), () -> new CompatBlockItem(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, block.get(), new Item.Properties()));
     }
+    
     public static void registerDungeonsDelightBlocks() {
     }
 }
