@@ -61,7 +61,7 @@ public class BountifulFares  {
 		TrellisUtil.registerTrellisParts();
 		// BFItemGroups.registerItemGroups();
 		// BFItemGroupAdditions.registerItemGroupAdditions();
-		BFRecipes.registerRecipes();
+		// BFRecipes.registerRecipes();
 
 		// todo make forge version
 		// BFTreeGeneration.generateTrees();

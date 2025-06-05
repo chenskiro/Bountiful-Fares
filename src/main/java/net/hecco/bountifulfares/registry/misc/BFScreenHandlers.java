@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.registry.misc;
 
+import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.screen.GristmillScreenHandler;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -31,7 +32,7 @@ public class BFScreenHandlers {
 
     private static <T extends AbstractContainerMenu> MenuType<T> register(String id, MenuType.MenuSupplier<T> factory) {
         MenuType<T> tMenuType = new MenuType<>(factory, FeatureFlags.VANILLA_SET);
-        menuTypes.put(ResourceKey.create(Registries.MENU, new ResourceLocation(id)), tMenuType);
+        menuTypes.put(ResourceKey.create(Registries.MENU, BountifulFares.rl(id)), tMenuType);
         // return Registry.register(BuiltInRegistries.MENU, id, tMenuType);
         return tMenuType;
     }

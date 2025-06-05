@@ -21,10 +21,10 @@ public class BFTrellises {
     public static final ArrayList<Supplier<Block>> TRELLIS_RENDER_CUTOUT = new ArrayList<>();
 
 
-    public static final VineCrop PASSION_FRUIT = new VineCrop(BountifulFares.MOD_ID, "passion_fruit", BFItems.PASSION_FRUIT.get());
-    public static final VineCrop ELDERBERRY = new VineCrop(BountifulFares.MOD_ID, "elderberry", BFItems.ELDERBERRIES.get());
-    public static final VineCrop LAPISBERRY = new VineCrop(BountifulFares.MOD_ID, "lapisberry", BFItems.LAPISBERRIES.get(), BFItems.LAPISBERRY_SEEDS.get());
-    public static final VineCrop GLOW_BERRY = new VineCrop(BountifulFares.MOD_ID, "glow_berry", Items.GLOW_BERRIES);
+    public static final VineCrop PASSION_FRUIT = new VineCrop(BountifulFares.MOD_ID, "passion_fruit", BFItems.PASSION_FRUIT);
+    public static final VineCrop ELDERBERRY = new VineCrop(BountifulFares.MOD_ID, "elderberry", BFItems.ELDERBERRIES);
+    public static final VineCrop LAPISBERRY = new VineCrop(BountifulFares.MOD_ID, "lapisberry", BFItems.LAPISBERRIES, BFItems.LAPISBERRY_SEEDS);
+    public static final VineCrop GLOW_BERRY = new VineCrop(BountifulFares.MOD_ID, "glow_berry", () -> Items.GLOW_BERRIES);
 
     public static final DecorativeVine ROSE = new DecorativeVine(true, BountifulFares.MOD_ID, "rose", Items.ROSE_BUSH);
     public static final DecorativeVine LILAC = new DecorativeVine(true, BountifulFares.MOD_ID, "lilac", Items.LILAC);
@@ -34,7 +34,7 @@ public class BFTrellises {
     public static final DecorativeVine WEEPING = new DecorativeVine(false, BountifulFares.MOD_ID, "weeping", Items.WEEPING_VINES);
     public static final DecorativeVine TWISTING = new DecorativeVine(false, BountifulFares.MOD_ID, "twisting", Items.TWISTING_VINES);
 
-//    Nature's Spirit
+    //    Nature's Spirit
     public static DecorativeVine NS_LAVENDER;
     public static DecorativeVine NS_BLEEDING_HEART;
     public static DecorativeVine NS_BLUE_BULB;
@@ -43,10 +43,10 @@ public class BFTrellises {
     public static DecorativeVine NS_MARIGOLD;
     public static DecorativeVine NS_FOXGLOVE;
 
-//    Spawn
+    //    Spawn
     public static VineCrop SPAWN_SUNFLOWER;
 
-//    Base
+    //    Base
     public static TrellisVariant OAK;
     public static TrellisVariant SPRUCE;
     public static TrellisVariant BIRCH;
@@ -63,7 +63,6 @@ public class BFTrellises {
     public static TrellisVariant WARPED;
 
 
-
 //    Arts and crafts
 
 //    Wilder Wild
@@ -74,7 +73,7 @@ public class BFTrellises {
     public static void registerTrellisParts() {
         //        Compat Vine Crops
         if (BountifulFares.isDatagen()) {
-            SPAWN_SUNFLOWER = new VineCrop(BountifulFares.SPAWN_MOD_ID, "spawn_sunflower", Items.WHEAT_SEEDS);
+            SPAWN_SUNFLOWER = new VineCrop(BountifulFares.SPAWN_MOD_ID, "spawn_sunflower", () -> Items.WHEAT_SEEDS);
         } else if (BountifulFares.isModLoaded(BountifulFares.SPAWN_MOD_ID)) {
             SPAWN_SUNFLOWER = new VineCrop(BountifulFares.SPAWN_MOD_ID, "spawn_sunflower", ResourceLocation.tryBuild(BountifulFares.SPAWN_MOD_ID, "sunflower_seeds"));
 
@@ -100,19 +99,19 @@ public class BFTrellises {
 
 
 //        Trellis Variants
-        OAK = new TrellisVariant(BountifulFares.MOD_ID, "oak", Items.OAK_PLANKS, TRELLIS_RENDER_CUTOUT);
-        SPRUCE = new TrellisVariant(BountifulFares.MOD_ID, "spruce", Items.SPRUCE_PLANKS, TRELLIS_RENDER_CUTOUT);
-        BIRCH = new TrellisVariant(BountifulFares.MOD_ID, "birch", Items.BIRCH_PLANKS, TRELLIS_RENDER_CUTOUT);
-        JUNGLE = new TrellisVariant(BountifulFares.MOD_ID, "jungle", Items.JUNGLE_PLANKS, TRELLIS_RENDER_CUTOUT);
-        ACACIA = new TrellisVariant(BountifulFares.MOD_ID, "acacia", Items.ACACIA_PLANKS, TRELLIS_RENDER_CUTOUT);
-        DARK_OAK = new TrellisVariant(BountifulFares.MOD_ID, "dark_oak", Items.DARK_OAK_PLANKS, TRELLIS_RENDER_CUTOUT);
-        MANGROVE = new TrellisVariant(BountifulFares.MOD_ID, "mangrove", Items.MANGROVE_PLANKS, TRELLIS_RENDER_CUTOUT);
-        CHERRY = new TrellisVariant(BountifulFares.MOD_ID, "cherry", Items.CHERRY_PLANKS, TRELLIS_RENDER_CUTOUT);
-        BAMBOO = new TrellisVariant(BountifulFares.MOD_ID, "bamboo", Items.BAMBOO_PLANKS, TRELLIS_RENDER_CUTOUT);
-        WALNUT = new TrellisVariant(BountifulFares.MOD_ID, "walnut", BFBlocks.WALNUT_PLANKS.get().asItem(), TRELLIS_RENDER_CUTOUT);
-        HOARY = new TrellisVariant(BountifulFares.MOD_ID, "hoary", BFBlocks.HOARY_PLANKS.get().asItem(), TRELLIS_RENDER_CUTOUT);
-        CRIMSON = new TrellisVariant(BountifulFares.MOD_ID, "crimson", Items.CRIMSON_PLANKS, TRELLIS_RENDER_CUTOUT);
-        WARPED = new TrellisVariant(BountifulFares.MOD_ID, "warped", Items.WARPED_PLANKS, TRELLIS_RENDER_CUTOUT);
+        OAK = new TrellisVariant(BountifulFares.MOD_ID, "oak", () -> Items.OAK_PLANKS, TRELLIS_RENDER_CUTOUT);
+        SPRUCE = new TrellisVariant(BountifulFares.MOD_ID, "spruce", () -> Items.SPRUCE_PLANKS, TRELLIS_RENDER_CUTOUT);
+        BIRCH = new TrellisVariant(BountifulFares.MOD_ID, "birch", () -> Items.BIRCH_PLANKS, TRELLIS_RENDER_CUTOUT);
+        JUNGLE = new TrellisVariant(BountifulFares.MOD_ID, "jungle", () -> Items.JUNGLE_PLANKS, TRELLIS_RENDER_CUTOUT);
+        ACACIA = new TrellisVariant(BountifulFares.MOD_ID, "acacia", () -> Items.ACACIA_PLANKS, TRELLIS_RENDER_CUTOUT);
+        DARK_OAK = new TrellisVariant(BountifulFares.MOD_ID, "dark_oak", () -> Items.DARK_OAK_PLANKS, TRELLIS_RENDER_CUTOUT);
+        MANGROVE = new TrellisVariant(BountifulFares.MOD_ID, "mangrove", () -> Items.MANGROVE_PLANKS, TRELLIS_RENDER_CUTOUT);
+        CHERRY = new TrellisVariant(BountifulFares.MOD_ID, "cherry", () -> Items.CHERRY_PLANKS, TRELLIS_RENDER_CUTOUT);
+        BAMBOO = new TrellisVariant(BountifulFares.MOD_ID, "bamboo", () -> Items.BAMBOO_PLANKS, TRELLIS_RENDER_CUTOUT);
+        WALNUT = new TrellisVariant(BountifulFares.MOD_ID, "walnut", BFBlocks.WALNUT_PLANKS, TRELLIS_RENDER_CUTOUT);
+        HOARY = new TrellisVariant(BountifulFares.MOD_ID, "hoary", BFBlocks.HOARY_PLANKS, TRELLIS_RENDER_CUTOUT);
+        CRIMSON = new TrellisVariant(BountifulFares.MOD_ID, "crimson", () -> Items.CRIMSON_PLANKS, TRELLIS_RENDER_CUTOUT);
+        WARPED = new TrellisVariant(BountifulFares.MOD_ID, "warped", () -> Items.WARPED_PLANKS, TRELLIS_RENDER_CUTOUT);
 
 //        if (BountifulFares.isModLoaded(BountifulFares.WILDER_WILD_MOD_ID)) {
 //            BAOBAB = new TrellisVariant(BountifulFares.WILDER_WILD_MOD_ID, "baobab", null, TRELLIS_RENDER_CUTOUT);

@@ -16,6 +16,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -34,15 +36,15 @@ public class TrellisVariant {
     private final String MOD_ID;
     private final String VARIANT_ID;
 
-//    Used for crafting recipes, can be ignored if there is no planks to craft it with
-    private final Item PLANKS;
+    //    Used for crafting recipes, can be ignored if there is no planks to craft it with
+    private final Supplier<? extends ItemLike> PLANKS;
     private final ResourceLocation CRAFTING_ITEM;
     private final SoundType SOUND_GROUP;
     private final SoundType PLANTED_SOUND_GROUP;
     private final float HARDNESS;
 
 
-    public TrellisVariant(String modId, String id, @Nullable Item planks, ArrayList<Supplier<Block>> renderCutoutList) {
+    public TrellisVariant(String modId, String id, @Nullable Supplier<? extends ItemLike> planks, ArrayList<Supplier<Block>> renderCutoutList) {
         this.MOD_ID = modId;
         this.VARIANT_ID = id;
         this.PLANKS = planks;
@@ -54,7 +56,7 @@ public class TrellisVariant {
         registerTrellisBlocks(renderCutoutList);
     }
 
-    public TrellisVariant(String modId, String id, @Nullable Item planks, SoundType soundGroup, SoundType plantedSoundGroup, float hardness, ArrayList<Supplier<Block>> renderCutoutList) {
+    public TrellisVariant(String modId, String id, @Nullable Supplier<? extends ItemLike> planks, SoundType soundGroup, SoundType plantedSoundGroup, float hardness, ArrayList<Supplier<Block>> renderCutoutList) {
         this.MOD_ID = modId;
         this.VARIANT_ID = id;
         this.PLANKS = planks;
@@ -89,7 +91,7 @@ public class TrellisVariant {
         TrellisUtil.TrellisVariants.add(this);
         registerTrellisBlocks(renderCutoutList);
     }
-    
+
     private void registerTrellisBlocks(ArrayList<Supplier<Block>> renderCutoutList) {
         registerTrellis(renderCutoutList);
 
@@ -140,33 +142,33 @@ public class TrellisVariant {
 
     private void registerTrellis(ArrayList<Supplier<Block>> renderCutoutList) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.TRELLISES.put(this.getBlockName(), registerBlock(this.getModId(), this.getBlockName(),()-> new TrellisBlock(this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
+            BFTrellises.TRELLISES.put(this.getBlockName(), registerBlock(this.getModId(), this.getBlockName(), () -> new TrellisBlock(this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
         } else {
-            BFTrellises.TRELLISES.put(this.getBlockName(), registerCompatBlock(this.getModId(), this.getBlockName(), ()-> new CompatTrellisBlock(this.MOD_ID, this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
+            BFTrellises.TRELLISES.put(this.getBlockName(), registerCompatBlock(this.getModId(), this.getBlockName(), () -> new CompatTrellisBlock(this.MOD_ID, this, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).sound(this.SOUND_GROUP).instrument(NoteBlockInstrument.BASS).noOcclusion())));
         }
         renderCutoutList.add(BFTrellises.TRELLISES.get(this.getBlockName()));
     }
 
     private void registerCropTrellis(ArrayList<Supplier<Block>> renderCutoutList, VineCrop crop) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(),()->  new CropTrellisBlock(crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), () -> new CropTrellisBlock(crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
         } else {
-            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), ()-> new CompatCropTrellisBlock(this.MOD_ID, crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.CROP_TRELLISES.put(crop.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), crop.getName() + "_" + this.getBlockName(), () -> new CompatCropTrellisBlock(this.MOD_ID, crop.getSeedsItem(), crop.getCropItem(), this, crop, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().randomTicks().sound(this.PLANTED_SOUND_GROUP))));
         }
         renderCutoutList.add(BFTrellises.CROP_TRELLISES.get(crop.getName() + this.getBlockName()));
     }
 
     private void registerDecorativeTrellis(ArrayList<Supplier<Block>> renderCutoutList, DecorativeVine vine) {
         if (Objects.equals(this.MOD_ID, BountifulFares.MOD_ID)) {
-            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(),()->  new DecorativeTrellisBlock(vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), () -> new DecorativeTrellisBlock(vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
         } else {
-            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), ()-> new CompatDecorativeTrellisBlock(this.MOD_ID, vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
+            BFTrellises.DECORATIVE_TRELLISES.put(vine.getName() + this.getBlockName(), registerBlockNoItem(this.getModId(), vine.getName() + "_" + this.getBlockName(), () -> new CompatDecorativeTrellisBlock(this.MOD_ID, vine.canDuplicate(), vine.getPlantItem(), this, vine, BlockBehaviour.Properties.of().noOcclusion().strength(this.HARDNESS).instrument(NoteBlockInstrument.BASS).noOcclusion().sound(this.PLANTED_SOUND_GROUP))));
         }
         renderCutoutList.add(BFTrellises.DECORATIVE_TRELLISES.get(vine.getName() + this.getBlockName()));
     }
 
     public RegistryObject<Block> registerCompatBlock(String id, String name, Supplier<Block> block) {
-        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), ()->new CompatBlockItem(this.MOD_ID, block.get(), new Item.Properties()));
+        BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), () -> new CompatBlockItem(this.MOD_ID, block.get(), new Item.Properties()));
         return BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
     }
 
@@ -186,8 +188,9 @@ public class TrellisVariant {
     }
 
     public Item getCraftingItem() {
-        return this.PLANKS;
+        return this.PLANKS == null ? Items.AIR : this.PLANKS.get().asItem();
     }
+
     public ResourceLocation getCraftingItemIdentifier() {
         return this.CRAFTING_ITEM;
     }

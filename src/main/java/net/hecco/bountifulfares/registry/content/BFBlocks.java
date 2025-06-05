@@ -64,7 +64,7 @@ public class BFBlocks {
     // private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
 
     public static final Map<Item, CropTrellisBlock> CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
-    public static final Map<Item, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
+    public static final Map<Supplier<Item>, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
     public static final Map<Item, DecorativeVine> PLANTS_TO_DECORATIVE_VINES = Maps.newHashMap();
     public static final Map<Item, DecorativeTrellisBlock> PLANTS_TO_DECORATIVE_TRELLISES = Maps.newHashMap();
     public static final Map<DecorativeTrellisBlock, Item> DECORATIVE_TRELLISES_TO_PLANTS = Maps.newHashMap();
