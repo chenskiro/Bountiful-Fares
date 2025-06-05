@@ -49,7 +49,7 @@ public class ArtisanCookiesBlock extends Block {
 
         public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(BFItems.ARTISAN_COOKIE) && state.getValue(COUNT) < MAX_COUNT) {
+        if (itemStack.is(BFItems.ARTISAN_COOKIE.get()) && state.getValue(COUNT) < MAX_COUNT) {
             return InteractionResult.PASS;
         } else if (world.isClientSide) {
             if (tryEat(world, pos, state, player, player.getUsedItemHand()).consumesAction()) {
@@ -83,7 +83,7 @@ public class ArtisanCookiesBlock extends Block {
             player.getFoodData().eat(3, 0.3F);
             int count = state.getValue(COUNT);
             world.gameEvent(player, GameEvent.EAT, pos);
-            if (!player.getItemInHand(hand).is(BFItems.ARTISAN_COOKIE)) {
+            if (!player.getItemInHand(hand).is(BFItems.ARTISAN_COOKIE.get())) {
                 if (count > 0) {
                     world.setBlock(pos, state.setValue(COUNT, count - 1), 3);
                     world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 0.5f, 1.0f);

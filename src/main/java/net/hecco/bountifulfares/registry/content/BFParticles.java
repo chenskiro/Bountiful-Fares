@@ -24,7 +24,8 @@ public class BFParticles {
 
     private static SimpleParticleType registerParticle(String name, SimpleParticleType particleType) {
         // return Registry.register(BuiltInRegistries.PARTICLE_TYPE, BountifulFares.rl(name), particleType);
-        return particleTypeMap.put(ResourceKey.create(Registries.PARTICLE_TYPE, BountifulFares.rl(name)), particleType);
+        particleTypeMap.put(ResourceKey.create(Registries.PARTICLE_TYPE, BountifulFares.rl(name)), particleType);
+        return particleType;
     }
 
     public static void registerParticles() {

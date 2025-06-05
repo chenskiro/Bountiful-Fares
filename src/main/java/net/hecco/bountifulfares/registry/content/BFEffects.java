@@ -15,6 +15,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFEffects {
     // public static final Holder<MobEffect> ACIDIC = registerStatusEffect("acidic", new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
@@ -41,11 +44,15 @@ public class BFEffects {
     public static final MobEffect STUPOR = new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8);
     public static final MobEffect EBULLIENCE = new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2);
     public static final MobEffect ENRICHMENT = new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
-            .addAttributeModifier(Attributes.MOVEMENT_SPEED, BountifulFares.rl("effect.speed").getPath(), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.ATTACK_SPEED, BountifulFares.rl("effect.attack_speed").getPath(), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.ATTACK_DAMAGE, BountifulFares.rl("effect.attack").getPath(), 0.2, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.LUCK, BountifulFares.rl("effect.luck").getPath(), 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            .addAttributeModifier(Attributes.MOVEMENT_SPEED, uid(BountifulFares.rl("effect.speed")), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
+            .addAttributeModifier(Attributes.ATTACK_SPEED, uid(BountifulFares.rl("effect.attack_speed")), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
+            .addAttributeModifier(Attributes.ATTACK_DAMAGE, uid(BountifulFares.rl("effect.attack")), 0.2, AttributeModifier.Operation.MULTIPLY_TOTAL)
+            .addAttributeModifier(Attributes.LUCK, uid(BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
     public static final MobEffect RESTORATION = new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19);
+
+    public static String uid(ResourceLocation resourceLocation) {
+        return UUID.nameUUIDFromBytes(resourceLocation.toLanguageKey().getBytes(StandardCharsets.UTF_8)).toString();
+    }
 
     @SubscribeEvent
     public static void onRegister(RegisterEvent event) {

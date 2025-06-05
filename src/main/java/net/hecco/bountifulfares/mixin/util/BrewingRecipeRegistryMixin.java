@@ -7,6 +7,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraftforge.event.brewing.PotionBrewEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,11 +22,12 @@ public abstract class BrewingRecipeRegistryMixin {
 
     @Inject(method = "bootStrap", at = @At("TAIL"))
     private static void registerDefaults(CallbackInfo ci) {
-        addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE, BFPotions.ACIDIC);
-        addMix(BFPotions.ACIDIC, Items.REDSTONE, BFPotions.LONG_ACIDIC);
-        addMix(BFPotions.ACIDIC, Items.GLOWSTONE_DUST, BFPotions.STRONG_ACIDIC);
-        addMix(BFPotions.ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.STUPOR);
-        addMix(BFPotions.LONG_ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.LONG_STUPOR);
-        addMix(BFPotions.STUPOR, Items.REDSTONE, BFPotions.LONG_STUPOR);
+        // todo
+        // addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE, BFPotions.ACIDIC);
+        // addMix(BFPotions.ACIDIC, Items.REDSTONE, BFPotions.LONG_ACIDIC);
+        // addMix(BFPotions.ACIDIC, Items.GLOWSTONE_DUST, BFPotions.STRONG_ACIDIC);
+        // addMix(BFPotions.ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.STUPOR);
+        // addMix(BFPotions.LONG_ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.LONG_STUPOR);
+        // addMix(BFPotions.STUPOR, Items.REDSTONE, BFPotions.LONG_STUPOR);
     }
 }

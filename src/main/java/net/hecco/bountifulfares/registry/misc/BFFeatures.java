@@ -28,8 +28,8 @@ public class BFFeatures {
 
     private static <C extends FeatureConfiguration, F extends Feature<C>> Feature<?> register(String name, F feature) {
         // return Registry.register(BuiltInRegistries.FEATURE, BountifulFares.rl( name), feature);
-        return features.put(ResourceKey.create(Registries.FEATURE, BountifulFares.rl(name)),
-                feature);
+        features.put(ResourceKey.create(Registries.FEATURE, BountifulFares.rl(name)),feature);
+        return feature;
     }
 
     // public static void register() {

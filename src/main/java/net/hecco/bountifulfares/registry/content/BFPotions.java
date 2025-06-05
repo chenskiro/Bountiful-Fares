@@ -33,8 +33,9 @@ public class BFPotions {
     public static final Potion LONG_STUPOR = registerForCache(BuiltInRegistries.POTION, BountifulFares.rl("bountifulfares.long_stupor"),
             new Potion(new MobEffectInstance(BFEffects.STUPOR, 3600, 0)));
 
-    private static Potion registerForCache(DefaultedRegistry<Potion> potion, ResourceLocation rl, Potion potion1) {
-        return potions.put(ResourceKey.create(Registries.POTION, rl), potion1);
+    private static Potion registerForCache(DefaultedRegistry<Potion> registry, ResourceLocation rl, Potion potion1) {
+        potions.put(ResourceKey.create(Registries.POTION, rl), potion1);
+        return potion1;
     }
 
 

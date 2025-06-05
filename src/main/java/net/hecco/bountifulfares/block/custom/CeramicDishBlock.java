@@ -85,7 +85,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
         if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity blockEntity) {
             ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
             ItemStack stack = blockEntity.getItem(0);
-            if (itemStack.is(BFItems.ARTISAN_BRUSH)) {
+            if (itemStack.is(BFItems.ARTISAN_BRUSH.get())) {
                 if (itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY) && blockEntity.getItem(0).isEmpty()) {
                     // int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
                     int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);

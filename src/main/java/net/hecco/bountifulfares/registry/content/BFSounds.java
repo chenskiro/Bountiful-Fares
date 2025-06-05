@@ -109,7 +109,9 @@ public class BFSounds {
     public static SoundEvent registerSoundEvent(String name) {
         ResourceLocation identifier = BountifulFares.rl(name);
         // return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
-        return sounds.put(ResourceKey.create(Registries.SOUND_EVENT, identifier), SoundEvent.createVariableRangeEvent(identifier));
+        SoundEvent variableRangeEvent = SoundEvent.createVariableRangeEvent(identifier);
+        sounds.put(ResourceKey.create(Registries.SOUND_EVENT, identifier), variableRangeEvent);
+        return variableRangeEvent;
     }
 
     // public static void registerSounds() {
