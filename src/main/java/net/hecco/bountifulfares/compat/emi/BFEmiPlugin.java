@@ -55,8 +55,8 @@ public class BFEmiPlugin implements EmiPlugin {
         registry.addCategory(BFEmiRecipeCategories.MILLING);
         registry.addCategory(BFEmiRecipeCategories.PRISMARINE_PROPAGATION);
 
-        registry.addWorkstation(BFEmiRecipeCategories.FERMENTING, EmiStack.of(BFBlocks.FERMENTATION_VESSEL));
-        registry.addWorkstation(BFEmiRecipeCategories.MILLING, EmiStack.of(BFBlocks.GRISTMILL));
+        registry.addWorkstation(BFEmiRecipeCategories.FERMENTING, EmiStack.of(BFBlocks.FERMENTATION_VESSEL.get()));
+        registry.addWorkstation(BFEmiRecipeCategories.MILLING, EmiStack.of(BFBlocks.GRISTMILL.get()));
 
         registry.addRecipeHandler(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, new GristmillRecipeHandler());
 

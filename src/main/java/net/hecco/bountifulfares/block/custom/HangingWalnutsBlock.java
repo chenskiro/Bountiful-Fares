@@ -77,20 +77,20 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         if (world.getBlockState(pos).isAir() || world.getBlockState(pos).is(BlockTags.REPLACEABLE)) {
             if (world.getBlockState(pos.below()).isFaceSturdy(world, pos, Direction.UP)) {
-                world.setBlock(pos, BFBlocks.FALLEN_WALNUTS.defaultBlockState(), 2);
+                world.setBlock(pos, BFBlocks.FALLEN_WALNUTS.get().defaultBlockState(), 2);
             }
 
         } else {
             if (world.getBlockState(pos).isFaceSturdy(world, pos, Direction.UP)) {
-                world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.defaultBlockState(), 2);
+                world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.get().defaultBlockState(), 2);
             }
-            if (world.getBlockState(pos).is(BFBlocks.FALLEN_WALNUTS) && world.getBlockState(pos).getValue(FallenWalnutsBlock.COUNT) != 3) {
-                world.setBlock(pos, BFBlocks.FALLEN_WALNUTS.defaultBlockState().setValue(FallenWalnutsBlock.COUNT, world.getBlockState(pos).getValue(FallenWalnutsBlock.COUNT) + 1), 2);
+            if (world.getBlockState(pos).is(BFBlocks.FALLEN_WALNUTS.get()) && world.getBlockState(pos).getValue(FallenWalnutsBlock.COUNT) != 3) {
+                world.setBlock(pos, BFBlocks.FALLEN_WALNUTS.get().defaultBlockState().setValue(FallenWalnutsBlock.COUNT, world.getBlockState(pos).getValue(FallenWalnutsBlock.COUNT) + 1), 2);
             } else if (world.getBlockState(pos).is(Blocks.FARMLAND) || world.getBlockState(pos).is(Blocks.DIRT_PATH)) {
-                if (world.getBlockState(pos.above()).is(BFBlocks.FALLEN_WALNUTS) && world.getBlockState(pos.above()).getValue(FallenWalnutsBlock.COUNT) != 3) {
-                    world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.defaultBlockState().setValue(FallenWalnutsBlock.COUNT, world.getBlockState(pos.above()).getValue(FallenWalnutsBlock.COUNT) + 1), 2);
+                if (world.getBlockState(pos.above()).is(BFBlocks.FALLEN_WALNUTS.get()) && world.getBlockState(pos.above()).getValue(FallenWalnutsBlock.COUNT) != 3) {
+                    world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.get().defaultBlockState().setValue(FallenWalnutsBlock.COUNT, world.getBlockState(pos.above()).getValue(FallenWalnutsBlock.COUNT) + 1), 2);
                 } else {
-                    world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.defaultBlockState(), 2);
+                    world.setBlock(pos.above(), BFBlocks.FALLEN_WALNUTS.get().defaultBlockState(), 2);
                 }
             }
         }
@@ -113,7 +113,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return Block.canSupportCenter(world, pos.above(), Direction.DOWN) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.WALNUT_LEAVES) && !world.isWaterAt(pos);
+                || world.getBlockState(pos.above()).is(BFBlocks.WALNUT_LEAVES.get()) && !world.isWaterAt(pos);
     }
 
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {

@@ -17,8 +17,8 @@ import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class TwigsBlocks {
 
-    public static final Block WALNUT_TABLE = registerBlock("walnut_table", new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS)));
-    public static final Block HOARY_TABLE = registerBlock("hoary_table", new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.HOARY_PLANKS)));
+    public static final Block WALNUT_TABLE = registerBlock("walnut_table", new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS.get())));
+    public static final Block HOARY_TABLE = registerBlock("hoary_table", new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.HOARY_PLANKS.get())));
     public static final Block FELDSPAR_LAMP = registerBlock("feldspar_lamp", new TwigsLampBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(4.5F).sound(TwigsSounds.LAMP).lightLevel(createLightLevelFromLitBlockState(8))));
 
 

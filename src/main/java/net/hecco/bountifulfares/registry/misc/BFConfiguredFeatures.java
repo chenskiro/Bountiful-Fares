@@ -27,9 +27,9 @@ public class BFConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> GOLDEN_APPLE_KEY = registerKey("golden_apple");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
-        register(context, WALNUT_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(BFBlocks.WALNUT_LOG),
+        register(context, WALNUT_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(BFBlocks.WALNUT_LOG.get()),
                 new WalnutTrunkPlacer(7, 9, 4),
-                BlockStateProvider.simple(BFBlocks.WALNUT_LEAVES),
+                BlockStateProvider.simple(BFBlocks.WALNUT_LEAVES.get()),
                 new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(3), 4),
 //                new RandomSpreadFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(2), ConstantIntProvider.create(3), 50),
                 new TwoLayersFeatureSize(0, 0, 0)).forceDirt().build());

@@ -18,7 +18,7 @@ import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_REND
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class SpawnBlocks {
-    public static Block ROTTEN_PICKETS = registerBlock("rotten_pickets", new CompatPicketsBlock(SPAWN_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS)));
+    public static Block ROTTEN_PICKETS = registerBlock("rotten_pickets", new CompatPicketsBlock(SPAWN_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant ROTTEN = new TrellisVariant(BountifulFares.SPAWN_MOD_ID, "rotten", ResourceLocation.tryBuild(SPAWN_MOD_ID, "rotten_planks"), TRELLIS_RENDER_CUTOUT);
 

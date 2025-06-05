@@ -74,8 +74,8 @@ public class HangingOrangeBlock extends HangingFruitBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return Block.canSupportCenter(world, pos.above(), Direction.DOWN) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.ORANGE_LEAVES) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_ORANGE_LEAVES) && !world.isWaterAt(pos);
+                || world.getBlockState(pos.above()).is(BFBlocks.ORANGE_LEAVES.get()) && !world.isWaterAt(pos)
+                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_ORANGE_LEAVES.get()) && !world.isWaterAt(pos);
     }
 
     @Override

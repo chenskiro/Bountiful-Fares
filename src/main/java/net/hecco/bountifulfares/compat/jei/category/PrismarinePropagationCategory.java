@@ -30,7 +30,7 @@ public class PrismarinePropagationCategory implements IRecipeCategory<Propagatio
     private final IDrawable background;
 
     public PrismarinePropagationCategory(IGuiHelper helper) {
-        icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.PRISMARINE_BLOSSOM));
+        icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.PRISMARINE_BLOSSOM.get()));
         ResourceLocation backgroundImage = BountifulFares.rl( "textures/gui/jei/propagation.png");
         background = helper.createDrawable(backgroundImage, 0, 0, 92, 49);
     }
@@ -50,8 +50,8 @@ public class PrismarinePropagationCategory implements IRecipeCategory<Propagatio
                         .map(block -> block.asItem().getDefaultInstance())
                         .collect(Collectors.toList()))
                 .orElse(List.of()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 70, 6).addItemStack(BFBlocks.PRISMARINE_BLOSSOM.asItem().getDefaultInstance());
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 70, 27).addItemStack(BFBlocks.SPONGEKIN.asItem().getDefaultInstance());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 70, 6).addItemStack(BFBlocks.PRISMARINE_BLOSSOM.get().asItem().getDefaultInstance());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 70, 27).addItemStack(BFBlocks.SPONGEKIN.get().asItem().getDefaultInstance());
     }
 
     @Override

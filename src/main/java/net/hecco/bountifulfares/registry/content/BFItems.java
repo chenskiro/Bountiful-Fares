@@ -38,9 +38,9 @@ public class BFItems {
     public static final RegistryObject<Item> LEMON = ITEM_DEFERRED_REGISTER.register("lemon",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())));
     public static final RegistryObject<Item> PLUM = ITEM_DEFERRED_REGISTER.register("plum",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())));
     public static final RegistryObject<Item> HOARY_APPLE = ITEM_DEFERRED_REGISTER.register("hoary_apple",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.6F).build())));
-    public static final RegistryObject<Item> HOARY_SEEDS = ITEM_DEFERRED_REGISTER.register("hoary_seeds",()-> new ItemNameBlockItem(BFBlocks.HOARY_APPLE_SAPLING_CROP, new Item.Properties()));
-    public static final RegistryObject<Item> HOARY_SIGN = ITEM_DEFERRED_REGISTER.register("hoary_sign",()-> new SignItem(new Item.Properties().stacksTo(16), BFBlocks.HOARY_SIGN, BFBlocks.HOARY_WALL_SIGN));
-    public static final RegistryObject<Item> HOARY_HANGING_SIGN = ITEM_DEFERRED_REGISTER.register("hoary_hanging_sign",()-> new HangingSignItem(BFBlocks.HOARY_HANGING_SIGN, BFBlocks.HOARY_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> HOARY_SEEDS = ITEM_DEFERRED_REGISTER.register("hoary_seeds",()-> new ItemNameBlockItem(BFBlocks.HOARY_APPLE_SAPLING_CROP.get(), new Item.Properties()));
+    public static final RegistryObject<Item> HOARY_SIGN = ITEM_DEFERRED_REGISTER.register("hoary_sign",()-> new SignItem(new Item.Properties().stacksTo(16), BFBlocks.HOARY_SIGN.get(), BFBlocks.HOARY_WALL_SIGN.get()));
+    public static final RegistryObject<Item> HOARY_HANGING_SIGN = ITEM_DEFERRED_REGISTER.register("hoary_hanging_sign",()-> new HangingSignItem(BFBlocks.HOARY_HANGING_SIGN.get(), BFBlocks.HOARY_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
 
     // public static final RegistryObject<Item> HOARY_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_BOAT_ID, BFBoats.HOARY_BOAT_KEY, false);
     // public static final RegistryObject<Item> HOARY_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_CHEST_BOAT_ID, BFBoats.HOARY_BOAT_KEY, true);
@@ -48,14 +48,14 @@ public class BFItems {
     public static final RegistryObject<Item> SWEET_BERRY_PIPS = ITEM_DEFERRED_REGISTER.register("sweet_berry_pips",()-> new SweetBerryPipsItem(Blocks.SWEET_BERRY_BUSH, new Item.Properties()));
 
     public static final RegistryObject<Item> WALNUT = ITEM_DEFERRED_REGISTER.register("walnut",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0).fast().build())));
-    public static final RegistryObject<Item> WALNUT_SIGN = ITEM_DEFERRED_REGISTER.register("walnut_sign",()-> new SignItem(new Item.Properties().stacksTo(16), BFBlocks.WALNUT_SIGN, BFBlocks.WALNUT_WALL_SIGN));
-    public static final RegistryObject<Item> WALNUT_HANGING_SIGN = ITEM_DEFERRED_REGISTER.register("walnut_hanging_sign",()-> new HangingSignItem(BFBlocks.WALNUT_HANGING_SIGN, BFBlocks.WALNUT_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> WALNUT_SIGN = ITEM_DEFERRED_REGISTER.register("walnut_sign",()-> new SignItem(new Item.Properties().stacksTo(16), BFBlocks.WALNUT_SIGN.get(), BFBlocks.WALNUT_WALL_SIGN.get()));
+    public static final RegistryObject<Item> WALNUT_HANGING_SIGN = ITEM_DEFERRED_REGISTER.register("walnut_hanging_sign",()-> new HangingSignItem(BFBlocks.WALNUT_HANGING_SIGN.get(), BFBlocks.WALNUT_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
 
     // public static final RegistryObject<Item> WALNUT_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, false);
     // public static final RegistryObject<Item> WALNUT_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_CHEST_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, true);
 
-    public static final RegistryObject<Item> PALM_FROND = ITEM_DEFERRED_REGISTER.register("palm_frond",()-> new StandingAndWallBlockItem(BFBlocks.PALM_FROND, BFBlocks.WALL_PALM_FROND, new Item.Properties(), Direction.DOWN));
-    public static final RegistryObject<Item> COCONUT = ITEM_DEFERRED_REGISTER.register("coconut",()-> new ItemNameBlockItem(BFBlocks.PALM_SAPLING, new Item.Properties()));
+    public static final RegistryObject<Item> PALM_FROND = ITEM_DEFERRED_REGISTER.register("palm_frond",()-> new StandingAndWallBlockItem(BFBlocks.PALM_FROND.get(), BFBlocks.WALL_PALM_FROND.get(), new Item.Properties(), Direction.DOWN));
+    public static final RegistryObject<Item> COCONUT = ITEM_DEFERRED_REGISTER.register("coconut",()-> new ItemNameBlockItem(BFBlocks.PALM_SAPLING.get(), new Item.Properties()));
     public static final RegistryObject<Item> COCONUT_COIR = ITEM_DEFERRED_REGISTER.register("coconut_coir",()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> COCONUT_HALF = ITEM_DEFERRED_REGISTER.register("coconut_half",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.1f).build())));
     public static final RegistryObject<Item> COCONUT_MILK_BOTTLE = ITEM_DEFERRED_REGISTER.register("coconut_milk_bottle",()-> new CoconutMilkBottleItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(1f).build()).craftRemainder(Items.GLASS_BOTTLE)));
@@ -68,7 +68,7 @@ public class BFItems {
     public static final RegistryObject<Item> FELDSPAR = ITEM_DEFERRED_REGISTER.register("feldspar",()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CERAMIC_CLAY = ITEM_DEFERRED_REGISTER.register("ceramic_clay",()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CERAMIC_TILE = ITEM_DEFERRED_REGISTER.register("ceramic_tile",()-> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> TEA_BERRIES = ITEM_DEFERRED_REGISTER.register("tea_berries",()-> new TeaBerriesItem(BFBlocks.TEA_SHRUB, new Item.Properties()));
+    public static final RegistryObject<Item> TEA_BERRIES = ITEM_DEFERRED_REGISTER.register("tea_berries",()-> new TeaBerriesItem(BFBlocks.TEA_SHRUB.get(), new Item.Properties()));
     public static final RegistryObject<Item> TEA_LEAVES = ITEM_DEFERRED_REGISTER.register("tea_leaves",()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DRIED_TEA_LEAVES = ITEM_DEFERRED_REGISTER.register("dried_tea_leaves",()-> new Item(new Item.Properties()));
     public static final RegistryObject<Item> GREEN_TEA_BLEND = ITEM_DEFERRED_REGISTER.register("green_tea_blend",()-> new Item(new Item.Properties()));
@@ -85,16 +85,16 @@ public class BFItems {
     public static final RegistryObject<Item> TORCHFLOWER_TEA_BOTTLE = ITEM_DEFERRED_REGISTER.register("torchflower_tea_bottle",()-> new TorchflowerTeaBottleItem(new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(4).saturationMod(1f).effect(()->new MobEffectInstance(BFEffects.EBULLIENCE, 6000, 0, true, true), 1f).alwaysEat().build())));
     public static final RegistryObject<Item> MAIZE = ITEM_DEFERRED_REGISTER.register("maize",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6f).build())));
     public static final RegistryObject<Item> GRASS_SEEDS = ITEM_DEFERRED_REGISTER.register("grass_seeds",()-> new GrassSeedsItem(new Item.Properties()));
-    public static final RegistryObject<Item> MAIZE_SEEDS = ITEM_DEFERRED_REGISTER.register("maize_seeds",()-> new ItemNameBlockItem(BFBlocks.MAIZE_CROP, new Item.Properties()));
+    public static final RegistryObject<Item> MAIZE_SEEDS = ITEM_DEFERRED_REGISTER.register("maize_seeds",()-> new ItemNameBlockItem(BFBlocks.MAIZE_CROP.get(), new Item.Properties()));
     public static final RegistryObject<Item> POPPED_MAIZE = ITEM_DEFERRED_REGISTER.register("popped_maize",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.5f).fast().build())));
     public static final RegistryObject<Item> LEEK = ITEM_DEFERRED_REGISTER.register("leek",()-> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6f).build())));
-    public static final RegistryObject<Item> LEEK_SEEDS = ITEM_DEFERRED_REGISTER.register("leek_seeds",()-> new ItemNameBlockItem(BFBlocks.LEEKS, new Item.Properties()));
-    public static final RegistryObject<Item> SPONGEKIN_SEEDS = ITEM_DEFERRED_REGISTER.register("spongekin_seeds",()-> new ItemNameBlockItem(BFBlocks.SPONGEKIN_STEM, new Item.Properties()));
+    public static final RegistryObject<Item> LEEK_SEEDS = ITEM_DEFERRED_REGISTER.register("leek_seeds",()-> new ItemNameBlockItem(BFBlocks.LEEKS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SPONGEKIN_SEEDS = ITEM_DEFERRED_REGISTER.register("spongekin_seeds",()-> new ItemNameBlockItem(BFBlocks.SPONGEKIN_STEM.get(), new Item.Properties()));
     public static final RegistryObject<Item> SPONGEKIN_SLICE = ITEM_DEFERRED_REGISTER.register("spongekin_slice",()-> new AirTimeIncreasingItem( 200, new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.3f).alwaysEat().build())));
     public static final RegistryObject<Item> PICKLED_SPONGEKIN = ITEM_DEFERRED_REGISTER.register("pickled_spongekin",()-> new AirTimeIncreasingItem( 250, new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.8f).alwaysEat().build())));
-    public static final RegistryObject<Item> SCORCHKIN_SEEDS = ITEM_DEFERRED_REGISTER.register("scorchkin_seeds",()-> new ItemNameBlockItem(BFBlocks.SCORCHKIN_STEM, new Item.Properties()));
+    public static final RegistryObject<Item> SCORCHKIN_SEEDS = ITEM_DEFERRED_REGISTER.register("scorchkin_seeds",()-> new ItemNameBlockItem(BFBlocks.SCORCHKIN_STEM.get(), new Item.Properties()));
     public static final RegistryObject<Item> FLOUR = ITEM_DEFERRED_REGISTER.register("flour",()-> new FlourItem(new Item.Properties()));
-    public static final RegistryObject<Item> ARTISAN_COOKIE = ITEM_DEFERRED_REGISTER.register("artisan_cookie",()-> new ItemNameBlockItem(BFBlocks.ARTISAN_COOKIES, new Item.Properties()));
+    public static final RegistryObject<Item> ARTISAN_COOKIE = ITEM_DEFERRED_REGISTER.register("artisan_cookie",()-> new ItemNameBlockItem(BFBlocks.ARTISAN_COOKIES.get(), new Item.Properties()));
     public static final RegistryObject<Item> SUN_HAT = ITEM_DEFERRED_REGISTER.register("sun_hat",()-> new SunHatItem(new Item.Properties().stacksTo(1)));
 
 

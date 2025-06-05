@@ -65,7 +65,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
             ItemStack stack = super.getCloneItemStack(world, pos, state);
             return pickBlock(world, pos, stack);
         } else {
-            return new ItemStack(BFBlocks.CERAMIC_DISH);
+            return new ItemStack(BFBlocks.CERAMIC_DISH.get());
         }
     }
 

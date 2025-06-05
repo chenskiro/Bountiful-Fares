@@ -79,7 +79,7 @@ public class MillingRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(BFBlocks.GRISTMILL);
+        return new ItemStack(BFBlocks.GRISTMILL.get());
     }
 
     public static class Type implements RecipeType<MillingRecipe> {

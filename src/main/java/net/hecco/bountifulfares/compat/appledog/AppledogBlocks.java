@@ -14,7 +14,7 @@ import static net.hecco.bountifulfares.BountifulFares.APPLEDOG_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class AppledogBlocks {
-    public static final Block APPLEDOG_BLOCK = registerBlock("appledog_block", new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.APPLE_BLOCK).strength(1f, 1000f)));
+    public static final Block APPLEDOG_BLOCK = registerBlock("appledog_block", new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.APPLE_BLOCK.get()).strength(1f, 1000f)));
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         compatBlocks.add(block);

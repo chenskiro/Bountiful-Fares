@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
@@ -46,7 +47,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import static net.hecco.bountifulfares.registry.content.BFBlocks.CROPS_TO_CROP_TRELLISES;
 
 public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, BonemealableBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -67,7 +67,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public CropTrellisBlock(Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
-        CROPS_TO_CROP_TRELLISES.put(berryItem, this);
+        BFBlocks.CROPS_TO_CROP_TRELLISES.put(berryItem, this);
         this.variant = variant;
         this.crop = crop;
         this.harvestResetAge = 1;
@@ -87,7 +87,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public CropTrellisBlock(Item seedsItem, Item berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
-        CROPS_TO_CROP_TRELLISES.put(seedsItem, this);
+        BFBlocks.CROPS_TO_CROP_TRELLISES.put(seedsItem, this);
         this.variant = variant;
         this.crop = crop;
         this.harvestResetAge = 1;
@@ -242,8 +242,8 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     public static BlockState getCropTrellisFromCrop(Item seedsItem) {
-        if (seedsItem != null && CROPS_TO_CROP_TRELLISES.containsKey(seedsItem)) {
-            return (CROPS_TO_CROP_TRELLISES.get(seedsItem)).defaultBlockState();
+        if (seedsItem != null && BFBlocks.CROPS_TO_CROP_TRELLISES.containsKey(seedsItem)) {
+            return (BFBlocks.CROPS_TO_CROP_TRELLISES.get(seedsItem)).defaultBlockState();
         } else {
             return BFTrellises.TRELLISES.get("trellis").defaultBlockState();
         }

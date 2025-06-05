@@ -27,7 +27,7 @@ public class MillingRecipeCategory implements IRecipeCategory<MillingRecipe> {
     private final IDrawable background;
 
     public MillingRecipeCategory(IGuiHelper helper) {
-        icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.GRISTMILL.asItem()));
+        icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.GRISTMILL.get().asItem()));
         ResourceLocation backgroundImage = BountifulFares.rl( "textures/gui/jei/milling.png");
         background = helper.createDrawable(backgroundImage, 0, 0, 105, 36);
     }

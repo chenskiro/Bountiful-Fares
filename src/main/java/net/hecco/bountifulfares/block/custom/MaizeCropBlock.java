@@ -207,7 +207,7 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
 
     private static boolean canGrowAt(LevelReader world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
-        return blockState.isAir() || blockState.is(BFBlocks.MAIZE_CROP);
+        return blockState.isAir() || blockState.is(BFBlocks.MAIZE_CROP.get());
     }
 
     private static boolean canPlaceAt(LevelReader world, BlockPos pos) {
@@ -215,11 +215,11 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
     }
 
     private static boolean isLowerHalf(BlockState state) {
-        return state.is(BFBlocks.MAIZE_CROP) && state.getValue(HALF) == DoubleBlockHalf.LOWER;
+        return state.is(BFBlocks.MAIZE_CROP.get()) && state.getValue(HALF) == DoubleBlockHalf.LOWER;
     }
 
     private static boolean isUpperHalf(BlockState state) {
-        return state.is(BFBlocks.MAIZE_CROP) && state.getValue(HALF) == DoubleBlockHalf.UPPER;
+        return state.is(BFBlocks.MAIZE_CROP.get()) && state.getValue(HALF) == DoubleBlockHalf.UPPER;
     }
 
     private boolean canGrow(LevelReader world, BlockPos pos, BlockState state, int age) {

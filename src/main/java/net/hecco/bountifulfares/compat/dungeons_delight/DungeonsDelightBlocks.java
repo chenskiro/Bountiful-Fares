@@ -19,7 +19,7 @@ import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_REND
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class DungeonsDelightBlocks {
-    public static Block WORMWOOD_PICKETS = registerBlock("wormwood_pickets", new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS)));
+    public static Block WORMWOOD_PICKETS = registerBlock("wormwood_pickets", new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant WORMWOOD = new TrellisVariant(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood", ResourceLocation.tryBuild(DUNGEONS_DELIGHT_MOD_ID, "wormwood_planks"), TRELLIS_RENDER_CUTOUT);
 

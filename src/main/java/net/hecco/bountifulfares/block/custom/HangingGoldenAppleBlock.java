@@ -103,7 +103,7 @@ public class HangingGoldenAppleBlock extends BushBlock {
             }
         } else {
             if (random.nextFloat() < 0.1) {
-                world.setBlock(pos, BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.defaultBlockState().setValue(HangingWitheredGoldenAppleBlock.AGE, state.getValue(AGE)), Block.UPDATE_CLIENTS);
+                world.setBlock(pos, BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get().defaultBlockState().setValue(HangingWitheredGoldenAppleBlock.AGE, state.getValue(AGE)), Block.UPDATE_CLIENTS);
                 world.playSound(null, pos, BFSounds.GOLDEN_APPLE_WITHER, SoundSource.BLOCKS, 1.0f, 0.6f + random.nextFloat()/2);
             }
         }
@@ -112,8 +112,8 @@ public class HangingGoldenAppleBlock extends BushBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return Block.canSupportCenter(world, pos.above(), Direction.DOWN) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.GOLDEN_APPLE_LEAVES) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES) && !world.isWaterAt(pos);
+                || world.getBlockState(pos.above()).is(BFBlocks.GOLDEN_APPLE_LEAVES.get()) && !world.isWaterAt(pos)
+                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get()) && !world.isWaterAt(pos);
     }
 
     @Override

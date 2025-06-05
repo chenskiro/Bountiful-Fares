@@ -106,8 +106,8 @@ public class BFTrellises {
         MANGROVE = new TrellisVariant(BountifulFares.MOD_ID, "mangrove", Items.MANGROVE_PLANKS, TRELLIS_RENDER_CUTOUT);
         CHERRY = new TrellisVariant(BountifulFares.MOD_ID, "cherry", Items.CHERRY_PLANKS, TRELLIS_RENDER_CUTOUT);
         BAMBOO = new TrellisVariant(BountifulFares.MOD_ID, "bamboo", Items.BAMBOO_PLANKS, TRELLIS_RENDER_CUTOUT);
-        WALNUT = new TrellisVariant(BountifulFares.MOD_ID, "walnut", BFBlocks.WALNUT_PLANKS.asItem(), TRELLIS_RENDER_CUTOUT);
-        HOARY = new TrellisVariant(BountifulFares.MOD_ID, "hoary", BFBlocks.HOARY_PLANKS.asItem(), TRELLIS_RENDER_CUTOUT);
+        WALNUT = new TrellisVariant(BountifulFares.MOD_ID, "walnut", BFBlocks.WALNUT_PLANKS.get().asItem(), TRELLIS_RENDER_CUTOUT);
+        HOARY = new TrellisVariant(BountifulFares.MOD_ID, "hoary", BFBlocks.HOARY_PLANKS.get().asItem(), TRELLIS_RENDER_CUTOUT);
         CRIMSON = new TrellisVariant(BountifulFares.MOD_ID, "crimson", Items.CRIMSON_PLANKS, TRELLIS_RENDER_CUTOUT);
         WARPED = new TrellisVariant(BountifulFares.MOD_ID, "warped", Items.WARPED_PLANKS, TRELLIS_RENDER_CUTOUT);
 

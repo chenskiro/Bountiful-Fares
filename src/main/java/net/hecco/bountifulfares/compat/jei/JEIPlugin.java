@@ -41,8 +41,8 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(BFBlocks.GRISTMILL.asItem()), BFRecipeTypes.MILLING);
-        registration.addRecipeCatalyst(new ItemStack(BFBlocks.FERMENTATION_VESSEL.asItem()), BFRecipeTypes.FERMENTING);
+        registration.addRecipeCatalyst(new ItemStack(BFBlocks.GRISTMILL.get().asItem()), BFRecipeTypes.MILLING);
+        registration.addRecipeCatalyst(new ItemStack(BFBlocks.FERMENTATION_VESSEL.get().asItem()), BFRecipeTypes.FERMENTING);
     }
 
     @Override

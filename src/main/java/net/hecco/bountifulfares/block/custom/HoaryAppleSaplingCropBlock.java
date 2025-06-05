@@ -55,7 +55,7 @@ public class HoaryAppleSaplingCropBlock extends CropBlock {
     @Override
     public BlockState getStateForAge(int age) {
         if (age == 2) {
-            return BFBlocks.HOARY_APPLE_SAPLING.defaultBlockState();
+            return BFBlocks.HOARY_APPLE_SAPLING.get().defaultBlockState();
         }
         return super.getStateForAge(age);
     }

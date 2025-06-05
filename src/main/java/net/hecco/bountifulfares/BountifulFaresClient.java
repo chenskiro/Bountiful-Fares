@@ -161,122 +161,122 @@ public class BountifulFaresClient {
             //          DungeonsDelight compat
             setRenderLayer(DungeonsDelightBlocks.WORMWOOD_PICKETS, RenderType.cutout());
 
-            setRenderLayer(BFBlocks.APPLE_LOG, RenderType.cutout());
-            setRenderLayer(BFBlocks.APPLE_WOOD, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_APPLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.ORANGE_LOG, RenderType.cutout());
-            setRenderLayer(BFBlocks.ORANGE_WOOD, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_ORANGE, RenderType.cutout());
-            setRenderLayer(BFBlocks.ORANGE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_ORANGE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.LEMON_LOG, RenderType.cutout());
-            setRenderLayer(BFBlocks.LEMON_WOOD, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_LEMON, RenderType.cutout());
-            setRenderLayer(BFBlocks.LEMON_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_LEMON_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.PLUM_LOG, RenderType.cutout());
-            setRenderLayer(BFBlocks.PLUM_WOOD, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_PLUM, RenderType.cutout());
-            setRenderLayer(BFBlocks.PLUM_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_PLUM_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.GOLDEN_APPLE_LOG, RenderType.cutout());
-            setRenderLayer(BFBlocks.GOLDEN_APPLE_WOOD, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_GOLDEN_APPLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.GOLDEN_APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_GOLDEN_APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING_CROP, RenderType.cutout());
-            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_WALNUT_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_HOARY_APPLE_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_HOARY_APPLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.WALNUT_SAPLING, RenderType.cutout());
-            setRenderLayer(BFBlocks.HANGING_WALNUTS, RenderType.cutout());
-            setRenderLayer(BFBlocks.FALLEN_WALNUTS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_CARROTS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_POTATOES, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_WHEAT, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_BEETROOTS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_LEEKS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_MAIZE, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_PASSION_FRUIT_VINE, RenderType.cutout());
-            setRenderLayer(BFBlocks.WILD_ELDERBERRY_VINE, RenderType.cutout());
-            setRenderLayer(BFBlocks.FERMENTATION_VESSEL, RenderType.cutout());
-            setRenderLayer(BFBlocks.FELDSPAR_LANTERN, RenderType.cutout());
-            setRenderLayer(BFBlocks.TINGED_GLASS, RenderType.translucent());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILES, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB, RenderType.cutout());
-            setRenderLayer(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB, RenderType.cutout());
-            setRenderLayer(BFBlocks.CERAMIC_DOOR, RenderType.cutout());
-            setRenderLayer(BFBlocks.APPLE_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.GOLDEN_APPLE_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.ORANGE_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.LEMON_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.PLUM_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.HOARY_APPLE_BLOCK, RenderType.cutout());
-            setRenderLayer(BFBlocks.WALNUT_DOOR, RenderType.cutout());
-            setRenderLayer(BFBlocks.TEA_SHRUB, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHAMOMILE_FLOWERS, RenderType.cutout());
-            setRenderLayer(BFBlocks.HONEYSUCKLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_HONEYSUCKLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.VIOLET_BELLFLOWER, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_VIOLET_BELLFLOWER, RenderType.cutout());
-            setRenderLayer(BFBlocks.RED_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.ORANGE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.YELLOW_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.LIME_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.GREEN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.CYAN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.LIGHT_BLUE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.BLUE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.PURPLE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.MAGENTA_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.PINK_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.WHITE_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.LIGHT_GRAY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.GRAY_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.BLACK_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.BROWN_JACK_O_STRAW, RenderType.cutout());
-            setRenderLayer(BFBlocks.GREEN_TEA_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.BLACK_TEA_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHAMOMILE_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.HONEYSUCKLE_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.BELLFLOWER_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.TORCHFLOWER_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.WALNUT_CANDLE, RenderType.cutout());
-            setRenderLayer(BFBlocks.LEEKS, RenderType.cutout());
-            setRenderLayer(BFBlocks.MAIZE_CROP, RenderType.cutout());
-            setRenderLayer(BFBlocks.SPONGEKIN_STEM, RenderType.cutout());
-            setRenderLayer(BFBlocks.SPONGEKIN_SPROUT, RenderType.cutout());
-            setRenderLayer(BFBlocks.SPONGE_CAKE, RenderType.cutout());
-            setRenderLayer(BFBlocks.PRISMARINE_BLOSSOM, RenderType.cutout());
-            setRenderLayer(BFBlocks.SCORCHKIN_STEM, RenderType.cutout());
-            setRenderLayer(BFBlocks.OAK_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.SPRUCE_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.BIRCH_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.JUNGLE_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.ACACIA_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.DARK_OAK_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.MANGROVE_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.CHERRY_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.BAMBOO_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WALNUT_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.HOARY_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.CRIMSON_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.WARPED_PICKETS, RenderType.cutout());
-            setRenderLayer(BFBlocks.IRON_RAILING, RenderType.cutout());
-            setRenderLayer(BFBlocks.GRASSY_DIRT, RenderType.cutout());
-            setRenderLayer(BFBlocks.PALM_FROND, RenderType.cutout());
-            setRenderLayer(BFBlocks.WALL_PALM_FROND, RenderType.cutout());
-            setRenderLayer(BFBlocks.POTTED_PALM_FROND, RenderType.cutout());
-            setRenderLayer(BFBlocks.COCONUT, RenderType.cutout());
-            setRenderLayer(BFBlocks.PALM_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_LOG.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_WOOD.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_APPLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_LOG.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_WOOD.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_ORANGE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_ORANGE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_LOG.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_WOOD.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_LEMON.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_LEMON_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_LOG.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_WOOD.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_PLUM.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_PLUM_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_LOG.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_WOOD.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_GOLDEN_APPLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_GOLDEN_APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING_CROP.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_WALNUT_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_HOARY_APPLE_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_HOARY_APPLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_SAPLING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_WALNUTS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.FALLEN_WALNUTS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_CARROTS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_POTATOES.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_WHEAT.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_BEETROOTS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_LEEKS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_MAIZE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_PASSION_FRUIT_VINE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_ELDERBERRY_VINE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.FERMENTATION_VESSEL.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.FELDSPAR_LANTERN.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.TINGED_GLASS.get(), RenderType.translucent());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILES.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CERAMIC_DOOR.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_BLOCK.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_DOOR.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.TEA_SHRUB.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHAMOMILE_FLOWERS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HONEYSUCKLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_HONEYSUCKLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.VIOLET_BELLFLOWER.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_VIOLET_BELLFLOWER.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.RED_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.YELLOW_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LIME_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GREEN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CYAN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LIGHT_BLUE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BLUE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PURPLE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.MAGENTA_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PINK_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WHITE_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LIGHT_GRAY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GRAY_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BLACK_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BROWN_JACK_O_STRAW.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GREEN_TEA_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BLACK_TEA_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHAMOMILE_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HONEYSUCKLE_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BELLFLOWER_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.TORCHFLOWER_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_CANDLE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.LEEKS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.MAIZE_CROP.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGEKIN_STEM.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGEKIN_SPROUT.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGE_CAKE.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PRISMARINE_BLOSSOM.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.SCORCHKIN_STEM.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.OAK_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.SPRUCE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BIRCH_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.JUNGLE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.ACACIA_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.DARK_OAK_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.MANGROVE_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CHERRY_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.BAMBOO_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.CRIMSON_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WARPED_PICKETS.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.IRON_RAILING.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.GRASSY_DIRT.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PALM_FROND.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.WALL_PALM_FROND.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_PALM_FROND.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.COCONUT.get(), RenderType.cutout());
+            setRenderLayer(BFBlocks.PALM_SAPLING.get(), RenderType.cutout());
 
 
             Sheets.SIGN_MATERIALS.put(BFWoodTypes.HOARY, Sheets.getSignMaterial(BFWoodTypes.HOARY));
@@ -339,51 +339,51 @@ public class BountifulFaresClient {
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.Block event) {
-        registerBlockColor(BFBlocks.CERAMIC_TILES);
-        registerBlockColor(BFBlocks.CERAMIC_TILE_STAIRS);
-        registerBlockColor(BFBlocks.CERAMIC_TILE_SLAB);
-        registerBlockColor(BFBlocks.CRACKED_CERAMIC_TILES);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILES);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB);
-        registerBlockColor(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES);
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC);
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_STAIRS);
-        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_SLAB);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS);
-        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB);
-        registerBlockColor(BFBlocks.CERAMIC_TILE_PILLAR);
-        registerBlockColor(BFBlocks.CERAMIC_PRESSURE_PLATE);
-        registerBlockColor(BFBlocks.CERAMIC_BUTTON);
-        registerBlockColor(BFBlocks.CERAMIC_LEVER);
-        registerBlockColor(BFBlocks.CERAMIC_DOOR);
-        registerBlockColor(BFBlocks.CERAMIC_TRAPDOOR);
-        registerBlockColor(BFBlocks.CERAMIC_DISH);
+        registerBlockColor(BFBlocks.CERAMIC_TILES.get());
+        registerBlockColor(BFBlocks.CERAMIC_TILE_STAIRS.get());
+        registerBlockColor(BFBlocks.CERAMIC_TILE_SLAB.get());
+        registerBlockColor(BFBlocks.CRACKED_CERAMIC_TILES.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILES.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get());
+        registerBlockColor(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get());
+        registerBlockColor(BFBlocks.CERAMIC_MOSAIC.get());
+        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_STAIRS.get());
+        registerBlockColor(BFBlocks.CERAMIC_MOSAIC_SLAB.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get());
+        registerBlockColor(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get());
+        registerBlockColor(BFBlocks.CERAMIC_TILE_PILLAR.get());
+        registerBlockColor(BFBlocks.CERAMIC_PRESSURE_PLATE.get());
+        registerBlockColor(BFBlocks.CERAMIC_BUTTON.get());
+        registerBlockColor(BFBlocks.CERAMIC_LEVER.get());
+        registerBlockColor(BFBlocks.CERAMIC_DOOR.get());
+        registerBlockColor(BFBlocks.CERAMIC_TRAPDOOR.get());
+        registerBlockColor(BFBlocks.CERAMIC_DISH.get());
 
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos)
-                : GrassColor.getDefaultColor(), BFBlocks.CHAMOMILE_FLOWERS, BFBlocks.GRASSY_DIRT);
+                : GrassColor.getDefaultColor(), BFBlocks.CHAMOMILE_FLOWERS.get(), BFBlocks.GRASSY_DIRT.get());
 
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
                         : FoliageColor.getDefaultColor(),
-                BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES, BFBlocks.APPLE_LOG, BFBlocks.APPLE_WOOD,
-                BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES, BFBlocks.ORANGE_LOG, BFBlocks.ORANGE_WOOD,
-                BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES, BFBlocks.LEMON_LOG, BFBlocks.LEMON_WOOD,
-                BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES, BFBlocks.PLUM_LOG, BFBlocks.PLUM_WOOD,
-                BFBlocks.WALNUT_LEAVES);
+                BFBlocks.APPLE_LEAVES.get(), BFBlocks.FLOWERING_APPLE_LEAVES.get(), BFBlocks.APPLE_LOG.get(), BFBlocks.APPLE_WOOD.get(),
+                BFBlocks.ORANGE_LEAVES.get(), BFBlocks.FLOWERING_ORANGE_LEAVES.get(), BFBlocks.ORANGE_LOG.get(), BFBlocks.ORANGE_WOOD.get(),
+                BFBlocks.LEMON_LEAVES.get(), BFBlocks.FLOWERING_LEMON_LEAVES.get(), BFBlocks.LEMON_LOG.get(), BFBlocks.LEMON_WOOD.get(),
+                BFBlocks.PLUM_LEAVES.get(), BFBlocks.FLOWERING_PLUM_LEAVES.get(), BFBlocks.PLUM_LOG.get(), BFBlocks.PLUM_WOOD.get(),
+                BFBlocks.WALNUT_LEAVES.get());
 
         event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
-                : FoliageColor.getDefaultColor(), BFBlocks.HANGING_WALNUTS);
+                : FoliageColor.getDefaultColor(), BFBlocks.HANGING_WALNUTS.get());
 
-        event.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : FoliageColor.getDefaultColor()), BFBlocks.WILD_POTATOES, BFBlocks.WILD_CARROTS, BFBlocks.WILD_BEETROOTS, BFBlocks.WILD_LEEKS, BFBlocks.WILD_MAIZE, BFBlocks.WILD_PASSION_FRUIT_VINE, BFBlocks.WILD_ELDERBERRY_VINE);
+        event.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : FoliageColor.getDefaultColor()), BFBlocks.WILD_POTATOES.get(), BFBlocks.WILD_CARROTS.get(), BFBlocks.WILD_BEETROOTS.get(), BFBlocks.WILD_LEEKS.get(), BFBlocks.WILD_MAIZE.get(), BFBlocks.WILD_PASSION_FRUIT_VINE.get(), BFBlocks.WILD_ELDERBERRY_VINE.get());
 
     }
 
     @SubscribeEvent
     public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
-        event.register(((stack, tintIndex) -> GrassColor.getDefaultColor()), BFBlocks.GRASSY_DIRT);
-        event.register((stack, tintIndex) -> FastColorAttach.opaque(FoliageColor.getDefaultColor()), BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES, BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES, BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES, BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES, BFBlocks.ORANGE_LEAVES);
-        event.register((stack, tintIndex) -> FastColorAttach.opaque(5809764), BFBlocks.WALNUT_LEAVES);
+        event.register(((stack, tintIndex) -> GrassColor.getDefaultColor()), BFBlocks.GRASSY_DIRT.get());
+        event.register((stack, tintIndex) -> FastColorAttach.opaque(FoliageColor.getDefaultColor()), BFBlocks.APPLE_LEAVES.get(), BFBlocks.FLOWERING_APPLE_LEAVES.get(), BFBlocks.ORANGE_LEAVES.get(), BFBlocks.FLOWERING_ORANGE_LEAVES.get(), BFBlocks.LEMON_LEAVES.get(), BFBlocks.FLOWERING_LEMON_LEAVES.get(), BFBlocks.PLUM_LEAVES.get(), BFBlocks.FLOWERING_PLUM_LEAVES.get(), BFBlocks.ORANGE_LEAVES.get());
+        event.register((stack, tintIndex) -> FastColorAttach.opaque(5809764), BFBlocks.WALNUT_LEAVES.get());
 
         event.register((stack, tintIndex) -> {
             if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {

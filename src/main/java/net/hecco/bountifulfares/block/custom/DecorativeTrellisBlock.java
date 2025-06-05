@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
@@ -31,8 +32,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import static net.hecco.bountifulfares.registry.content.BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS;
-import static net.hecco.bountifulfares.registry.content.BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES;
 
 public class DecorativeTrellisBlock extends TrellisBlock implements BonemealableBlock {
     private final boolean canDuplicate;
@@ -43,8 +42,8 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     public DecorativeTrellisBlock(boolean canDuplicate, Item item, TrellisVariant variant, DecorativeVine vine, Properties settings) {
         super(variant, settings);
         this.canDuplicate = canDuplicate;
-        PLANTS_TO_DECORATIVE_TRELLISES.put(item, this);
-        DECORATIVE_TRELLISES_TO_PLANTS.put(this, item);
+        BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.put(item, this);
+        BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.put(this, item);
         this.variant = variant;
         this.vine = vine;
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH));
@@ -62,7 +61,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
             if (player instanceof ServerPlayer serverPlayer)
                 player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
             world.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).defaultBlockState().setValue(FACING, facing), 2);
-            popResource(world, pos, new ItemStack(DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
+            popResource(world, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
@@ -94,13 +93,13 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         if (canDuplicate) {
-            popResource(world, pos, new ItemStack(DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
+            popResource(world, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
         }
     }
 
     public static BlockState getDecorativeTrellisFromPlant(Item item) {
-        if (item != null && PLANTS_TO_DECORATIVE_TRELLISES.containsKey(item)) {
-            return (PLANTS_TO_DECORATIVE_TRELLISES.get(item)).defaultBlockState();
+        if (item != null && BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.containsKey(item)) {
+            return (BFBlocks.PLANTS_TO_DECORATIVE_TRELLISES.get(item)).defaultBlockState();
         } else {
             return BFTrellises.TRELLISES.get("trellis").defaultBlockState();
         }

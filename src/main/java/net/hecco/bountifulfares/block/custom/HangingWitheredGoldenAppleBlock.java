@@ -87,8 +87,8 @@ public class HangingWitheredGoldenAppleBlock extends BushBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return Block.canSupportCenter(world, pos.above(), Direction.DOWN) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.GOLDEN_APPLE_LEAVES) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES) && !world.isWaterAt(pos);
+                || world.getBlockState(pos.above()).is(BFBlocks.GOLDEN_APPLE_LEAVES.get()) && !world.isWaterAt(pos)
+                || world.getBlockState(pos.above()).is(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get()) && !world.isWaterAt(pos);
     }
 
     private static boolean isFullyGrown(BlockState state) {

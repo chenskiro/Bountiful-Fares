@@ -12,11 +12,11 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BFEmiRecipeCategories {
     public static EmiRecipeCategory FERMENTING = new EmiRecipeCategory(BountifulFares.rl("fermenting"),
-            EmiStack.of(BFBlocks.FERMENTATION_VESSEL), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
+            EmiStack.of(BFBlocks.FERMENTATION_VESSEL.get()), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
     public static EmiRecipeCategory MILLING = new EmiRecipeCategory(BountifulFares.rl("milling"),
-            EmiStack.of(BFBlocks.GRISTMILL), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
+            EmiStack.of(BFBlocks.GRISTMILL.get()), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
     public static EmiRecipeCategory PRISMARINE_PROPAGATION = new EmiRecipeCategory(BountifulFares.rl("prismarine_propagation"),
-            EmiStack.of(BFBlocks.PRISMARINE_BLOSSOM), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
+            EmiStack.of(BFBlocks.PRISMARINE_BLOSSOM.get()), simplifiedRenderer(0, 0), EmiRecipeSorting.compareOutputThenInput());
 
     private static EmiRenderable simplifiedRenderer(int u, int v) {
         return (raw, x, y, delta) -> {

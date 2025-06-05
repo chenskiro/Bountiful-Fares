@@ -21,13 +21,13 @@
 //         TerraformBoatType hoaryBoat = new TerraformBoatType.Builder()
 //                 .item(BFItems.HOARY_BOAT.get())
 //                 .chestItem(BFItems.HOARY_CHEST_BOAT.get())
-//                 .planks(BFBlocks.HOARY_PLANKS.asItem())
+//                 .planks(BFBlocks.HOARY_PLANKS.get().asItem())
 //                 .build();
 //         Registry.register(TerraformBoatTypeRegistry.INSTANCE, HOARY_BOAT_KEY, hoaryBoat);
 //         TerraformBoatType walnutBoat = new TerraformBoatType.Builder()
 //                 .item(BFItems.WALNUT_BOAT.get())
 //                 .chestItem(BFItems.WALNUT_CHEST_BOAT.get())
-//                 .planks(BFBlocks.WALNUT_PLANKS.asItem())
+//                 .planks(BFBlocks.WALNUT_PLANKS.get().asItem())
 //                 .build();
 //         Registry.register(TerraformBoatTypeRegistry.INSTANCE, WALNUT_BOAT_KEY, walnutBoat);
 //     }

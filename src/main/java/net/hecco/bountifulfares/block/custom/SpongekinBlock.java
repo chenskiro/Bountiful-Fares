@@ -28,7 +28,7 @@ public class SpongekinBlock extends Block {
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
             for (int i = 0; i < 32 + world.random.nextIntBetweenInclusive(0, 16); i++) {
-                world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, BFBlocks.SPONGEKIN.defaultBlockState()), (pos.getX() - 0.2) + (world.random.nextFloat() * 1.4), pos.getY() + (world.random.nextFloat() * 1.2), (pos.getZ() - 0.2) + (world.random.nextFloat() * 1.4), (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
+                world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, BFBlocks.SPONGEKIN.get().defaultBlockState()), (pos.getX() - 0.2) + (world.random.nextFloat() * 1.4), pos.getY() + (world.random.nextFloat() * 1.2), (pos.getZ() - 0.2) + (world.random.nextFloat() * 1.4), (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
             }
             world.setBlock(pos, Blocks.WET_SPONGE.defaultBlockState(), 2);
             if (player instanceof ServerPlayer serverPlayer)

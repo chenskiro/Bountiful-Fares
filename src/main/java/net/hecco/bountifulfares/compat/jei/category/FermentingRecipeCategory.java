@@ -36,7 +36,7 @@ public class FermentingRecipeCategory implements IRecipeCategory<FermentationRec
     private final IDrawable containerIcon;
 
     public FermentingRecipeCategory(IGuiHelper helper) {
-        fermentationVessel = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.FERMENTATION_VESSEL.asItem()));
+        fermentationVessel = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BFBlocks.FERMENTATION_VESSEL.get().asItem()));
         ResourceLocation backgroundImage = BountifulFares.rl( "textures/gui/jei/fermenting.png");
         background = helper.createDrawable(backgroundImage, 0, 0, 89, 76);
         containerIcon = helper.createDrawable(backgroundImage, 89, 0, 8, 11);

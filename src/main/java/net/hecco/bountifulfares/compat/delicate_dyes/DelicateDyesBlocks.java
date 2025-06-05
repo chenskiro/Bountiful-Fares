@@ -14,14 +14,14 @@ import static net.hecco.bountifulfares.BountifulFares.DELICATE_DYES_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class DelicateDyesBlocks {
-    public static final Block CORAL_JACK_O_STRAW = registerBlock("coral_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block CANARY_JACK_O_STRAW = registerBlock("canary_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block WASABI_JACK_O_STRAW = registerBlock("wasabi_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block SACRAMENTO_JACK_O_STRAW = registerBlock("sacramento_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block SKY_JACK_O_STRAW = registerBlock("sky_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block BLURPLE_JACK_O_STRAW = registerBlock("blurple_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block SANGRIA_JACK_O_STRAW = registerBlock("sangria_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
-    public static final Block ROSE_JACK_O_STRAW = registerBlock("rose_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW)));
+    public static final Block CORAL_JACK_O_STRAW = registerBlock("coral_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block CANARY_JACK_O_STRAW = registerBlock("canary_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block WASABI_JACK_O_STRAW = registerBlock("wasabi_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block SACRAMENTO_JACK_O_STRAW = registerBlock("sacramento_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block SKY_JACK_O_STRAW = registerBlock("sky_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block BLURPLE_JACK_O_STRAW = registerBlock("blurple_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block SANGRIA_JACK_O_STRAW = registerBlock("sangria_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final Block ROSE_JACK_O_STRAW = registerBlock("rose_jack_o_straw", new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
 
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

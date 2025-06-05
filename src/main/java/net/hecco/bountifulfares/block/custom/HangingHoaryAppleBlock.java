@@ -76,7 +76,7 @@ public class HangingHoaryAppleBlock extends HangingFruitBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return Block.canSupportCenter(world, pos.above(), Direction.DOWN) && !world.isWaterAt(pos)
-                || world.getBlockState(pos.above()).is(BFBlocks.HOARY_LEAVES) && !world.isWaterAt(pos) && !world.isWaterAt(pos);
+                || world.getBlockState(pos.above()).is(BFBlocks.HOARY_LEAVES.get()) && !world.isWaterAt(pos) && !world.isWaterAt(pos);
     }
 
     @Override
