@@ -1,12 +1,6 @@
 package net.hecco.bountifulfares;
 
-import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import com.xueluoanping.bountifulfaresforge.client.FastColorAttach;
 import net.hecco.bountifulfares.block.entity.DyeableBlockEntity;
 import net.hecco.bountifulfares.block.entity.renderer.CeramicDishBlockEntityRenderer;
 import net.hecco.bountifulfares.compat.appledog.AppledogBlocks;
@@ -19,6 +13,7 @@ import net.hecco.bountifulfares.compat.mint.MintBlocks;
 import net.hecco.bountifulfares.compat.natures_spirit.NaturesSpiritBlocks;
 import net.hecco.bountifulfares.compat.spawn.SpawnBlocks;
 import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
+import net.hecco.bountifulfares.item.custom.BFDyeableLeatherItem;
 import net.hecco.bountifulfares.networking.BFMessages;
 import net.hecco.bountifulfares.particle.FermentedBubbleParticle;
 import net.hecco.bountifulfares.particle.FlourCloudParticle;
@@ -26,11 +21,12 @@ import net.hecco.bountifulfares.particle.GoldenPetalParticle;
 import net.hecco.bountifulfares.particle.PrismarineBlossomParticle;
 import net.hecco.bountifulfares.registry.content.*;
 import net.hecco.bountifulfares.registry.misc.BFScreenHandlers;
-import net.hecco.bountifulfares.registry.util.BFTooltipEvents;
 import net.hecco.bountifulfares.registry.util.BFWoodTypes;
 import net.hecco.bountifulfares.screen.GristmillScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -39,236 +35,310 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
-import net.minecraft.world.biome.FoliageColors;
-import net.minecraft.world.biome.GrassColors;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
 import java.util.Objects;
 
 import static net.hecco.bountifulfares.registry.content.BFItems.ARTISAN_BRUSH;
 
-public class BountifulFaresClient implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        BFMessages.registerS2CPackets();
-        ItemTooltipCallback.EVENT.register(BFTooltipEvents::addTooltipsToVanillaItems);
-        BlockEntityRenderers.register(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, CeramicDishBlockEntityRenderer::new);
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class BountifulFaresClient {
+
+    @SubscribeEvent
+    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, CeramicDishBlockEntityRenderer::new);
+
+        event.registerEntityRenderer(BFEntities.THROWN_FLOUR_PROJECTILE, ThrownItemRenderer::new);
+    }
+
+
+    @SubscribeEvent
+    public static void onInitializeClient(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            BFMessages.registerS2CPackets();
+            // ItemTooltipCallback.EVENT.register(BFTooltipEvents::addTooltipsToVanillaItems);
+            // BlockEntityRenderers.register(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, CeramicDishBlockEntityRenderer::new);
 //        ElsAndLsDyes compat
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.ACORN_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.ARTICHOKE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.BANANA_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.CERULEAN_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.FUCHSIA_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.GRAPE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.MAUVE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.MOLD_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.PEACH_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.PERIWINKLE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.SAGE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.SAP_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.SHAMROCK_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.VELVET_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.VERMILION_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(MintBlocks.WINTERGREEN_PICKETS, RenderType.cutout());
+            setRenderLayer(MintBlocks.ACORN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.ARTICHOKE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.BANANA_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.CERULEAN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.FUCHSIA_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.GRAPE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.MAUVE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.MOLD_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.PEACH_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.PERIWINKLE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.SAGE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.SAP_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.SHAMROCK_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.VELVET_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.VERMILION_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(MintBlocks.WINTERGREEN_PICKETS, RenderType.cutout());
 
 //        DyeDepot compat
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.GINGER_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.TAN_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.BEIGE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.OLIVE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.FOREST_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.VERDANT_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.TEAL_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.AQUA_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.SLATE_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(DyeDepotBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.MAROON_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.GINGER_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.TAN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.BEIGE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.AMBER_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.OLIVE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.FOREST_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.VERDANT_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.TEAL_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.MINT_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.AQUA_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.SLATE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.NAVY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DyeDepotBlocks.INDIGO_JACK_O_STRAW, RenderType.cutout());
 //        ExcessiveBuilding compat
-            BlockRenderLayerMap.INSTANCE.putBlock(ExcessiveBuildingBlocks.ANCIENT_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(ExcessiveBuildingBlocks.WALNUT_LADDER, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(ExcessiveBuildingBlocks.HOARY_LADDER, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS, RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.ANCIENT_PICKETS, RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.WALNUT_LADDER, RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.HOARY_LADDER, RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS, RenderType.cutout());
+            setRenderLayer(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS, RenderType.cutout());
             registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_TILE_VERTICAL_STAIRS);
             registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_TILE_VERTICAL_STAIRS);
             registerBlockColor(ExcessiveBuildingBlocks.CERAMIC_MOSAIC_VERTICAL_STAIRS);
             registerBlockColor(ExcessiveBuildingBlocks.CHECKERED_CERAMIC_MOSAIC_VERTICAL_STAIRS);
 
 //        NaturesSpirit compat
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.ASPEN_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.CEDAR_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.COCONUT_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.CYPRESS_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.FIR_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.JOSHUA_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.GHAF_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.LARCH_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.MAPLE_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.OLIVE_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.PALO_VERDE_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.REDWOOD_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.SAXAUL_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.SUGI_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.WILLOW_PICKETS, RenderType.cutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(NaturesSpiritBlocks.WISTERIA_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.ASPEN_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.CEDAR_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.COCONUT_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.CYPRESS_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.FIR_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.JOSHUA_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.GHAF_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.LARCH_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAPLE_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.MAHOGANY_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.OLIVE_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.PALO_VERDE_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.REDWOOD_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.SAXAUL_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.SUGI_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.WILLOW_PICKETS, RenderType.cutout());
+            setRenderLayer(NaturesSpiritBlocks.WISTERIA_PICKETS, RenderType.cutout());
 
-        //        Spawn compat
-            BlockRenderLayerMap.INSTANCE.putBlock(SpawnBlocks.ROTTEN_PICKETS, RenderType.cutout());
-        //        ArtsAndCrafts compat
-            BlockRenderLayerMap.INSTANCE.putBlock(ArtsAndCraftsBlocks.CORK_PICKETS, RenderType.cutout());
+            //        Spawn compat
+            setRenderLayer(SpawnBlocks.ROTTEN_PICKETS, RenderType.cutout());
+            //        ArtsAndCrafts compat
+            setRenderLayer(ArtsAndCraftsBlocks.CORK_PICKETS, RenderType.cutout());
 
-        //        DelicateDyes compat
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.CANARY_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.WASABI_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.SACRAMENTO_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.SKY_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.BLURPLE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.SANGRIA_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(DelicateDyesBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
+            //        DelicateDyes compat
+            setRenderLayer(DelicateDyesBlocks.CORAL_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.CANARY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.WASABI_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SACRAMENTO_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SKY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.BLURPLE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.SANGRIA_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(DelicateDyesBlocks.ROSE_JACK_O_STRAW, RenderType.cutout());
 
-        //          Appledog compat
-        BlockRenderLayerMap.INSTANCE.putBlock(AppledogBlocks.APPLEDOG_BLOCK, RenderType.cutout());
+            //          Appledog compat
+            setRenderLayer(AppledogBlocks.APPLEDOG_BLOCK, RenderType.cutout());
 
-        //          DungeonsDelight compat
-        BlockRenderLayerMap.INSTANCE.putBlock(DungeonsDelightBlocks.WORMWOOD_PICKETS, RenderType.cutout());
+            //          DungeonsDelight compat
+            setRenderLayer(DungeonsDelightBlocks.WORMWOOD_PICKETS, RenderType.cutout());
 
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.APPLE_LOG, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.APPLE_WOOD, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_APPLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ORANGE_LOG, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ORANGE_WOOD, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_ORANGE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ORANGE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_ORANGE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LEMON_LOG, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LEMON_WOOD, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_LEMON, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LEMON_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_LEMON_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PLUM_LOG, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PLUM_WOOD, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_PLUM, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PLUM_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_PLUM_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GOLDEN_APPLE_LOG, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GOLDEN_APPLE_WOOD, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_GOLDEN_APPLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GOLDEN_APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_GOLDEN_APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HOARY_APPLE_SAPLING_CROP, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HOARY_APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_WALNUT_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_HOARY_APPLE_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_HOARY_APPLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WALNUT_SAPLING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HANGING_WALNUTS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.FALLEN_WALNUTS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_CARROTS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_POTATOES, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_WHEAT, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_BEETROOTS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_LEEKS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_MAIZE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_PASSION_FRUIT_VINE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WILD_ELDERBERRY_VINE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.FERMENTATION_VESSEL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.FELDSPAR_LANTERN, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.TINGED_GLASS, RenderType.translucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_TILES, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_MOSAIC, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CERAMIC_DOOR, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.APPLE_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GOLDEN_APPLE_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ORANGE_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LEMON_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PLUM_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HOARY_APPLE_BLOCK, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WALNUT_DOOR, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.TEA_SHRUB, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHAMOMILE_FLOWERS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HONEYSUCKLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_HONEYSUCKLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.VIOLET_BELLFLOWER, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_VIOLET_BELLFLOWER, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.RED_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ORANGE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.YELLOW_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LIME_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GREEN_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CYAN_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LIGHT_BLUE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BLUE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PURPLE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.MAGENTA_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PINK_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WHITE_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LIGHT_GRAY_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GRAY_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BLACK_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BROWN_JACK_O_STRAW, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GREEN_TEA_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BLACK_TEA_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHAMOMILE_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HONEYSUCKLE_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BELLFLOWER_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.TORCHFLOWER_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WALNUT_CANDLE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.LEEKS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.MAIZE_CROP, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.SPONGEKIN_STEM, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.SPONGEKIN_SPROUT, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.SPONGE_CAKE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PRISMARINE_BLOSSOM, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.SCORCHKIN_STEM, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.OAK_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.SPRUCE_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BIRCH_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.JUNGLE_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.ACACIA_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.DARK_OAK_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.MANGROVE_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CHERRY_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.BAMBOO_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WALNUT_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.HOARY_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.CRIMSON_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WARPED_PICKETS, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.IRON_RAILING, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.GRASSY_DIRT, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PALM_FROND, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.WALL_PALM_FROND, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.POTTED_PALM_FROND, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.COCONUT, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BFBlocks.PALM_SAPLING, RenderType.cutout());
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (stack.getComponents().contains(DataComponentTypes.DYED_COLOR) && tintIndex == 0) {
-                return FastColor.ARGB32.fullAlpha(Objects.requireNonNull(stack.getComponents().get(DataComponentTypes.DYED_COLOR)).rgb());
+            setRenderLayer(BFBlocks.APPLE_LOG, RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_WOOD, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_APPLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_LOG, RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_WOOD, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_ORANGE, RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_ORANGE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_LOG, RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_WOOD, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_LEMON, RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_LEMON_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_LOG, RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_WOOD, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_PLUM, RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_PLUM_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_LOG, RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_WOOD, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_GOLDEN_APPLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_GOLDEN_APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING_CROP, RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_WALNUT_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_HOARY_APPLE_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_HOARY_APPLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_SAPLING, RenderType.cutout());
+            setRenderLayer(BFBlocks.HANGING_WALNUTS, RenderType.cutout());
+            setRenderLayer(BFBlocks.FALLEN_WALNUTS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_CARROTS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_POTATOES, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_WHEAT, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_BEETROOTS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_LEEKS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_MAIZE, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_PASSION_FRUIT_VINE, RenderType.cutout());
+            setRenderLayer(BFBlocks.WILD_ELDERBERRY_VINE, RenderType.cutout());
+            setRenderLayer(BFBlocks.FERMENTATION_VESSEL, RenderType.cutout());
+            setRenderLayer(BFBlocks.FELDSPAR_LANTERN, RenderType.cutout());
+            setRenderLayer(BFBlocks.TINGED_GLASS, RenderType.translucent());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILES, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB, RenderType.cutout());
+            setRenderLayer(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB, RenderType.cutout());
+            setRenderLayer(BFBlocks.CERAMIC_DOOR, RenderType.cutout());
+            setRenderLayer(BFBlocks.APPLE_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.GOLDEN_APPLE_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.LEMON_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.PLUM_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_APPLE_BLOCK, RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_DOOR, RenderType.cutout());
+            setRenderLayer(BFBlocks.TEA_SHRUB, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHAMOMILE_FLOWERS, RenderType.cutout());
+            setRenderLayer(BFBlocks.HONEYSUCKLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_HONEYSUCKLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.VIOLET_BELLFLOWER, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_VIOLET_BELLFLOWER, RenderType.cutout());
+            setRenderLayer(BFBlocks.RED_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.ORANGE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.YELLOW_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.LIME_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.GREEN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.CYAN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.LIGHT_BLUE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.BLUE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.PURPLE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.MAGENTA_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.PINK_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.WHITE_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.LIGHT_GRAY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.GRAY_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.BLACK_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.BROWN_JACK_O_STRAW, RenderType.cutout());
+            setRenderLayer(BFBlocks.GREEN_TEA_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.BLACK_TEA_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHAMOMILE_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.HONEYSUCKLE_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.BELLFLOWER_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.TORCHFLOWER_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_CANDLE, RenderType.cutout());
+            setRenderLayer(BFBlocks.LEEKS, RenderType.cutout());
+            setRenderLayer(BFBlocks.MAIZE_CROP, RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGEKIN_STEM, RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGEKIN_SPROUT, RenderType.cutout());
+            setRenderLayer(BFBlocks.SPONGE_CAKE, RenderType.cutout());
+            setRenderLayer(BFBlocks.PRISMARINE_BLOSSOM, RenderType.cutout());
+            setRenderLayer(BFBlocks.SCORCHKIN_STEM, RenderType.cutout());
+            setRenderLayer(BFBlocks.OAK_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.SPRUCE_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.BIRCH_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.JUNGLE_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.ACACIA_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.DARK_OAK_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.MANGROVE_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.CHERRY_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.BAMBOO_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WALNUT_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.HOARY_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.CRIMSON_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.WARPED_PICKETS, RenderType.cutout());
+            setRenderLayer(BFBlocks.IRON_RAILING, RenderType.cutout());
+            setRenderLayer(BFBlocks.GRASSY_DIRT, RenderType.cutout());
+            setRenderLayer(BFBlocks.PALM_FROND, RenderType.cutout());
+            setRenderLayer(BFBlocks.WALL_PALM_FROND, RenderType.cutout());
+            setRenderLayer(BFBlocks.POTTED_PALM_FROND, RenderType.cutout());
+            setRenderLayer(BFBlocks.COCONUT, RenderType.cutout());
+            setRenderLayer(BFBlocks.PALM_SAPLING, RenderType.cutout());
+
+
+            Sheets.SIGN_MATERIALS.put(BFWoodTypes.HOARY, Sheets.getSignMaterial(BFWoodTypes.HOARY));
+            Sheets.SIGN_MATERIALS.put(BFWoodTypes.WALNUT, Sheets.getSignMaterial(BFWoodTypes.WALNUT));
+            BlockEntityRenderers.register(BFBlockEntities.MOD_SIGN_BLOCK_ENTITY, SignRenderer::new);
+            BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY, HangingSignRenderer::new);
+
+
+
+
+            MenuScreens.register(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, GristmillScreen::new);
+
+
+            ItemProperties.register(
+                    ARTISAN_BRUSH, BountifulFares.rl("dyed"),
+                    (itemStack, clientWorld, livingEntity, seed) ->
+                            BFDyeableLeatherItem.hasColorStatic(itemStack) ? 1.0F : 0.0F);
+
+            for (Block block : BFTrellises.TRELLIS_RENDER_CUTOUT) {
+                setRenderLayer(block, RenderType.cutout());
             }
-            return ArtisanBrushItem.DEFAULT_COLOR;
-        }, ARTISAN_BRUSH);
+        });
+    }
+    @SubscribeEvent
+    public static void onRegisterParticleProvidersEvent(EntityRenderersEvent.AddLayers event) {
+        // TerraformBoatClientHelper.registerModelLayers(BFBoats.HOARY_BOAT_ID, false);
+        // TerraformBoatClientHelper.registerModelLayers(BFBoats.WALNUT_BOAT_ID, false);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterParticleProvidersEvent(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(BFParticles.FLOUR_CLOUD, FlourCloudParticle.Factory::new);
+        event.registerSpriteSet(BFParticles.PRISMARINE_BLOSSOM, PrismarineBlossomParticle.Factory::new);
+        event.registerSpriteSet(BFParticles.FERMENTED_BUBBLE, FermentedBubbleParticle.Factory::new);
+        event.registerSpriteSet(BFParticles.GOLDEN_PETAL, GoldenPetalParticle.Factory::new);
+    }
+
+    @SuppressWarnings("deprecated")
+    private static void setRenderLayer(Block block, RenderType type) {
+        ItemBlockRenderTypes.setRenderLayer(block, type);
+    }
+
+
+    private static void registerBlockColor(Block ModCeramicBlocksItems) {
+//        Registers tint for ceramic blocks
+        registerItemColor(ModCeramicBlocksItems.asItem());
+        Minecraft.getInstance().getBlockColors()
+                .register((state, world, pos, tintIndex) -> FastColorAttach.opaque(DyeableBlockEntity.getColor(world, pos)), ModCeramicBlocksItems);
+    }
+
+    private static void registerItemColor(Item item) {
+//        Registers tint for ceramic items
+        Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
+            if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
+                return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
+            }
+            return DyeableBlockEntity.DEFAULT_COLOR;
+        }, item);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterColorHandlersEvent_Block(RegisterColorHandlersEvent.Block event) {
         registerBlockColor(BFBlocks.CERAMIC_TILES);
         registerBlockColor(BFBlocks.CERAMIC_TILE_STAIRS);
         registerBlockColor(BFBlocks.CERAMIC_TILE_SLAB);
@@ -290,64 +360,36 @@ public class BountifulFaresClient implements ClientModInitializer {
         registerBlockColor(BFBlocks.CERAMIC_DOOR);
         registerBlockColor(BFBlocks.CERAMIC_TRAPDOOR);
         registerBlockColor(BFBlocks.CERAMIC_DISH);
-        Sheets.SIGN_MATERIALS.put(BFWoodTypes.HOARY, Sheets.getSignMaterial(BFWoodTypes.HOARY));
-        Sheets.SIGN_MATERIALS.put(BFWoodTypes.WALNUT, Sheets.getSignMaterial(BFWoodTypes.WALNUT));
-        BlockEntityRenderers.register(BFBlockEntities.MOD_SIGN_BLOCK_ENTITY, SignRenderer::new);
-        BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY, HangingSignRenderer::new);
-        TerraformBoatClientHelper.registerModelLayers(BFBoats.HOARY_BOAT_ID, false);
-        TerraformBoatClientHelper.registerModelLayers(BFBoats.WALNUT_BOAT_ID, false);
 
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos)
-                : GrassColors.getDefaultColor(), BFBlocks.CHAMOMILE_FLOWERS, BFBlocks.GRASSY_DIRT);
-        ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> GrassColors.getDefaultColor()), BFBlocks.GRASSY_DIRT);
+        event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos)
+                : GrassColor.getDefaultColor(), BFBlocks.CHAMOMILE_FLOWERS, BFBlocks.GRASSY_DIRT);
 
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
-                : FoliageColors.getDefaultColor(),
+        event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
+                        : FoliageColor.getDefaultColor(),
                 BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES, BFBlocks.APPLE_LOG, BFBlocks.APPLE_WOOD,
                 BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES, BFBlocks.ORANGE_LOG, BFBlocks.ORANGE_WOOD,
                 BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES, BFBlocks.LEMON_LOG, BFBlocks.LEMON_WOOD,
                 BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES, BFBlocks.PLUM_LOG, BFBlocks.PLUM_WOOD,
                 BFBlocks.WALNUT_LEAVES);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FastColor.ARGB32.fullAlpha(FoliageColors.getDefaultColor()), BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES, BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES, BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES, BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES, BFBlocks.ORANGE_LEAVES);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FastColor.ARGB32.fullAlpha(5809764), BFBlocks.WALNUT_LEAVES);
 
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
-                : FoliageColors.getDefaultColor(), BFBlocks.HANGING_WALNUTS);
+        event.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos)
+                : FoliageColor.getDefaultColor(), BFBlocks.HANGING_WALNUTS);
 
-        MenuScreens.register(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, GristmillScreen::new);
-        EntityRendererRegistry.register(BFEntities.THROWN_FLOUR_PROJECTILE, ThrownItemRenderer::new);
-        ParticleFactoryRegistry.getInstance().register(BFParticles.FLOUR_CLOUD, FlourCloudParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(BFParticles.PRISMARINE_BLOSSOM, PrismarineBlossomParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(BFParticles.FERMENTED_BUBBLE, FermentedBubbleParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(BFParticles.GOLDEN_PETAL, GoldenPetalParticle.Factory::new);
+        event.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : FoliageColor.getDefaultColor()), BFBlocks.WILD_POTATOES, BFBlocks.WILD_CARROTS, BFBlocks.WILD_BEETROOTS, BFBlocks.WILD_LEEKS, BFBlocks.WILD_MAIZE, BFBlocks.WILD_PASSION_FRUIT_VINE, BFBlocks.WILD_ELDERBERRY_VINE);
 
-        ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : FoliageColors.getDefaultColor()), BFBlocks.WILD_POTATOES, BFBlocks.WILD_CARROTS, BFBlocks.WILD_BEETROOTS, BFBlocks.WILD_LEEKS, BFBlocks.WILD_MAIZE, BFBlocks.WILD_PASSION_FRUIT_VINE, BFBlocks.WILD_ELDERBERRY_VINE);
-
-        ItemProperties.register(
-                ARTISAN_BRUSH, BountifulFares.rl( "dyed"),
-                (itemStack, clientWorld, livingEntity, seed) ->
-                        itemStack.getComponents().get(DataComponentTypes.DYED_COLOR) != null ? 1.0F : 0.0F);
-
-        for (Block block : BFTrellises.TRELLIS_RENDER_CUTOUT) {
-            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
-        }
     }
 
+    @SubscribeEvent
+    public static void onRegisterColorHandlersEvent_Item(RegisterColorHandlersEvent.Item event) {
+        event.register(((stack, tintIndex) -> GrassColor.getDefaultColor()), BFBlocks.GRASSY_DIRT);
+        event.register((stack, tintIndex) -> FastColorAttach.opaque(FoliageColor.getDefaultColor()), BFBlocks.APPLE_LEAVES, BFBlocks.FLOWERING_APPLE_LEAVES, BFBlocks.ORANGE_LEAVES, BFBlocks.FLOWERING_ORANGE_LEAVES, BFBlocks.LEMON_LEAVES, BFBlocks.FLOWERING_LEMON_LEAVES, BFBlocks.PLUM_LEAVES, BFBlocks.FLOWERING_PLUM_LEAVES, BFBlocks.ORANGE_LEAVES);
+        event.register((stack, tintIndex) -> FastColorAttach.opaque(5809764), BFBlocks.WALNUT_LEAVES);
 
-
-    private void registerBlockColor(Block ModCeramicBlocksItems) {
-//        Registers tint for ceramic blocks
-        registerItemColor(ModCeramicBlocksItems.asItem());
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FastColor.ARGB32.fullAlpha(DyeableBlockEntity.getColor(world,pos)), ModCeramicBlocksItems);
-    }
-
-    private void registerItemColor(Item item) {
-//        Registers tint for ceramic items
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (stack.getComponents().get(DataComponentTypes.DYED_COLOR) != null && tintIndex == 0) {
-                return FastColor.ARGB32.fullAlpha(stack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb());
+        event.register((stack, tintIndex) -> {
+            if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
+                return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
             }
-            return DyeableBlockEntity.DEFAULT_COLOR;
-        },item);
+            return ArtisanBrushItem.DEFAULT_COLOR;
+        }, ARTISAN_BRUSH);
     }
 }

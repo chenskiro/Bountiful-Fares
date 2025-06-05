@@ -1,7 +1,10 @@
 package net.hecco.bountifulfares.registry.util;
 
-import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
+import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+// import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+// import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
@@ -15,17 +18,48 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Position;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import static net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register;
+// import static net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register;
 import static net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFRegistries {
+
+    public static final Reference2IntMap<Item> fuel_items = new Reference2IntOpenHashMap<>();
+    public static final List<Pair<TagKey<Item>, Integer>> fuel_item_tags = new ArrayList<>();
+
+    @SubscribeEvent
+    public static void setFuels(FurnaceFuelBurnTimeEvent event) {
+        int anInt = fuel_items.getInt(event.getItemStack().getItem());
+        if (anInt > 0) {
+            event.setBurnTime(anInt);
+            return;
+        } else {
+            for (Pair<TagKey<Item>, Integer> fuelItemTag : fuel_item_tags) {
+                if (event.getItemStack().is(fuelItemTag.getFirst())) {
+                    event.setBurnTime(fuelItemTag.getSecond());
+                    return;
+                }
+            }
+        }
+    }
+
     public static void RegisterModStuffs() {
         registerStrippables();
         registerCeramicCheckeredConversions();
@@ -59,92 +93,102 @@ public class BFRegistries {
 //        FermentationRecipes.addRecipe(Items.SPIDER_EYE, null, Items.FERMENTED_SPIDER_EYE, null, null, 10250865);
     }
 
+
     public static void registerFuels() {
-        FuelRegistry registry = FuelRegistry.INSTANCE;
-        registry.add(BFItemTags.FRUIT_LOGS, 200);
-        registry.add(BFItemTags.HOARY_LOGS, 300);
-        registry.add(BFItemTags.WALNUT_LOGS, 300);
-        registry.add(BFItemTags.PICKETS, 200);
+        // FuelRegistry registry = FuelRegistry.INSTANCE;
+
+        addToMap(BFItemTags.FRUIT_LOGS, 200);
+        addToMap(BFItemTags.HOARY_LOGS, 300);
+        addToMap(BFItemTags.WALNUT_LOGS, 300);
+        addToMap(BFItemTags.PICKETS, 200);
         for (TrellisVariant trellis : TrellisUtil.TrellisVariants) {
             if (!(Objects.equals(trellis.getBlockName(), "warped_trellis") || Objects.equals(trellis.getBlockName(), "crimson_trellis")))
-            registry.add(TrellisUtil.getTrellisFromVariant(trellis), 300);
+                addToMap(TrellisUtil.getTrellisFromVariant(trellis), 300);
         }
-        registry.add(BFBlocks.GRISTMILL, 300);
-        registry.add(BFBlocks.WHITE_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.LIGHT_GRAY_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.GRAY_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.BLACK_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.BROWN_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.RED_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.ORANGE_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.YELLOW_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.LIME_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.GREEN_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.CYAN_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.LIGHT_BLUE_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.BLUE_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.PURPLE_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.MAGENTA_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.PINK_JACK_O_STRAW, 400);
-        registry.add(BFBlocks.PALM_FROND, 100);
-        registry.add(BFItems.COCONUT_COIR, 100);
-        registry.add(BFBlocks.PACKED_COCONUT_COIR, 400);
-        registry.add(BFBlocks.COIR_CARPET, 200);
-        registry.add(BFBlocks.COIR_BRICKS, 400);
-        registry.add(BFBlocks.COIR_BRICK_SLAB, 400);
-        registry.add(BFBlocks.COIR_BRICK_STAIRS, 400);
-        registry.add(BFBlocks.COIR_BRICK_WALL, 400);
-            registry.add(MintBlocks.ACORN_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.AMBER_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.ARTICHOKE_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.BANANA_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.CERULEAN_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.FUCHSIA_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.GRAPE_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.INDIGO_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.MAROON_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.MAUVE_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.MINT_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.MOLD_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.NAVY_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.PEACH_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.PERIWINKLE_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.SAGE_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.SAP_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.SHAMROCK_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.VELVET_JACK_O_STRAW, 400);
-            registry.add(MintBlocks.VERMILION_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.MAROON_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.ROSE_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.CORAL_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.GINGER_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.TAN_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.BEIGE_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.AMBER_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.OLIVE_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.FOREST_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.VERDANT_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.TEAL_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.MINT_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.AQUA_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.SLATE_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.NAVY_JACK_O_STRAW, 400);
-            registry.add(DyeDepotBlocks.INDIGO_JACK_O_STRAW, 400);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_VERTICAL_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.CHISELED_WALNUT_PLANKS, 300);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_MOSAIC, 300);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_MOSAIC_SLAB, 300);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_MOSAIC_VERTICAL_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.WALNUT_LADDER, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_VERTICAL_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.CHISELED_HOARY_PLANKS, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_MOSAIC, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_MOSAIC_SLAB, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_MOSAIC_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_MOSAIC_VERTICAL_STAIRS, 300);
-            registry.add(ExcessiveBuildingBlocks.HOARY_LADDER, 300);
+        addToMap(BFBlocks.GRISTMILL, 300);
+        addToMap(BFBlocks.WHITE_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.LIGHT_GRAY_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.GRAY_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.BLACK_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.BROWN_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.RED_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.ORANGE_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.YELLOW_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.LIME_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.GREEN_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.CYAN_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.LIGHT_BLUE_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.BLUE_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.PURPLE_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.MAGENTA_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.PINK_JACK_O_STRAW, 400);
+        addToMap(BFBlocks.PALM_FROND, 100);
+        addToMap(BFItems.COCONUT_COIR, 100);
+        addToMap(BFBlocks.PACKED_COCONUT_COIR, 400);
+        addToMap(BFBlocks.COIR_CARPET, 200);
+        addToMap(BFBlocks.COIR_BRICKS, 400);
+        addToMap(BFBlocks.COIR_BRICK_SLAB, 400);
+        addToMap(BFBlocks.COIR_BRICK_STAIRS, 400);
+        addToMap(BFBlocks.COIR_BRICK_WALL, 400);
+        addToMap(MintBlocks.ACORN_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.AMBER_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.ARTICHOKE_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.BANANA_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.CERULEAN_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.FUCHSIA_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.GRAPE_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.INDIGO_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.MAROON_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.MAUVE_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.MINT_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.MOLD_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.NAVY_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.PEACH_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.PERIWINKLE_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.SAGE_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.SAP_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.SHAMROCK_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.VELVET_JACK_O_STRAW, 400);
+        addToMap(MintBlocks.VERMILION_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.MAROON_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.ROSE_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.CORAL_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.GINGER_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.TAN_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.BEIGE_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.AMBER_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.OLIVE_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.FOREST_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.VERDANT_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.TEAL_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.MINT_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.AQUA_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.SLATE_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.NAVY_JACK_O_STRAW, 400);
+        addToMap(DyeDepotBlocks.INDIGO_JACK_O_STRAW, 400);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_VERTICAL_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.CHISELED_WALNUT_PLANKS, 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC, 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_SLAB, 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_MOSAIC_VERTICAL_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.WALNUT_LADDER, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_VERTICAL_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.CHISELED_HOARY_PLANKS, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_SLAB, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_MOSAIC_VERTICAL_STAIRS, 300);
+        addToMap(ExcessiveBuildingBlocks.HOARY_LADDER, 300);
 
+    }
+
+    private static void addToMap(TagKey<Item> itemTagKey, int i) {
+        fuel_item_tags.add(Pair.of(itemTagKey, i));
+    }
+
+    private static void addToMap(ItemLike block, int i) {
+        fuel_items.put(block.asItem(), i);
     }
 
     public static void registerFlammables() {

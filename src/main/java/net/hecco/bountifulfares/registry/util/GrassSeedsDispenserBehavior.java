@@ -6,9 +6,10 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.particle.ParticleUtil;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -22,12 +23,12 @@ public abstract class GrassSeedsDispenserBehavior extends DefaultDispenseItemBeh
     }
 
     public ItemStack execute(BlockSource pointer, ItemStack stack) {
-        Level world = pointer.world();
-        Direction direction = pointer.state().get(DispenserBlock.FACING);
-        BlockPos pos = pointer.pos().offset(direction);
+        Level world = pointer.getLevel();
+        Direction direction = pointer.getBlockState().getValue(DispenserBlock.FACING);
+        BlockPos pos = pointer.getPos().relative(direction);
         if (world.getBlockState(pos).is(BFBlockTags.GRASS_SEEDS_PLANTABLE_ON)) {
             world.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.defaultBlockState());
-            ParticleUtil.spawnParticlesAround(world, pos, 10, ParticleTypes.HAPPY_VILLAGER);
+            ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.HAPPY_VILLAGER, ConstantInt.of(10));
             stack.shrink(1);
             world.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
             return stack;
@@ -35,6 +36,6 @@ public abstract class GrassSeedsDispenserBehavior extends DefaultDispenseItemBeh
         return itemDispenser.dispense(pointer, stack);
     }
     protected void playSound(BlockSource pointer) {
-        pointer.world().syncWorldEvent(1002, pointer.pos(), 0);
+        pointer.getLevel().levelEvent(1002, pointer.getPos(), 0);
     }
 }

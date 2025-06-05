@@ -9,19 +9,28 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
 public class BFTooltipEvents {
-    public static void addTooltipsToVanillaItems(ItemStack itemStack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Component> tooltip) {
+
+    @SubscribeEvent
+    public static void addTooltipsToVanillaItems(ItemTooltipEvent event) {
         if (BountifulFares.CONFIG.effectTooltips) {
-            if (itemStack.getItem() == Items.MILK_BUCKET) {
+            Item item = event.getItemStack().getItem();
+            List<Component> tooltip = event.getToolTip();
+            if (item == Items.MILK_BUCKET) {
                 tooltip.add(CommonComponents.EMPTY);
                 tooltip.add(Component.translatable("tooltip.bountifulfares.when_drunk").withStyle(ChatFormatting.GRAY));
                 tooltip.add(Component.translatable("tooltip.bountifulfares.removes_all_effects").withStyle(ChatFormatting.BLUE));
-            } else if (itemStack.getItem() == Items.HONEY_BOTTLE) {
+            } else if (item == Items.HONEY_BOTTLE) {
                 tooltip.add(CommonComponents.EMPTY);
                 tooltip.add(Component.translatable("tooltip.bountifulfares.removes").withStyle(ChatFormatting.GRAY));
-                tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.value().getCategory().getFormatting())).formatted(ChatFormatting.RED));
+                tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
             }
         }
     }

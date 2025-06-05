@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
-    @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
+    @ModifyVariable(method = "render", at = @At(value = "HEAD"), argsOnly = true)
     public BakedModel renderItemTexture(BakedModel value, ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         if (stack.is(BFItems.SUN_HAT) && renderMode == ItemDisplayContext.HEAD) {
-            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(ModelResourceLocation.ofInventoryVariant(BountifulFares.rl( "sun_hat_head")));
+            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelResourceLocation(BountifulFares.rl( "sun_hat_head"),"inventory"));
         }
         return value;
     }

@@ -12,11 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ModelBakery.class)
 public abstract class ModelLoaderMixin {
-    @Shadow
-    protected abstract void loadItemModel(ModelResourceLocation id);
 
-    @Inject(method = {"<init>"}, at = {@At(value = "invoke", ordinal = 0, target = "Lnet/minecraft/client/render/model/ModelLoader;loadItemModel(Lnet/minecraft/client/util/ModelIdentifier;)V")})
+
+    @Shadow protected abstract void loadTopLevel(ModelResourceLocation pLocation);
+
+    @Inject(method = {"<init>"}, at = {@At(value = "RETURN")})
     private void addModels(CallbackInfo info) {
-        this.loadItemModel(ModelResourceLocation.ofInventoryVariant(BountifulFares.rl( "sun_hat_head")));
+        this.loadTopLevel(new ModelResourceLocation(BountifulFares.rl( "sun_hat_head"),"inventory"));
     }
 }

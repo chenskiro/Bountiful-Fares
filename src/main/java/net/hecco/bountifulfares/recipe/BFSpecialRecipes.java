@@ -25,8 +25,8 @@ public class BFSpecialRecipes {
 
     public static final RecipeSerializer<?> CERAMIC_MASS_DYEING = registerSpecialRecipe("ceramic_mass_dyeing", CeramicMassDyeingRecipe::new);
 
-    public static void registerSpecialRecipes() {
-    }
+    // public static void registerSpecialRecipes() {
+    // }
 
     private static RecipeSerializer<?> registerSpecialRecipe(String name,SimpleCraftingRecipeSerializer.Factory<?> toRecipe){
         return recipeSerializers.put(ResourceKey.create(Registries.RECIPE_SERIALIZER,BountifulFares.rl( name)),

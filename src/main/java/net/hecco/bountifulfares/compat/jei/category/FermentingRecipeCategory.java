@@ -13,18 +13,20 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.jei.BFRecipeTypes;
 import net.hecco.bountifulfares.recipe.FermentationRecipe;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("removal")
@@ -48,20 +50,21 @@ public class FermentingRecipeCategory implements IRecipeCategory<FermentationRec
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, FermentationRecipe recipe, IFocusGroup focusGroup) {
         List<Ingredient> recipeIngredients = recipe.getIngredients();
-        ItemStack resultStack = recipe.getResultItem();
-        ItemStack containerStack = recipe.getResultItem().getRecipeRemainder();
+        ItemStack resultItem = recipe.getResultItem(Minecraft.getInstance().level.registryAccess());
+        ItemStack resultStack = resultItem;
+        ItemStack containerStack = resultItem.getCraftingRemainingItem();
 
         //Code for placing slot locations (input/any misc slot locations)
 
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 7, 6).addItemStacks(List.of(PotionContentsComponent.createStack(Items.POTION, Potions.WATER), Items.WATER_BUCKET.getDefaultInstance())); //output slot location
-        builder.addSlot(RecipeIngredientRole.INPUT, 7, 50).addItemStacks(List.of(recipe.getIngredient().getMatchingStacks())); //output slot location
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 7, 6).addItemStacks(List.of(PotionUtils.setPotion(Items.POTION.getDefaultInstance(), Potions.WATER), Items.WATER_BUCKET.getDefaultInstance())); //output slot location
+        builder.addSlot(RecipeIngredientRole.INPUT, 7, 50).addItemStacks(recipe.getIngredients().stream().map(Ingredient::getItems).flatMap(Arrays::stream).toList()); //output slot location
         builder.addSlot(RecipeIngredientRole.OUTPUT, 63, 50).addItemStack(resultStack); //output slot location
     }
 
     //this method draws icons (arrow progress etc), i havent converted some mappings here since you use yarn
     @Override
     public void draw(FermentationRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        if (recipe.getResultItem().getRecipeRemainder().getItem() != Items.AIR) {
+        if (recipe.getResultItem(Minecraft.getInstance().level.registryAccess()).getCraftingRemainingItem().getItem() != Items.AIR) {
             containerIcon.draw(guiGraphics, 67, 33);
         }
     }
@@ -69,8 +72,8 @@ public class FermentingRecipeCategory implements IRecipeCategory<FermentationRec
     @Override //you can ignore the errors on this method and getBackground (if they cause errors you can comment them out)
     public List<Component> getTooltipStrings(FermentationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         List<Component> tooltipStrings = new ArrayList<>();
-        if (recipe.getResultItem().getRecipeRemainder().getItem() != Items.AIR && mouseX >= 67 && mouseX <= 75 && mouseY >= 33 && mouseY <= 44) {
-            tooltipStrings.add(Component.translatable("jei.bountifulfares.collect_using").append(recipe.getResultItem().getRecipeRemainder().getName()));
+        if (recipe.getResultItem(Minecraft.getInstance().level.registryAccess()).getCraftingRemainingItem().getItem() != Items.AIR && mouseX >= 67 && mouseX <= 75 && mouseY >= 33 && mouseY <= 44) {
+            tooltipStrings.add(Component.translatable("jei.bountifulfares.collect_using").append(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()).getCraftingRemainingItem().getDescriptionId()));
         }
         if (mouseX >= 35 && mouseX <= 47 && mouseY >= 39 && mouseY <= 54) {
             int minutes = (int) Math.floor((double) BountifulFares.CONFIG.getFermentationTime() / 60);

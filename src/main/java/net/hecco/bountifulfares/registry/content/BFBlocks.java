@@ -413,6 +413,9 @@ public class BFBlocks {
         event.register(Registries.BLOCK, registerHelper -> {
             blocks.forEach(registerHelper::register);
         });
+        if (event.getRegistryKey().equals(Registries.BLOCK)){
+            BFWoodTypes.registerWoodTypes();
+        }
         event.register(Registries.ITEM, registerHelper -> {
             items.forEach(registerHelper::register);
         });

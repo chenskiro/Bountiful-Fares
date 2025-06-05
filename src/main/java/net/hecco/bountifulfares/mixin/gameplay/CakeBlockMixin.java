@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CakeBlock.class)
 public class CakeBlockMixin {
-    @Inject(method = "tryEat", at = @At("TAIL"))
+    @Inject(method = "eat", at = @At("TAIL"))
     private static void bf_eatSound(LevelAccessor world, BlockPos pos, BlockState state, Player player, CallbackInfoReturnable<InteractionResult> cir) {
         if (player.canEat(false) && BountifulFares.CONFIG.isCakeEatSounds()) {
             world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 0.5f, 1.0f);

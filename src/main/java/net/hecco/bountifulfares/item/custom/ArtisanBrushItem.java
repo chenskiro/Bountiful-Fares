@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ArtisanBrushItem extends Item {
+public class ArtisanBrushItem extends Item implements BFDyeableLeatherItem{
     public static final String DISPLAY_KEY = "display";
     public static final String COLOR_KEY = "color";
 

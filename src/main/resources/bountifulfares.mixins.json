@@ -6,7 +6,6 @@
     "gameplay.CakeBlockMixin",
     "gameplay.CampfireBlockEntityMixin",
     "gameplay.LivingEntityMixin",
-    "gameplay.NoteBlockInstrumentMixin",
     "gameplay.PumpkinPieItemMixin",
     "gameplay.SweetBerryBushMixin",
     "misc.StonecutterScreenHandlerMixin",
@@ -25,7 +24,6 @@
   },
   "client": [
     "misc.SplashTextMixin",
-    "misc.StonecutterScreenMixin",
-    "render.GuiHeartsMixin"
+    "misc.StonecutterScreenMixin"
   ]
 }

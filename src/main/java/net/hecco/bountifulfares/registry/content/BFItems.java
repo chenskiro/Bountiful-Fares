@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.registry.content;
 
-import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
+// import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.item.custom.*;
 import net.minecraft.core.Direction;
@@ -24,7 +24,6 @@ import java.util.Map;
 public class BFItems {
     private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
 
-
     public static final Item PASSION_FRUIT = registerItem("passion_fruit", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).fast().build())));
     public static final Item ELDERBERRIES = registerItem("elderberries", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).fast().effect(()->new MobEffectInstance(MobEffects.HEAL, 1, 0, true, false), 0.3f).build())));
     public static final Item LAPISBERRY_SEEDS = registerItem("lapisberry_seeds", new Item(new Item.Properties()));
@@ -37,16 +36,19 @@ public class BFItems {
     public static final Item HOARY_SEEDS = registerItem("hoary_seeds", new ItemNameBlockItem(BFBlocks.HOARY_APPLE_SAPLING_CROP, new Item.Properties()));
     public static final Item HOARY_SIGN = registerItem("hoary_sign", new SignItem(new Item.Properties().stacksTo(16), BFBlocks.HOARY_SIGN, BFBlocks.HOARY_WALL_SIGN));
     public static final Item HOARY_HANGING_SIGN = registerItem("hoary_hanging_sign", new HangingSignItem(BFBlocks.HOARY_HANGING_SIGN, BFBlocks.HOARY_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-    public static final Item HOARY_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_BOAT_ID, BFBoats.HOARY_BOAT_KEY, false);
-    public static final Item HOARY_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_CHEST_BOAT_ID, BFBoats.HOARY_BOAT_KEY, true);
+
+    // public static final Item HOARY_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_BOAT_ID, BFBoats.HOARY_BOAT_KEY, false);
+    // public static final Item HOARY_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.HOARY_CHEST_BOAT_ID, BFBoats.HOARY_BOAT_KEY, true);
 
     public static final Item SWEET_BERRY_PIPS = registerItem("sweet_berry_pips", new SweetBerryPipsItem(Blocks.SWEET_BERRY_BUSH, new Item.Properties()));
 
     public static final Item WALNUT = registerItem("walnut", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0).fast().build())));
     public static final Item WALNUT_SIGN = registerItem("walnut_sign", new SignItem(new Item.Properties().stacksTo(16), BFBlocks.WALNUT_SIGN, BFBlocks.WALNUT_WALL_SIGN));
     public static final Item WALNUT_HANGING_SIGN = registerItem("walnut_hanging_sign", new HangingSignItem(BFBlocks.WALNUT_HANGING_SIGN, BFBlocks.WALNUT_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-    public static final Item WALNUT_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, false);
-    public static final Item WALNUT_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_CHEST_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, true);
+
+    // public static final Item WALNUT_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, false);
+    // public static final Item WALNUT_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(BFBoats.WALNUT_CHEST_BOAT_ID, BFBoats.WALNUT_BOAT_KEY, true);
+
     public static final Item PALM_FROND = registerItem("palm_frond", new StandingAndWallBlockItem(BFBlocks.PALM_FROND, BFBlocks.WALL_PALM_FROND, new Item.Properties(), Direction.DOWN));
     public static final Item COCONUT = registerItem("coconut", new ItemNameBlockItem(BFBlocks.PALM_SAPLING, new Item.Properties()));
     public static final Item COCONUT_COIR = registerItem("coconut_coir", new Item(new Item.Properties()));
@@ -55,9 +57,9 @@ public class BFItems {
     public static final Item CITRUS_ESSENCE = registerItem("citrus_essence", new EffectFoodItem(List.of(new MobEffectInstance(BFEffects.ACIDIC, 300, 0)), new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1f).fast().alwaysEat().effect(()->new MobEffectInstance(BFEffects.ACIDIC, 300, 0),1).build())));
     public static final Item CANDIED_ORANGE = registerItem("candied_orange", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2f).fast().build())));
     public static final Item CANDIED_LEMON = registerItem("candied_lemon", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2f).fast().build())));
-    public static final Item ELDERBERRY_WINE_BOTTLE = registerItem("elderberry_wine_bottle", new LiquidBottleItem(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.2f).effect(()->new MobEffectInstance(MobEffects.HEAL, 1, 1, true, false), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).maxCount(16)));
-    public static final Item LAPISBERRY_WINE_BOTTLE = registerItem("lapisberry_wine_bottle", new LiquidBottleItem(List.of(new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0)), new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.4f).effect(()->new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).maxCount(16)));
-    public static final Item MEAD_BOTTLE = registerItem("mead_bottle", new MeadBottleItem(List.of(new MobEffectInstance(MobEffects.REGENERATION, 200, 0)), new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.4f).effect(()->new MobEffectInstance(MobEffects.REGENERATION, 200, 0), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).maxCount(16)));
+    public static final Item ELDERBERRY_WINE_BOTTLE = registerItem("elderberry_wine_bottle", new LiquidBottleItem(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.2f).effect(()->new MobEffectInstance(MobEffects.HEAL, 1, 1, true, false), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).stacksTo(16)));
+    public static final Item LAPISBERRY_WINE_BOTTLE = registerItem("lapisberry_wine_bottle", new LiquidBottleItem(List.of(new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0)), new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.4f).effect(()->new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).stacksTo(16)));
+    public static final Item MEAD_BOTTLE = registerItem("mead_bottle", new MeadBottleItem(List.of(new MobEffectInstance(MobEffects.REGENERATION, 200, 0)), new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.4f).effect(()->new MobEffectInstance(MobEffects.REGENERATION, 200, 0), 1).effect(()->new MobEffectInstance(MobEffects.CONFUSION, 600, 0), 0.3f).alwaysEat().build()).stacksTo(16)));
     public static final Item FELDSPAR = registerItem("feldspar", new Item(new Item.Properties()));
     public static final Item CERAMIC_CLAY = registerItem("ceramic_clay", new Item(new Item.Properties()));
     public static final Item CERAMIC_TILE = registerItem("ceramic_tile", new Item(new Item.Properties()));

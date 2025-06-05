@@ -5,7 +5,6 @@ import net.hecco.bountifulfares.block.entity.*;
 import net.hecco.bountifulfares.block.entity.compat.CabinetBlockEntity;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
 import net.hecco.bountifulfares.compat.farmersdelight.FarmersDelightBlocks;
-import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -101,7 +100,7 @@ public class BFBlockEntities {
 
     public static BlockEntityType<CabinetBlockEntity> CABINET_BLOCK_ENTITY;
 
-    public static void registerBlockEntities() {
+    public static void cacheExtraBlockEntities() {
         if (BountifulFares.isModLoaded(BountifulFares.FARMERS_DELIGHT_MOD_ID) || BountifulFares.isDatagen()) {
             CABINET_BLOCK_ENTITY = registerForCache(
                     BuiltInRegistries.BLOCK_ENTITY_TYPE,
@@ -118,7 +117,7 @@ public class BFBlockEntities {
 
 
     @SubscribeEvent
-    public static void blockRegister(RegisterEvent event) {
+    public static void onRegister(RegisterEvent event) {
         event.register(Registries.BLOCK_ENTITY_TYPE, registerHelper -> {
             blockEntityTypes.forEach(registerHelper::register);
         });

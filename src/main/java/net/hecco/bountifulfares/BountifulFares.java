@@ -1,20 +1,14 @@
 package net.hecco.bountifulfares;
 
-import net.hecco.bountifulfares.recipe.BFSpecialRecipes;
 import net.hecco.bountifulfares.registry.content.*;
 import net.hecco.bountifulfares.registry.misc.*;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
-import net.hecco.bountifulfares.registry.util.BFDamageTypes;
-import net.hecco.bountifulfares.registry.util.BFLootTableModifiers;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +51,10 @@ public class BountifulFares  {
 	// @Override
 	public void onInitialize() {
 		BountifulFares.CONFIG = BountifulFaresConfiguration.load();
-		BFResourcePacks.registerBuiltinResourcePacks();
+
+		// todo make forge version
+		// BFResourcePacks.registerBuiltinResourcePacks();
+
 		// BFItems.registerModItems();
 		// BFBlocks.registerModBlocks();
 		BFTrellises.registerTrellisParts();
@@ -65,40 +62,62 @@ public class BountifulFares  {
 		// BFItemGroups.registerItemGroups();
 		// BFItemGroupAdditions.registerItemGroupAdditions();
 		BFRecipes.registerRecipes();
-		BFTreeGeneration.generateTrees();
-		BFFoliageGeneration.generateFlowers();
+
+		// todo make forge version
+		// BFTreeGeneration.generateTrees();
+		// todo make forge version
+		// BFFoliageGeneration.generateFlowers();
+
 		// BFEffects.registerEffects();
-		BFBoats.registerBoats();
-		BFLootTableModifiers.modifyLootTables();
+		// todo not use api
+		// BFBoats.registerBoats();
+
+		// todo make forge version
+		// BFLootTableModifiers.modifyLootTables();
+
 		// BFParticles.registerParticles();
 		// BFPotions.registerPotions();
 		BFTrunkPlacerTypes.register();
-		BFFeatures.register();
+		// BFFeatures.register();
 		BFRegistries.RegisterModStuffs();
-		BFBlockEntities.registerBlockEntities();
-		BFScreenHandlers.registerScreenHandlers();
+		// BFScreenHandlers.registerScreenHandlers();
+		BFBlockEntities.cacheExtraBlockEntities(); //change to cache model
 		// BFEntities.registerModEntities();
 		// BFSounds.registerSounds();
 		// BFDamageTypes.registerDamageTypes();
 		// BFSpecialRecipes.registerSpecialRecipes();
-		BFCompat.registerCompatContent();
-		DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
-			LOGGER.info("DynamicRegistrySetupCallback triggered!");
 
-			// Access the item registry
-			registryManager.getOptional(Registries.ITEM).ifPresent(itemRegistry -> {
-				LOGGER.info("Item registry is available!");
-				Holder<Item> diamondEntry = itemRegistry.wrapAsHolder(Items.DIAMOND);
-				LOGGER.info("Diamond Entry: " + diamondEntry);
-				if (diamondEntry != null) {
-					Map<TagKey<Item>, List<Holder<Item>>> map = new HashMap<>();
-					map.put(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS, List.of(diamondEntry));
-					itemRegistry.bindTags(map);
-				} else {
-					LOGGER.warn("Diamond entry is null!");
-				}
-			});
-		});
+		BFCompat.registerCompatContent();
+
+
+		// DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
+		// 	LOGGER.info("DynamicRegistrySetupCallback triggered!");
+		//
+		// 	// Access the item registry
+		// 	registryManager.getOptional(Registries.ITEM).ifPresent(itemRegistry -> {
+		// 		LOGGER.info("Item registry is available!");
+		// 		Holder<Item> diamondEntry = itemRegistry.wrapAsHolder(Items.DIAMOND);
+		// 		LOGGER.info("Diamond Entry: " + diamondEntry);
+		// 		if (diamondEntry != null) {
+		// 			Map<TagKey<Item>, List<Holder<Item>>> map = new HashMap<>();
+		// 			map.put(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS, List.of(diamondEntry));
+		// 			itemRegistry.bindTags(map);
+		// 		} else {
+		// 			LOGGER.warn("Diamond entry is null!");
+		// 		}
+		// 	});
+		// });
+
+		// Optional<Holder<Item>> diamondEntry = ForgeRegistries.ITEMS.getHolder(Items.DIAMOND);
+		// if (diamondEntry.isPresent()) {
+		// 	Map<TagKey<Item>, List<Holder<Item>>> map = new HashMap<>();
+		// 	map.put(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS, List.of(diamondEntry.get()));
+		// 	ForgeRegistries.ITEMS.tags().addOptionalTagDefaults(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS,Set.of(()->Items.DIAMOND));
+		// 	// BuiltInRegistries.ITEM.bindTags(map);
+		// } else {
+		// 	LOGGER.warn("Diamond entry is null!");
+		// }
+		ForgeRegistries.ITEMS.tags().addOptionalTagDefaults(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS,Set.of(()->Items.DIAMOND));
 	} //appledog - Lydia
 	//appledog - Hecco
 	//appledog - Diemond_Player (holy self-insert)

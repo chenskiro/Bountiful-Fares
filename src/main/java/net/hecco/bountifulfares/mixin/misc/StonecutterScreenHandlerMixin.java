@@ -25,7 +25,7 @@ public abstract class StonecutterScreenHandlerMixin {
     @Final
     Slot inputSlot;
 
-    @Inject(method = "populateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isItemEnabled(Lnet/minecraft/resource/featuretoggle/FeatureSet;)Z"))
+    @Inject(method = "setupResultSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isItemEnabled(Lnet/minecraft/world/flag/FeatureFlagSet;)Z"))
     public void bountifulfares$populateResult(CallbackInfo ci, @Local ItemStack itemStack) {
         //note to Hecco: you can change this if statement to your liking, maybe have a list of all ceramic block items instead
         //because this currently will apply to ANY dyeable item put into stonecutter that has recipes

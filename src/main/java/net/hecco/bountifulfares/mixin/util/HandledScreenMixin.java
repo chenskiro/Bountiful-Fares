@@ -6,5 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AbstractContainerScreen.class)
 public interface HandledScreenMixin {
-    @Accessor("y") int getY();
+    // todo not sure
+    @Accessor("imageHeight") int getY();
 }

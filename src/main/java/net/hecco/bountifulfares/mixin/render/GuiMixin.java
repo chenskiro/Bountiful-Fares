@@ -11,6 +11,7 @@ import net.minecraft.client.Timer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
@@ -19,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,19 +31,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Mixin(Gui.class)
 public class GuiMixin {
-    @Shadow @Final private Minecraft client;
+    // @Shadow @Final private Minecraft client;
 
-    @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_AMBIENT_TEXTURE;
+    // @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_AMBIENT_TEXTURE;
 
-    @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_TEXTURE;
+    // @Shadow @Final private static ResourceLocation EFFECT_BACKGROUND_TEXTURE;
 
     // Replaced via mixin into heart enum directly - >> see mixin/GuiHeartsMixin <<
     //@Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
-    //private void bountifulfares_renderHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
+    // private void bountifulfares_renderHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
     //    if (BountifulFares.CONFIG.isRestorationHeartOverlay()) {
     //        if (type == InGameHud.HeartType.NORMAL && MinecraftClient.getInstance().cameraEntity instanceof PlayerEntity player
     //                && (player.hasStatusEffect(BFEffects.RESTORATION))) {
@@ -73,12 +76,15 @@ public class GuiMixin {
     //    }
     //}
 
+    @Shadow
+    @Final
+    protected Minecraft minecraft;
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = BountifulFares.rl( "hud/acidified_effect_background");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = BountifulFares.rl("hud/acidified_effect_background");
     @Unique
-    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = BountifulFares.rl( "hud/acidified_effect_background_ambient");
+    private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE = BountifulFares.rl("hud/acidified_effect_background_ambient");
 
-//    @Inject(method = "renderStatusEffectOverlay",
+    //    @Inject(method = "renderStatusEffectOverlay",
 //            at = @At(value = "INVOKE",
 //                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),
 //            cancellable = true)
@@ -93,12 +99,12 @@ public class GuiMixin {
 //            instance.drawGuiTexture(ACIDFIED_EFFECT_BACKGROUND_TEXTURE, x, y, width, height);
 //        }
 //    }
-    @Inject(method = "renderStatusEffectOverlay", at = @At(value = "HEAD"), cancellable = true)
-    private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, Timer tickCounter, CallbackInfo ci) {
+    @Inject(method = "renderEffects", at = @At(value = "HEAD"), cancellable = true)
+    private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {
-            Collection<MobEffectInstance> collection = this.client.player.getActiveEffects();
+            Collection<MobEffectInstance> collection = this.minecraft.player.getActiveEffects();
             if (collection.stream().map(MobEffectInstance::getEffect).collect(Collectors.toSet()).contains(BFEffects.ACIDIC)) {
-                Screen screen = this.client.screen;
+                Screen screen = this.minecraft.screen;
                 if (screen instanceof EffectRenderingInventoryScreen abstractInventoryScreen) {
                     if (abstractInventoryScreen.canSeeEffects()) {
                         return;
@@ -108,19 +114,19 @@ public class GuiMixin {
                 RenderSystem.enableBlend();
                 int i = 0;
                 int j = 0;
-                MobEffectTextureManager statusEffectSpriteManager = this.client.getMobEffectTextures();
+                MobEffectTextureManager statusEffectSpriteManager = this.minecraft.getMobEffectTextures();
                 List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
 
                 for (MobEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                    Holder<MobEffect> registryEntry = statusEffectInstance.getEffect();
+                    MobEffect registryEntry = statusEffectInstance.getEffect();
                     if (statusEffectInstance.showIcon()) {
                         int k = context.guiWidth();
                         int l = 1;
-                        if (this.client.isDemo()) {
+                        if (this.minecraft.isDemo()) {
                             l += 15;
                         }
 
-                        if (registryEntry.value().isBeneficial()) {
+                        if (registryEntry.isBeneficial()) {
                             ++i;
                             k -= 25 * i;
                         } else {
@@ -130,17 +136,24 @@ public class GuiMixin {
                         }
 
                         float f;
-                        ResourceLocation ambientTexture = EFFECT_BACKGROUND_AMBIENT_TEXTURE;
-                        ResourceLocation texture = EFFECT_BACKGROUND_TEXTURE;
-                        if (statusEffectInstance.getEffect() != BFEffects.ACIDIC && !statusEffectInstance.getEffect().isIn(BFEffectTags.ACIDIC_BLACKLIST)) {
-                            ambientTexture = ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE;
-                            texture = ACIDFIED_EFFECT_BACKGROUND_TEXTURE;
+
+                        ResourceLocation ambientTexture = AbstractContainerScreen.INVENTORY_LOCATION;
+                        ResourceLocation texture = AbstractContainerScreen.INVENTORY_LOCATION;
+                        if (statusEffectInstance.getEffect() != BFEffects.ACIDIC) {
+                            Optional<Holder<MobEffect>> optionalHolder = ForgeRegistries.MOB_EFFECTS.getHolder(statusEffectInstance.getEffect());
+                            if (optionalHolder.isPresent() && !optionalHolder.get().is(BFEffectTags.ACIDIC_BLACKLIST)) {
+                                ambientTexture = ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE;
+                                texture = ACIDFIED_EFFECT_BACKGROUND_TEXTURE;
+                            }
                         }
                         if (statusEffectInstance.isAmbient()) {
                             f = 1.0F;
-                            context.drawGuiTexture(ambientTexture, k, l, 24, 24);
+                            // context.drawGuiTexture(ambientTexture, k, l, 24, 24);
+                            context.blit(ambientTexture, i, j, 165, 166, 24, 24);
                         } else {
-                            context.drawGuiTexture(texture, k, l, 24, 24);
+                            // context.drawGuiTexture(texture, k, l, 24, 24);
+                            context.blit(texture, i, j, 141, 166, 24, 24);
+
                             if (statusEffectInstance.endsWithin(200)) {
                                 int m = statusEffectInstance.getDuration();
                                 int n = 10 - m / 20;

@@ -15,4 +15,13 @@ public interface BFDyeableLeatherItem extends DyeableLeatherItem {
         return compoundtag != null && compoundtag.contains("color", Tag.TAG_ANY_NUMERIC) ?
                 compoundtag.getInt("color") : DEFAULT_LEATHER_COLOR;
     }
+
+    static boolean hasColorStatic(ItemStack stack) {
+        return stack.getItem() instanceof BFDyeableLeatherItem bfDyeableLeatherItem && bfDyeableLeatherItem.hasCustomColor(stack);
+    }
+
+    static int getColorStatic(ItemStack stack) {
+        return stack.getItem() instanceof BFDyeableLeatherItem bfDyeableLeatherItem?
+                bfDyeableLeatherItem.getColor(stack):DEFAULT_LEATHER_COLOR;
+    }
 }
