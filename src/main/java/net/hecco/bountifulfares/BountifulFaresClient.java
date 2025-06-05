@@ -58,7 +58,7 @@ public class BountifulFaresClient {
 
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY, CeramicDishBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BFBlockEntities.CERAMIC_DISH_BLOCK_ENTITY.get(), CeramicDishBlockEntityRenderer::new);
 
         event.registerEntityRenderer(BFEntities.THROWN_FLOUR_PROJECTILE, ThrownItemRenderer::new);
     }
@@ -282,8 +282,8 @@ public class BountifulFaresClient {
 
             Sheets.SIGN_MATERIALS.put(BFWoodTypes.HOARY, Sheets.getSignMaterial(BFWoodTypes.HOARY));
             Sheets.SIGN_MATERIALS.put(BFWoodTypes.WALNUT, Sheets.getSignMaterial(BFWoodTypes.WALNUT));
-            BlockEntityRenderers.register(BFBlockEntities.MOD_SIGN_BLOCK_ENTITY, SignRenderer::new);
-            BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY, HangingSignRenderer::new);
+            BlockEntityRenderers.register(BFBlockEntities.MOD_SIGN_BLOCK_ENTITY.get(), SignRenderer::new);
+            BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY.get(), HangingSignRenderer::new);
 
 
 

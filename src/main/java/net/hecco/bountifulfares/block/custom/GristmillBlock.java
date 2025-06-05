@@ -121,7 +121,7 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
 
     @Nullable
     protected static <T extends BlockEntity> BlockEntityTicker<T> validateTicker(Level world, BlockEntityType<T> givenType) {
-        return world.isClientSide ? null : createTickerHelper(givenType, BFBlockEntities.GRISTMILL_BLOCK_ENTITY, (level, pos, state, blockEntity) -> blockEntity.tick(level, pos, state));
+        return world.isClientSide ? null : createTickerHelper(givenType, BFBlockEntities.GRISTMILL_BLOCK_ENTITY.get(), (level, pos, state, blockEntity) -> blockEntity.tick(level, pos, state));
     }
 
     @Nullable

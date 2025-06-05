@@ -33,7 +33,7 @@ public class DyeableCeramicBlock {
     public static ItemStack getPickStack(BlockGetter world, BlockPos pos, Block block) {
         if (DyeableCeramicBlockEntity.getColor(world, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
             ItemStack stack = new ItemStack(block);
-            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.getBlockEntity(world, pos);
+            DyeableCeramicBlockEntity blockEntity = CERAMIC_TILES_BLOCK_ENTITY.get().getBlockEntity(world, pos);
             int color;
             if (blockEntity != null) {
                 color = blockEntity.color;

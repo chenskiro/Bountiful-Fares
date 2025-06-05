@@ -1,6 +1,7 @@
 package com.xueluoanping.bountifulfaresforge;
 
 import net.hecco.bountifulfares.BountifulFares;
+import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,5 +29,6 @@ public class BountifulFaresForge {
                 deferredRegister.register(modEventBus);
             }
         }
+        BFBlockEntities.BLOCK_ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
     }
 }
