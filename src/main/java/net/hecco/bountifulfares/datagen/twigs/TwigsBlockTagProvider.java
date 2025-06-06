@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class TwigsBlockTagProvider extends BlockTagsProvider {
     public TwigsBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.TWIGS_MOD_ID, null);
     }
 
     @Override

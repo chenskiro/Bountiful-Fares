@@ -1,9 +1,8 @@
-package com.xueluoanping.bountifulfaresforge.api.data;
+package com.xueluoanping.bountifulfaresforge.api.data.provider;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;

@@ -6,6 +6,7 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.LootTableProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 public class AppledogBlockLootTableProvider extends BlockLootSubProvider {
-    public static class BFLootTableProvider extends LootTableProvider {
+    public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(

@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DyeDepotBlockTagProvider extends BlockTagsProvider {
     public DyeDepotBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.DYE_DEPOT_MOD_ID, null);
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class AppledogBlockTagProvider extends BlockTagsProvider {
     public AppledogBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.APPLEDOG_MOD_ID, null);
     }
 
     @Override

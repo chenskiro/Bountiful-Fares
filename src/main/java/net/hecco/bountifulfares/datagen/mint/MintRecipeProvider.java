@@ -2,6 +2,7 @@ package net.hecco.bountifulfares.datagen.mint;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.mint.MintBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
@@ -21,7 +22,7 @@ import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-public class MintRecipeProvider extends RecipeProvider {
+public class MintRecipeProvider extends ModNameRecipeProvider {
     public MintRecipeProvider(PackOutput generator) {
         super(generator);
     }

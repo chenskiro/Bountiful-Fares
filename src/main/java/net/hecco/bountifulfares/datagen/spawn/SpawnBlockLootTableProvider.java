@@ -13,6 +13,7 @@ import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.LootTableProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SpawnBlockLootTableProvider extends BlockLootSubProvider {
-    public static class BFLootTableProvider extends LootTableProvider {
+    public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(

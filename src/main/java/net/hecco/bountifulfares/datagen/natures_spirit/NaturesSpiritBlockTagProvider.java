@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class NaturesSpiritBlockTagProvider extends BlockTagsProvider {
     public NaturesSpiritBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.NATURES_SPIRIT_MOD_ID, null);
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ArtsAndCraftsBlockTagProvider extends BlockTagsProvider {
     public ArtsAndCraftsBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.ARTS_AND_CRAFTS_MOD_ID, null);
     }
 
     @Override

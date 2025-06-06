@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DungeonsDelightBlockTagProvider extends BlockTagsProvider {
     public DungeonsDelightBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.DUNGEONS_DELIGHT_MOD_ID, null);
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class FarmersDelightBlockTagProvider extends BlockTagsProvider {
     public FarmersDelightBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.FARMERS_DELIGHT_MOD_ID, null);
     }
 
     @Override

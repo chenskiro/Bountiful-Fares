@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DelicateDyesBlockTagProvider extends BlockTagsProvider {
     public DelicateDyesBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.DELICATE_DYES_MOD_ID, null);
     }
 
     @Override

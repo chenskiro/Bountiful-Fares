@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class NaturesSpiritItemTagProvider extends ItemTagsProvider {
     public NaturesSpiritItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> providerCompletableFuture, CompletableFuture<TagsProvider.TagLookup<Block>> tagLookupCompletableFuture) {
-        super(packOutput, providerCompletableFuture, tagLookupCompletableFuture);
+        super(packOutput, providerCompletableFuture, tagLookupCompletableFuture,BountifulFares.NATURES_SPIRIT_MOD_ID,null);
     }
 
     @Override

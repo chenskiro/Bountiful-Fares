@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DisableCompatItemsVisibility extends ItemTagsProvider {
     public DisableCompatItemsVisibility(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> providerCompletableFuture, CompletableFuture<TagsProvider.TagLookup<Block>> tagLookupCompletableFuture) {
-        super(packOutput, providerCompletableFuture, tagLookupCompletableFuture);
+        super(packOutput, providerCompletableFuture, tagLookupCompletableFuture,"DisableCompatItemsVisibility",null);
     }
 
     @Override

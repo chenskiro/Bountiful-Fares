@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.datagen.bountifulfares;
 
-import com.xueluoanping.bountifulfaresforge.api.data.AgentFabricModelProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AgentFabricModelProvider;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.compat.arts_and_crafts.ArtsAndCraftsBlocks;
 import net.hecco.bountifulfares.compat.delicate_dyes.DelicateDyesBlocks;

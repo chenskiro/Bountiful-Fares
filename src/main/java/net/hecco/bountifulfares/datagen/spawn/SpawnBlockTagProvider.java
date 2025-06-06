@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class SpawnBlockTagProvider extends BlockTagsProvider {
     public SpawnBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.SPAWN_MOD_ID, null);
     }
 
     @Override

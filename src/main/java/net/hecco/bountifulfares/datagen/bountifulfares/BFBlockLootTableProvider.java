@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.datagen.bountifulfares;
 
-import net.hecco.bountifulfares.datagen.delicate_dyes.DelicateDyesBlockLootTableProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameLootTableProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.hecco.bountifulfares.BountifulFares;
@@ -14,15 +14,12 @@ import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.BeetrootBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -40,7 +37,6 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 
 public class BFBlockLootTableProvider extends BlockLootSubProvider {
@@ -52,7 +48,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
     public static final float[] FRUIT_SAPLING_DROP_CHANCE = new float[]{0.01F, 0.05F, 0.08F, 0.1F};
     public static final float[] FLOWERING_FRUIT_SAPLING_DROP_CHANCE = new float[]{0.1F, 0.12F, 0.15F, 0.2F};
 
-    public static class BFLootTableProvider extends LootTableProvider {
+    public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(

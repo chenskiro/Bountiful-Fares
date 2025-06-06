@@ -1,7 +1,7 @@
 package net.hecco.bountifulfares.datagen.appledog;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.appledog.AppledogBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import static net.hecco.bountifulfares.BountifulFares.APPLEDOG_MOD_ID;
 
-public class AppledogRecipeProvider extends RecipeProvider {
+public class AppledogRecipeProvider extends ModNameRecipeProvider {
 
     public AppledogRecipeProvider(PackOutput generator) {
         super(generator);

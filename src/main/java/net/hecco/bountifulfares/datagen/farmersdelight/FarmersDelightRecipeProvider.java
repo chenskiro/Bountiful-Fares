@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.farmersdelight;
 
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.farmersdelight.FarmersDelightBlocks;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.HolderLookup;
@@ -11,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-public class FarmersDelightRecipeProvider extends RecipeProvider {
+public class FarmersDelightRecipeProvider extends ModNameRecipeProvider {
     public FarmersDelightRecipeProvider(PackOutput generator) {
         super(generator);
     }

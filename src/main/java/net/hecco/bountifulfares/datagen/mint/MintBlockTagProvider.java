@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class MintBlockTagProvider extends BlockTagsProvider {
     public MintBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.ELS_AND_LS_DYES_MOD_ID, null);
     }
 
     @Override

@@ -2,6 +2,8 @@
   "required": true,
   "package": "net.hecco.bountifulfares.mixin",
   "mixins": [
+    "data.ProviderNameMixin$LootTableProviderMixin",
+    "data.ProviderNameMixin$RecipeProviderMixin",
     "data.RegistrySetBuilderMixin",
     "gameplay.BlockItemMixin",
     "gameplay.CakeBlockMixin",

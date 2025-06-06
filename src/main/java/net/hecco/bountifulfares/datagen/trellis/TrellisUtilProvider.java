@@ -15,6 +15,7 @@ import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -168,7 +169,7 @@ public class TrellisUtilProvider extends BlockTagsProvider {
         }
     }
 
-    public abstract static class RecipeProviderVisiter extends RecipeProvider{
+    public abstract static class RecipeProviderVisiter extends ModNameRecipeProvider{
         public RecipeProviderVisiter(PackOutput pOutput) {
             super(pOutput);
         }

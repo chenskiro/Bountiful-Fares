@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.delicate_dyes;
 
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.delicate_dyes.DelicateDyesBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.core.HolderLookup;
@@ -18,7 +19,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import static net.hecco.bountifulfares.BountifulFares.DELICATE_DYES_MOD_ID;
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 
-public class DelicateDyesRecipeProvider extends RecipeProvider {
+public class DelicateDyesRecipeProvider extends ModNameRecipeProvider {
     public DelicateDyesRecipeProvider(PackOutput generator) {
         super(generator);
     }

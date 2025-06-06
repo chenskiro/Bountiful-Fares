@@ -2,6 +2,7 @@ package net.hecco.bountifulfares.datagen.spawn;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.spawn.SpawnBlocks;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.minecraft.core.HolderLookup;
@@ -14,7 +15,7 @@ import static net.hecco.bountifulfares.datagen.bountifulfares.BFRecipeProvider.o
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-public class SpawnRecipeProvider extends RecipeProvider {
+public class SpawnRecipeProvider extends ModNameRecipeProvider {
     public SpawnRecipeProvider(PackOutput generator) {
         super(generator);
     }

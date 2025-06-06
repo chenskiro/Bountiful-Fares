@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ExcessiveBuildingBlockTagProvider extends BlockTagsProvider {
     public ExcessiveBuildingBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture, BountifulFares.MOD_ID, null);
+        super(output, registriesFuture, BountifulFares.EXCESSIVE_BUILDING_MOD_ID, null);
     }
 
     @Override

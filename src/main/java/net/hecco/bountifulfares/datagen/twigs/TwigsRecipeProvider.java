@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.datagen.twigs;
 
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.twigs.TwigsBlocks;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
@@ -11,12 +12,8 @@ import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
-import java.util.function.Consumer;
 
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-
-public class TwigsRecipeProvider extends VanillaRecipeProvider {
+public class TwigsRecipeProvider extends ModNameRecipeProvider {
     public TwigsRecipeProvider(PackOutput output) {
         super(output);
     }

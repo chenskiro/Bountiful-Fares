@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.dye_depot;
 
 import net.minecraft.data.recipes.RecipeProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.core.HolderLookup;
@@ -18,7 +19,7 @@ import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-public class DyeDepotRecipeProvider extends RecipeProvider {
+public class DyeDepotRecipeProvider extends ModNameRecipeProvider {
     public DyeDepotRecipeProvider(PackOutput generator) {
         super(generator);
     }
