@@ -75,6 +75,12 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         super.add(block, lootTable);
         usedBlocks.add(block);
     }
+
+    @Override
+    protected Iterable<Block> getKnownBlocks() {
+        return usedBlocks;
+    }
+
     public static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};
     private static final LootItemCondition.Builder HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(HAS_SILK_TOUCH);
     private static final LootItemCondition.Builder NOT_HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS_OR_SILK_TOUCH.invert();
@@ -125,7 +131,6 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         registerTrellisLootTables(BFTrellises.HOARY);
         registerTrellisLootTables(BFTrellises.CRIMSON);
         registerTrellisLootTables(BFTrellises.WARPED);
-
         add(BFBlocks.WILD_WHEAT.get(), WildCropDrops(Items.WHEAT_SEEDS, BFBlocks.WILD_WHEAT.get()));
         add(BFBlocks.WILD_CARROTS.get(), WildCropDrops(Items.CARROT, BFBlocks.WILD_CARROTS.get()));
         add(BFBlocks.WILD_POTATOES.get(), WildCropDrops(Items.POTATO, BFBlocks.WILD_POTATOES.get()));

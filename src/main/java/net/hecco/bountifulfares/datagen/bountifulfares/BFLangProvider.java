@@ -41,7 +41,7 @@ import static net.hecco.bountifulfares.BountifulFaresUtil.toSentenceCase;
 public class BFLangProvider extends LanguageProvider {
     Set<String> usedTranslationKeys = new HashSet<>();
 
-    public BFLangProvider(PackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public BFLangProvider(PackOutput dataOutput) {
         super(dataOutput,BountifulFares.MOD_ID, "en_us");
     }
 
