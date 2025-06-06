@@ -1,6 +1,7 @@
 package com.xueluoanping.bountifulfaresforge.data;
 
 
+import com.xueluoanping.bountifulfaresforge.api.data.MutablePackOutput;
 import com.xueluoanping.bountifulfaresforge.data.datapack.DatapackRegistryGenerator;
 import com.xueluoanping.bountifulfaresforge.data.loot.BFGLMProvider;
 import net.hecco.bountifulfares.BountifulFares;
@@ -20,7 +21,7 @@ public final class start {
     public static void onDataGather(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper helper = event.getExistingFileHelper();
-        PackOutput packOutput = generator.getPackOutput();
+        MutablePackOutput packOutput = new MutablePackOutput(generator.getPackOutput());
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new BFGLMProvider(packOutput, MODID));
@@ -30,8 +31,12 @@ public final class start {
             generator.addProvider(event.includeServer(), bfBlockTagProvider);
             generator.addProvider(event.includeServer(), new BFItemTagProvider(packOutput, lookupProvider, bfBlockTagProvider.contentsGetter()));
             generator.addProvider(event.includeServer(), new DatapackRegistryGenerator(packOutput, lookupProvider));
+
+            // for compat
+
         }
         if (event.includeClient()) {
+            packOutput.reset();
             generator.addProvider(event.includeServer(), new BFModelProvider(packOutput,helper));
             generator.addProvider(event.includeServer(), new BFLangProvider(packOutput));
         }

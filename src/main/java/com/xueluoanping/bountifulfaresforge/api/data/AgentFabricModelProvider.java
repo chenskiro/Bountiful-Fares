@@ -79,13 +79,13 @@ public abstract class AgentFabricModelProvider implements DataProvider {
         //     throw new IllegalStateException("Missing blockstate definitions for: " + list);
         // } else
         {
-            BuiltInRegistries.BLOCK.forEach((p_125128_) -> {
+            // fix for model not place
+            map.keySet().forEach((p_125128_) -> {
                 Item item = Item.BY_BLOCK.get(p_125128_);
                 if (item != null) {
                     if (set.contains(item)) {
                         return;
                     }
-
                     ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
                     if (!map1.containsKey(resourcelocation)
                             && !existingFileHelper.exists(resourcelocation, PackType.CLIENT_RESOURCES, ".json", "models")) {
