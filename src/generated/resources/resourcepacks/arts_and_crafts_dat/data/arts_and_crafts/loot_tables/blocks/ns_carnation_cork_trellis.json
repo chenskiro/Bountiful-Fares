@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "arts_and_crafts:cork_trellis"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "arts_and_crafts:blocks/ns_carnation_cork_trellis"
+}

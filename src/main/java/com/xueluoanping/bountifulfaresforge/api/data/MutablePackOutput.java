@@ -15,6 +15,12 @@ public class MutablePackOutput extends PackOutput {
         this.outputFolder = original.getOutputFolder();
     }
 
+    public MutablePackOutput(PackOutput original, Path path) {
+        super(original.getOutputFolder());
+        this.original = original;
+        this.outputFolder = path;
+    }
+
     public MutablePackOutput set(Path newFolder) {
         this.outputFolder = newFolder;
         this.original = new PackOutput(outputFolder);
@@ -22,8 +28,7 @@ public class MutablePackOutput extends PackOutput {
     }
 
     public MutablePackOutput move(Path newFolder) {
-        this.outputFolder = this.original.getOutputFolder().resolve(newFolder);
-        return this;
+        return new MutablePackOutput(this.original, this.original.getOutputFolder().resolve(newFolder));
     }
 
     public MutablePackOutput reset() {

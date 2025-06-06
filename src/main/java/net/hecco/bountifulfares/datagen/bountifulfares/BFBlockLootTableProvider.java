@@ -2,7 +2,8 @@ package net.hecco.bountifulfares.datagen.bountifulfares;
 
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameLootTableProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.hecco.bountifulfares.block.custom.*;
@@ -15,6 +16,7 @@ import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
@@ -34,6 +36,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,13 +46,14 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
     public static final ArrayList<Block> usedBlocks = new ArrayList<>();
     public static final ArrayList<Block> tableBlocks = new ArrayList<>();
 
-//    public static final LootCondition.Builder WITH_FORTUNE = MatchToolLootCondition.builder(net.minecraft.predicate.item.ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.FORTUNE, NumberRange.IntRange.atLeast(1))));
+    //    public static final LootCondition.Builder WITH_FORTUNE = MatchToolLootCondition.builder(net.minecraft.predicate.item.ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.FORTUNE, NumberRange.IntRange.atLeast(1))));
     public static final float[] PRISMARINE_DROP_CHANCE = new float[]{0.0F, 0.12F, 0.15F, 0.2F};
     public static final float[] FRUIT_SAPLING_DROP_CHANCE = new float[]{0.01F, 0.05F, 0.08F, 0.1F};
     public static final float[] FLOWERING_FRUIT_SAPLING_DROP_CHANCE = new float[]{0.1F, 0.12F, 0.15F, 0.2F};
 
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
+
         public BFLootTableProvider(PackOutput generator) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(
                     BFBlockLootTableProvider::new,
@@ -66,7 +70,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     public void add(Block block, LootTable.Builder lootTable) {
-        if(usedBlocks.contains(block)) {
+        if (usedBlocks.contains(block)) {
             return;
         }
         super.add(block, lootTable);
@@ -137,18 +141,18 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         add(BFBlocks.WILD_PASSION_FRUIT_VINE.get(), WildCropDrops(BFItems.PASSION_FRUIT.get(), BFBlocks.WILD_PASSION_FRUIT_VINE.get()));
         add(BFBlocks.WILD_ELDERBERRY_VINE.get(), WildCropDrops(BFItems.ELDERBERRIES.get(), BFBlocks.WILD_ELDERBERRY_VINE.get()));
         add(BFBlocks.WILD_MAIZE.get(), LootTable.lootTable()
-                        .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
 //                                .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.WILD_MAIZE)
 //                                        .properties(StatePredicate.Builder.create().exactMatch(WildMaizeBlock.HALF, DoubleBlockHalf.LOWER)))
-                                .when(NOT_HAS_SHEARS_OR_SILK_TOUCH)
-                                .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFItems.MAIZE_SEEDS.get()))))
-                        .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .when(NOT_HAS_SHEARS_OR_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFItems.MAIZE_SEEDS.get()))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
 //                                .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.WILD_MAIZE)
 //                                        .properties(StatePredicate.Builder.create().exactMatch(WildMaizeBlock.HALF, DoubleBlockHalf.LOWER)))
-                                .when(HAS_SHEARS_OR_SILK_TOUCH)
-                                .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFBlocks.WILD_MAIZE.get())))));
+                        .when(HAS_SHEARS_OR_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFBlocks.WILD_MAIZE.get())))));
         add(BFBlocks.MAIZE_CROP.get(), LootTable.lootTable()
-                        .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.MAIZE_CROP.get())
                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(MaizeCropBlock.AGE, 7)))
                         .add(this.applyExplosionDecay(BFBlocks.MAIZE_CROP.get(), LootItem.lootTableItem(BFItems.MAIZE.get())))));
@@ -285,7 +289,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.TEA_SHRUB.get())
                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(TeaShrubBlock.BERRIES, true)))
                         .add(this.applyExplosionDecay(BFBlocks.TEA_SHRUB.get(), LootItem.lootTableItem(BFItems.TEA_BERRIES.get())))
-        ));
+                ));
 
         add(BFBlocks.PALM_MULCH.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
@@ -353,7 +357,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0F))
                         .add(this.applyExplosionDecay(BFBlocks.COCONUT_CANDLE.get(), LootItem.lootTableItem(BFBlocks.COCONUT_CANDLE.get())
-                                .apply(List.of(2, 3), (candles) -> SetItemCountFunction.setCount(ConstantValue.exactly((float)candles))
+                                .apply(List.of(2, 3), (candles) -> SetItemCountFunction.setCount(ConstantValue.exactly((float) candles))
                                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.COCONUT_CANDLE.get())
                                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CoconutCandleBlock.CANDLES, candles))))))));
         dropPottedContents(BFBlocks.POTTED_HONEYSUCKLE.get());
@@ -421,9 +425,11 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         usedBlocks.add(BFBlocks.WALNUT_HANGING_SIGN.get());
         usedBlocks.add(BFBlocks.WALNUT_WALL_HANGING_SIGN.get());
 
-        for(ResourceLocation id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.MOD_ID)) {
+        for (ResourceLocation id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.MOD_ID)) {
             Block block = BuiltInRegistries.BLOCK.get(id);
-            if(usedBlocks.contains(block)) { continue; }
+            if (usedBlocks.contains(block)) {
+                continue;
+            }
             this.dropSelf(block);
         }
     }

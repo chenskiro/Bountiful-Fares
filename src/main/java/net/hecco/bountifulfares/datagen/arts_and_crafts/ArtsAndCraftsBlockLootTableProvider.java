@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.datagen.arts_and_crafts;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.hecco.bountifulfares.block.custom.PicketsBlock;
@@ -23,13 +24,15 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ArtsAndCraftsBlockLootTableProvider extends BlockLootSubProvider {
+public class ArtsAndCraftsBlockLootTableProvider extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
+
         public BFLootTableProvider(PackOutput generator) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(
                     ArtsAndCraftsBlockLootTableProvider::new,
@@ -47,7 +50,7 @@ public class ArtsAndCraftsBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     public void add(Block block, LootTable.Builder lootTable) {
-        if(usedBlocks.contains(block)) {
+        if (usedBlocks.contains(block)) {
             return;
         }
         super.add(block, lootTable);
@@ -59,9 +62,11 @@ public class ArtsAndCraftsBlockLootTableProvider extends BlockLootSubProvider {
         registerTrellisLootTables(ArtsAndCraftsBlocks.CORK);
         picketsDrops(ArtsAndCraftsBlocks.CORK_PICKETS.get());
 
-        for(ResourceLocation id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.ARTS_AND_CRAFTS_MOD_ID)) {
+        for (ResourceLocation id : BountifulFaresUtil.allBlockIdsInNamespace(BountifulFares.ARTS_AND_CRAFTS_MOD_ID)) {
             Block block = BuiltInRegistries.BLOCK.get(id);
-            if(usedBlocks.contains(block)) { continue; }
+            if (usedBlocks.contains(block)) {
+                continue;
+            }
             this.dropSelf(block);
         }
     }

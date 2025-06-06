@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.datagen.mint;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.hecco.bountifulfares.block.custom.JackOStrawBlock;
@@ -25,11 +26,13 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MintBlockLootTableProvider extends BlockLootSubProvider {
+public class MintBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {
@@ -39,6 +42,11 @@ public class MintBlockLootTableProvider extends BlockLootSubProvider {
             )));
             this.generator = generator;
         }
+    }
+
+    @Override
+    protected @NotNull Iterable<Block> getKnownBlocks() {
+        return usedBlocks;
     }
 
     public MintBlockLootTableProvider() {

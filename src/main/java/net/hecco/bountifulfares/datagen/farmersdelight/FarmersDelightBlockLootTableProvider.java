@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.datagen.farmersdelight;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class FarmersDelightBlockLootTableProvider extends BlockLootSubProvider {
+public class FarmersDelightBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {

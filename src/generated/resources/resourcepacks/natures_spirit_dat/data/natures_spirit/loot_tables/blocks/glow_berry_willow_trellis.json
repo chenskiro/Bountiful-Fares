@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "natures_spirit:willow_trellis"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "natures_spirit:blocks/glow_berry_willow_trellis"
+}

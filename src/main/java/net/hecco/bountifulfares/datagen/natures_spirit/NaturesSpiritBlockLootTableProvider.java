@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.datagen.natures_spirit;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.hecco.bountifulfares.block.custom.PicketsBlock;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class NaturesSpiritBlockLootTableProvider extends BlockLootSubProvider {
+public class NaturesSpiritBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {

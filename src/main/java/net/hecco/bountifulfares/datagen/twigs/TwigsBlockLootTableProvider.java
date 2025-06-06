@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.twigs;
 
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.BountifulFaresUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class TwigsBlockLootTableProvider extends BlockLootSubProvider {
+public class TwigsBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
 
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;

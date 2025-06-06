@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.datagen.delicate_dyes;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.BlockLootSubProvider;
+import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
+
 import net.hecco.bountifulfares.block.custom.JackOStrawBlock;
 import net.hecco.bountifulfares.compat.delicate_dyes.DelicateDyesBlocks;
 import net.minecraft.data.loot.LootTableProvider;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.List;
 import java.util.Set;
 
-public class DelicateDyesBlockLootTableProvider extends BlockLootSubProvider {
+public class DelicateDyesBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
         public BFLootTableProvider(PackOutput generator) {
