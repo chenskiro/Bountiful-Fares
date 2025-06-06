@@ -10,9 +10,11 @@ import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
 import net.hecco.bountifulfares.compat.mint.MintBlocks;
 import net.hecco.bountifulfares.entity.FlourProjectileEntity;
+import net.hecco.bountifulfares.mixin.util.BrewingRecipeRegistryMixin;
 import net.hecco.bountifulfares.mixin.util.FireBlockAccessor;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
+import net.hecco.bountifulfares.registry.content.BFPotions;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
@@ -27,6 +29,8 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -103,9 +107,9 @@ public class BFRegistries {
             Registry<Block> registry = event.getRegistryAccess().registryOrThrow(Registries.BLOCK);
             for (Pair<TagKey<Block>, Pair<Integer, Integer>> flamBlockTag : flam_block_tags) {
                 registry.getTag(flamBlockTag.getFirst()).ifPresent(
-                        blocks->{
+                        blocks -> {
                             for (Holder<Block> block : blocks) {
-                                flam_blocks_from_tag.put(block.value(),flamBlockTag.getSecond());
+                                flam_blocks_from_tag.put(block.value(), flamBlockTag.getSecond());
                             }
                         }
                 );
@@ -119,8 +123,10 @@ public class BFRegistries {
         }
     }
 
+
     public static void RegisterModStuffs(FMLCommonSetupEvent fmlCommonSetupEvent) {
-        fmlCommonSetupEvent.enqueueWork(()->{
+        fmlCommonSetupEvent.enqueueWork(() -> {
+            registerBrewingRecipe();
             registerStrippables();
             registerCeramicCheckeredConversions();
             registerFuels();
@@ -140,6 +146,15 @@ public class BFRegistries {
                 }
             });
         });
+    }
+
+    public static void registerBrewingRecipe() {
+        BrewingRecipeRegistryMixin.addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.ACIDIC);
+        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.REDSTONE, BFPotions.LONG_ACIDIC);
+        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.GLOWSTONE_DUST, BFPotions.STRONG_ACIDIC);
+        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.STUPOR);
+        BrewingRecipeRegistryMixin.addMix(BFPotions.LONG_ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.LONG_STUPOR);
+        BrewingRecipeRegistryMixin.addMix(BFPotions.STUPOR, Items.REDSTONE, BFPotions.LONG_STUPOR);
     }
 
     public static void registerFermentationRecipes() {

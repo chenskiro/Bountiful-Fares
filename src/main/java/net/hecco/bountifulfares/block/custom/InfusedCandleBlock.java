@@ -68,7 +68,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
         super.appendHoverText(stack, world, tooltip, options);
         tooltip.add(CommonComponents.EMPTY);
         tooltip.add(Component.translatable("tooltip.bountifulfares.when_lit").withStyle(ChatFormatting.GRAY));
-        PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(effect, 1, 0)), List.of(), 1.0F);
+        PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(effect, 1, 0)), tooltip, 1.0F);
     }
 
     @Override

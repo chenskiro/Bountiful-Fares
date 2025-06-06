@@ -2,8 +2,6 @@
   "values": [
     "minecraft:conduit_power",
     "minecraft:hero_of_the_village",
-    "minecraft:bad_omen",
-    "minecraft:raid_omen",
-    "minecraft:trial_omen"
+    "minecraft:bad_omen"
   ]
 }

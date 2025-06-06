@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.Objects;
 
-@Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFItemGroupAdditions {
 
     @SubscribeEvent

@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFItemGroups {
     private static final Map<ResourceKey<CreativeModeTab>, CreativeModeTab> creativeModeTabs = new HashMap<>();
 
