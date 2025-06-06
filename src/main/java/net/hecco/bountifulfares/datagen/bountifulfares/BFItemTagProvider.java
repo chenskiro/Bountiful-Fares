@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -71,33 +72,33 @@ public class BFItemTagProvider extends ItemTagsProvider {
                 .addOptional(ResourceLocation.tryBuild("hauntedharvest", "corn"))
         ;
 
-        tag(ItemTags.CHICKEN_FOOD)
-                .add(BFItems.GRASS_SEEDS.get())
-                .add(BFItems.SWEET_BERRY_PIPS.get())
-                .add(BFItems.HOARY_SEEDS.get())
-                .add(BFItems.LAPISBERRY_SEEDS.get())
-                .add(BFItems.LEEK_SEEDS.get())
-                .add(BFItems.MAIZE_SEEDS.get())
-                .add(BFItems.SPONGEKIN_SEEDS.get())
-        ;
-
-        tag(ItemTags.PARROT_FOOD)
-                .add(BFItems.GRASS_SEEDS.get())
-                .add(BFItems.SWEET_BERRY_PIPS.get())
-                .add(BFItems.HOARY_SEEDS.get())
-                .add(BFItems.LAPISBERRY_SEEDS.get())
-                .add(BFItems.LEEK_SEEDS.get())
-                .add(BFItems.MAIZE_SEEDS.get())
-                .add(BFItems.SPONGEKIN_SEEDS.get())
-                .add(BFItems.WALNUT.get())
-                .add(BFItems.ARTISAN_COOKIE.get())
-                .add(BFItems.WALNUT_COOKIE.get())
-        ;
-
-        tag(ItemTags.PIG_FOOD)
-                .add(BFItems.MAIZE.get())
-                .add(BFItems.LEEK.get())
-        ;
+        // tag(ItemTags.CHICKEN_FOOD)
+        //         .add(BFItems.GRASS_SEEDS.get())
+        //         .add(BFItems.SWEET_BERRY_PIPS.get())
+        //         .add(BFItems.HOARY_SEEDS.get())
+        //         .add(BFItems.LAPISBERRY_SEEDS.get())
+        //         .add(BFItems.LEEK_SEEDS.get())
+        //         .add(BFItems.MAIZE_SEEDS.get())
+        //         .add(BFItems.SPONGEKIN_SEEDS.get())
+        // ;
+        //
+        // tag(ItemTags.PARROT_FOOD)
+        //         .add(BFItems.GRASS_SEEDS.get())
+        //         .add(BFItems.SWEET_BERRY_PIPS.get())
+        //         .add(BFItems.HOARY_SEEDS.get())
+        //         .add(BFItems.LAPISBERRY_SEEDS.get())
+        //         .add(BFItems.LEEK_SEEDS.get())
+        //         .add(BFItems.MAIZE_SEEDS.get())
+        //         .add(BFItems.SPONGEKIN_SEEDS.get())
+        //         .add(BFItems.WALNUT.get())
+        //         .add(BFItems.ARTISAN_COOKIE.get())
+        //         .add(BFItems.WALNUT_COOKIE.get())
+        // ;
+        //
+        // tag(ItemTags.PIG_FOOD)
+        //         .add(BFItems.MAIZE.get())
+        //         .add(BFItems.LEEK.get())
+        // ;
 
         tag(ItemTags.SNIFFER_FOOD)
                 .add(Items.PITCHER_POD)
@@ -110,29 +111,29 @@ public class BFItemTagProvider extends ItemTagsProvider {
                 .add(BFItems.LAPISBERRIES.get())
         ;
 
-        tag(ItemTags.COW_FOOD)
-                .add(BFItems.MAIZE.get())
-        ;
-
-        tag(ItemTags.SHEEP_FOOD)
-                .add(BFItems.MAIZE.get())
-        ;
-
-        tag(ItemTags.GOAT_FOOD)
-                .add(BFItems.MAIZE.get())
-        ;
-
-        tag(ItemTags.WOLF_FOOD)
-                .addTag(BFItemTags.MULCH)
-        ;
-
-        tag(ItemTags.HORSE_FOOD)
-                .add(BFItems.ORANGE.get())
-                .add(BFItems.LEMON.get())
-                .add(BFItems.PLUM.get())
-                .add(BFItems.HOARY_APPLE.get())
-                .add(BFItems.MAIZE.get())
-        ;
+        // tag(ItemTags.COW_FOOD)
+        //         .add(BFItems.MAIZE.get())
+        // ;
+        //
+        // tag(ItemTags.SHEEP_FOOD)
+        //         .add(BFItems.MAIZE.get())
+        // ;
+        //
+        // tag(ItemTags.GOAT_FOOD)
+        //         .add(BFItems.MAIZE.get())
+        // ;
+        //
+        // tag(ItemTags.WOLF_FOOD)
+        //         .addTag(BFItemTags.MULCH)
+        // ;
+        //
+        // tag(ItemTags.HORSE_FOOD)
+        //         .add(BFItems.ORANGE.get())
+        //         .add(BFItems.LEMON.get())
+        //         .add(BFItems.PLUM.get())
+        //         .add(BFItems.HOARY_APPLE.get())
+        //         .add(BFItems.MAIZE.get())
+        // ;
 
         tag(ItemTags.FLOWERS)
                 .add(BFBlocks.FLOWERING_APPLE_LEAVES.get().asItem())
@@ -188,30 +189,30 @@ public class BFItemTagProvider extends ItemTagsProvider {
                 .add(BFBlocks.GOLDEN_APPLE_LEAVES.get().asItem())
                 .add(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get().asItem());
 
-        tag(ItemTags.DYEABLE)
-                .add(BFBlocks.CERAMIC_TILES.get().asItem())
-                .add(BFBlocks.CERAMIC_TILE_STAIRS.get().asItem())
-                .add(BFBlocks.CERAMIC_TILE_SLAB.get().asItem())
-                .add(BFBlocks.CRACKED_CERAMIC_TILES.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_TILES.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get().asItem())
-                .add(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get().asItem())
-                .add(BFBlocks.CERAMIC_TILE_PILLAR.get().asItem())
-                .add(BFBlocks.CERAMIC_MOSAIC.get().asItem())
-                .add(BFBlocks.CERAMIC_MOSAIC_STAIRS.get().asItem())
-                .add(BFBlocks.CERAMIC_MOSAIC_SLAB.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get().asItem())
-                .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get().asItem())
-                .add(BFBlocks.CERAMIC_DOOR.get().asItem())
-                .add(BFBlocks.CERAMIC_TRAPDOOR.get().asItem())
-                .add(BFBlocks.CERAMIC_BUTTON.get().asItem())
-                .add(BFBlocks.CERAMIC_PRESSURE_PLATE.get().asItem())
-                .add(BFBlocks.CERAMIC_LEVER.get().asItem())
-                .add(BFBlocks.CERAMIC_DISH.get().asItem())
-                .add(BFItems.ARTISAN_BRUSH.get().asItem())
-        ;
+        // tag(ItemTags.DYEABLE)
+        //         .add(BFBlocks.CERAMIC_TILES.get().asItem())
+        //         .add(BFBlocks.CERAMIC_TILE_STAIRS.get().asItem())
+        //         .add(BFBlocks.CERAMIC_TILE_SLAB.get().asItem())
+        //         .add(BFBlocks.CRACKED_CERAMIC_TILES.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_TILES.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_TILE_STAIRS.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_TILE_SLAB.get().asItem())
+        //         .add(BFBlocks.CRACKED_CHECKERED_CERAMIC_TILES.get().asItem())
+        //         .add(BFBlocks.CERAMIC_TILE_PILLAR.get().asItem())
+        //         .add(BFBlocks.CERAMIC_MOSAIC.get().asItem())
+        //         .add(BFBlocks.CERAMIC_MOSAIC_STAIRS.get().asItem())
+        //         .add(BFBlocks.CERAMIC_MOSAIC_SLAB.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_STAIRS.get().asItem())
+        //         .add(BFBlocks.CHECKERED_CERAMIC_MOSAIC_SLAB.get().asItem())
+        //         .add(BFBlocks.CERAMIC_DOOR.get().asItem())
+        //         .add(BFBlocks.CERAMIC_TRAPDOOR.get().asItem())
+        //         .add(BFBlocks.CERAMIC_BUTTON.get().asItem())
+        //         .add(BFBlocks.CERAMIC_PRESSURE_PLATE.get().asItem())
+        //         .add(BFBlocks.CERAMIC_LEVER.get().asItem())
+        //         .add(BFBlocks.CERAMIC_DISH.get().asItem())
+        //         .add(BFItems.ARTISAN_BRUSH.get().asItem())
+        // ;
 
         tag(BFItemTags.APPLE_LEAVES).add(BFBlocks.APPLE_LEAVES.get().asItem(), BFBlocks.FLOWERING_APPLE_LEAVES.get().asItem());
         tag(BFItemTags.ORANGE_LEAVES).add(BFBlocks.ORANGE_LEAVES.get().asItem(), BFBlocks.FLOWERING_ORANGE_LEAVES.get().asItem());

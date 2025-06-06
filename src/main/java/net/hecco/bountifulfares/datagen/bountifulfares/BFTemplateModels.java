@@ -7,7 +7,6 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.client.*;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.Condition;
 import net.minecraft.data.models.blockstates.MultiPartGenerator;
@@ -790,10 +789,10 @@ public class BFTemplateModels {
 
 
     public static void registerTrellis(BlockModelGenerators blockStateModelGenerator, TrellisVariant trellis){
-        ResourceLocation modelID = TEMPLATE_TRELLIS.create(TrellisUtil.getTrellisFromVariant(trellis), TextureMapping.defaultTexture(TrellisUtil.getTrellisFromVariant(trellis)), blockStateModelGenerator.modelOutput);
-        blockStateModelGenerator.delegateItemModel(TrellisUtil.getTrellisFromVariant(trellis), modelID);
-        blockStateModelGenerator.skipAutoItemBlock(TrellisUtil.getTrellisFromVariant(trellis));
-        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(TrellisUtil.getTrellisFromVariant(trellis))
+        ResourceLocation modelID = TEMPLATE_TRELLIS.create(TrellisUtil.getTrellisFromVariant(trellis).get(), TextureMapping.defaultTexture(TrellisUtil.getTrellisFromVariant(trellis).get()), blockStateModelGenerator.modelOutput);
+        blockStateModelGenerator.delegateItemModel(TrellisUtil.getTrellisFromVariant(trellis).get(), modelID);
+        blockStateModelGenerator.skipAutoItemBlock(TrellisUtil.getTrellisFromVariant(trellis).get());
+        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(TrellisUtil.getTrellisFromVariant(trellis).get())
                 .with(PropertyDispatch.property(BlockStateProperties.HORIZONTAL_FACING)
                         .select(Direction.NORTH, Variant.variant()
                                 .with(VariantProperties.MODEL, modelID).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R0))

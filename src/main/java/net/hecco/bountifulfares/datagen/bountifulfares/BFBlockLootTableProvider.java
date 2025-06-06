@@ -34,6 +34,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.ArrayList;
@@ -75,12 +76,12 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         usedBlocks.add(block);
     }
     public static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};
-
+    private static final LootItemCondition.Builder HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(HAS_SILK_TOUCH);
+    private static final LootItemCondition.Builder NOT_HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS_OR_SILK_TOUCH.invert();
 
     @Override
     public void generate() {
         // HolderLookup.RegistryLookup<Enchantment> impl = this.registryLookup.getWrapperOrThrow(Registries.ENCHANTMENT);
-
         add(BFBlocks.APPLE_LEAVES.get(), createLeavesDrops(BFBlocks.APPLE_LEAVES.get(), BFBlocks.APPLE_SAPLING.get(), FRUIT_SAPLING_DROP_CHANCE));
         add(BFBlocks.FLOWERING_APPLE_LEAVES.get(), createLeavesDrops(BFBlocks.FLOWERING_APPLE_LEAVES.get(), BFBlocks.APPLE_SAPLING.get(), FLOWERING_FRUIT_SAPLING_DROP_CHANCE));
         add(BFBlocks.ORANGE_LEAVES.get(), createLeavesDrops(BFBlocks.ORANGE_LEAVES.get(), BFBlocks.ORANGE_SAPLING.get(), FRUIT_SAPLING_DROP_CHANCE));
@@ -90,23 +91,23 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         add(BFBlocks.PLUM_LEAVES.get(), createLeavesDrops(BFBlocks.PLUM_LEAVES.get(), BFBlocks.PLUM_SAPLING.get(), FRUIT_SAPLING_DROP_CHANCE));
         add(BFBlocks.FLOWERING_PLUM_LEAVES.get(), createLeavesDrops(BFBlocks.FLOWERING_PLUM_LEAVES.get(), BFBlocks.PLUM_SAPLING.get(), FLOWERING_FRUIT_SAPLING_DROP_CHANCE));
         add(BFBlocks.GOLDEN_APPLE_LEAVES.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                .when(this.createWithShearsOrSilkTouchCondition())
-                .with(LootItem.lootTableItem(BFBlocks.GOLDEN_APPLE_LEAVES.get()))));
+                .when(HAS_SHEARS_OR_SILK_TOUCH)
+                .add(LootItem.lootTableItem(BFBlocks.GOLDEN_APPLE_LEAVES.get()))));
         add(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                .when(this.createWithShearsOrSilkTouchCondition())
-                .with(LootItem.lootTableItem(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get()))));
+                .when(HAS_SHEARS_OR_SILK_TOUCH)
+                .add(LootItem.lootTableItem(BFBlocks.FLOWERING_GOLDEN_APPLE_LEAVES.get()))));
 
         dropOther(BFBlocks.HOARY_APPLE_SAPLING_CROP.get(), BFItems.HOARY_SEEDS.get());
         add(BFBlocks.HOARY_SLAB.get(), createSlabItemTable(BFBlocks.HOARY_SLAB.get()));
         add(BFBlocks.HOARY_DOOR.get(), createDoorTable(BFBlocks.HOARY_DOOR.get()));
         add(BFBlocks.HOARY_LEAVES.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createWithoutShearsOrSilkTouchCondition())
-                        .with((this.applyExplosionDecay(BFBlocks.HOARY_LEAVES.get(), LootItem.lootTableItem(Items.STICK)
+                        .when(NOT_HAS_SHEARS_OR_SILK_TOUCH)
+                        .add((this.applyExplosionDecay(BFBlocks.HOARY_LEAVES.get(), LootItem.lootTableItem(Items.STICK)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))))
-                .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createWithShearsOrSilkTouchCondition())
-                        .with(LootItem.lootTableItem(BFBlocks.HOARY_LEAVES.get()))));
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .when(HAS_SHEARS_OR_SILK_TOUCH)
+                        .add(LootItem.lootTableItem(BFBlocks.HOARY_LEAVES.get()))));
         add(BFBlocks.WALNUT_SLAB.get(), createSlabItemTable(BFBlocks.WALNUT_SLAB.get()));
         add(BFBlocks.WALNUT_DOOR.get(), createDoorTable(BFBlocks.WALNUT_DOOR.get()));
         add(BFBlocks.WALNUT_LEAVES.get(), createLeavesDrops(BFBlocks.WALNUT_LEAVES.get(), BFBlocks.WALNUT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
@@ -136,13 +137,13 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
                         .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
 //                                .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.WILD_MAIZE)
 //                                        .properties(StatePredicate.Builder.create().exactMatch(WildMaizeBlock.HALF, DoubleBlockHalf.LOWER)))
-                                .when(this.createWithoutShearsOrSilkTouchCondition())
-                                .with(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFItems.MAIZE_SEEDS.get()))))
-                        .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                .when(NOT_HAS_SHEARS_OR_SILK_TOUCH)
+                                .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFItems.MAIZE_SEEDS.get()))))
+                        .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
 //                                .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.WILD_MAIZE)
 //                                        .properties(StatePredicate.Builder.create().exactMatch(WildMaizeBlock.HALF, DoubleBlockHalf.LOWER)))
-                                .when(this.createWithShearsOrSilkTouchCondition())
-                                .with(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFBlocks.WILD_MAIZE.get())))));
+                                .when(HAS_SHEARS_OR_SILK_TOUCH)
+                                .add(this.applyExplosionDecay(BFBlocks.WILD_MAIZE.get(), LootItem.lootTableItem(BFBlocks.WILD_MAIZE.get())))));
         add(BFBlocks.MAIZE_CROP.get(), LootTable.lootTable()
                         .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.MAIZE_CROP.get())
@@ -153,20 +154,20 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         dropOther(BFBlocks.SPONGEKIN_SPROUT.get(), BFItems.SPONGEKIN_SEEDS.get());
         add(BFBlocks.PRISMARINE_BLOSSOM.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(3.0F))
-                        .when(this.createWithoutSilkTouchCondition())
-                        .with(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_CRYSTALS)).setWeight(4))
-                        .with(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_SHARD)).setWeight(2))
-                        .with(EmptyLootItem.emptyItem().setWeight(2)))
-                .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(2.0F))
+                        .when(HAS_NO_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_CRYSTALS)).setWeight(4))
+                        .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_SHARD)).setWeight(2))
+                        .add(EmptyLootItem.emptyItem().setWeight(2)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(2.0F))
 //                        .conditionally(WITH_FORTUNE)
-//                        .with(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), ItemEntry.builder(Items.PRISMARINE_CRYSTALS)).weight(4))
+//                        .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), ItemEntry.builder(Items.PRISMARINE_CRYSTALS)).weight(4))
 //                            .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, PRISMARINE_DROP_CHANCE))
-//                        .with(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), ItemEntry.builder(Items.PRISMARINE_SHARD)).weight(2))
+//                        .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), ItemEntry.builder(Items.PRISMARINE_SHARD)).weight(2))
 //                            .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, PRISMARINE_DROP_CHANCE)))
                 )
-                .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createSilkTouchCondition())
-                        .with(LootItem.lootTableItem(BFBlocks.PRISMARINE_BLOSSOM.get()))));
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .when(HAS_SILK_TOUCH)
+                        .add(LootItem.lootTableItem(BFBlocks.PRISMARINE_BLOSSOM.get()))));
         add(BFBlocks.FALLEN_WALNUTS.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(2.0F))
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.FALLEN_WALNUTS.get())
@@ -271,11 +272,11 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         usedBlocks.add(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get());
         add(BFBlocks.GRASSY_DIRT.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createWithoutSilkTouchCondition())
-                        .with(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(Blocks.DIRT))))
-                .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createSilkTouchCondition())
-                        .with(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(BFBlocks.GRASSY_DIRT.get())))));
+                        .when(HAS_NO_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(Blocks.DIRT))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .when(HAS_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(BFBlocks.GRASSY_DIRT.get())))));
         add(BFBlocks.TEA_SHRUB.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(BFBlocks.TEA_SHRUB.get())
@@ -425,27 +426,27 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     public void registerTrellisLootTables(TrellisVariant trellis) {
-        this.dropSelf(TrellisUtil.getTrellisFromVariant(trellis));
+        this.dropSelf(TrellisUtil.getTrellisFromVariant(trellis).get());
         for (VineCrop crop : TrellisUtil.VineCrops) {
-            this.add(TrellisUtil.getCropTrellisFromVariant(trellis, crop), LootTable.lootTable()
+            this.add(TrellisUtil.getCropTrellisFromVariant(trellis, crop).get(), LootTable.lootTable()
                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(this.applyExplosionDecay(TrellisUtil.getCropTrellisFromVariant(trellis, crop), LootItem.lootTableItem(TrellisUtil.getTrellisFromVariant(trellis))))));
+                            .add(this.applyExplosionDecay(TrellisUtil.getCropTrellisFromVariant(trellis, crop).get(), LootItem.lootTableItem(TrellisUtil.getTrellisFromVariant(trellis).get())))));
         }
         for (DecorativeVine vine : TrellisUtil.DecorativeVines) {
-            this.add(TrellisUtil.getDecorTrellisFromVariant(trellis, vine), LootTable.lootTable()
+            this.add(TrellisUtil.getDecorTrellisFromVariant(trellis, vine).get(), LootTable.lootTable()
                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(this.applyExplosionDecay(TrellisUtil.getDecorTrellisFromVariant(trellis, vine), LootItem.lootTableItem(TrellisUtil.getTrellisFromVariant(trellis))))));
+                            .add(this.applyExplosionDecay(TrellisUtil.getDecorTrellisFromVariant(trellis, vine).get(), LootItem.lootTableItem(TrellisUtil.getTrellisFromVariant(trellis).get())))));
         }
     }
 
     public LootTable.Builder WildCropDrops(Item seed, Block block) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createWithoutShearsOrSilkTouchCondition())
-                        .with(this.applyExplosionDecay(block, LootItem.lootTableItem(seed))))
-                .pool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(this.createWithShearsOrSilkTouchCondition())
-                        .with(this.applyExplosionDecay(block, LootItem.lootTableItem(block))));
+                        .when(NOT_HAS_SHEARS_OR_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(block, LootItem.lootTableItem(seed))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .when(HAS_SHEARS_OR_SILK_TOUCH)
+                        .add(this.applyExplosionDecay(block, LootItem.lootTableItem(block))));
     }
 
     public void hangingFruitDrops(Block block, Item drop) {
