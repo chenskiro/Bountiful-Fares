@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#bountifulfares:has_plum_trees",
+  "features": "bountifulfares:plum_placed",
+  "step": "vegetal_decoration"
+}

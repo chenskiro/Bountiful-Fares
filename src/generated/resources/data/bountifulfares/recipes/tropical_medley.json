@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:foods/oranges"
+    },
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "tag": "c:foods/passion_fruit"
+    },
+    {
+      "item": "bountifulfares:coconut_half"
+    }
+  ],
+  "result": {
+    "item": "bountifulfares:tropical_medley"
+  }
+}

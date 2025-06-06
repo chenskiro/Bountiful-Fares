@@ -41,12 +41,13 @@ public class BountifulFares  {
 	}
 
 	public static boolean isDatagen() {
-		try {
-			Class.forName("net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint");
-			return System.getProperty("fabric-api.datagen") != null;
-		} catch (ClassNotFoundException e) {
-            return false;
-        }
+		// try {
+			// Class.forName("net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint");
+			// return System.getProperty("fabric-api.datagen") != null;
+		// } catch (ClassNotFoundException e) {
+        //     return false;
+        // }
+		return true;
     }
 	// @Override
 	public void onInitialize() {

@@ -1,0 +1,11 @@
+{
+  "type": "bountifulfares:milling",
+  "ingredients": [
+    {
+      "item": "bountifulfares:coconut"
+    }
+  ],
+  "output": {
+    "item": "bountifulfares:coconut_coir"
+  }
+}

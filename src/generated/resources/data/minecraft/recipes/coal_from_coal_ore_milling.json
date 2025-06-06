@@ -1,0 +1,11 @@
+{
+  "type": "bountifulfares:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:coal_ore"
+    }
+  ],
+  "output": {
+    "item": "minecraft:coal"
+  }
+}

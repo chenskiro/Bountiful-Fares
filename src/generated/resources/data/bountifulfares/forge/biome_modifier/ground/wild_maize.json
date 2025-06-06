@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#bountifulfares:has_wild_maize",
+  "features": "bountifulfares:wild_maize_placed",
+  "step": "vegetal_decoration"
+}

@@ -69,8 +69,8 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
                 .requirements(RequirementsStrategy.OR);
         Objects.requireNonNull(builder);
         FermentationRecipe fermentationRecipe = (FermentationRecipe) this.recipeFactory.create(recipeId,
-                this.ingredient.asItem().getDefaultInstance(),
-                this.count, Ingredient.of(this.result), this.particleColor);
+                this.result.getDefaultInstance(),
+                this.count,Ingredient.of(this.ingredient),  this.particleColor);
         exporter.accept(new Result(recipeId, fermentationRecipe,result, builder.build(recipeId.withPrefix("recipes/"))));
     }
 
@@ -100,8 +100,8 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         public void serializeRecipeData(JsonObject json) {
             JsonObject outputJson = new JsonObject();
             outputJson.addProperty("item", ForgeRegistries.ITEMS.getKey(result).toString());
-            outputJson.addProperty("result_count", 1);
             json.add("result", outputJson);
+            json.addProperty("result_count", 1);
             json.add("ingredient", Ingredient.merge(fermentationRecipe.getIngredients()).toJson());
             json.addProperty("particle_color", fermentationRecipe.getParticleColor());
         }

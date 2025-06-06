@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#bountifulfares:has_lemon_trees",
+  "features": "bountifulfares:lemon_placed",
+  "step": "vegetal_decoration"
+}

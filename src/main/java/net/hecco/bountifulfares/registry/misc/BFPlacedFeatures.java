@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+
 import java.util.List;
 
 public class BFPlacedFeatures {
@@ -47,15 +48,15 @@ public class BFPlacedFeatures {
 
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
-        var configuredFeatureRegistryEntryLookup = context.lookup(Registries.CONFIGURED_FEATURE);
-        register(context, WALNUT_PLACED_KEY, configuredFeatureRegistryEntryLookup.getOrThrow(BFConfiguredFeatures.WALNUT_KEY),
-                VegetationPlacements.treePlacement(
-                        PlacementUtils.countExtra(0, 0.5f, 1), BFBlocks.WALNUT_SAPLING.get()));
+        // var configuredFeatureRegistryEntryLookup = context.lookup(Registries.CONFIGURED_FEATURE);
+        // register(context, WALNUT_PLACED_KEY, configuredFeatureRegistryEntryLookup.getOrThrow(BFConfiguredFeatures.WALNUT_KEY),
+        //         VegetationPlacements.treePlacement(
+        //                 PlacementUtils.countExtra(0, 0.5f, 1), BFBlocks.WALNUT_SAPLING.get()));
 
     }
 
     public static ResourceKey<PlacedFeature> registerKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, BountifulFares.rl( name));
+        return ResourceKey.create(Registries.PLACED_FEATURE, BountifulFares.rl(name));
     }
 
     private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
@@ -64,8 +65,8 @@ public class BFPlacedFeatures {
     }
 
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key,
-                                                                                   Holder<ConfiguredFeature<?, ?>> configuration,
-                                                                                   PlacementModifier... modifiers) {
+                                                                                          Holder<ConfiguredFeature<?, ?>> configuration,
+                                                                                          PlacementModifier... modifiers) {
         register(context, key, configuration, List.of(modifiers));
     }
 }

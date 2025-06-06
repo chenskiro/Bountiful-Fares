@@ -45,6 +45,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class BFBlockLootTableProvider extends BlockLootSubProvider {
     public static final ArrayList<Block> usedBlocks = new ArrayList<>();
+    public static final ArrayList<Block> tableBlocks = new ArrayList<>();
 
 //    public static final LootCondition.Builder WITH_FORTUNE = MatchToolLootCondition.builder(net.minecraft.predicate.item.ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.FORTUNE, NumberRange.IntRange.atLeast(1))));
     public static final float[] PRISMARINE_DROP_CHANCE = new float[]{0.0F, 0.12F, 0.15F, 0.2F};
@@ -74,11 +75,12 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         }
         super.add(block, lootTable);
         usedBlocks.add(block);
+        tableBlocks.add(block);
     }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return usedBlocks;
+        return tableBlocks;
     }
 
     public static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};

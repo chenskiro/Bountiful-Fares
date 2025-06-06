@@ -15,10 +15,8 @@ import net.minecraft.data.recipes.RecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +71,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
                 .requirements(RequirementsStrategy.OR);
         Objects.requireNonNull(builder);
-        MillingRecipe millingRecipe = (MillingRecipe) this.recipeFactory.create(recipeId, this.ingredient.asItem().getDefaultInstance(), NonNullList.withSize(1, Ingredient.of(this.result)));
+        MillingRecipe millingRecipe = (MillingRecipe) this.recipeFactory.create(recipeId, this.result.getDefaultInstance(), NonNullList.withSize(1, Ingredient.of(this.ingredient)));
         exporter.accept(new Result(recipeId, millingRecipe, result, builder.build(recipeId.withPrefix("recipes/"))));
     }
 
@@ -85,7 +83,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
     public static class Result implements FinishedRecipe {
         private final ResourceLocation id;
 
-        private final RecipeSerializer<?> serializer = BFRecipes.FERMENTING_SERIALIZER;
+        private final RecipeSerializer<?> serializer = BFRecipes.MILLING_SERIALIZER;
         private final MillingRecipe millingRecipe;
         private final Item result;
         private @Nullable Advancement advancement;

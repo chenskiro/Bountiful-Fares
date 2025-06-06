@@ -1,0 +1,19 @@
+{
+  "type": "bountifulfares:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:entities/guardian"
+        },
+        {
+          "chance": 0.16667,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    }
+  ],
+  "item": "bountifulfares:spongekin_seeds"
+}

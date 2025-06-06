@@ -1,0 +1,19 @@
+{
+  "type": "bountifulfares:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:gameplay/sniffer_digging"
+        },
+        {
+          "chance": 0.6,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    }
+  ],
+  "item": "bountifulfares:lapisberry_seeds"
+}

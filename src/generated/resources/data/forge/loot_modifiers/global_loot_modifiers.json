@@ -1,0 +1,10 @@
+{
+  "entries": [
+    "bountifulfares:add_elder_guardian_drop",
+    "bountifulfares:add_grass_seed",
+    "bountifulfares:add_sniffer_digging_lapisberry_seeds",
+    "bountifulfares:add_sniffer_digging_hoary_seeds",
+    "bountifulfares:add_guardian_drop"
+  ],
+  "replace": false
+}

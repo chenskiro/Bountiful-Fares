@@ -1,0 +1,58 @@
+{
+  "type": "bountifulfares:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/grass"
+        },
+        {
+          "chance": 0.005,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/tall_grass"
+        },
+        {
+          "chance": 0.005,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/fern"
+        },
+        {
+          "chance": 0.005,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/large_fern"
+        },
+        {
+          "chance": 0.005,
+          "condition": "minecraft:random_chance"
+        }
+      ]
+    }
+  ],
+  "item": "bountifulfares:grass_seeds"
+}
