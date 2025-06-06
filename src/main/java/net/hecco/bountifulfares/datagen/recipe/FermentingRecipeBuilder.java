@@ -1,35 +1,38 @@
 package net.hecco.bountifulfares.datagen.recipe;
 
+import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.recipe.FermentationRecipe;
-import net.minecraft.advancement.AdvancementRequirements;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.Criterion;
+import net.hecco.bountifulfares.registry.misc.BFRecipes;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class FermentingRecipeBuilder implements RecipeBuilder {
     private final Item result;
-    private final Ingredient ingredient;
+    private final ItemLike ingredient;
     private final int count;
     private final int particleColor;
-    private final Map<String, Criterion<?>> criteria = new LinkedHashMap();
+    private final Map<String, CriterionTriggerInstance> criteria = new LinkedHashMap();
     private final FermentationRecipe.RecipeFactory<?> recipeFactory;
 
     public FermentingRecipeBuilder(ItemLike ingredient, ItemLike output, int count, int particleColor, FermentationRecipe.RecipeFactory<?> recipeFactory) {
-        this.ingredient = Ingredient.of(ingredient);
+        this.ingredient = ingredient;
         this.result = output.asItem();
         this.count = count;
         this.particleColor = particleColor;
@@ -40,13 +43,15 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         return new FermentingRecipeBuilder(input, output, count, particleColor, FermentationRecipe::new);
     }
 
-    public FermentingRecipeBuilder criterion(String string, Criterion<?> advancementCriterion) {
-        this.criteria.put(string, advancementCriterion);
+
+    @Override
+    public FermentingRecipeBuilder unlockedBy(String string, CriterionTriggerInstance pCriterionTrigger) {
+        this.criteria.put(string, pCriterionTrigger);
         return this;
     }
 
     @Override
-    public RecipeBuilder group(@Nullable String group) {
+    public FermentingRecipeBuilder group(@Nullable String group) {
         return this;
     }
 
@@ -55,16 +60,71 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         return result;
     }
 
+
     @Override
-    public void offerTo(RecipeExporter exporter, ResourceLocation recipeId) {
-        Advancement.Builder builder = exporter.getAdvancementBuilder().criterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
+    public void save(Consumer<FinishedRecipe>  exporter, ResourceLocation recipeId) {
+        Advancement.Builder builder = Advancement.Builder.recipeAdvancement()
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
+                .rewards(AdvancementRewards.Builder.recipe(recipeId))
+                .requirements(RequirementsStrategy.OR);
         Objects.requireNonNull(builder);
-        FermentationRecipe fermentationRecipe = this.recipeFactory.create(this.ingredient, new ItemStack(this.result), this.count, this.particleColor);
-        exporter.accept(recipeId, fermentationRecipe, builder.build(recipeId.withPrefix("recipes/")));
+        FermentationRecipe fermentationRecipe = (FermentationRecipe) this.recipeFactory.create(recipeId,
+                this.ingredient.asItem().getDefaultInstance(),
+                this.count, Ingredient.of(this.result), this.particleColor);
+        exporter.accept(new Result(recipeId, fermentationRecipe,result, builder.build(recipeId.withPrefix("recipes/"))));
     }
 
     @Override
-    public void offerTo(RecipeExporter exporter) {
-        this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(this.ingredient.getItems()[0].getItem()).getPath() + "_fermenting");
+    public void save(Consumer<FinishedRecipe> exporter) {
+        this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(ingredient.asItem()).getPath() + "_fermenting");
+    }
+
+    public static class Result implements FinishedRecipe {
+        private final ResourceLocation id;
+
+        private final RecipeSerializer<?> serializer = BFRecipes.FERMENTING_SERIALIZER;
+        private final FermentationRecipe fermentationRecipe;
+        private final Item result;
+        private @Nullable Advancement advancement;
+
+
+        public Result(ResourceLocation recipeId, FermentationRecipe fermentationRecipe, Item result, Advancement advancement) {
+            this.id =recipeId;
+            this.fermentationRecipe =fermentationRecipe;
+            this.advancement =advancement;
+            this.result=result;
+        }
+
+
+        @Override
+        public void serializeRecipeData(JsonObject json) {
+            JsonObject outputJson = new JsonObject();
+            outputJson.addProperty("item", ForgeRegistries.ITEMS.getKey(result).toString());
+            outputJson.addProperty("result_count", 1);
+            json.add("result", outputJson);
+            json.add("ingredient", Ingredient.merge(fermentationRecipe.getIngredients()).toJson());
+            json.addProperty("particle_color", fermentationRecipe.getParticleColor());
+        }
+
+
+        @Override
+        public @NotNull ResourceLocation getId() {
+            return this.id;
+        }
+
+        @Override
+        public @NotNull RecipeSerializer<?> getType() {
+            return this.serializer;
+        }
+
+        @Override
+        public @org.jetbrains.annotations.Nullable JsonObject serializeAdvancement() {
+            return this.advancement != null ? this.advancement.deconstruct().serializeToJson() : null;
+        }
+
+        @Override
+        public @org.jetbrains.annotations.Nullable ResourceLocation getAdvancementId() {
+            return  new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath());
+        }
     }
 }

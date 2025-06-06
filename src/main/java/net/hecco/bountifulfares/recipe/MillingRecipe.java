@@ -20,6 +20,11 @@ import net.minecraft.world.level.Level;
 
 public class MillingRecipe implements Recipe<SimpleContainer> {
 
+    @FunctionalInterface
+    public interface RecipeFactory<T> {
+        T create(ResourceLocation id, ItemStack output, NonNullList<Ingredient> recipeItems);
+    }
+
     private final ResourceLocation id;
     private final ItemStack output;
     private final NonNullList<Ingredient> recipeItems;

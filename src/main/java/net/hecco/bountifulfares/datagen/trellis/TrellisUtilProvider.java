@@ -2,32 +2,26 @@ package net.hecco.bountifulfares.datagen.trellis;
 
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.datagen.bountifulfares.BFTemplateModels;
-import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.LanguageProvider;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -174,6 +168,16 @@ public class TrellisUtilProvider extends BlockTagsProvider {
         }
     }
 
+    public abstract static class RecipeProviderVisiter extends RecipeProvider{
+        public RecipeProviderVisiter(PackOutput pOutput) {
+            super(pOutput);
+        }
+
+        public static InventoryChangeTrigger.TriggerInstance has(@NotNull ItemLike pItemLike){
+            return RecipeProvider.has(pItemLike);
+        }
+    }
+
     public static void registerTrellisRecipe(Consumer<FinishedRecipe> exporter, TrellisVariant trellis) {
         if (trellis.getCraftingItem() != null) {
             ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TrellisUtil.getTrellisFromVariant(trellis).get())
@@ -182,8 +186,8 @@ public class TrellisUtilProvider extends BlockTagsProvider {
                     .pattern("# #")
                     .define('#', Items.STICK)
                     .define('P', trellis.getCraftingItem())
-                    .unlockedBy("has_stick", has(Items.STICK))
-                    .unlockedBy("has_planks", has(trellis.getCraftingItem()))
+                    .unlockedBy("has_stick", RecipeProviderVisiter.has(Items.STICK))
+                    .unlockedBy("has_planks", RecipeProviderVisiter.has(trellis.getCraftingItem()))
                     .group("trellis")
                     .save(exporter);
         }
@@ -196,8 +200,8 @@ public class TrellisUtilProvider extends BlockTagsProvider {
                 .pattern("# #")
                 .define('#', Items.STICK)
                 .define('P', BuiltInRegistries.ITEM.get(trellis.getCraftingItemIdentifier()))
-                .unlockedBy("has_stick", has(Items.STICK))
-                .unlockedBy("has_planks", has(BuiltInRegistries.ITEM.get(trellis.getCraftingItemIdentifier())))
+                .unlockedBy("has_stick", RecipeProviderVisiter.has(Items.STICK))
+                .unlockedBy("has_planks", RecipeProviderVisiter.has(BuiltInRegistries.ITEM.get(trellis.getCraftingItemIdentifier())))
                 .group("trellis")
                 .save(exporter);
     }

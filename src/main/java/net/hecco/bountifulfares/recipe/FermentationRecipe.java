@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.NonNullList;
@@ -19,7 +18,10 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 
 public class FermentationRecipe implements Recipe<SimpleContainer> {
-
+    @FunctionalInterface
+    public interface RecipeFactory<T> {
+        T create(ResourceLocation id, ItemStack output, int outputCount, Ingredient input, int particleColor);
+    }
     private final ResourceLocation id;
     private final ItemStack output;
     private final Ingredient ingredient;
