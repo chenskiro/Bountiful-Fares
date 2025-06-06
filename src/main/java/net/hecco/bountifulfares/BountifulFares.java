@@ -63,9 +63,7 @@ public class BountifulFares  {
 		// BFItemGroupAdditions.registerItemGroupAdditions();
 		// BFRecipes.registerRecipes();
 
-		// todo make forge version
 		// BFTreeGeneration.generateTrees();
-		// todo make forge version
 		// BFFoliageGeneration.generateFlowers();
 
 		// BFEffects.registerEffects();

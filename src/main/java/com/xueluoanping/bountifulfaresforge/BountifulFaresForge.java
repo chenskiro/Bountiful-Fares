@@ -1,5 +1,7 @@
 package com.xueluoanping.bountifulfaresforge;
 
+import com.xueluoanping.bountifulfaresforge.data.start;
+import com.xueluoanping.bountifulfaresforge.registry.BFGlobalLootModifier;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
@@ -33,7 +35,11 @@ public class BountifulFaresForge {
         }
         BFBlockEntities.BLOCK_ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
         BFEntities.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
+        BFGlobalLootModifier.LOOT_MODIFIERS.register(modEventBus);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(BFRegistries::RegisterModStuffs);
+
+        // datagen
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(start::onDataGather);
     }
 }

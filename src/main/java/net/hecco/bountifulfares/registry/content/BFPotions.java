@@ -38,7 +38,6 @@ public class BFPotions {
         return potion1;
     }
 
-
     @SubscribeEvent
     public static void blockRegister(RegisterEvent event) {
         event.register(Registries.POTION, registerHelper -> {

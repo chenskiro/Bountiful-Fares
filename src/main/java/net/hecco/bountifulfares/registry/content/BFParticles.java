@@ -29,7 +29,7 @@ public class BFParticles {
     }
 
 //     public static void registerParticles() {
-// //        BountifulFares.LOGGER.info("Registering Mod Particles for " + BountifulFares.MOD_ID);
+//        BountifulFares.LOGGER.info("Registering Mod Particles for " + BountifulFares.MOD_ID);
 //     }
 
     @SubscribeEvent

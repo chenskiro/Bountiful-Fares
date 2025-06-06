@@ -52,17 +52,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-// @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BFBlocks {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(Registries.ITEM, BountifulFares.MOD_ID);
     public static final DeferredRegister<Block> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(Registries.BLOCK, BountifulFares.MOD_ID);
 
-    // public static final Map<String, DeferredRegister<Item>> ITEM_REGISTER_MAP = new HashMap<>();
-    // public static final Map<String, DeferredRegister<Block>> BLOCK_REGISTER_MAP = new HashMap<>();
     public static final Map<ResourceKey<? extends Registry<?>>, Map<String, DeferredRegister<?>>> REGISTER_MAP = new HashMap<>();
-
-    // private static final Map<ResourceKey<Item>, Item> items = new HashMap<>();
-    // private static final Map<ResourceKey<Block>, Block> blocks = new HashMap<>();
 
     public static final Map<LazyOptional<Item>, CropTrellisBlock> CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
     public static final Map<Supplier<Item>, VineCrop> CROPS_TO_VINE_CROPS = Maps.newHashMap();
