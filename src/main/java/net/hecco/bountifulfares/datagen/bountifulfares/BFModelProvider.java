@@ -19,13 +19,14 @@ import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.data.models.model.TexturedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import static net.hecco.bountifulfares.datagen.bountifulfares.BFTemplateModels.*;
 
 public class BFModelProvider extends AgentFabricModelProvider {
 
-    public BFModelProvider(PackOutput pOutput) {
-        super(pOutput,BountifulFares.MOD_ID);
+    public BFModelProvider(PackOutput pOutput, ExistingFileHelper existingFileHelper) {
+        super(pOutput,BountifulFares.MOD_ID,existingFileHelper);
     }
 
     @Override

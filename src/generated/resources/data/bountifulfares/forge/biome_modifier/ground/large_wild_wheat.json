@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#bountifulfares:has_large_wild_wheat",
+  "features": "bountifulfares:large_wild_wheat_placed",
+  "step": "vegetal_decoration"
+}

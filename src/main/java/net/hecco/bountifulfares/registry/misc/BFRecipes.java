@@ -21,25 +21,20 @@ public class BFRecipes {
     private static final Map<ResourceKey<RecipeType<?>>, RecipeType<?>> recipeTypes = new HashMap<>();
     private static final Map<ResourceKey<RecipeSerializer<?>>, RecipeSerializer<?>> recipeSerializers = new HashMap<>();
 
-    public static final RecipeType<MillingRecipe> MILLING = register("milling");
-    public static final RecipeType<FermentationRecipe> FERMENTING = register("fermenting");
+    public static final RecipeType<MillingRecipe> MILLING = register("milling", MillingRecipe.Type.INSTANCE);
+    public static final RecipeType<FermentationRecipe> FERMENTING = register("fermenting", FermentationRecipe.Type.INSTANCE);
 
-    public static <T extends Recipe<?>> RecipeType<T> register(final String id) {
-        RecipeType<T> recipeType = new RecipeType<>() {
-            public String toString() {
-                return id;
-            }
-        };
+    public static <T extends Recipe<?>> RecipeType<T> register(final String id, RecipeType<T> recipeType) {
         // return Registry.register(BuiltInRegistries.RECIPE_TYPE, BountifulFares.rl(id),recipeType );
         recipeTypes.put(ResourceKey.create(Registries.RECIPE_TYPE, BountifulFares.rl(id)), recipeType);
         return recipeType;
     }
 
     public static final RecipeSerializer<MillingRecipe> MILLING_SERIALIZER = registerSerializer("milling",
-            new MillingRecipe.Serializer());
+            MillingRecipe.Serializer.INSTANCE);
 
     public static final RecipeSerializer<FermentationRecipe> FERMENTING_SERIALIZER = registerSerializer("fermenting",
-            new FermentationRecipe.Serializer());
+            FermentationRecipe.Serializer.INSTANCE);
 
     public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerSerializer(String id, S serializer) {
         // return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, BountifulFares.rl( id), serializer);

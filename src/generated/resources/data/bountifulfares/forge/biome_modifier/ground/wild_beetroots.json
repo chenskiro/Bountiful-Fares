@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#bountifulfares:has_wild_beetroot",
+  "features": "bountifulfares:wild_beetroots_placed",
+  "step": "vegetal_decoration"
+}

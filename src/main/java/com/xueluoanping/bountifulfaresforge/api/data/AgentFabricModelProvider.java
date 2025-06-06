@@ -3,15 +3,20 @@ package com.xueluoanping.bountifulfaresforge.api.data;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.BlockStateGenerator;
+import net.minecraft.data.models.model.DelegatedModel;
+import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -27,11 +32,13 @@ public abstract class AgentFabricModelProvider implements DataProvider {
     private final String MOD_ID;
     private final PackOutput.PathProvider blockStatePathProvider;
     private final PackOutput.PathProvider modelPathProvider;
+    private final ExistingFileHelper existingFileHelper;
 
-    public AgentFabricModelProvider(PackOutput pOutput, String MOD_ID) {
+    public AgentFabricModelProvider(PackOutput pOutput, String MOD_ID, ExistingFileHelper existingFileHelper) {
         this.blockStatePathProvider = pOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "blockstates");
         this.modelPathProvider = pOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models");
         this.MOD_ID = MOD_ID;
+        this.existingFileHelper = existingFileHelper;
     }
 
     public abstract void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator);
@@ -72,20 +79,21 @@ public abstract class AgentFabricModelProvider implements DataProvider {
         //     throw new IllegalStateException("Missing blockstate definitions for: " + list);
         // } else
         {
-            // BuiltInRegistries.BLOCK.forEach((p_125128_) -> {
-            //     Item item = Item.BY_BLOCK.get(p_125128_);
-            //     if (item != null) {
-            //         if (set.contains(item)) {
-            //             return;
-            //         }
-            //
-            //         ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
-            //         if (!map1.containsKey(resourcelocation)) {
-            //             map1.put(resourcelocation, new DelegatedModel(ModelLocationUtils.getModelLocation(p_125128_)));
-            //         }
-            //     }
-            //
-            // });
+            BuiltInRegistries.BLOCK.forEach((p_125128_) -> {
+                Item item = Item.BY_BLOCK.get(p_125128_);
+                if (item != null) {
+                    if (set.contains(item)) {
+                        return;
+                    }
+
+                    ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
+                    if (!map1.containsKey(resourcelocation)
+                            && !existingFileHelper.exists(resourcelocation, PackType.CLIENT_RESOURCES, ".json", "models")) {
+                        map1.put(resourcelocation, new DelegatedModel(ModelLocationUtils.getModelLocation(p_125128_)));
+                    }
+                }
+
+            });
             return CompletableFuture.allOf(this.saveCollection(pOutput, map, (block) -> {
                 return this.blockStatePathProvider.json(block.builtInRegistryHolder().key().location());
             }), this.saveCollection(pOutput, map1, this.modelPathProvider::json));

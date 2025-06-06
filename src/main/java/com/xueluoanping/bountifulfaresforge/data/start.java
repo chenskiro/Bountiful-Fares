@@ -32,7 +32,7 @@ public final class start {
             generator.addProvider(event.includeServer(), new DatapackRegistryGenerator(packOutput, lookupProvider));
         }
         if (event.includeClient()) {
-            generator.addProvider(event.includeServer(), new BFModelProvider(packOutput));
+            generator.addProvider(event.includeServer(), new BFModelProvider(packOutput,helper));
             generator.addProvider(event.includeServer(), new BFLangProvider(packOutput));
         }
     }

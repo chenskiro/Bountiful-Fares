@@ -102,11 +102,11 @@ public class FermentationRecipe implements Recipe<SimpleContainer> {
         public FermentationRecipe fromJson(ResourceLocation id, JsonObject json) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 
-            int outputCount = GsonHelper.convertToInt(json, "result_count");
+            int outputCount = GsonHelper.getAsInt(json, "result_count");
 
             Ingredient ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
 
-            int particleColor = GsonHelper.convertToInt(json, "particle_color");
+            int particleColor = GsonHelper.getAsInt(json, "particle_color");
 
             return new FermentationRecipe(id, output, outputCount, ingredient, particleColor);
         }
