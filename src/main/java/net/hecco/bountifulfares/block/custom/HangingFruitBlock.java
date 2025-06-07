@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.ForgeHooks;
 
 public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
 
@@ -47,8 +48,11 @@ public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (!HangingFruitBlock.isFullyGrown(state) && random.nextFloat() < 0.1) {
-            world.setBlock(pos, state.cycle(AGE), Block.UPDATE_CLIENTS);
+        if (!HangingFruitBlock.isFullyGrown(state)
+                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1)) {
+            BlockState state1 = state.cycle(AGE);
+            world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
+            ForgeHooks.onCropsGrowPost(world, pos, state1);
         }
     }
 
@@ -57,7 +61,7 @@ public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         int i = state.getValue(AGE);
         if (i != 4 && player.getItemInHand(player.getUsedItemHand()).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;

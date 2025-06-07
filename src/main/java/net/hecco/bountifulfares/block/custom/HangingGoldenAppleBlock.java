@@ -31,6 +31,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
 
 public class HangingGoldenAppleBlock extends BushBlock {
 
@@ -98,13 +99,20 @@ public class HangingGoldenAppleBlock extends BushBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (world.getMaxLocalRawBrightness(pos) < 8) {
-            if (!HangingGoldenAppleBlock.isFullyGrown(state) && random.nextFloat() < 0.025) {
-                world.setBlock(pos, state.cycle(AGE), Block.UPDATE_CLIENTS);
+            if (!HangingGoldenAppleBlock.isFullyGrown(state)
+                    // && random.nextFloat() < 0.025
+                    && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.025)
+            ) {
+                BlockState state1 = state.cycle(AGE);
+                world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
+                ForgeHooks.onCropsGrowPost(world, pos, state1);
             }
         } else {
-            if (random.nextFloat() < 0.1) {
-                world.setBlock(pos, BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get().defaultBlockState().setValue(HangingWitheredGoldenAppleBlock.AGE, state.getValue(AGE)), Block.UPDATE_CLIENTS);
-                world.playSound(null, pos, BFSounds.GOLDEN_APPLE_WITHER, SoundSource.BLOCKS, 1.0f, 0.6f + random.nextFloat()/2);
+            if (ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1)) {
+                BlockState state1 = BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get().defaultBlockState().setValue(HangingWitheredGoldenAppleBlock.AGE, state.getValue(AGE));
+                world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
+                world.playSound(null, pos, BFSounds.GOLDEN_APPLE_WITHER, SoundSource.BLOCKS, 1.0f, 0.6f + random.nextFloat() / 2);
+                ForgeHooks.onCropsGrowPost(world, pos, state1);
             }
         }
     }
@@ -117,7 +125,7 @@ public class HangingGoldenAppleBlock extends BushBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         int i = state.getValue(AGE);
         if (i == 5) {
             HangingGoldenAppleBlock.popResource(world, pos, new ItemStack(Items.GOLDEN_APPLE, 1));
