@@ -53,7 +53,6 @@ public class BountifulFares  {
 	public void onInitialize() {
 		BountifulFares.CONFIG = BountifulFaresConfiguration.load();
 
-		// todo make forge version
 		// BFResourcePacks.registerBuiltinResourcePacks();
 
 		// BFItems.registerModItems.get()();
@@ -71,7 +70,6 @@ public class BountifulFares  {
 		// todo not use api
 		// BFBoats.registerBoats();
 
-		// todo make forge version
 		// BFLootTableModifiers.modifyLootTables();
 
 		// BFParticles.registerParticles();

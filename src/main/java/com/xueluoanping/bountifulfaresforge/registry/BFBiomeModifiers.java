@@ -44,7 +44,7 @@ public class BFBiomeModifiers {
     public static final ResourceKey<BiomeModifier> WILD_POTATOES = createKey("ground/wild_potatoes");
     public static final ResourceKey<BiomeModifier> LARGE_WILD_POTATOES = createKey("ground/large_wild_potatoes");
     public static final ResourceKey<BiomeModifier> WILD_BEETROOTS = createKey("ground/wild_beetroots");
-    public static final ResourceKey<BiomeModifier> LARGE_WILD_BEETROOTS = createKey("large_wild_beetroots");
+    public static final ResourceKey<BiomeModifier> LARGE_WILD_BEETROOTS = createKey("ground/large_wild_beetroots");
 
     // not config
     public static final ResourceKey<BiomeModifier> WILD_LEEKS = createKey("ground/wild_leeks");

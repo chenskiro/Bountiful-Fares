@@ -7,6 +7,7 @@ import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFEntities;
 import net.hecco.bountifulfares.registry.content.BFItems;
+import net.hecco.bountifulfares.registry.misc.BFResourcePacks;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -41,5 +42,8 @@ public class BountifulFaresForge {
 
         // datagen
         FMLJavaModLoadingContext.get().getModEventBus().addListener(start::onDataGather);
+
+        // datagen
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(BFResourcePacks::registerBuiltinResourcePacks);
     }
 }

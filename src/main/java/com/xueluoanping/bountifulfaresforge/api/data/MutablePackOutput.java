@@ -31,9 +31,8 @@ public class MutablePackOutput extends PackOutput {
         return new MutablePackOutput(this.original, this.original.getOutputFolder().resolve(newFolder));
     }
 
-    public MutablePackOutput reset() {
+    public void reset() {
         this.outputFolder = this.original.getOutputFolder();
-        return this;
     }
 
     @Override
