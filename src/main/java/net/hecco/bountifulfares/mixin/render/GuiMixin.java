@@ -99,7 +99,7 @@ public class GuiMixin {
 //            instance.drawGuiTexture(ACIDFIED_EFFECT_BACKGROUND_TEXTURE, x, y, width, height);
 //        }
 //    }
-    @Inject(method = "renderEffects", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "renderEffects", at = @At(value = "HEAD"), cancellable = true,require = 0)
     private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {
             Collection<MobEffectInstance> collection = this.minecraft.player.getActiveEffects();

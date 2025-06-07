@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "net.hecco.bountifulfares.mixin",
+  "refmap": "bountifulfares.refmap.json",
   "mixins": [
     "data.ProviderNameMixin$LootTableProviderMixin",
     "data.ProviderNameMixin$RecipeProviderMixin",
