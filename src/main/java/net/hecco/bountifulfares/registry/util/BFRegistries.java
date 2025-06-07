@@ -126,6 +126,12 @@ public class BFRegistries {
 
     public static void RegisterModStuffs(FMLCommonSetupEvent fmlCommonSetupEvent) {
         fmlCommonSetupEvent.enqueueWork(() -> {
+
+            // ------------------patch
+            BFBlocks._CROPS_TO_CROP_TRELLISES.forEach((optional, trellisBlock) -> BFBlocks.CROPS_TO_CROP_TRELLISES.put(optional.orElse(Items.AIR), trellisBlock));
+            BFBlocks._CROPS_TO_VINE_CROPS.forEach((supplier, vineCrop) -> BFBlocks.CROPS_TO_VINE_CROPS.put(supplier.get(), vineCrop));
+            //-------------
+
             registerBrewingRecipe();
             registerStrippables();
             registerCeramicCheckeredConversions();

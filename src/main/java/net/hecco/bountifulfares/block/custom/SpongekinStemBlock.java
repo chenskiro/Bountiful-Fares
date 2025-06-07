@@ -29,14 +29,16 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer {
     public static BooleanProperty ATTACHED = BooleanProperty.create("attached");
 
-    public static final VoxelShape[] SHAPES = new VoxelShape[] {Block.box(7, 0, 7, 9, 3, 9), Block.box(6, 0, 6, 10, 6, 10), Block.box(5, 0, 5, 11, 11, 11), Block.box(5, 0, 5, 11, 15, 11), Block.box(4, 0, 4, 12, 16, 12)};
+    public static final VoxelShape[] SHAPES = new VoxelShape[]{Block.box(7, 0, 7, 9, 3, 9), Block.box(6, 0, 6, 10, 6, 10), Block.box(5, 0, 5, 11, 11, 11), Block.box(5, 0, 5, 11, 15, 11), Block.box(4, 0, 4, 12, 16, 12)};
     public static final int MAX_AGE = 3;
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 3);
+
     public SpongekinStemBlock(Properties settings) {
         super(settings);
         this.registerDefaultState((this.stateDefinition.any()).setValue(AGE, 0).setValue(ATTACHED, false));
@@ -70,10 +72,18 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (!isFullyGrown(state) && !state.getValue(ATTACHED) && random.nextFloat() < 0.1f) {
-            world.setBlock(pos, state.cycle(AGE), Block.UPDATE_CLIENTS);
+        if (!isFullyGrown(state) && !state.getValue(ATTACHED)
+                // && random.nextFloat() < 0.1f
+                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1f)
+        ) {
+            BlockState state1 = state.cycle(AGE);
+            world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
+            ForgeHooks.onCropsGrowPost(world, pos, state1);
         }
-        if (isFullyGrown(state) && !state.getValue(ATTACHED) && random.nextFloat() < 0.1f) {
+        if (isFullyGrown(state) && !state.getValue(ATTACHED)
+                // && random.nextFloat() < 0.1f
+                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1f)
+        ) {
             BlockPos spongekinPos = pos.relative(Direction.UP);
             if ((world.getBlockState(spongekinPos).isAir() || world.getBlockState(spongekinPos).is(Blocks.WATER) && isFullyGrown(state))) {
                 world.setBlock(spongekinPos, BFBlocks.SPONGEKIN.get().defaultBlockState(), 2);
@@ -88,6 +98,7 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
 
                 }
             }
+            ForgeHooks.onCropsGrowPost(world, pos, state);
         }
     }
 

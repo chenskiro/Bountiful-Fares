@@ -21,7 +21,7 @@ public class VineCrop {
         this.CROP_ITEM = LazyOptional.of(crop::get);
         this.SEEDS_ITEM = LazyOptional.of(seeds::get);
 //        TrellisVariants.VineCrops.add(this);
-        BFBlocks.CROPS_TO_VINE_CROPS.put(seeds, this);
+        BFBlocks._CROPS_TO_VINE_CROPS.put(seeds, this);
     }
 
     public VineCrop(String modId, String id, ResourceLocation crop) {
@@ -30,7 +30,7 @@ public class VineCrop {
         this.CROP_ITEM = LazyOptional.of(()->BuiltInRegistries.ITEM.get(crop));;
         this.SEEDS_ITEM = LazyOptional.of(()->BuiltInRegistries.ITEM.get(crop));;
 //        TrellisVariants.VineCrops.add(this);
-        BFBlocks.CROPS_TO_VINE_CROPS.put(()->BuiltInRegistries.ITEM.get(crop), this);
+        BFBlocks._CROPS_TO_VINE_CROPS.put(()->BuiltInRegistries.ITEM.get(crop), this);
     }
 
     public VineCrop(String modId, String id, Supplier<Item> crop) {
@@ -39,7 +39,7 @@ public class VineCrop {
         this.CROP_ITEM = LazyOptional.of(crop::get);
         this.SEEDS_ITEM = LazyOptional.of(crop::get);
 //        TrellisVariants.VineCrops.add(this);
-        BFBlocks.CROPS_TO_VINE_CROPS.put(crop, this);
+        BFBlocks._CROPS_TO_VINE_CROPS.put(crop, this);
     }
 
     public String getName() {

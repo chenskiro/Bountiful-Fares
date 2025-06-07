@@ -46,6 +46,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.LazyOptional;
 
 
@@ -68,7 +69,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public CropTrellisBlock(LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
-        BFBlocks.CROPS_TO_CROP_TRELLISES.put(berryItem, this);
+        BFBlocks._CROPS_TO_CROP_TRELLISES.put(berryItem, this);
         this.variant = variant;
         this.crop = crop;
         this.harvestResetAge = 1;
@@ -88,7 +89,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public CropTrellisBlock(LazyOptional<Item> seedsItem, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
-        BFBlocks.CROPS_TO_CROP_TRELLISES.put(seedsItem, this);
+        BFBlocks._CROPS_TO_CROP_TRELLISES.put(seedsItem, this);
         this.variant = variant;
         this.crop = crop;
         this.harvestResetAge = 1;
@@ -158,8 +159,13 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         if (state.getValue(SNIPPED)) {
 
         } else if (!isFullyGrown(state)) {
-            if (world.random.nextFloat() < 0.2f) {
-                world.setBlock(pos, state.cycle(AGE), Block.UPDATE_CLIENTS);
+            if (
+                    // world.random.nextFloat() < 0.2f
+                      ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.2f)
+            ) {
+                BlockState state1 = state.cycle(AGE);
+                world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
+                ForgeHooks.onCropsGrowPost(world, pos, state1);
             }
         }
     }
