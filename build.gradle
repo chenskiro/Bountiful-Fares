@@ -233,7 +233,7 @@ dependencies {
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
-    runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:5051242")
+    runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:6597298")
 
 //    onlyMainRuntimeOnly fg.deobf("curse.maven:configured-457570:5096828")
     // Examples using mod jars from ./libs
