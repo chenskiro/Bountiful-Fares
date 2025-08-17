@@ -9,10 +9,11 @@ import net.hecco.bountifulfares.registry.content.BFEntities;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.misc.BFResourcePacks;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
 
 import java.util.Map;
 
@@ -21,10 +22,9 @@ import java.util.Map;
 public class BountifulFaresForge {
     public final BountifulFares MOD_INSTANCE;
 
-    public BountifulFaresForge() {
+    public BountifulFaresForge(IEventBus modEventBus, ModContainer modContainer) {
         MOD_INSTANCE = new BountifulFares();
         MOD_INSTANCE.onInitialize();
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         BFBlocks.BLOCK_DEFERRED_REGISTER.register(modEventBus);
         BFBlocks.ITEM_DEFERRED_REGISTER.register(modEventBus);
@@ -38,12 +38,12 @@ public class BountifulFaresForge {
         BFEntities.ENTITY_TYPE_DEFERRED_REGISTER.register(modEventBus);
         BFGlobalLootModifier.LOOT_MODIFIERS.register(modEventBus);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(BFRegistries::RegisterModStuffs);
+        modEventBus.addListener(BFRegistries::RegisterModStuffs);
 
         // datagen
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(start::onDataGather);
+        modEventBus.addListener(start::onDataGather);
 
         // datagen
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(BFResourcePacks::registerBuiltinResourcePacks);
+        modEventBus.addListener(BFResourcePacks::registerBuiltinResourcePacks);
     }
 }

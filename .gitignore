@@ -8,7 +8,6 @@ bin
 
 # idea
 out
-run
 *.ipr
 *.iws
 *.iml
@@ -22,12 +21,10 @@ build
 eclipse
 run
 runs
+run-data
 
-
-# Files from Forge MDK
-forge*changelog.txt
+repo
 
 .cache
-libs
 
-mods
+libs
