@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#bountifulfares:has_palm_trees",
-  "features": "bountifulfares:palm_placed",
-  "step": "vegetal_decoration"
-}

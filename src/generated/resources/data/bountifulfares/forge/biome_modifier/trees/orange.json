@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#bountifulfares:has_orange_trees",
-  "features": "bountifulfares:orange_placed",
-  "step": "vegetal_decoration"
-}
