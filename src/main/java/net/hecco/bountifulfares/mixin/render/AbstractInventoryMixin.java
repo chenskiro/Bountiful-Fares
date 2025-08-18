@@ -12,9 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -43,7 +41,7 @@ public class AbstractInventoryMixin {
                 effects.add(instance.getEffect());
             }
             if (effects.contains(BFEffects.ACIDIC)) {
-                int i = ((HandledScreenMixin) this).getY();
+                int i = ((HandledScreenMixin) this).bf_getY();
 
                 for (Iterator<MobEffectInstance> var7 = statusEffects.iterator(); var7.hasNext(); i += height) {
                     ResourceLocation largeTexture = AbstractContainerScreen.INVENTORY_LOCATION;
