@@ -24,9 +24,12 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -180,13 +183,14 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
         return false;
     }
 
-    public Optional<FermentationRecipe> getCurrentRecipe() {
-        Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
-        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
+    public Optional<RecipeHolder<FermentationRecipe>> getCurrentRecipe() {
+        Optional<RecipeHolder<FermentationRecipe>> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING,
+                new RecipeWrapper(new ItemStackHandler(inventory)), this.getLevel());
+        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING,  new RecipeWrapper(new ItemStackHandler(inventory)), this.getLevel());
     }
     public ItemInteractionResult tryExtractItem(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
         if (this.fermented) {
-            ItemStack output = getCurrentRecipe().isEmpty() ? null : getCurrentRecipe().get().getResultItem(world.registryAccess());
+            ItemStack output = getCurrentRecipe().isEmpty() ? null : getCurrentRecipe().get().value().getResultItem(world.registryAccess());
             if (output != null) {
                 Item collector = output.getItem().getCraftingRemainingItem();
                 if (collector == null) {

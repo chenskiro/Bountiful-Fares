@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,6 +37,7 @@ public class HangingAppleBlock extends HangingFruitBlock {
             Block.box(6.5, 13, 6.5, 9.5, 16, 9.5),
             Shapes.join(Block.box(5.5, 10, 5.5, 10.5, 15, 10.5), Block.box(7, 15, 7, 9, 16, 9), BooleanOp.OR),
             Shapes.join(Block.box(5, 8, 5, 11, 14, 11), Block.box(7, 14, 7, 9, 16, 9), BooleanOp.OR)};
+
     public HangingAppleBlock(Properties settings) {
         super(settings);
     }
@@ -76,26 +78,26 @@ public class HangingAppleBlock extends HangingFruitBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
         if (i != 4 && player.getItemInHand(player.getUsedItemHand()).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
         }
         if (i == 4) {
-            HangingFruitBlock.popResource(world, pos, new ItemStack(Items.APPLE, 1));
-            world.playSound(null, pos, BFSounds.HANGING_FRUIT_PICK, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
-            if (!world.isClientSide()) {
+            HangingFruitBlock.popResource(level, pos, new ItemStack(Items.APPLE, 1));
+            level.playSound(null, pos, BFSounds.HANGING_FRUIT_PICK, SoundSource.BLOCKS, 1.0f, 0.8f + level.random.nextFloat() * 0.4f);
+            if (!level.isClientSide()) {
                 if (BountifulFares.CONFIG.isFruitReplaceWhenPicked()) {
                     BlockState blockState = state.setValue(AGE, 0);
-                    world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
-                    world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
+                    level.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
                 } else {
-                    world.removeBlock(pos, false);
+                    level.removeBlock(pos, false);
                 }
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
     @Override

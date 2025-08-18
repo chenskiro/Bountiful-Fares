@@ -49,10 +49,10 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(SNIPPED, false));
     }
 
-    // @Override
-    // protected MapCodec<? extends FallingBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return simpleCodec(HangingWalnutsBlock::new);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

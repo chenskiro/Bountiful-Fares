@@ -15,17 +15,14 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
 
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -65,11 +62,11 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
         super(settings);
         this.registerDefaultState(this.getStateDefinition().any().setValue(FERMENTATION_STAGE, FermentationStage.EMPTY).setValue(WATERLOGGED, false));
     }
-    // public static final MapCodec<FermentationVesselBlock> CODEC = FermentationVesselBlock.createCodec(FermentationVesselBlock::new);
-    // @Override
-    // protected MapCodec<? extends BaseEntityBlock> getCodec() {
-    //     return CODEC;
-    // }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(FermentationVesselBlock::new);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -93,8 +90,8 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
         }
     }
 
-    public Optional<FermentationRecipe> getCurrentRecipe(Level world, ItemStack input) {
-        return Objects.requireNonNull(world).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SimpleContainer(input), world);
+    public Optional<RecipeHolder<FermentationRecipe>> getCurrentRecipe(Level world, ItemStack input) {
+        return Objects.requireNonNull(world).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SingleRecipeInput(input), world);
     }
 
     @Override
@@ -132,7 +129,7 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
                     entity.insertItem(stack.getItem().getDefaultInstance());
                     level.setBlockAndUpdate(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING));
                     pushEntitiesUp(state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING), level, pos);
-                    ItemStack itemStack1 = getCurrentRecipe(level, stack).get().getIngredients().get(0).getItems()[0];
+                    ItemStack itemStack1 = getCurrentRecipe(level, stack).get().value().getIngredients().get(0).getItems()[0];
                     ItemStack remainder = itemStack1.getItem().getCraftingRemainingItem(itemStack1);
                     if (!player.isCreative()) {
                         stack.shrink(1);
@@ -145,7 +142,7 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
                         }
                     }
                     level.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_SPLASH, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() / 3);
-                    entity.setParticleColor(getCurrentRecipe(level, stack).get().getParticleColor());
+                    entity.setParticleColor(getCurrentRecipe(level, stack).get().value().getParticleColor());
                     return ItemInteractionResult.SUCCESS;
                 }
             } else if (!entity.canInsertItem()) {
@@ -156,65 +153,6 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(Items.POTION) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
-            world.setBlock(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), 2);
-            world.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_FILL, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() / 3);
-            if (!player.isCreative()) {
-                itemStack.shrink(1);
-            }
-            if (itemStack.isEmpty() && !player.isCreative()) {
-                player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.GLASS_BOTTLE));
-            } else if (!player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE))) {
-                player.drop(new ItemStack(Items.GLASS_BOTTLE), false);
-            }
-            return InteractionResult.SUCCESS;
-
-        } else if (itemStack.is(Items.WATER_BUCKET) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
-            world.setBlock(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), 2);
-            world.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() / 3);
-            world.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_FILL, SoundSource.BLOCKS, 0.7F, 0.8F + world.random.nextFloat() / 3);
-            if (!player.isCreative()) {
-                itemStack.shrink(1);
-            }
-            if (itemStack.isEmpty() && !player.isCreative()) {
-                player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.BUCKET));
-            } else if (!player.getInventory().add(new ItemStack(Items.BUCKET))) {
-                player.drop(new ItemStack(Items.BUCKET), false);
-            }
-            return InteractionResult.SUCCESS;
-
-        } else if (world.getBlockEntity(pos) instanceof FermentationVesselBlockEntity entity) {
-            if (getCurrentRecipe(world, itemStack).isPresent() && state.getValue(FERMENTATION_STAGE) == FermentationStage.WATER) {
-                if (entity.canInsertItem()) {
-                    entity.insertItem(itemStack.getItem().getDefaultInstance());
-                    world.setBlockAndUpdate(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING));
-                    pushEntitiesUp(state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING), world, pos);
-                    ItemStack itemStack1 = getCurrentRecipe(world, itemStack).get().getIngredients().get(0).getItems()[0];
-                    ItemStack remainder = itemStack1.getItem().getCraftingRemainingItem(itemStack1);
-                    if (!player.isCreative()) {
-                        itemStack.shrink(1);
-                    }
-                    if (remainder != null) {
-                        if (itemStack.isEmpty() && !player.isCreative()) {
-                            player.setItemInHand(player.getUsedItemHand(), remainder);
-                        } else if (!player.getInventory().add(remainder)) {
-                            player.drop(remainder, false);
-                        }
-                    }
-                    world.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_SPLASH, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() / 3);
-                    entity.setParticleColor(getCurrentRecipe(world, itemStack).get().getParticleColor());
-                    return InteractionResult.SUCCESS;
-                }
-            } else if (!entity.canInsertItem()) {
-                return entity.tryExtractItem(world, pos, state, player, player.getUsedItemHand());
-            }
-            return InteractionResult.PASS;
-        }
-        return super.use(state, world, pos, player, pHand, hit);
-    }
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {

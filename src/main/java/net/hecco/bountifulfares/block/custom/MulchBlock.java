@@ -46,10 +46,10 @@ public class MulchBlock extends FallingBlock {
         this.registerDefaultState((this.stateDefinition.any()).setValue(LAYERS, 1));
     }
 
-    // @Override
-    // protected MapCodec<? extends FallingBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return simpleCodec(MulchBlock::new);
+    }
 
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.causeFallDamage(fallDistance, 0.2F, world.damageSources().fall());

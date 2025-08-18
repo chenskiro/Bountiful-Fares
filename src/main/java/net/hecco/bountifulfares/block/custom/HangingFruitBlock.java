@@ -40,6 +40,12 @@ public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
     //     return null;
     // }
 
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(HangingFruitBlock::new);
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE);

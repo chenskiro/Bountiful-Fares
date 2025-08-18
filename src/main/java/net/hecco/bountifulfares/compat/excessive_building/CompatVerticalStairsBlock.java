@@ -35,6 +35,11 @@ public class CompatVerticalStairsBlock extends HorizontalDirectionalBlock implem
         this.modId = modId;
     }
 
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return simpleCodec(CompatVerticalStairsBlock::new);
+    }
+
     public CompatVerticalStairsBlock(Properties settings) {
         super(settings);
         this.modId = BountifulFares.EXCESSIVE_BUILDING_MOD_ID;

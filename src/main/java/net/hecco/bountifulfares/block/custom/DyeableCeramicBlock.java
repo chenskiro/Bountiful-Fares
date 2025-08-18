@@ -52,12 +52,12 @@ public class DyeableCeramicBlock {
     public static InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, Block block) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown()
-                && itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)
-                && itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).contains(ArtisanBrushItem.COLOR_KEY)
-            // && itemStack.get(DataComponentTypes.DYED_COLOR) != null
+                // && itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)
+                // && itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).contains(ArtisanBrushItem.COLOR_KEY)
+            && itemStack.has(DataComponents.DYED_COLOR)
         ) {
-            // int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
-            int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
+            int brushColor = itemStack.getComponents().get(DataComponents.DYED_COLOR).rgb();
+            // int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
             world.removeBlock(pos, false);
             world.setBlockAndUpdate(pos, block.withPropertiesOf(state));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));

@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
@@ -80,10 +81,10 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0));
     }
 
-    // @Override
-    // protected MapCodec<? extends FallingBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return simpleCodec(CoconutBlock::new);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

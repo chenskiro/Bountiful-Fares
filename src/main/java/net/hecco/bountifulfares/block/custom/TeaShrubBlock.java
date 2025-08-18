@@ -43,6 +43,11 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
     private static final VoxelShape AGE2_SHAPE = Shapes.join(Block.box(7, 0, 7, 9, 9, 9), Block.box(0, 9, 0, 16, 16, 16), BooleanOp.OR);
 
     @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(TeaShrubBlock::new);
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         switch (state.getValue(AGE)) {
             case 0:

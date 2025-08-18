@@ -21,7 +21,7 @@ public class ChamomileFlowersBlock extends PinkPetalsBlock implements Bonemealab
     // }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState p_273662_, boolean p_273778_) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         return world.getBlockState(pos.below()).is(Blocks.FARMLAND);
     }
 

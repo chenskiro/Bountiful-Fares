@@ -40,15 +40,17 @@ public class CeramicButtonBlock extends ButtonBlock implements EntityBlock {
 
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock()) == InteractionResult.PASS) {
             if (state.getValue(POWERED)) {
                 return InteractionResult.CONSUME;
             } else {
-                this.press(state, world, pos);
+                this.press(state, world, pos, player);
                 return InteractionResult.sidedSuccess(world.isClientSide);
             }
         }
         return InteractionResult.PASS;
     }
+
+
 }

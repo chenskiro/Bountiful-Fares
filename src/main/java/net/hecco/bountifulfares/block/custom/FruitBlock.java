@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -36,10 +37,10 @@ public class FruitBlock extends FallingBlock {
         this.registerDefaultState(this.getStateDefinition().any().setValue(SLICES, 0).setValue(FACING, Direction.NORTH));
     }
 
-    // @Override
-    // protected MapCodec<? extends FallingBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return simpleCodec(FruitBlock::new);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

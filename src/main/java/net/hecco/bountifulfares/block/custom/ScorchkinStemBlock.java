@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,10 +31,10 @@ public class ScorchkinStemBlock extends BushBlock {
         this.registerDefaultState((this.stateDefinition.any()).setValue(AGE, 0).setValue(ATTACHED, false));
     }
 
-    // @Override
-    // protected MapCodec<? extends BushBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(ScorchkinStemBlock::new);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

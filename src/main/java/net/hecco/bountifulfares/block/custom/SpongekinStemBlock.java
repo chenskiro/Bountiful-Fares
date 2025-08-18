@@ -44,10 +44,10 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
         this.registerDefaultState((this.stateDefinition.any()).setValue(AGE, 0).setValue(ATTACHED, false));
     }
 
-    // @Override
-    // protected MapCodec<? extends BushBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(SpongekinStemBlock::new);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {

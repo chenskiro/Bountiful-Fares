@@ -47,6 +47,11 @@ public class HangingWitheredGoldenAppleBlock extends BushBlock {
     }
 
     @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(HangingWitheredGoldenAppleBlock::new);
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         VoxelShape voxelShape = SHAPES[state.getValue(AGE)];
         if (!BountifulFares.isModLoaded(BountifulFares.TWIGS_MOD_ID) && !BountifulFares.isModLoaded(BountifulFares.ETCETERA_MOD_ID)) {

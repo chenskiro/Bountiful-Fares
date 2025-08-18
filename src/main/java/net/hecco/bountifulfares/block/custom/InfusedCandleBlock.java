@@ -113,10 +113,6 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
 
     public static final MapCodec<? extends BaseEntityBlock> CODEC = simpleCodec(InfusedCandleBlock::new);
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

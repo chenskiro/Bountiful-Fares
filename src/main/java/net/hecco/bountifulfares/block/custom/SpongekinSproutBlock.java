@@ -22,10 +22,10 @@ public class SpongekinSproutBlock extends BushBlock implements LiquidBlockContai
         super(settings);
     }
 
-    // @Override
-    // protected MapCodec<? extends BushBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(SpongekinSproutBlock::new);
+    }
 
     @Override
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {

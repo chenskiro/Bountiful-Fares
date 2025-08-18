@@ -10,18 +10,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -36,15 +30,16 @@ import org.jetbrains.annotations.Nullable;
 public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty MILLING = BooleanProperty.create("milling");
+
     public GristmillBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(MILLING, false));
     }
 
-    // @Override
-    // protected MapCodec<? extends BaseEntityBlock> getCodec() {
-    //     return null;
-    // }
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(GristmillBlock::new);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -86,15 +81,15 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof GristmillBlockEntity) {
-                Containers.dropContents(world, pos, (GristmillBlockEntity)blockEntity);
-                world.updateNeighbourForOutputSignal(pos,this);
+                Containers.dropContents(world, pos, (GristmillBlockEntity) blockEntity);
+                world.updateNeighbourForOutputSignal(pos, this);
             }
             super.onRemove(state, world, pos, newState, moved);
         }
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!world.isClientSide) {
             MenuProvider screenHandlerFactory = (MenuProvider) world.getBlockEntity(pos);
             if (screenHandlerFactory != null) {
@@ -105,18 +100,18 @@ public class GristmillBlock extends BaseEntityBlock implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (state.getValue(MILLING)) {
-            double d = (double)pos.getX() + 0.5;
+            double d = (double) pos.getX() + 0.5;
             double e = pos.getY();
-            double f = (double)pos.getZ() + 0.5;
+            double f = (double) pos.getZ() + 0.5;
             if (random.nextDouble() < 0.1) {
-                world.playLocalSound(d, e, f, BFSounds.GRISTMILL_GRIND, SoundSource.BLOCKS, 0.5F, 0.5F + random.nextFloat()/2, true);
+                world.playLocalSound(d, e, f, BFSounds.GRISTMILL_GRIND, SoundSource.BLOCKS, 0.5F, 0.5F + random.nextFloat() / 2, true);
             }
         }
     }
-
 
 
     @Nullable

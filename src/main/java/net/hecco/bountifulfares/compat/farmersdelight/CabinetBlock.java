@@ -52,10 +52,10 @@ public class CabinetBlock extends BaseEntityBlock {
         this.modId = BountifulFares.FARMERS_DELIGHT_MOD_ID;
     }
 
-    // @Override
-    // protected MapCodec<? extends BaseEntityBlock> getCodec() {
-    //     return CODEC;
-    // }
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CabinetBlock::new);
+    }
 
     @Override
     public boolean isEnabled(FeatureFlagSet enabledFeatures) {

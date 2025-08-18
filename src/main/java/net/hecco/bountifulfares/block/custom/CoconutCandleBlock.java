@@ -10,9 +10,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -42,7 +44,7 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
     public static final IntegerProperty CANDLES = IntegerProperty.create("candles", 1, 3);
     public static boolean canBeLit;
 
-    public static final VoxelShape[] SHAPES = new VoxelShape[] {
+    public static final VoxelShape[] SHAPES = new VoxelShape[]{
             Block.box(5.5, 0, 5.5, 10.5, 4, 10.5),
             Block.box(3, 0, 4, 13, 4, 12),
             Block.box(2.5, 0, 2.5, 13.5, 4, 13.5)
@@ -60,28 +62,28 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        if (player.getItemInHand(player.getUsedItemHand()).isEmpty() && state.getValue(LIT)) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.isEmpty() && state.getValue(LIT)) {
             extinguish(player, state, world, pos);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        if ((player.getItemInHand(player.getUsedItemHand()).is(Items.FLINT_AND_STEEL) || player.getItemInHand(player.getUsedItemHand()).is(Items.FIRE_CHARGE)) && !canBeLit(state)) {
-            return InteractionResult.FAIL;
-        } else if (player.getItemInHand(player.getUsedItemHand()).is(Items.FLINT_AND_STEEL)) {
+        if ((stack.is(Items.FLINT_AND_STEEL) || stack.is(Items.FIRE_CHARGE)) && !canBeLit(state)) {
+            return ItemInteractionResult.FAIL;
+        } else if (stack.is(Items.FLINT_AND_STEEL)) {
             setLit(world, state, pos, true);
             world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
-            return InteractionResult.SUCCESS;
-        } else if (player.getItemInHand(player.getUsedItemHand()).is(Items.FIRE_CHARGE)) {
+                stack.hurt(1, world.getRandom(), serverPlayer);
+            return ItemInteractionResult.SUCCESS;
+        } else if (stack.is(Items.FIRE_CHARGE)) {
             setLit(world, state, pos, true);
             world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 1.0F);
             if (!player.isCreative()) {
-                player.getItemInHand(player.getUsedItemHand()).shrink(1);
+                stack.shrink(1);
             }
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
@@ -144,14 +146,14 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
             return;
         }
         if (state.getValue(CANDLES) == 1) {
-            spawnCandleParticles(world, new Vec3(pos.getX()+0.5, pos.getY()+0.3, pos.getZ()+0.5), random);
+            spawnCandleParticles(world, new Vec3(pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5), random);
         } else if (state.getValue(CANDLES) == 2) {
             spawnCandleParticles(world, new Vec3(pos.getX() + 0.65625, pos.getY() + 0.3, pos.getZ() + 0.59375), random);
             spawnCandleParticles(world, new Vec3(pos.getX() + 0.3125, pos.getY() + 0.2375, pos.getZ() + 0.34375), random);
         } else {
-            spawnCandleParticles(world, new Vec3(pos.getX()+0.6875, pos.getY()+0.3, pos.getZ()+0.6875), random);
-            spawnCandleParticles(world, new Vec3(pos.getX()+0.625, pos.getY()+0.2375, pos.getZ()+0.28125), random);
-            spawnCandleParticles(world, new Vec3(pos.getX()+0.28125, pos.getY()+0.2375, pos.getZ()+0.53125), random);
+            spawnCandleParticles(world, new Vec3(pos.getX() + 0.6875, pos.getY() + 0.3, pos.getZ() + 0.6875), random);
+            spawnCandleParticles(world, new Vec3(pos.getX() + 0.625, pos.getY() + 0.2375, pos.getZ() + 0.28125), random);
+            spawnCandleParticles(world, new Vec3(pos.getX() + 0.28125, pos.getY() + 0.2375, pos.getZ() + 0.53125), random);
         }
         if (random.nextFloat() < 0.17f) {
             world.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.CANDLE_AMBIENT, SoundSource.BLOCKS, 1.0f + random.nextFloat(), random.nextFloat() * 0.7f + 0.3f, false);
