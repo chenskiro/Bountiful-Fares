@@ -39,7 +39,7 @@ public class AbstractInventoryMixin {
                 effects.add(instance.getEffect());
             }
             if (effects.contains(BFEffects.ACIDIC)) {
-                int i = ((HandledScreenMixin) this).getY();
+                int i = ((HandledScreenMixin) this).bountifulfares_getY();
 
                 for (Iterator<MobEffectInstance> var7 = statusEffects.iterator(); var7.hasNext(); i += height) {
                     ResourceLocation largeTexture = AbstractContainerScreen.INVENTORY_LOCATION;

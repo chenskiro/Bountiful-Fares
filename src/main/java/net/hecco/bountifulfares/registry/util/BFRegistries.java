@@ -23,10 +23,8 @@ import net.minecraft.core.Position;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,7 +34,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.FireBlock;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -96,14 +93,14 @@ public class BFRegistries {
                 || event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED) {
             FireBlockAccessor fireBlockAccessor = (FireBlockAccessor) (Blocks.FIRE);
             flam_blocks.forEach((block, integerIntegerPair) -> {
-                if (fireBlockAccessor.getBurnOdds().getInt(block) < 1) {
-                    fireBlockAccessor.getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
-                    fireBlockAccessor.getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
+                if (fireBlockAccessor.bountifulfares_getBurnOdds().getInt(block) < 1) {
+                    fireBlockAccessor.bountifulfares_getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
+                    fireBlockAccessor.bountifulfares_getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
                 }
             });
             flam_blocks_from_tag.forEach((block, integerIntegerPair) -> {
-                fireBlockAccessor.getIgniteOdds().removeInt(block);
-                fireBlockAccessor.getBurnOdds().removeInt(block);
+                fireBlockAccessor.bountifulfares_getIgniteOdds().removeInt(block);
+                fireBlockAccessor.bountifulfares_getBurnOdds().removeInt(block);
             });
             flam_blocks_from_tag.clear();
             Registry<Block> registry = event.getRegistryAccess().registryOrThrow(Registries.BLOCK);
@@ -117,9 +114,9 @@ public class BFRegistries {
                 );
             }
             flam_blocks_from_tag.forEach((block, integerIntegerPair) -> {
-                if (fireBlockAccessor.getBurnOdds().getInt(block) < 1) {
-                    fireBlockAccessor.getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
-                    fireBlockAccessor.getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
+                if (fireBlockAccessor.bountifulfares_getBurnOdds().getInt(block) < 1) {
+                    fireBlockAccessor.bountifulfares_getIgniteOdds().put(block, integerIntegerPair.getFirst().intValue());
+                    fireBlockAccessor.bountifulfares_getBurnOdds().put(block, integerIntegerPair.getSecond().intValue());
                 }
             });
         }
