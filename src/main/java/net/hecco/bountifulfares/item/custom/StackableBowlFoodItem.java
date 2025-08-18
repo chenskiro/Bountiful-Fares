@@ -12,7 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
+
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,7 @@ public class StackableBowlFoodItem extends Item {
     public StackableBowlFoodItem(Item.Properties settings) {
         super(settings.craftRemainder(Items.BOWL));
     }
+
     public StackableBowlFoodItem(List<MobEffectInstance> effects, Item.Properties settings) {
         super(settings.craftRemainder(Items.BOWL));
         this.effects = effects;
@@ -36,22 +38,22 @@ public class StackableBowlFoodItem extends Item {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.awardStat(Stats.ITEM_USED.get(this));
         }
-            if (user instanceof Player && !((Player)user).getAbilities().instabuild) {
-                ItemStack itemStack = new ItemStack(Items.BOWL);
-                Player playerEntity = (Player)user;
-                if (!playerEntity.getInventory().add(itemStack)) {
-                    playerEntity.drop(itemStack, false);
-                }
+        if (user instanceof Player && !((Player) user).getAbilities().instabuild) {
+            ItemStack itemStack = new ItemStack(Items.BOWL);
+            Player playerEntity = (Player) user;
+            if (!playerEntity.getInventory().add(itemStack)) {
+                playerEntity.drop(itemStack, false);
             }
+        }
 
-            return stack;
+        return stack;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         if (effects != null && !effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-            PotionUtils.addPotionTooltip(effects, tooltip, 1.0F);
+            PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, context.tickRate());
         }
     }
 }

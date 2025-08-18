@@ -18,7 +18,7 @@ public class HoneysuckleTeaBottleItem extends TeaBottleItem {
         ArrayList<Holder<MobEffect>> list = new ArrayList<>();
         list.add(MobEffects.WITHER);
         list.add(MobEffects.WEAKNESS);
-        list.add(BFEffects.getMobEffect(BFEffects.ACIDIC));
+        list.add((BFEffects.ACIDIC));
         return list;
     }
 }

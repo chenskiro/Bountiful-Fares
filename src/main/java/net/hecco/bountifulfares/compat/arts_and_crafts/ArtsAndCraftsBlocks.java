@@ -21,7 +21,7 @@ import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class ArtsAndCraftsBlocks {
 
-    public static DeferredHolder<Block,Block> CORK_PICKETS = registerBlock("cork_pickets", () -> new CompatPicketsBlock(ARTS_AND_CRAFTS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
+    public static DeferredHolder<Block,Block> CORK_PICKETS = registerBlock("cork_pickets", () -> new CompatPicketsBlock(ARTS_AND_CRAFTS_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant CORK = new TrellisVariant(BountifulFares.ARTS_AND_CRAFTS_MOD_ID, "cork", ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, "cork_planks"), TRELLIS_RENDER_CUTOUT);
 

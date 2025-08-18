@@ -11,11 +11,11 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraftforge.common.util.ForgeSoundType;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.DeferredSoundType;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -86,14 +86,14 @@ public class BFSounds {
     public static final Holder<SoundEvent> NOTE_BLOCK_OLD_PIANO = registerSoundReference("old_piano");
     public static final Holder<SoundEvent> NOTE_BLOCK_STEEL_DRUM = registerSoundReference("steel_drum");
 
-    public static final SoundType CERAMIC_TILES = new ForgeSoundType(1f, 1f, () -> CERAMIC_TILES_BREAK, () -> CERAMIC_TILES_STEP, () -> CERAMIC_TILES_PLACE, () -> CERAMIC_TILES_HIT, () -> CERAMIC_TILES_FALL);
-    public static final SoundType CERAMIC_DECORATION = new ForgeSoundType(1f, 1f, () -> CERAMIC_DECORATION_BREAK, () -> CERAMIC_DECORATION_STEP, () -> CERAMIC_DECORATION_PLACE, () -> CERAMIC_DECORATION_HIT, () -> CERAMIC_DECORATION_FALL);
-    public static final SoundType LIGHT_WOOD = new ForgeSoundType(1f, 1.1f, () -> LIGHT_WOOD_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
-    public static final SoundType JACK_O_STRAW = new ForgeSoundType(1f, 1f, () -> JACK_O_STRAW_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
-    public static final SoundType SILENT = new ForgeSoundType(1f, 1f, () -> SoundEvents.EMPTY, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
-    public static final SoundType PLANTED_TRELLIS = new ForgeSoundType(1f, 1.1f, () -> PLANTED_TRELLIS_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
-    public static final SoundType SPONGEKIN = new ForgeSoundType(1f, 1.1f, () -> SPONGEKIN_BREAK, () -> SPONGEKIN_STEP, () -> SPONGEKIN_PLACE, () -> SoundEvents.WOOD_HIT, () -> SoundEvents.WOOD_FALL);
-    public static final SoundType COIR = new ForgeSoundType(1f, 1f, () -> COIR_BREAK, () -> COIR_STEP, () -> COIR_PLACE, () -> COIR_HIT, () -> COIR_FALL);
+    public static final SoundType CERAMIC_TILES = new DeferredSoundType(1f, 1f, () -> CERAMIC_TILES_BREAK, () -> CERAMIC_TILES_STEP, () -> CERAMIC_TILES_PLACE, () -> CERAMIC_TILES_HIT, () -> CERAMIC_TILES_FALL);
+    public static final SoundType CERAMIC_DECORATION = new DeferredSoundType(1f, 1f, () -> CERAMIC_DECORATION_BREAK, () -> CERAMIC_DECORATION_STEP, () -> CERAMIC_DECORATION_PLACE, () -> CERAMIC_DECORATION_HIT, () -> CERAMIC_DECORATION_FALL);
+    public static final SoundType LIGHT_WOOD = new DeferredSoundType(1f, 1.1f, () -> LIGHT_WOOD_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
+    public static final SoundType JACK_O_STRAW = new DeferredSoundType(1f, 1f, () -> JACK_O_STRAW_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
+    public static final SoundType SILENT = new DeferredSoundType(1f, 1f, () -> SoundEvents.EMPTY, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
+    public static final SoundType PLANTED_TRELLIS = new DeferredSoundType(1f, 1.1f, () -> PLANTED_TRELLIS_BREAK, () -> LIGHT_WOOD_STEP, () -> LIGHT_WOOD_PLACE, () -> LIGHT_WOOD_HIT, () -> LIGHT_WOOD_FALL);
+    public static final SoundType SPONGEKIN = new DeferredSoundType(1f, 1.1f, () -> SPONGEKIN_BREAK, () -> SPONGEKIN_STEP, () -> SPONGEKIN_PLACE, () -> SoundEvents.WOOD_HIT, () -> SoundEvents.WOOD_FALL);
+    public static final SoundType COIR = new DeferredSoundType(1f, 1f, () -> COIR_BREAK, () -> COIR_STEP, () -> COIR_PLACE, () -> COIR_HIT, () -> COIR_FALL);
 
     private static Holder.Reference<SoundEvent> registerSoundReference(String name) {
         ResourceLocation id = BountifulFares.rl(name);

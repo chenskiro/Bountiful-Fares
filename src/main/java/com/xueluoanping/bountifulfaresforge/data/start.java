@@ -44,6 +44,7 @@ import net.hecco.bountifulfares.datagen.twigs.TwigsRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -85,7 +86,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new MintBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new MintBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new MintRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new MintRecipeProvider(packOutput,lookupProvider));
         }
 
         // ARTS_AND_CRAFTS
@@ -101,7 +102,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DyeDepotBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DyeDepotBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DyeDepotRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DyeDepotRecipeProvider(packOutput,lookupProvider));
         }
 
         // EXCESSIVE_BUILDING
@@ -109,7 +110,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new ExcessiveBuildingRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new ExcessiveBuildingRecipeProvider(packOutput,lookupProvider));
         }
 
         // FARMERS_DELIGHT
@@ -117,7 +118,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new FarmersDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new FarmersDelightBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(packOutput,lookupProvider));
         }
 
         // NATURES_SPIRIT
@@ -127,7 +128,7 @@ public final class start {
             NaturesSpiritBlockTagProvider naturesSpiritBlockTagProvider = new NaturesSpiritBlockTagProvider(packOutput, lookupProvider);
             generator.addProvider(event.includeServer(), naturesSpiritBlockTagProvider);
             generator.addProvider(event.includeServer(), new NaturesSpiritItemTagProvider(packOutput, lookupProvider, naturesSpiritBlockTagProvider.contentsGetter()));
-            generator.addProvider(event.includeServer(), new NaturesSpiritRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new NaturesSpiritRecipeProvider(packOutput,lookupProvider));
         }
 
         // SPAWN
@@ -135,7 +136,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new SpawnBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new SpawnBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new SpawnRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new SpawnRecipeProvider(packOutput,lookupProvider));
         }
 
         // TWIGS
@@ -143,7 +144,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new TwigsBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new TwigsBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new TwigsRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new TwigsRecipeProvider(packOutput,lookupProvider));
         }
 
         // DELICATE_DYES
@@ -151,7 +152,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DelicateDyesBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DelicateDyesBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DelicateDyesRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DelicateDyesRecipeProvider(packOutput,lookupProvider));
         }
 
         // APPLEDOG
@@ -159,7 +160,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new AppledogBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new AppledogBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new AppledogRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new AppledogRecipeProvider(packOutput,lookupProvider));
         }
 
         // DUNGEONS_DELIGHT
@@ -167,7 +168,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DungeonsDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DungeonsDelightBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DungeonsDelightRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DungeonsDelightRecipeProvider(packOutput,lookupProvider));
         }
 
         // DISABLE_COMPAT_ITEMS

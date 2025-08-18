@@ -3,22 +3,13 @@ package net.hecco.bountifulfares.registry.content;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.effect.*;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class BFEffects {
     // public static final Holder<MobEffect> ACIDIC = registerStatusEffect("acidic", new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
     // public static final Holder<MobEffect> STUPOR = registerStatusEffect("stupor", new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8));
@@ -39,31 +30,16 @@ public class BFEffects {
     // }
     // public static void registerEffects() {
     // }
+    public static final DeferredRegister<MobEffect> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(Registries.MOB_EFFECT, BountifulFares.MOD_ID);
 
-    public static final MobEffect ACIDIC = new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00);
-    public static final MobEffect STUPOR = new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8);
-    public static final MobEffect EBULLIENCE = new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2);
-    public static final MobEffect ENRICHMENT = new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
+    public static final Holder<MobEffect> ACIDIC = BLOCK_DEFERRED_REGISTER.register("acidic", () -> new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
+    public static final Holder<MobEffect> STUPOR = BLOCK_DEFERRED_REGISTER.register("stupor", () -> new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8));
+    public static final Holder<MobEffect> EBULLIENCE = BLOCK_DEFERRED_REGISTER.register("ebullience", () -> new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2));
+    public static final Holder<MobEffect> ENRICHMENT = BLOCK_DEFERRED_REGISTER.register("enrichment", () -> new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, (BountifulFares.rl("effect.speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(Attributes.ATTACK_SPEED, (BountifulFares.rl("effect.attack_speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(Attributes.ATTACK_DAMAGE, (BountifulFares.rl("effect.attack")), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-            .addAttributeModifier(Attributes.LUCK, (BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-    public static final MobEffect RESTORATION = new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19);
+            .addAttributeModifier(Attributes.LUCK, (BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+    public static final Holder<MobEffect> RESTORATION = BLOCK_DEFERRED_REGISTER.register("restoration", () -> new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19));
 
-
-    @SubscribeEvent
-    public static void onRegister(RegisterEvent event) {
-        event.register(Registries.MOB_EFFECT, registerHelper -> {
-            registerHelper.register(BountifulFares.rl("acidic"), ACIDIC);
-            registerHelper.register(BountifulFares.rl("stupor"), STUPOR);
-            registerHelper.register(BountifulFares.rl("ebullience"), EBULLIENCE);
-            registerHelper.register(BountifulFares.rl("enrichment"), ENRICHMENT);
-            registerHelper.register(BountifulFares.rl("restoration"), RESTORATION);
-        });
-    }
-
-
-    public static Holder<MobEffect> getMobEffect(MobEffect mobEffect) {
-        return BuiltInRegistries.MOB_EFFECT.getHolder(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect)).get();
-    }
 }

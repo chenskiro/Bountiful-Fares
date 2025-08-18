@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeHooks;
 
 public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
 
@@ -49,10 +48,10 @@ public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (!HangingFruitBlock.isFullyGrown(state)
-                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1)) {
+                && CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.1)) {
             BlockState state1 = state.cycle(AGE);
             world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
-            ForgeHooks.onCropsGrowPost(world, pos, state1);
+            CommonHooks.fireCropGrowPost(world, pos, state1);
         }
     }
 

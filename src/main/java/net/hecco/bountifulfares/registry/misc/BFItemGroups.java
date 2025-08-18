@@ -19,6 +19,8 @@ import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -33,11 +35,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraft.world.item.component.CustomData;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -507,13 +511,12 @@ public class BFItemGroups {
     private static void addPaintings(CreativeModeTab.Output entries, HolderLookup.Provider registryLookup, HolderLookup.RegistryLookup<PaintingVariant> registryWrapper, Predicate<Holder<PaintingVariant>> filter, CreativeModeTab.TabVisibility stackVisibility) {
         RegistryOps<Tag> registryOps = RegistryOps.create(NbtOps.INSTANCE, registryLookup);
         registryWrapper.listElements().filter(filter).sorted(PAINTING_VARIANT_COMPARATOR).forEach((paintingVariantEntry) -> {
-            // NbtComponent nbtComponent = NbtComponent.DEFAULT.with(registryOps, PaintingEntity.VARIANT_MAP_CODEC, paintingVariantEntry).getOrThrow().apply((nbt) -> {
-            //     nbt.putString("id", "minecraft:painting");
-            // });
+            CustomData nbtComponent = CustomData.EMPTY.update(registryOps, Painting.VARIANT_MAP_CODEC, paintingVariantEntry).getOrThrow().update((nbt) -> {
+                nbt.putString("id", "minecraft:painting");
+            });
+
             ItemStack itemStack = new ItemStack(Items.PAINTING);
-            // itemStack.set(DataComponentTypes.ENTITY_DATA, nbtComponent);
-            CompoundTag compoundtag = itemStack.getOrCreateTagElement("EntityTag");
-            Painting.storeVariant(compoundtag, paintingVariantEntry);
+            itemStack.set(DataComponents.ENTITY_DATA, nbtComponent);
             entries.accept(itemStack, stackVisibility);
         });
     }

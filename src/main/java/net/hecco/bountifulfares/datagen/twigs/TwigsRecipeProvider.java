@@ -4,22 +4,24 @@ import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvi
 import net.hecco.bountifulfares.compat.twigs.TwigsBlocks;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.world.item.Items;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class TwigsRecipeProvider extends ModNameRecipeProvider {
-    public TwigsRecipeProvider(PackOutput output) {
-        super(output);
+    public TwigsRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
+    
     @Override
-    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    public void buildRecipes(RecipeOutput exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TwigsBlocks.WALNUT_TABLE.get())
                 .pattern("___")
                 .pattern("0 0")

@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.datagen.dye_depot;
 
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
@@ -18,14 +19,12 @@ import static net.hecco.bountifulfares.BountifulFares.DYE_DEPOT_MOD_ID;
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 public class DyeDepotRecipeProvider extends ModNameRecipeProvider {
-    public DyeDepotRecipeProvider(PackOutput generator) {
-        super(generator);
+    public DyeDepotRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         offerJackOStrawRecipes(exporter, DyeDepotBlocks.MAROON_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DYE_DEPOT_MOD_ID, "maroon_wool")));
         offerJackOStrawRecipes(exporter, DyeDepotBlocks.ROSE_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DYE_DEPOT_MOD_ID, "rose_wool")));
         offerJackOStrawRecipes(exporter, DyeDepotBlocks.CORAL_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DYE_DEPOT_MOD_ID, "coral_wool")));
@@ -44,7 +43,7 @@ public class DyeDepotRecipeProvider extends ModNameRecipeProvider {
         offerJackOStrawRecipes(exporter, DyeDepotBlocks.INDIGO_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DYE_DEPOT_MOD_ID, "indigo_wool")));
     }
 
-    public static void offerJackOStrawRecipes(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike wool) {
+    public static void offerJackOStrawRecipes(RecipeOutput exporter, ItemLike output, ItemLike wool) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT.get())
                 .requires(Items.CARVED_PUMPKIN)

@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.mint;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.mint.MintBlocks;
@@ -21,14 +22,12 @@ import static net.hecco.bountifulfares.datagen.bountifulfares.BFRecipeProvider.o
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 public class MintRecipeProvider extends ModNameRecipeProvider {
-    public MintRecipeProvider(PackOutput generator) {
-        super(generator);
+    public MintRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         offerJackOStrawRecipes(exporter, MintBlocks.ACORN_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(ELS_AND_LS_DYES_MOD_ID, "acorn_wool")));
         offerJackOStrawRecipes(exporter, MintBlocks.MAROON_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(ELS_AND_LS_DYES_MOD_ID, "maroon_wool")));
         offerJackOStrawRecipes(exporter, MintBlocks.PEACH_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(ELS_AND_LS_DYES_MOD_ID, "peach_wool")));
@@ -54,7 +53,7 @@ public class MintRecipeProvider extends ModNameRecipeProvider {
         offerPicketsRecipe(exporter, MintBlocks.WINTERGREEN_PICKETS.get(), ResourceLocation.tryBuild(ELS_AND_LS_DYES_MOD_ID, "wintergreen_planks"));
     }
 
-    public static void offerJackOStrawRecipes(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike wool) {
+    public static void offerJackOStrawRecipes(RecipeOutput exporter, ItemLike output, ItemLike wool) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT.get())
                 .requires(Items.CARVED_PUMPKIN)

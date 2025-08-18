@@ -15,17 +15,16 @@ import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import static net.hecco.bountifulfares.BountifulFares.DELICATE_DYES_MOD_ID;
 import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
+import net.minecraft.data.recipes.RecipeOutput;
 
 public class DelicateDyesRecipeProvider extends ModNameRecipeProvider {
-    public DelicateDyesRecipeProvider(PackOutput generator) {
-        super(generator);
+    public DelicateDyesRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         offerJackOStrawRecipes(exporter, DelicateDyesBlocks.CORAL_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DELICATE_DYES_MOD_ID, "coral_wool")));
         offerJackOStrawRecipes(exporter, DelicateDyesBlocks.CANARY_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DELICATE_DYES_MOD_ID, "canary_wool")));
         offerJackOStrawRecipes(exporter, DelicateDyesBlocks.WASABI_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DELICATE_DYES_MOD_ID, "wasabi_wool")));
@@ -36,7 +35,7 @@ public class DelicateDyesRecipeProvider extends ModNameRecipeProvider {
         offerJackOStrawRecipes(exporter, DelicateDyesBlocks.ROSE_JACK_O_STRAW.get(), BuiltInRegistries.ITEM.get(ResourceLocation.tryBuild(DELICATE_DYES_MOD_ID, "rose_wool")));
     }
 
-    public static void offerJackOStrawRecipes(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike wool) {
+    public static void offerJackOStrawRecipes(RecipeOutput exporter, ItemLike output, ItemLike wool) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT.get())
                 .requires(Items.CARVED_PUMPKIN)

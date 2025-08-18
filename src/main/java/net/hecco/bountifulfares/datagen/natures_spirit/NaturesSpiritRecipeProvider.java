@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.natures_spirit;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.natures_spirit.NaturesSpiritBlocks;
@@ -14,14 +15,12 @@ import static net.hecco.bountifulfares.BountifulFares.NATURES_SPIRIT_MOD_ID;
 import static net.hecco.bountifulfares.datagen.bountifulfares.BFRecipeProvider.offerPicketsRecipe;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 public class NaturesSpiritRecipeProvider extends ModNameRecipeProvider {
-    public NaturesSpiritRecipeProvider(PackOutput generator) {
-        super(generator);
+    public NaturesSpiritRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    public void buildRecipes(RecipeOutput exporter) {
         TrellisUtilProvider.registerCompatTrellisRecipe(exporter, NaturesSpiritBlocks.REDWOOD);
         TrellisUtilProvider.registerCompatTrellisRecipe(exporter, NaturesSpiritBlocks.SUGI);
         TrellisUtilProvider.registerCompatTrellisRecipe(exporter, NaturesSpiritBlocks.WISTERIA);

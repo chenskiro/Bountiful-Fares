@@ -3,7 +3,7 @@ package net.hecco.bountifulfares.datagen.yapping;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class YappingCompatLangProvider {
 

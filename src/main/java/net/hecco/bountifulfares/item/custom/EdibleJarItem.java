@@ -13,11 +13,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
+
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class EdibleJarItem extends Item {
         {
             super.appendHoverText(stack, pLevel, tooltip, type);
             if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-                PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+                PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F,pLevel.tickRate());
             }
         }
 

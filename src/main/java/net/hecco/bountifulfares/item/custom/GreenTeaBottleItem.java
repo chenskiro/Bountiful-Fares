@@ -10,13 +10,13 @@ import java.util.List;
 
 public class GreenTeaBottleItem extends TeaBottleItem{
     public GreenTeaBottleItem(Properties settings) {
-        super(List.of(new MobEffectInstance(BFEffects.getMobEffect(BFEffects.STUPOR)), new MobEffectInstance(MobEffects.HUNGER), new MobEffectInstance(BFEffects.getMobEffect(BFEffects.ACIDIC))), settings);
+        super(List.of(new MobEffectInstance((BFEffects.STUPOR)), new MobEffectInstance(MobEffects.HUNGER), new MobEffectInstance((BFEffects.ACIDIC))), settings);
     }
     public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
         ArrayList<Holder<MobEffect>> list = new ArrayList<>();
-        list.add(BFEffects.getMobEffect(BFEffects.STUPOR));
+        list.add((BFEffects.STUPOR));
         list.add(MobEffects.HUNGER);
-        list.add(BFEffects.getMobEffect(BFEffects.ACIDIC));
+        list.add((BFEffects.ACIDIC));
         return list;
     }
 }

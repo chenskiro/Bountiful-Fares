@@ -4,7 +4,8 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
@@ -47,7 +48,7 @@ public class BFPlacedFeatures {
     public static final ResourceKey<PlacedFeature> PATCH_GRASSY_DIRT_KEY = registerKey("patch_grassy_dirt");
 
 
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
+    public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         // var configuredFeatureRegistryEntryLookup = context.lookup(Registries.CONFIGURED_FEATURE);
         // register(context, WALNUT_PLACED_KEY, configuredFeatureRegistryEntryLookup.getOrThrow(BFConfiguredFeatures.WALNUT_KEY),
         //         VegetationPlacements.treePlacement(
@@ -59,12 +60,12 @@ public class BFPlacedFeatures {
         return ResourceKey.create(Registries.PLACED_FEATURE, BountifulFares.rl(name));
     }
 
-    private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+    private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
                                  List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 
-    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key,
+    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key,
                                                                                           Holder<ConfiguredFeature<?, ?>> configuration,
                                                                                           PlacementModifier... modifiers) {
         register(context, key, configuration, List.of(modifiers));

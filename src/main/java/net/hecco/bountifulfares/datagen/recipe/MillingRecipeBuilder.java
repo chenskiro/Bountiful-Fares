@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 
 public class MillingRecipeBuilder implements RecipeBuilder {
     private final Item result;
@@ -65,7 +64,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
 
 
     @Override
-    public void save(Consumer<FinishedRecipe> exporter, ResourceLocation recipeId) {
+    public void save(RecipeOutput exporter, ResourceLocation recipeId) {
         Advancement.Builder builder = Advancement.Builder.recipeAdvancement()
                 .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
@@ -76,7 +75,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
     }
 
     @Override
-    public void save(Consumer<FinishedRecipe> exporter) {
+    public void save(RecipeOutput exporter) {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(this.ingredient.asItem()).getPath() + "_milling");
     }
 

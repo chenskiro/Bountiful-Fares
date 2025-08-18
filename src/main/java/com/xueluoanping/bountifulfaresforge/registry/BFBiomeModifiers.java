@@ -6,16 +6,17 @@ import net.hecco.bountifulfares.registry.tags.BFBiomeTags;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.holdersets.OrHolderSet;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.holdersets.OrHolderSet;
 
 import java.util.List;
 
@@ -60,126 +61,126 @@ public class BFBiomeModifiers {
 
 
     private static ResourceKey<BiomeModifier> createKey(String name) {
-        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, BountifulFares.rl(name));
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, BountifulFares.rl(name));
     }
 
-    public static void bootstrap(BootstapContext<BiomeModifier> context) {
+    public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomeGetter = context.lookup(Registries.BIOME);
         HolderGetter<PlacedFeature> placedGetter = context.lookup(Registries.PLACED_FEATURE);
-        context.register(APPLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(APPLE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_APPLE_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.APPLE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ORANGE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ORANGE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_ORANGE_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.ORANGE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LEMON, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LEMON, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LEMON_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LEMON_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(PLUM, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(PLUM, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_PLUM_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.PLUM_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WALNUT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WALNUT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WALNUT_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WALNUT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(PALM, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(PALM, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_PALM_TREES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.PALM_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         // ground plant or block
 
-        context.register(HONEYSUCKLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(HONEYSUCKLE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_HONEYSUCKLE),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.HONEYSUCKLE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(VIOLET_BELLFLOWER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(VIOLET_BELLFLOWER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_VIOLET_BELLFLOWER),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.VIOLET_BELLFLOWER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(CHAMOMILE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(CHAMOMILE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_CHAMOMILE),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.CHAMOMILE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_LEEKS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_LEEKS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_LEEKS),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_LEEKS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_LEEKS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_LEEKS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_LEEKS),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_LEEKS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_MAIZE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_MAIZE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_MAIZE),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_MAIZE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_MAIZE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_MAIZE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_MAIZE),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_MAIZE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(TEA_SHRUB, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(TEA_SHRUB, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_TEA_SHRUB),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.TEA_SHRUB_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         // start config
-        context.register(PATCH_GRASSY_DIRT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(PATCH_GRASSY_DIRT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 new OrHolderSet<>(List.of(HolderSet.direct(biomeGetter.getOrThrow(Biomes.FOREST)), HolderSet.direct(biomeGetter.getOrThrow(Biomes.FLOWER_FOREST)), HolderSet.direct(biomeGetter.getOrThrow(Biomes.BIRCH_FOREST)), HolderSet.direct(biomeGetter.getOrThrow(Biomes.DARK_FOREST)), HolderSet.direct(biomeGetter.getOrThrow(Biomes.OLD_GROWTH_BIRCH_FOREST)))),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.PATCH_GRASSY_DIRT_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_WHEAT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_WHEAT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_WHEAT),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_WHEAT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_WHEAT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_WHEAT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_WHEAT),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_WHEAT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_CARROTS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_CARROTS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_CARROTS),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_CARROTS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_CARROTS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_CARROTS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_CARROTS),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_CARROTS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_POTATOES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_POTATOES, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_POTATOES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_POTATOES_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_POTATOES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_POTATOES, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_POTATOES),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_POTATOES_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(WILD_BEETROOTS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(WILD_BEETROOTS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_WILD_BEETROOT),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.WILD_BEETROOTS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(LARGE_WILD_BEETROOTS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(LARGE_WILD_BEETROOTS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeGetter.getOrThrow(BFBiomeTags.HAS_LARGE_WILD_BEETROOT),
                 HolderSet.direct(placedGetter.getOrThrow(BFPlacedFeatures.LARGE_WILD_BEETROOTS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));

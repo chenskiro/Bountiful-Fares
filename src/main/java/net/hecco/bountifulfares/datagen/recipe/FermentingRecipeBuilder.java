@@ -6,7 +6,6 @@ import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +61,7 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
 
 
     @Override
-    public void save(Consumer<FinishedRecipe>  exporter, ResourceLocation recipeId) {
+    public void save(RecipeOutput  exporter, ResourceLocation recipeId) {
         Advancement.Builder builder = Advancement.Builder.recipeAdvancement()
                 .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
@@ -75,7 +74,7 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
     }
 
     @Override
-    public void save(Consumer<FinishedRecipe> exporter) {
+    public void save(RecipeOutput exporter) {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(ingredient.asItem()).getPath() + "_fermenting");
     }
 

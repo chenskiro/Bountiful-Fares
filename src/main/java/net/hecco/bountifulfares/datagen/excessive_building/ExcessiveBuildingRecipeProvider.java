@@ -1,6 +1,8 @@
 package net.hecco.bountifulfares.datagen.excessive_building;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
@@ -17,18 +19,17 @@ import static net.hecco.bountifulfares.BountifulFares.EXCESSIVE_BUILDING_MOD_ID;
 import static net.hecco.bountifulfares.datagen.bountifulfares.BFRecipeProvider.offerPicketsRecipe;
 import static net.minecraft.data.BlockFamilies.familyBuilder;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 
 public class ExcessiveBuildingRecipeProvider extends ModNameRecipeProvider {
-    public ExcessiveBuildingRecipeProvider(PackOutput generator) {
-        super(generator);
+    public ExcessiveBuildingRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
-
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         TrellisUtilProvider.registerCompatTrellisRecipe(exporter, ExcessiveBuildingBlocks.ANCIENT);
         offerPicketsRecipe(exporter, ExcessiveBuildingBlocks.ANCIENT_PICKETS.get(), ResourceLocation.tryBuild(EXCESSIVE_BUILDING_MOD_ID, "ancient_planks"));
         offerVerticalStairsRecipe(exporter, ExcessiveBuildingBlocks.HOARY_VERTICAL_STAIRS.get(), BFBlocks.HOARY_PLANKS.get());
@@ -78,7 +79,7 @@ public class ExcessiveBuildingRecipeProvider extends ModNameRecipeProvider {
         generateRecipes(exporter, walnutMosaicFamily);
     }
 
-    private static void offerVerticalStairsRecipe(Consumer<FinishedRecipe> exporter, ItemLike output, ItemLike input) {
+    private static void offerVerticalStairsRecipe(RecipeOutput exporter, ItemLike output, ItemLike input) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4)
                 .define('#', input)
                 .pattern("###")

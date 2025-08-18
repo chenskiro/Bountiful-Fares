@@ -2,7 +2,6 @@ package net.hecco.bountifulfares.datagen.arts_and_crafts;
 
 import net.hecco.bountifulfares.datagen.trellis.TrellisUtilProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.arts_and_crafts.ArtsAndCraftsBlocks;
@@ -20,7 +19,7 @@ public class ArtsAndCraftsRecipeProvider extends ModNameRecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         TrellisUtilProvider.registerCompatTrellisRecipe(exporter, ArtsAndCraftsBlocks.CORK);
         offerPicketsRecipe(exporter, ArtsAndCraftsBlocks.CORK_PICKETS.get(), ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, "cork_planks"));
     }

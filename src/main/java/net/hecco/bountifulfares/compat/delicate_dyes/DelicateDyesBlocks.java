@@ -19,14 +19,14 @@ import static net.hecco.bountifulfares.BountifulFares.DELICATE_DYES_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class DelicateDyesBlocks {
-    public static final DeferredHolder<Block,Block> CORAL_JACK_O_STRAW = registerBlock("coral_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> CANARY_JACK_O_STRAW = registerBlock("canary_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> WASABI_JACK_O_STRAW = registerBlock("wasabi_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> SACRAMENTO_JACK_O_STRAW = registerBlock("sacramento_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> SKY_JACK_O_STRAW = registerBlock("sky_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> BLURPLE_JACK_O_STRAW = registerBlock("blurple_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> SANGRIA_JACK_O_STRAW = registerBlock("sangria_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
-    public static final DeferredHolder<Block,Block> ROSE_JACK_O_STRAW = registerBlock("rose_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> CORAL_JACK_O_STRAW = registerBlock("coral_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> CANARY_JACK_O_STRAW = registerBlock("canary_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> WASABI_JACK_O_STRAW = registerBlock("wasabi_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> SACRAMENTO_JACK_O_STRAW = registerBlock("sacramento_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> SKY_JACK_O_STRAW = registerBlock("sky_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> BLURPLE_JACK_O_STRAW = registerBlock("blurple_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> SANGRIA_JACK_O_STRAW = registerBlock("sangria_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
+    public static final DeferredHolder<Block,Block> ROSE_JACK_O_STRAW = registerBlock("rose_jack_o_straw", () -> new CompatJackOStrawBlock(DELICATE_DYES_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.RED_JACK_O_STRAW.get())));
 
     public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
         DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(DELICATE_DYES_MOD_ID, name), block);

@@ -29,7 +29,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -99,7 +98,7 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
 
                 }
             }
-            ForgeHooks.onCropsGrowPost(world, pos, state);
+            CommonHooks.fireCropGrowPost(world, pos, state);
         }
     }
 

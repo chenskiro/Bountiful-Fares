@@ -19,7 +19,7 @@ import static net.hecco.bountifulfares.BountifulFares.EXCESSIVE_BUILDING_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class AppledogBlocks {
-    public static final DeferredHolder<Block,Block> APPLEDOG_BLOCK = registerBlock("appledog_block", () -> new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.APPLE_BLOCK.get()).strength(1f, 1000f)));
+    public static final DeferredHolder<Block,Block> APPLEDOG_BLOCK = registerBlock("appledog_block", () -> new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.APPLE_BLOCK.get()).strength(1f, 1000f)));
 
     public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
         DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), block);

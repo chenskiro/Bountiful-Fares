@@ -47,7 +47,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.LazyOptional;
 
 
@@ -162,11 +161,11 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         } else if (!isFullyGrown(state)) {
             if (
                     // world.random.nextFloat() < 0.2f
-                      ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.2f)
+                      CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.2f)
             ) {
                 BlockState state1 = state.cycle(AGE);
                 world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
-                ForgeHooks.onCropsGrowPost(world, pos, state1);
+                CommonHooks.fireCropGrowPost(world, pos, state1);
             }
         }
     }

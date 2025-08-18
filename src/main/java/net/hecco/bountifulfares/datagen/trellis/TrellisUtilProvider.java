@@ -12,8 +12,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -179,7 +179,7 @@ public class TrellisUtilProvider extends BlockTagsProvider {
         }
     }
 
-    public static void registerTrellisRecipe(Consumer<FinishedRecipe> exporter, TrellisVariant trellis) {
+    public static void registerTrellisRecipe(RecipeOutput exporter, TrellisVariant trellis) {
         if (trellis.getCraftingItem() != null) {
             ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TrellisUtil.getTrellisFromVariant(trellis).get())
                     .pattern("# #")
@@ -194,7 +194,7 @@ public class TrellisUtilProvider extends BlockTagsProvider {
         }
     }
 
-    public static void registerCompatTrellisRecipe(Consumer<FinishedRecipe> exporter, TrellisVariant trellis) {
+    public static void registerCompatTrellisRecipe(RecipeOutput exporter, TrellisVariant trellis) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TrellisUtil.getTrellisFromVariant(trellis).get())
                 .pattern("# #")
                 .pattern(" P ")

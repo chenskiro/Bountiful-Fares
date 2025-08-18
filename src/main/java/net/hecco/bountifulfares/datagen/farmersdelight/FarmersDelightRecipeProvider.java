@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.datagen.farmersdelight;
 
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvider;
 import net.hecco.bountifulfares.compat.farmersdelight.FarmersDelightBlocks;
@@ -11,14 +12,13 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 public class FarmersDelightRecipeProvider extends ModNameRecipeProvider {
-    public FarmersDelightRecipeProvider(PackOutput generator) {
-        super(generator);
+    public FarmersDelightRecipeProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> registries) {
+        super(generator,registries);
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(RecipeOutput exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, FarmersDelightBlocks.HOARY_CABINET.get())
                 .define('_', BFBlocks.HOARY_SLAB.get())
                 .define('D', BFBlocks.HOARY_TRAPDOOR.get())

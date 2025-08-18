@@ -31,7 +31,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 public class HangingGoldenAppleBlock extends BushBlock {
 
@@ -101,18 +101,18 @@ public class HangingGoldenAppleBlock extends BushBlock {
         if (world.getMaxLocalRawBrightness(pos) < 8) {
             if (!HangingGoldenAppleBlock.isFullyGrown(state)
                     // && random.nextFloat() < 0.025
-                    && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.025)
+                    && CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.025)
             ) {
                 BlockState state1 = state.cycle(AGE);
                 world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
-                ForgeHooks.onCropsGrowPost(world, pos, state1);
+                CommonHooks.fireCropGrowPost(world, pos, state1);
             }
         } else {
-            if (ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1)) {
+            if (CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.1)) {
                 BlockState state1 = BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get().defaultBlockState().setValue(HangingWitheredGoldenAppleBlock.AGE, state.getValue(AGE));
                 world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
                 world.playSound(null, pos, BFSounds.GOLDEN_APPLE_WITHER, SoundSource.BLOCKS, 1.0f, 0.6f + random.nextFloat() / 2);
-                ForgeHooks.onCropsGrowPost(world, pos, state1);
+                CommonHooks.fireCropGrowPost(world, pos, state1);
             }
         }
     }
@@ -125,25 +125,25 @@ public class HangingGoldenAppleBlock extends BushBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
         if (i == 5) {
-            HangingGoldenAppleBlock.popResource(world, pos, new ItemStack(Items.GOLDEN_APPLE, 1));
-            world.playSound(null, pos, BFSounds.HANGING_FRUIT_PICK, SoundSource.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
-            if (!world.isClientSide()) {
+            HangingGoldenAppleBlock.popResource(level, pos, new ItemStack(Items.GOLDEN_APPLE, 1));
+            level.playSound(null, pos, BFSounds.HANGING_FRUIT_PICK, SoundSource.BLOCKS, 1.0f, 0.8f + level.random.nextFloat() * 0.4f);
+            if (!level.isClientSide()) {
                 if (BountifulFares.CONFIG.isFruitReplaceWhenPicked()) {
                     BlockState blockState = state.setValue(AGE, 0);
-                    world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
-                    world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
+                    level.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
                 } else {
-                    world.removeBlock(pos, false);
+                    level.removeBlock(pos, false);
                 }
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, level, pos, player, hitResult);
     }
-
+    
     private static boolean isFullyGrown(BlockState state) {
         return state.getValue(AGE) == 5;
     }

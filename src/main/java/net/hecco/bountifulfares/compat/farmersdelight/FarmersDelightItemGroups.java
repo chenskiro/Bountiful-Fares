@@ -5,7 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 public class FarmersDelightItemGroups {
     public static final ResourceKey<CreativeModeTab> BOUNTIFUL_FARES_TAB =
@@ -18,11 +18,11 @@ public class FarmersDelightItemGroups {
     
     public static void onBuildCreativeModeTabContentsEvent(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(BOUNTIFUL_FARES_TAB)) {
-            event.accept(FarmersDelightBlocks.HOARY_CABINET);
-            event.accept(FarmersDelightBlocks.WALNUT_CABINET);
+            event.accept(FarmersDelightBlocks.HOARY_CABINET.get());
+            event.accept(FarmersDelightBlocks.WALNUT_CABINET.get());
         } else if (event.getTabKey().equals(FARMERS_DELIGHT_TAB)) {
-            event.accept(FarmersDelightBlocks.HOARY_CABINET);
-            event.accept(FarmersDelightBlocks.WALNUT_CABINET);
+            event.accept(FarmersDelightBlocks.HOARY_CABINET.get());
+            event.accept(FarmersDelightBlocks.WALNUT_CABINET.get());
         }
     }
 

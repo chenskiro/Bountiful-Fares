@@ -30,7 +30,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
@@ -198,14 +197,14 @@ public class MaizeCropBlock extends CropBlock implements BonemealableBlock {
         int i = Math.min(state.getValue(AGE) + 1, 7);
         if (
             // this.canGrow(world, pos, state, i)
-                ForgeHooks.onCropsGrowPre(world, pos, state, this.canGrow(world, pos, state, i))) {
+                CommonHooks.canCropGrow(world, pos, state, this.canGrow(world, pos, state, i))) {
             BlockState state1 = state.setValue(AGE, i);
             world.setBlock(pos, state1, 2);
             if (i >= 4) {
                 BlockPos blockPos = pos.above();
                 world.setBlock(blockPos, withWaterloggedState(world, pos, (this.defaultBlockState().setValue(AGE, i)).setValue(HALF, DoubleBlockHalf.UPPER)), 3);
             }
-            ForgeHooks.onCropsGrowPost(world, pos, state1);
+            CommonHooks.fireCropGrowPost(world, pos, state1);
         }
     }
 

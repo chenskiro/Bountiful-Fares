@@ -18,7 +18,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
+
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +39,7 @@ public class TeaBottleItem extends Item {
         if (user instanceof ServerPlayer serverPlayerEntity) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.awardStat(Stats.ITEM_USED.get(this));
-            for (MobEffect effect : getStatusEffectsToRemove()) {
+            for (Holder<MobEffect> effect : getStatusEffectsToRemove()) {
                 user.removeEffect(effect);
             }
         }
@@ -75,16 +76,16 @@ public class TeaBottleItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
         return ItemUtils.startUsingInstantly(world, user, hand);
     }
-
+    
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         if (BountifulFares.CONFIG.effectTooltips) {
-            PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(BFEffects.EBULLIENCE, 3600, 0, true, true)), tooltip, 1.0F);
+            PotionContents.addPotionTooltip(List.of(new MobEffectInstance(BFEffects.EBULLIENCE, 3600, 0, true, true)), tooltip::add, 1.0F,context.tickRate());
             tooltip.add(CommonComponents.EMPTY);
             tooltip.add(Component.translatable("tooltip.bountifulfares.removes").withStyle(ChatFormatting.GRAY));
             for (MobEffectInstance effect : removedEffects) {
-                tooltip.add(Component.translatable(effect.getDescriptionId().formatted(effect.getEffect().getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
+                tooltip.add(Component.translatable(effect.getDescriptionId().formatted(effect.getEffect().value().getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
             }
         }
     }
