@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,16 +14,19 @@ import java.util.List;
 
 public class EffectFoodItem extends Item {
     public final List<MobEffectInstance> effects;
+
     public EffectFoodItem(List<MobEffectInstance> effects, Properties settings) {
         super(settings);
         this.effects = effects;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, pLevel, tooltip, type);
-        if (effects != null && !effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-            PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+    public void appendHoverText(ItemStack stack, TooltipContext pLevel, List<Component> tooltip, TooltipFlag type) {
+        {
+            super.appendHoverText(stack, pLevel, tooltip, type);
+            if (effects != null && !effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
+                PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+            }
         }
     }
 }

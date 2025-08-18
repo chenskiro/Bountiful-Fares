@@ -43,7 +43,7 @@ public class MeadBottleItem extends LiquidBottleItem {
         if (BountifulFares.CONFIG.effectTooltips) {
             tooltip.add(CommonComponents.EMPTY);
             tooltip.add(Component.translatable("tooltip.bountifulfares.removes").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.value().getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
         }
     }
 }

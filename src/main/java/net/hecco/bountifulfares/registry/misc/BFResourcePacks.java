@@ -8,9 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.neoforged.fml.loading.moddiscovery.ModFile;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 import java.util.Calendar;
 import java.util.Optional;

@@ -1,9 +1,11 @@
 package net.hecco.bountifulfares.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -16,21 +18,18 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.AbstractCandleBlock;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -53,9 +52,9 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty LIT = AbstractCandleBlock.LIT;
     public static boolean canBeLit;
-    private MobEffect effect;
+    private Holder<MobEffect> effect;
 
-    public InfusedCandleBlock(MobEffect effect, Properties settings) {
+    public InfusedCandleBlock(Holder<MobEffect> effect, Properties settings) {
         super(settings);
         this.effect = effect;
         canBeLit = canBeLit(defaultBlockState());
@@ -64,11 +63,12 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
 
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
-        super.appendHoverText(stack, world, tooltip, options);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltip, tooltipFlag);
         tooltip.add(CommonComponents.EMPTY);
         tooltip.add(Component.translatable("tooltip.bountifulfares.when_lit").withStyle(ChatFormatting.GRAY));
-        PotionUtils.addPotionTooltip(List.of(new MobEffectInstance(effect, 1, 0)), tooltip, 1.0F);
+        PotionContents.addPotionTooltip(List.of(new MobEffectInstance(effect, 1, 0)), tooltip::add, 1.0F, context.tickRate());
+
     }
 
     @Override
@@ -108,6 +108,12 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
         return null;
+    }
+    public static final MapCodec<? extends BaseEntityBlock> CODEC = simpleCodec(InfusedCandleBlock::new);
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

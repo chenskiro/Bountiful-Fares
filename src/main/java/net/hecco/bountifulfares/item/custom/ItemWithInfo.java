@@ -16,7 +16,7 @@ public class ItemWithInfo extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         //        if (BountifulFares.CONFIG.isEnableItemGuideTooltips()) {
 //            if (Screen.hasShiftDown()) {
 //                writeInfo(tooltip);
@@ -24,7 +24,7 @@ public class ItemWithInfo extends Item {
 //                tooltip.add(Text.literal("§8Hold Shift for More Info..."));
 //            }
 //        }
-        super.appendHoverText(stack, context, tooltip, type);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
     public void writeInfo(List<Component> tooltip) {

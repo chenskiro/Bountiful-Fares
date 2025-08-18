@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraftforge.registries.RegistryObject;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -167,8 +167,8 @@ public class TrellisVariant {
         renderCutoutList.add(BFTrellises.DECORATIVE_TRELLISES.get(vine.getName() + this.getBlockName()));
     }
 
-    public RegistryObject<Block> registerCompatBlock(String id, String name, Supplier<Block> block) {
-        RegistryObject<Block> rBlock = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
+    public DeferredHolder<Block,Block> registerCompatBlock(String id, String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> rBlock = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(this.MOD_ID, name), block);
         BFBlocks.attachCache(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(this.MOD_ID, name), () -> new CompatBlockItem(this.MOD_ID, rBlock.get(), new Item.Properties()));
         return rBlock;
     }

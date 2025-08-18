@@ -40,7 +40,7 @@ public class AppledogBlock extends CompatBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player,InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!state.getValue(JOY)) {
             world.setBlockAndUpdate(pos, state.setValue(JOY, true));
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.WOLF_AMBIENT, SoundSource.BLOCKS, 1.0f,1.0f + world.random.nextFloat() / 3);

@@ -12,7 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 
 import java.util.function.Supplier;
 
@@ -20,13 +21,13 @@ import static net.hecco.bountifulfares.registry.content.BFTrellises.TRELLIS_REND
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class DungeonsDelightBlocks {
-    public static RegistryObject<Block> WORMWOOD_PICKETS = registerBlock("wormwood_pickets", ()->new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
+    public static DeferredHolder<Block,Block> WORMWOOD_PICKETS = registerBlock("wormwood_pickets", ()->new CompatPicketsBlock(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant WORMWOOD = new TrellisVariant(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood", ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, "wormwood_planks"), TRELLIS_RENDER_CUTOUT);
 
 
-    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, name), block);
+    public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.DUNGEONS_DELIGHT_MOD_ID, name), block);
         registerBlockItem(name, blockRegistryObject);
         compatBlocks.add(blockRegistryObject);
         return blockRegistryObject;

@@ -4,6 +4,7 @@ import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -55,7 +56,7 @@ public class TeaBottleItem extends Item {
             return stack;
         }
     }
-    public ArrayList<MobEffect> getStatusEffectsToRemove() {
+    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
         return new ArrayList<>();
     }
 

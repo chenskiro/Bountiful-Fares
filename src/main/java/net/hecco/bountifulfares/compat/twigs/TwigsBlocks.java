@@ -10,7 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 
 import java.util.function.Supplier;
 
@@ -20,13 +21,13 @@ import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class TwigsBlocks {
 
-    public static final RegistryObject<Block> WALNUT_TABLE = registerBlock("walnut_table",()-> new TwigsTableBlock(TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.WALNUT_PLANKS.get())));
-    public static final RegistryObject<Block> HOARY_TABLE = registerBlock("hoary_table", ()->new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.HOARY_PLANKS.get())));
-    public static final RegistryObject<Block> FELDSPAR_LAMP = registerBlock("feldspar_lamp",()-> new TwigsLampBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(4.5F).sound(TwigsSounds.LAMP).lightLevel(createLightLevelFromLitBlockState(8))));
+    public static final DeferredHolder<Block,Block> WALNUT_TABLE = registerBlock("walnut_table",()-> new TwigsTableBlock(TWIGS_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.WALNUT_PLANKS.get())));
+    public static final DeferredHolder<Block,Block> HOARY_TABLE = registerBlock("hoary_table", ()->new TwigsTableBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.ofFullCopy(BFBlocks.HOARY_PLANKS.get())));
+    public static final DeferredHolder<Block,Block> FELDSPAR_LAMP = registerBlock("feldspar_lamp",()-> new TwigsLampBlock(BountifulFares.TWIGS_MOD_ID, BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(4.5F).sound(TwigsSounds.LAMP).lightLevel(createLightLevelFromLitBlockState(8))));
 
 
-    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.TWIGS_MOD_ID, name), block);
+    public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(BountifulFares.TWIGS_MOD_ID, name), block);
         registerBlockItem(name, blockRegistryObject);
         compatBlocks.add(blockRegistryObject);
         return blockRegistryObject;

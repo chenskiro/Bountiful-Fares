@@ -2,15 +2,8 @@ package net.hecco.bountifulfares.compat;
 
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.DeferredRegister;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static net.hecco.bountifulfares.BountifulFares.*;
 

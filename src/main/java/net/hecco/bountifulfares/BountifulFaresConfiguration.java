@@ -1,7 +1,7 @@
 package net.hecco.bountifulfares;
 
 import com.google.gson.GsonBuilder;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLLoader;
 
 import java.io.File;
 import java.io.IOException;

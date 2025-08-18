@@ -35,8 +35,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+
 import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.Comparator;
@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class BFItemGroups {
     private static final Map<ResourceKey<CreativeModeTab>, CreativeModeTab> creativeModeTabs = new HashMap<>();
 

@@ -9,13 +9,14 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = BountifulFares.MOD_ID)
+@EventBusSubscriber(modid = BountifulFares.MOD_ID)
 public class BFTooltipEvents {
 
     @SubscribeEvent
@@ -30,7 +31,7 @@ public class BFTooltipEvents {
             } else if (item == Items.HONEY_BOTTLE) {
                 tooltip.add(CommonComponents.EMPTY);
                 tooltip.add(Component.translatable("tooltip.bountifulfares.removes").withStyle(ChatFormatting.GRAY));
-                tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
+                tooltip.add(Component.translatable(new MobEffectInstance(MobEffects.POISON).getDescriptionId().formatted(MobEffects.POISON.value().getCategory().getTooltipFormatting())).withStyle(ChatFormatting.RED));
             }
         }
     }

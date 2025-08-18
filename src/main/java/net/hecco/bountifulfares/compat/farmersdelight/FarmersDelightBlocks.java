@@ -10,7 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.registries.RegistryObject;
+
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.Supplier;
 
@@ -19,11 +20,11 @@ import static net.hecco.bountifulfares.BountifulFares.FARMERS_DELIGHT_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class FarmersDelightBlocks {
-    public static final RegistryObject<Block> WALNUT_CABINET = registerBlock("walnut_cabinet",()-> new CabinetBlock(FARMERS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(Blocks.BARREL).mapColor(MapColor.COLOR_BROWN)));
-    public static final RegistryObject<Block> HOARY_CABINET = registerBlock("hoary_cabinet",()->  new CabinetBlock(FARMERS_DELIGHT_MOD_ID, BlockBehaviour.Properties.copy(Blocks.BARREL).mapColor(MapColor.TERRACOTTA_GRAY)));
+    public static final DeferredHolder<Block,Block> WALNUT_CABINET = registerBlock("walnut_cabinet",()-> new CabinetBlock(FARMERS_DELIGHT_MOD_ID, BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).mapColor(MapColor.COLOR_BROWN)));
+    public static final DeferredHolder<Block,Block> HOARY_CABINET = registerBlock("hoary_cabinet",()->  new CabinetBlock(FARMERS_DELIGHT_MOD_ID, BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL).mapColor(MapColor.TERRACOTTA_GRAY)));
 
-    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), block);
+    public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(FARMERS_DELIGHT_MOD_ID, name), block);
         registerBlockItem(name, blockRegistryObject);
         compatBlocks.add(blockRegistryObject);
         return blockRegistryObject;

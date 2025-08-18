@@ -8,10 +8,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraftforge.common.util.ForgeSoundType;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.DeferredSoundType;
+import net.neoforged.neoforge.registries.RegisterEvent;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 import static net.hecco.bountifulfares.BountifulFares.TWIGS_MOD_ID;
 
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class TwigsSounds {
     private static final Map<ResourceKey<SoundEvent>, SoundEvent> sounds = new HashMap<>();
     public static SoundEvent LAMP_PLACE = registerSoundEvent("block.lamp.place");
@@ -29,7 +30,7 @@ public class TwigsSounds {
     public static SoundEvent LAMP_FALL = registerSoundEvent("block.lamp.fall");
     public static SoundEvent LAMP_ON = registerSoundEvent("block.lamp.on");
     public static SoundEvent LAMP_OFF = registerSoundEvent("block.lamp.off");
-    public static SoundType LAMP = new ForgeSoundType(1, 0.7f, () -> LAMP_BREAK, () -> LAMP_STEP, () -> LAMP_PLACE, () -> LAMP_HIT, () -> LAMP_FALL);
+    public static SoundType LAMP = new DeferredSoundType(1, 0.7f, () -> LAMP_BREAK, () -> LAMP_STEP, () -> LAMP_PLACE, () -> LAMP_HIT, () -> LAMP_FALL);
 
     public static SoundEvent registerSoundEvent(String name) {
         ResourceLocation identifier = BountifulFares.rl(name);

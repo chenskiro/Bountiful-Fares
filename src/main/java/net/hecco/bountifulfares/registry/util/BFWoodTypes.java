@@ -3,7 +3,6 @@ package net.hecco.bountifulfares.registry.util;
 // import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.hecco.bountifulfares.BountifulFares;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraftforge.registries.RegisterEvent;
 
 
 public class BFWoodTypes {

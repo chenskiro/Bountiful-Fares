@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.RegistryObject;
+
 
 import java.util.function.Supplier;
 

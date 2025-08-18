@@ -9,7 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 
 import java.util.function.Supplier;
 
@@ -18,10 +19,10 @@ import static net.hecco.bountifulfares.BountifulFares.EXCESSIVE_BUILDING_MOD_ID;
 import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class AppledogBlocks {
-    public static final RegistryObject<Block> APPLEDOG_BLOCK = registerBlock("appledog_block", () -> new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.APPLE_BLOCK.get()).strength(1f, 1000f)));
+    public static final DeferredHolder<Block,Block> APPLEDOG_BLOCK = registerBlock("appledog_block", () -> new AppledogBlock(APPLEDOG_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.APPLE_BLOCK.get()).strength(1f, 1000f)));
 
-    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), block);
+    public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(APPLEDOG_MOD_ID, name), block);
         registerBlockItem(name, blockRegistryObject);
         compatBlocks.add(blockRegistryObject);
         return blockRegistryObject;

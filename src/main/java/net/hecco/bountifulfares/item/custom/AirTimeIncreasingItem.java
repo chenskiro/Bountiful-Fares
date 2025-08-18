@@ -18,15 +18,16 @@ import java.util.List;
 
 public class AirTimeIncreasingItem extends EffectFoodItem {
     public int airTickIncrease;
+
     public AirTimeIncreasingItem(int airTickIncrease, Properties settings) {
         super(List.of(), settings);
         this.airTickIncrease = airTickIncrease;
     }
+
     public AirTimeIncreasingItem(List<MobEffectInstance> effects, int airTickIncrease, Properties settings) {
         super(effects, settings);
         this.airTickIncrease = airTickIncrease;
     }
-
 
 
     @Override
@@ -37,7 +38,7 @@ public class AirTimeIncreasingItem extends EffectFoodItem {
         }
         int air = user.getAirSupply();
         int maxAir = user.getMaxAirSupply();
-        if (air < maxAir - airTickIncrease){
+        if (air < maxAir - airTickIncrease) {
             user.setAirSupply(air + airTickIncrease);
         } else {
             user.setAirSupply(maxAir);
@@ -46,12 +47,14 @@ public class AirTimeIncreasingItem extends EffectFoodItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, pLevel, tooltip, type);
-        if (BountifulFares.CONFIG.effectTooltips) {
-            tooltip.add(CommonComponents.EMPTY);
-            tooltip.add(Component.translatable("tooltip.bountifulfares.when_eaten").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.translatable("+" + airTickIncrease / 20 + " ").append(Component.translatable("tooltip.bountifulfares.air_time")).withStyle(ChatFormatting.BLUE));
+    public void appendHoverText(ItemStack stack, TooltipContext pLevel, List<Component> tooltip, TooltipFlag type) {
+        {
+            super.appendHoverText(stack, pLevel, tooltip, type);
+            if (BountifulFares.CONFIG.effectTooltips) {
+                tooltip.add(CommonComponents.EMPTY);
+                tooltip.add(Component.translatable("tooltip.bountifulfares.when_eaten").withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.translatable("+" + airTickIncrease / 20 + " ").append(Component.translatable("tooltip.bountifulfares.air_time")).withStyle(ChatFormatting.BLUE));
+            }
         }
     }
 }

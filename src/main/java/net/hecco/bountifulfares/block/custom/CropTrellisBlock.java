@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.block.custom;
 
+import cpw.mods.util.Lazy;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
@@ -54,7 +55,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty FACING;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-    private final LazyOptional<Item> berryItem;
+    private final Lazy<Item> berryItem;
     protected static final VoxelShape NORTH_SHAPE = Block.box(0, 0, 15, 16, 16, 16);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(0, 0, 0, 16, 16, 1);
     protected static final VoxelShape WEST_SHAPE = Block.box(15, 0, 0, 16, 16, 16);
@@ -66,7 +67,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     private String berryItemID;
     private final int harvestResetAge;
 
-    public CropTrellisBlock(LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CropTrellisBlock(Lazy<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
         BFBlocks._CROPS_TO_CROP_TRELLISES.put(berryItem, this);
@@ -78,7 +79,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
     public CropTrellisBlock(int harvestResetAge, String berryItemID, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
-        this.berryItem = LazyOptional.empty();
+        this.berryItem = Lazy.of();
         this.berryItemID = berryItemID;
         this.variant = variant;
         this.crop = crop;
@@ -86,7 +87,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(AGE, 0).setValue(SNIPPED, false));
     }
 
-    public CropTrellisBlock(LazyOptional<Item> seedsItem, LazyOptional<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
+    public CropTrellisBlock(Lazy<Item> seedsItem, Lazy<Item> berryItem, TrellisVariant variant, VineCrop crop, Properties settings) {
         super(settings);
         this.berryItem = berryItem;
         BFBlocks._CROPS_TO_CROP_TRELLISES.put(seedsItem, this);

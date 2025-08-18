@@ -7,7 +7,8 @@ import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +16,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class BFTrellises {
-    public static Map<String, RegistryObject<Block>> TRELLISES = new HashMap<>();
-    public static Map<String, RegistryObject<Block>> CROP_TRELLISES = new HashMap<>();
-    public static Map<String, RegistryObject<Block>> DECORATIVE_TRELLISES = new HashMap<>();
+    public static Map<String, DeferredHolder<Block,Block>> TRELLISES = new HashMap<>();
+    public static Map<String, DeferredHolder<Block,Block>> CROP_TRELLISES = new HashMap<>();
+    public static Map<String, DeferredHolder<Block,Block>> DECORATIVE_TRELLISES = new HashMap<>();
     public static final ArrayList<Supplier<Block>> TRELLIS_RENDER_CUTOUT = new ArrayList<>();
 
 

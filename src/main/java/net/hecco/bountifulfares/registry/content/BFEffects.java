@@ -11,14 +11,14 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class BFEffects {
     // public static final Holder<MobEffect> ACIDIC = registerStatusEffect("acidic", new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
     // public static final Holder<MobEffect> STUPOR = registerStatusEffect("stupor", new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8));
@@ -44,15 +44,12 @@ public class BFEffects {
     public static final MobEffect STUPOR = new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8);
     public static final MobEffect EBULLIENCE = new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2);
     public static final MobEffect ENRICHMENT = new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
-            .addAttributeModifier(Attributes.MOVEMENT_SPEED, uid(BountifulFares.rl("effect.speed")), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.ATTACK_SPEED, uid(BountifulFares.rl("effect.attack_speed")), 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.ATTACK_DAMAGE, uid(BountifulFares.rl("effect.attack")), 0.2, AttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(Attributes.LUCK, uid(BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            .addAttributeModifier(Attributes.MOVEMENT_SPEED, (BountifulFares.rl("effect.speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+            .addAttributeModifier(Attributes.ATTACK_SPEED, (BountifulFares.rl("effect.attack_speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+            .addAttributeModifier(Attributes.ATTACK_DAMAGE, (BountifulFares.rl("effect.attack")), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+            .addAttributeModifier(Attributes.LUCK, (BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     public static final MobEffect RESTORATION = new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19);
 
-    public static String uid(ResourceLocation resourceLocation) {
-        return UUID.nameUUIDFromBytes(resourceLocation.toLanguageKey().getBytes(StandardCharsets.UTF_8)).toString();
-    }
 
     @SubscribeEvent
     public static void onRegister(RegisterEvent event) {
@@ -63,5 +60,10 @@ public class BFEffects {
             registerHelper.register(BountifulFares.rl("enrichment"), ENRICHMENT);
             registerHelper.register(BountifulFares.rl("restoration"), RESTORATION);
         });
+    }
+
+
+    public static Holder<MobEffect> getMobEffect(MobEffect mobEffect) {
+        return BuiltInRegistries.MOB_EFFECT.getHolder(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect)).get();
     }
 }

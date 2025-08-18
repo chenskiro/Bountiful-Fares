@@ -70,18 +70,20 @@ public class EdibleJarItem extends Item {
 
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, pLevel, tooltip, type);
-        if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-            PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+    public void appendHoverText(ItemStack stack, TooltipContext pLevel, List<Component> tooltip, TooltipFlag type) {
+        {
+            super.appendHoverText(stack, pLevel, tooltip, type);
+            if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
+                PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+            }
         }
-    }
 
-    // @Override
-    // public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
-    //     super.appendHoverText(stack, context, tooltip, type);
-    //     if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
-    //         PotionContentsComponent.buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
-    //     }
-    // }
+        // @Override
+        // public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {
+        //     super.appendHoverText(stack, context, tooltip, type);
+        //     if (!effects.isEmpty() && BountifulFares.CONFIG.effectTooltips) {
+        //         PotionContentsComponent.buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
+        //     }
+        // }
+    }
 }

@@ -30,6 +30,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer {
@@ -74,15 +75,15 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (!isFullyGrown(state) && !state.getValue(ATTACHED)
                 // && random.nextFloat() < 0.1f
-                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1f)
+                && CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.1f)
         ) {
             BlockState state1 = state.cycle(AGE);
             world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
-            ForgeHooks.onCropsGrowPost(world, pos, state1);
+            CommonHooks.fireCropGrowPost(world, pos, state1);
         }
         if (isFullyGrown(state) && !state.getValue(ATTACHED)
                 // && random.nextFloat() < 0.1f
-                && ForgeHooks.onCropsGrowPre(world, pos, state, random.nextFloat() < 0.1f)
+                && CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.1f)
         ) {
             BlockPos spongekinPos = pos.relative(Direction.UP);
             if ((world.getBlockState(spongekinPos).isAir() || world.getBlockState(spongekinPos).is(Blocks.WATER) && isFullyGrown(state))) {

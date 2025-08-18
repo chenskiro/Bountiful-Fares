@@ -19,7 +19,7 @@ import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameRecipeProvi
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 

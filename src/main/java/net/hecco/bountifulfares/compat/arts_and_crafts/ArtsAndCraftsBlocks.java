@@ -10,7 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 
 import java.util.function.Supplier;
 
@@ -20,13 +21,13 @@ import static net.hecco.bountifulfares.registry.misc.BFCompat.compatBlocks;
 
 public class ArtsAndCraftsBlocks {
 
-    public static RegistryObject<Block> CORK_PICKETS = registerBlock("cork_pickets", () -> new CompatPicketsBlock(ARTS_AND_CRAFTS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
+    public static DeferredHolder<Block,Block> CORK_PICKETS = registerBlock("cork_pickets", () -> new CompatPicketsBlock(ARTS_AND_CRAFTS_MOD_ID, BlockBehaviour.Properties.copy(BFBlocks.OAK_PICKETS.get())));
 
     public static final TrellisVariant CORK = new TrellisVariant(BountifulFares.ARTS_AND_CRAFTS_MOD_ID, "cork", ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, "cork_planks"), TRELLIS_RENDER_CUTOUT);
 
 
-    public static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), block);
+    public static DeferredHolder<Block,Block> registerBlock(String name, Supplier<Block> block) {
+        DeferredHolder<Block,Block> blockRegistryObject = BFBlocks.attachCache(BuiltInRegistries.BLOCK, ResourceLocation.tryBuild(ARTS_AND_CRAFTS_MOD_ID, name), block);
         registerBlockItem(name, blockRegistryObject);
         compatBlocks.add(blockRegistryObject);
         return blockRegistryObject;

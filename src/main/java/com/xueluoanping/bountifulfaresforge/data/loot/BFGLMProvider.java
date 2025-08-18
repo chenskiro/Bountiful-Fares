@@ -10,9 +10,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.minecraftforge.common.loot.LootTableIdCondition;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,7 +32,7 @@ public class BFGLMProvider extends GlobalLootModifierProvider {
                 , BFItems.GRASS_SEEDS.get(), 1));
 
 
-        for (RegistryObject<Item> seed : List.of(BFItems.LAPISBERRY_SEEDS, BFItems.HOARY_SEEDS)) {
+        for (var seed : List.of(BFItems.LAPISBERRY_SEEDS, BFItems.HOARY_SEEDS)) {
             LootItemCondition lootItemCondition = LootTableIdCondition.builder(BuiltInLootTables.SNIFFER_DIGGING)
                     .and(LootItemRandomChanceCondition.randomChance(0.6f))
                     .build();

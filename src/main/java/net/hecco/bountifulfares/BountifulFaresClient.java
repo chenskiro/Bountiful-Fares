@@ -39,13 +39,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +55,7 @@ import java.util.function.Supplier;
 
 // import static net.hecco.bountifulfares.registry.content.BFItems.ARTISAN_BRUSH;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BountifulFaresClient {
 
     @SubscribeEvent
@@ -282,9 +284,6 @@ public class BountifulFaresClient {
             BlockEntityRenderers.register(BFBlockEntities.MOD_HANGING_SIGN_BLOCK_ENTITY.get(), HangingSignRenderer::new);
 
 
-            MenuScreens.register(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, GristmillScreen::new);
-
-
             ItemProperties.register(
                     BFItems.ARTISAN_BRUSH.get(), BountifulFares.rl("dyed"),
                     (itemStack, clientWorld, livingEntity, seed) ->
@@ -295,6 +294,12 @@ public class BountifulFaresClient {
             }
         });
     }
+
+    @SubscribeEvent
+    public static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
+        event.register(BFScreenHandlers.GRISTMILL_SCREEN_HANDLER, GristmillScreen::new);
+    }
+
 
     @SubscribeEvent
     public static void onRegisterParticleProvidersEvent(EntityRenderersEvent.AddLayers event) {
