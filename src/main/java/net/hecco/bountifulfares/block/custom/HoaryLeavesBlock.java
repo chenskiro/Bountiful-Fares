@@ -16,7 +16,7 @@ public class HoaryLeavesBlock extends LeavesBlock implements BonemealableBlock {
         super(settings);
     }
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         return world.getBlockState(pos.below()).isAir();
     }
     @Override

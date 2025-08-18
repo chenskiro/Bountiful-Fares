@@ -7,6 +7,7 @@ import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.DecorativeVine;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
 import net.hecco.bountifulfares.trellis.trellis_parts.VineCrop;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,11 +21,10 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 import static net.hecco.bountifulfares.BountifulFaresUtil.toSentenceCase;
 
@@ -170,11 +170,13 @@ public class TrellisUtilProvider extends BlockTagsProvider {
     }
 
     public abstract static class RecipeProviderVisiter extends ModNameRecipeProvider{
-        public RecipeProviderVisiter(PackOutput pOutput) {
-            super(pOutput);
+
+
+        public RecipeProviderVisiter(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> registries) {
+            super(pOutput, registries);
         }
 
-        public static InventoryChangeTrigger.TriggerInstance has(@NotNull ItemLike pItemLike){
+        public static Criterion<InventoryChangeTrigger.TriggerInstance> has(@NotNull ItemLike pItemLike){
             return RecipeProvider.has(pItemLike);
         }
     }

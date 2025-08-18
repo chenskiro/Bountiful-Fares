@@ -8,12 +8,12 @@ import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeBuilder;
 
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,16 +61,16 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
 
 
     @Override
-    public void save(RecipeOutput  exporter, ResourceLocation recipeId) {
+    public void save(RecipeOutput exporter, ResourceLocation recipeId) {
         Advancement.Builder builder = Advancement.Builder.recipeAdvancement()
                 .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
-                .requirements(RequirementsStrategy.OR);
+                .requirements(AdvancementRequirements.Strategy.OR);
         Objects.requireNonNull(builder);
         FermentationRecipe fermentationRecipe = (FermentationRecipe) this.recipeFactory.create(recipeId,
                 this.result.getDefaultInstance(),
-                this.count,Ingredient.of(this.ingredient),  this.particleColor);
-        exporter.accept(new Result(recipeId, fermentationRecipe,result, builder.build(recipeId.withPrefix("recipes/"))));
+                this.count, Ingredient.of(this.ingredient), this.particleColor);
+        exporter.accept(new Result(recipeId, fermentationRecipe, result, builder.build(recipeId.withPrefix("recipes/"))));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(ingredient.asItem()).getPath() + "_fermenting");
     }
 
-    public static class Result implements FinishedRecipe {
+    public static class Result {
         private final ResourceLocation id;
 
         private final RecipeSerializer<?> serializer = BFRecipes.FERMENTING_SERIALIZER;
@@ -88,10 +88,10 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
 
 
         public Result(ResourceLocation recipeId, FermentationRecipe fermentationRecipe, Item result, Advancement advancement) {
-            this.id =recipeId;
-            this.fermentationRecipe =fermentationRecipe;
-            this.advancement =advancement;
-            this.result=result;
+            this.id = recipeId;
+            this.fermentationRecipe = fermentationRecipe;
+            this.advancement = advancement;
+            this.result = result;
         }
 
 
@@ -123,7 +123,7 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
 
         @Override
         public @org.jetbrains.annotations.Nullable ResourceLocation getAdvancementId() {
-            return  new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath());
+            return new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath());
         }
     }
 }

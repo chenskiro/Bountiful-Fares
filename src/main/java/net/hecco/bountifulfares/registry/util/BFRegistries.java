@@ -19,10 +19,10 @@ import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
 import net.hecco.bountifulfares.trellis.trellis_parts.TrellisVariant;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
 import net.minecraft.core.Registry;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -37,22 +37,23 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.FireBlock;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.*;
 
 // import static net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register;
 import static net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
 public class BFRegistries {
 
     public static final Reference2IntMap<Item> fuel_items = new Reference2IntOpenHashMap<>();
@@ -80,7 +81,7 @@ public class BFRegistries {
 
     @SubscribeEvent
     public static void setAxe(BlockEvent.BlockToolModificationEvent event) {
-        if (event.getToolAction() == ToolActions.AXE_STRIP) {
+        if (event.getItemAbility() == ItemAbilities.AXE_STRIP) {
             Block orDefault = stripple_blocks.getOrDefault(event.getState().getBlock(), null);
             if (orDefault != null) {
                 event.setFinalState(orDefault.defaultBlockState());

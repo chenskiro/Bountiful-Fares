@@ -86,7 +86,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new MintBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new MintBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new MintRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new MintRecipeProvider(packOutput, lookupProvider));
         }
 
         // ARTS_AND_CRAFTS
@@ -94,7 +94,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new ArtsAndCraftsBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new ArtsAndCraftsBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new ArtsAndCraftsRecipeProvider(packOutput));
+            generator.addProvider(event.includeServer(), new ArtsAndCraftsRecipeProvider(packOutput, lookupProvider));
         }
 
         // DYE_DEPOT
@@ -102,7 +102,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DyeDepotBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DyeDepotBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DyeDepotRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new DyeDepotRecipeProvider(packOutput, lookupProvider));
         }
 
         // EXCESSIVE_BUILDING
@@ -110,7 +110,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new ExcessiveBuildingRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new ExcessiveBuildingRecipeProvider(packOutput, lookupProvider));
         }
 
         // FARMERS_DELIGHT
@@ -118,7 +118,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new FarmersDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new FarmersDelightBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(packOutput, lookupProvider));
         }
 
         // NATURES_SPIRIT
@@ -128,7 +128,7 @@ public final class start {
             NaturesSpiritBlockTagProvider naturesSpiritBlockTagProvider = new NaturesSpiritBlockTagProvider(packOutput, lookupProvider);
             generator.addProvider(event.includeServer(), naturesSpiritBlockTagProvider);
             generator.addProvider(event.includeServer(), new NaturesSpiritItemTagProvider(packOutput, lookupProvider, naturesSpiritBlockTagProvider.contentsGetter()));
-            generator.addProvider(event.includeServer(), new NaturesSpiritRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new NaturesSpiritRecipeProvider(packOutput, lookupProvider));
         }
 
         // SPAWN
@@ -136,7 +136,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new SpawnBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new SpawnBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new SpawnRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new SpawnRecipeProvider(packOutput, lookupProvider));
         }
 
         // TWIGS
@@ -144,7 +144,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new TwigsBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new TwigsBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new TwigsRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new TwigsRecipeProvider(packOutput, lookupProvider));
         }
 
         // DELICATE_DYES
@@ -152,7 +152,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DelicateDyesBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DelicateDyesBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DelicateDyesRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new DelicateDyesRecipeProvider(packOutput, lookupProvider));
         }
 
         // APPLEDOG
@@ -160,7 +160,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new AppledogBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new AppledogBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new AppledogRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new AppledogRecipeProvider(packOutput, lookupProvider));
         }
 
         // DUNGEONS_DELIGHT
@@ -168,7 +168,7 @@ public final class start {
         if (event.includeServer()) {
             generator.addProvider(event.includeServer(), new DungeonsDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
             generator.addProvider(event.includeServer(), new DungeonsDelightBlockTagProvider(packOutput, lookupProvider));
-            generator.addProvider(event.includeServer(), new DungeonsDelightRecipeProvider(packOutput,lookupProvider));
+            generator.addProvider(event.includeServer(), new DungeonsDelightRecipeProvider(packOutput, lookupProvider));
         }
 
         // DISABLE_COMPAT_ITEMS

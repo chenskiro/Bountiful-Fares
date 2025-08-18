@@ -11,10 +11,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Mixin(EffectRenderingInventoryScreen.class)
 public class AbstractInventoryMixin {
@@ -38,7 +34,7 @@ public class AbstractInventoryMixin {
     @Inject(method = "renderBackgrounds", at = @At(value = "HEAD"), cancellable = true)
     private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, int x, int height, Iterable<MobEffectInstance> statusEffects, boolean wide, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {
-            List<MobEffect> effects = new ArrayList<>();
+            List<Holder<MobEffect>> effects = new ArrayList<>();
             for (MobEffectInstance instance : statusEffects) {
                 effects.add(instance.getEffect());
             }
@@ -49,12 +45,9 @@ public class AbstractInventoryMixin {
                     ResourceLocation largeTexture = AbstractContainerScreen.INVENTORY_LOCATION;
                     ResourceLocation smallTexture = AbstractContainerScreen.INVENTORY_LOCATION;
                     MobEffectInstance effect = var7.next();
-                    if (effect.getEffect() != BFEffects.ACIDIC) {
-                        Optional<Holder<MobEffect>> optionalHolder = ForgeRegistries.MOB_EFFECTS.getHolder(effect.getEffect());
-                        if (optionalHolder.isPresent() && !optionalHolder.get().is(BFEffectTags.ACIDIC_BLACKLIST)) {
-                            largeTexture = ACIDFIED_EFFECT_BACKGROUND_LARGE_TEXTURE;
-                            smallTexture = ACIDFIED_EFFECT_BACKGROUND_SMALL_TEXTURE;
-                        }
+                    if (effect.getEffect() != BFEffects.ACIDIC&&effect.getEffect().is(BFEffectTags.ACIDIC_BLACKLIST)) {
+                        largeTexture = ACIDFIED_EFFECT_BACKGROUND_LARGE_TEXTURE;
+                        smallTexture = ACIDFIED_EFFECT_BACKGROUND_SMALL_TEXTURE;
                     }
                     if (wide) {
                         // context.drawGuiTexture(largeTexture, x, i, 120, 32);

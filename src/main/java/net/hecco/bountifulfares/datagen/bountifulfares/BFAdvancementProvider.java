@@ -5,8 +5,8 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.DisplayInfo;
-import net.minecraft.advancements.FrameType;
 import net.minecraft.advancements.critereon.ConsumeItemTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -15,24 +15,22 @@ import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-
-import net.minecraftforge.common.data.ForgeAdvancementProvider;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public class BFAdvancementProvider implements ForgeAdvancementProvider.AdvancementGenerator {
+public class BFAdvancementProvider implements AdvancementProvider.AdvancementGenerator {
     
-    public class Advancements extends ForgeAdvancementProvider {
+    public class Advancements extends AdvancementProvider {
         public Advancements(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
             super(output, lookupProvider, existingFileHelper, List.of(new BFAdvancementProvider()));
         }
@@ -43,11 +41,11 @@ public class BFAdvancementProvider implements ForgeAdvancementProvider.Advanceme
     }
 
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<Advancement> consumer, ExistingFileHelper existingFileHelper) {
+    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
         Advancement root_advancement = Advancement.Builder.advancement()
                 .display(new DisplayInfo(new ItemStack(BFItems.PASSION_FRUIT.get()),
                         Component.translatable("advancement.bountifulfares.bountiful_fares"),
-                        Component.translatable("advancement.bountifulfares.bountiful_fares.description"), new ResourceLocation("minecraft:textures/block/farmland_moist.png"), FrameType.TASK,
+                        Component.translatable("advancement.bountifulfares.bountiful_fares.description"),  ResourceLocation.parse("minecraft:textures/block/farmland_moist.png"), FrameType.TASK,
                         false,
                         false,
                         false))

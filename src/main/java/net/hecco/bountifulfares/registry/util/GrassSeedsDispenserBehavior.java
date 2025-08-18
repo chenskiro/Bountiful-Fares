@@ -2,8 +2,8 @@ package net.hecco.bountifulfares.registry.util;
 
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -23,9 +23,9 @@ public abstract class GrassSeedsDispenserBehavior extends DefaultDispenseItemBeh
     }
 
     public ItemStack execute(BlockSource pointer, ItemStack stack) {
-        Level world = pointer.getLevel();
-        Direction direction = pointer.getBlockState().getValue(DispenserBlock.FACING);
-        BlockPos pos = pointer.getPos().relative(direction);
+        Level world = pointer.level();
+        Direction direction = pointer.state().getValue(DispenserBlock.FACING);
+        BlockPos pos = pointer.pos().relative(direction);
         if (world.getBlockState(pos).is(BFBlockTags.GRASS_SEEDS_PLANTABLE_ON)) {
             world.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.defaultBlockState());
             ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.HAPPY_VILLAGER, ConstantInt.of(10));
@@ -36,6 +36,6 @@ public abstract class GrassSeedsDispenserBehavior extends DefaultDispenseItemBeh
         return itemDispenser.dispense(pointer, stack);
     }
     protected void playSound(BlockSource pointer) {
-        pointer.getLevel().levelEvent(1002, pointer.getPos(), 0);
+        pointer.level().levelEvent(1002, pointer.getPos(), 0);
     }
 }

@@ -6,8 +6,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFEffects;
 import net.hecco.bountifulfares.registry.tags.BFEffectTags;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Timer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -20,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -78,7 +77,7 @@ public class GuiMixin {
 
     @Shadow
     @Final
-    protected Minecraft minecraft;
+    private Minecraft minecraft;
     @Unique
     private static final ResourceLocation ACIDFIED_EFFECT_BACKGROUND_TEXTURE = BountifulFares.rl("hud/acidified_effect_background");
     @Unique
@@ -99,9 +98,11 @@ public class GuiMixin {
 //            instance.drawGuiTexture(ACIDFIED_EFFECT_BACKGROUND_TEXTURE, x, y, width, height);
 //        }
 //    }
-    @Inject(method = "renderEffects", at = @At(value = "HEAD"), cancellable = true,require = 0)
-    private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, CallbackInfo ci) {
+
+    @Inject(method = "renderEffects", at = @At(value = "HEAD"), cancellable = true)
+    private void bountifulfares_acidicBackgroundOverlay(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
         if (BountifulFares.CONFIG.isAcidifiedEffectIconEffects()) {
+            
             Collection<MobEffectInstance> collection = this.minecraft.player.getActiveEffects();
             if (collection.stream().map(MobEffectInstance::getEffect).collect(Collectors.toSet()).contains(BFEffects.ACIDIC)) {
                 Screen screen = this.minecraft.screen;
@@ -118,7 +119,7 @@ public class GuiMixin {
                 List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
 
                 for (MobEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                    MobEffect registryEntry = statusEffectInstance.getEffect();
+                    Holder<MobEffect> registryEntry = statusEffectInstance.getEffect();
                     if (statusEffectInstance.showIcon()) {
                         int k = context.guiWidth();
                         int l = 1;
@@ -126,7 +127,7 @@ public class GuiMixin {
                             l += 15;
                         }
 
-                        if (registryEntry.isBeneficial()) {
+                        if (registryEntry.value().isBeneficial()) {
                             ++i;
                             k -= 25 * i;
                         } else {
@@ -136,24 +137,17 @@ public class GuiMixin {
                         }
 
                         float f;
-
                         ResourceLocation ambientTexture = AbstractContainerScreen.INVENTORY_LOCATION;
                         ResourceLocation texture = AbstractContainerScreen.INVENTORY_LOCATION;
-                        if (statusEffectInstance.getEffect() != BFEffects.ACIDIC) {
-                            Optional<Holder<MobEffect>> optionalHolder = ForgeRegistries.MOB_EFFECTS.getHolder(statusEffectInstance.getEffect());
-                            if (optionalHolder.isPresent() && !optionalHolder.get().is(BFEffectTags.ACIDIC_BLACKLIST)) {
-                                ambientTexture = ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE;
-                                texture = ACIDFIED_EFFECT_BACKGROUND_TEXTURE;
-                            }
+                        if (statusEffectInstance.getEffect() != BFEffects.ACIDIC && !statusEffectInstance.getEffect().is(BFEffectTags.ACIDIC_BLACKLIST)) {
+                            ambientTexture = ACIDFIED_EFFECT_BACKGROUND_AMBIENT_TEXTURE;
+                            texture = ACIDFIED_EFFECT_BACKGROUND_TEXTURE;
                         }
                         if (statusEffectInstance.isAmbient()) {
                             f = 1.0F;
-                            // context.drawGuiTexture(ambientTexture, k, l, 24, 24);
-                            context.blit(ambientTexture, i, j, 165, 166, 24, 24);
+                            context.blitSprite(ambientTexture, k, l, 24, 24);
                         } else {
-                            // context.drawGuiTexture(texture, k, l, 24, 24);
-                            context.blit(texture, i, j, 141, 166, 24, 24);
-
+                            context.blitSprite(texture, k, l, 24, 24);
                             if (statusEffectInstance.endsWithin(200)) {
                                 int m = statusEffectInstance.getDuration();
                                 int n = 10 - m / 20;
@@ -182,3 +176,4 @@ public class GuiMixin {
         }
     }
 }
+

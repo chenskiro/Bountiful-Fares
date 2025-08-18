@@ -47,7 +47,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.common.CommonHooks;
 
 
 public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, BonemealableBlock {
@@ -217,7 +217,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         if (isFullyGrown(state)) {
             return false;
         }

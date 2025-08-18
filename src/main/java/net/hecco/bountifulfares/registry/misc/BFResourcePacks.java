@@ -1,7 +1,6 @@
 package net.hecco.bountifulfares.registry.misc;
 
 import com.xueluoanping.bountifulfaresforge.api.resource.FakeResourceManagerHelperUtil;
-import com.xueluoanping.bountifulfaresforge.api.resource.ModFilePackResources;
 import net.hecco.bountifulfares.BountifulFares;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

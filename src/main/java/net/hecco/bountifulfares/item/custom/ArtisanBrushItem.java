@@ -6,6 +6,7 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.ChatFormatting;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ArtisanBrushItem extends Item implements BFDyeableLeatherItem{
+public class ArtisanBrushItem extends Item {
     public static final String DISPLAY_KEY = "display";
     public static final String COLOR_KEY = "color";
 
@@ -40,10 +42,9 @@ public class ArtisanBrushItem extends Item implements BFDyeableLeatherItem{
         BlockState current = world.getBlockState(pos);
         int oldColor = DyeableBlockEntity.getColor(world, pos);
         ItemStack stack = context.getItemInHand();
-        // DyedColorComponent component = stack.get(DataComponentTypes.DYED_COLOR);
-        CompoundTag tag = stack.getTag();
+        DyedItemColor component = stack.get(DataComponents.DYED_COLOR);
         if (BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.containsKey(current.getBlock()) && oldColor != DyeableBlockEntity.DEFAULT_COLOR) {
-            if ((tag != null&&tag.contains(ArtisanBrushItem.DISPLAY_KEY) ? tag.getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY)  : DEFAULT_COLOR) == oldColor) {
+            if ((component != null ? component.rgb() : DEFAULT_COLOR) == DyeableBlockEntity.getColor(world, pos)) {
                 world.setBlockAndUpdate(pos, BFBlocks.CERAMIC_TO_CHECKERED_CERAMIC.get(current.getBlock()).withPropertiesOf(current));
                 world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (world.getBlockEntity(pos) instanceof DyeableBlockEntity ceramicTilesBlockEntity) {
@@ -55,12 +56,8 @@ public class ArtisanBrushItem extends Item implements BFDyeableLeatherItem{
         }
         if (world.getBlockEntity(pos) instanceof DyeableBlockEntity && oldColor != DyeableBlockEntity.DEFAULT_COLOR) {
             if (world.getBlockEntity(pos) instanceof DyeableBlockEntity) {
-                if (tag == null
-                        || (tag.contains(ArtisanBrushItem.DISPLAY_KEY)
-                   && tag.getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY) != oldColor)){
-                    // context.getItemInHand().set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(oldColor, true));
-                    CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
-                    subNbt.putInt(ArtisanBrushItem.COLOR_KEY, oldColor);
+                if (DyedItemColor.getOrDefault(context.getItemInHand(), DEFAULT_COLOR) != DyeableBlockEntity.getColor(world, pos)) {
+                    context.getItemInHand().set(DataComponents.DYED_COLOR, new DyedItemColor(DyeableBlockEntity.getColor(world, pos), true));
                     world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.SUCCESS;
                 }
@@ -82,8 +79,8 @@ public class ArtisanBrushItem extends Item implements BFDyeableLeatherItem{
 //    }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
-        if (stack.getTag() == null || stack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY)) {
+    public void appendHoverText(ItemStack stack, @Nullable TooltipContext context, List<Component> tooltip, TooltipFlag type) {
+        if (!stack.getComponents().has(DataComponents.DYED_COLOR)) {
             tooltip.add(Component.translatable("tooltip." + BountifulFares.MOD_ID + ".dyeable").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
         super.appendHoverText(stack, context, tooltip, type);

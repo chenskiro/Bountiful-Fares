@@ -103,7 +103,7 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         return !isFullyGrown(state);
     }
 

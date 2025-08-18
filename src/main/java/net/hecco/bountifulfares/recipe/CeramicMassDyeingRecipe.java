@@ -1,17 +1,13 @@
 package net.hecco.bountifulfares.recipe;
 
 import com.google.common.collect.Lists;
-import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
-import net.hecco.bountifulfares.item.custom.BFDyeableLeatherItem;
 import net.hecco.bountifulfares.item.custom.CeramicDishBlockItem;
 import net.hecco.bountifulfares.item.custom.DyeableCeramicBlockItem;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;

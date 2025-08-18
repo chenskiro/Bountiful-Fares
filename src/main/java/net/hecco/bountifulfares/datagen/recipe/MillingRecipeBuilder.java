@@ -5,20 +5,20 @@ import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeBuilder;
 
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,7 +68,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
         Advancement.Builder builder = Advancement.Builder.recipeAdvancement()
                 .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
-                .requirements(RequirementsStrategy.OR);
+                .requirements(AdvancementRequirements.Strategy.OR);
         Objects.requireNonNull(builder);
         MillingRecipe millingRecipe = (MillingRecipe) this.recipeFactory.create(recipeId, this.result.getDefaultInstance(), NonNullList.withSize(1, Ingredient.of(this.ingredient)));
         exporter.accept(new Result(recipeId, millingRecipe, result, builder.build(recipeId.withPrefix("recipes/"))));
@@ -79,7 +79,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(this.ingredient.asItem()).getPath() + "_milling");
     }
 
-    public static class Result implements FinishedRecipe {
+    public static class Result  {
         private final ResourceLocation id;
 
         private final RecipeSerializer<?> serializer = BFRecipes.MILLING_SERIALIZER;

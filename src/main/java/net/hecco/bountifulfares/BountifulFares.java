@@ -5,10 +5,10 @@ import net.hecco.bountifulfares.registry.misc.*;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.hecco.bountifulfares.trellis.TrellisUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,21 +105,12 @@ public class BountifulFares  {
 		// 	});
 		// });
 
-		// Optional<Holder<Item>> diamondEntry = ForgeRegistries.ITEMS.getHolder(Items.DIAMOND);
-		// if (diamondEntry.isPresent()) {
-		// 	Map<TagKey<Item>, List<Holder<Item>>> map = new HashMap<>();
-		// 	map.put(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS, List.of(diamondEntry.get()));
-		// 	ForgeRegistries.ITEMS.tags().addOptionalTagDefaults(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS,Set.of(()->Items.DIAMOND));
-		// 	// BuiltInRegistries.ITEM.bindTags(map);
-		// } else {
-		// 	LOGGER.warn("Diamond entry is null!");
-		// }
-		ForgeRegistries.ITEMS.tags().addOptionalTagDefaults(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS,Set.of(()->Items.DIAMOND));
+		// BuiltInRegistries.ITEM.tags().addOptionalTagDefaults(BFItemTags.C_HIDDEN_FROM_RECIPE_VIEWERS,Set.of(()->Items.DIAMOND));
 	} //appledog - Lydia
 	//appledog - Hecco
 	//appledog - Diemond_Player (holy self-insert)
 
 	public static ResourceLocation rl(String id) {
-		return new ResourceLocation(MOD_ID, id);
+		return  ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
 	}
 }

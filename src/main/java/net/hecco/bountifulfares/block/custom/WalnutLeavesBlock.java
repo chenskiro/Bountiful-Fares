@@ -22,7 +22,7 @@ public class WalnutLeavesBlock extends LeavesBlock implements BonemealableBlock 
     // }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState pState) {
         return world.getBlockState(pos.below()).isAir();
     }
 

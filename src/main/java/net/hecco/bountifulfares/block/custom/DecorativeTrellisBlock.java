@@ -81,7 +81,7 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
 
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         return canDuplicate;
     }
 

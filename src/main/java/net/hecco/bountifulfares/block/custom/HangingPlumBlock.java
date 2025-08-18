@@ -107,8 +107,10 @@ public class HangingPlumBlock extends HangingFruitBlock {
     //     return new ItemStack(BFItems.PLUM.get());
     // }
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
-        return new ItemStack(BFItems.PLUM.get());
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        return BFItems.PLUM.get().getDefaultInstance();
     }
+
 }
