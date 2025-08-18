@@ -47,7 +47,7 @@ public class BountifulFares  {
 		// } catch (ClassNotFoundException e) {
         //     return false;
         // }
-		return System.getProperty("forgegradle.runs.runData") != null;
+		return System.getProperty("neogradle.runs.runData") != null;
     }
 	// @Override
 	public void onInitialize() {
