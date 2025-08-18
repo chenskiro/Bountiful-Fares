@@ -14,6 +14,7 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 @JeiPlugin @MethodsReturnNonnullByDefault @SuppressWarnings("unused")
 public class JEIPlugin implements IModPlugin {
@@ -24,8 +25,8 @@ public class JEIPlugin implements IModPlugin {
         BFJEIRecipes bfRecipes = new BFJEIRecipes();
 
 //        RECIPES
-        registration.addRecipes(BFRecipeTypes.MILLING, bfRecipes.getMillingRecipes());
-        registration.addRecipes(BFRecipeTypes.FERMENTING, bfRecipes.getFermentationRecipes());
+        registration.addRecipes(BFRecipeTypes.MILLING, bfRecipes.getMillingRecipes().stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(BFRecipeTypes.FERMENTING, bfRecipes.getFermentationRecipes().stream().map(RecipeHolder::value).toList());
         registration.addRecipes(BFRecipeTypes.PRISMARINE_PROPAGATION, ImmutableList.of(new PropagationRecipe()));
 
         //Example of information tooltip for JEI

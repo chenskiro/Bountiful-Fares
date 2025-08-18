@@ -2,6 +2,7 @@ package net.hecco.bountifulfares.block.entity;
 
 // import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -21,20 +22,22 @@ public abstract class DyeableBlockEntity extends BlockEntity {
     public static final int DEFAULT_COLOR = 16777215;
     public int color = DEFAULT_COLOR;
 
+
     @Override
-    public void saveAdditional(CompoundTag nbt) {
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         if (color != DEFAULT_COLOR) {
             nbt.putInt("color", color);
-            super.saveAdditional(nbt);
+            super.saveAdditional(nbt,registries);
         }
     }
 
+
     @Override
-    public void load(CompoundTag nbt) {
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         if (nbt.getInt("color") == 0) {
             color = DEFAULT_COLOR;
         } else {
-            super.load(nbt);
+            super.loadAdditional(nbt,registries);
             color = nbt.getInt("color");
         }
     }

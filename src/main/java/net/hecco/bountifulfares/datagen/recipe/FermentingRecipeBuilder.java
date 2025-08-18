@@ -67,10 +67,10 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
                 .requirements(AdvancementRequirements.Strategy.OR);
         Objects.requireNonNull(builder);
-        FermentationRecipe fermentationRecipe = (FermentationRecipe) this.recipeFactory.create(recipeId,
-                this.result.getDefaultInstance(),
-                this.count, Ingredient.of(this.ingredient), this.particleColor);
-        exporter.accept(new Result(recipeId, fermentationRecipe, result, builder.build(recipeId.withPrefix("recipes/"))));
+        FermentationRecipe fermentationRecipe = this.recipeFactory.create(
+                Ingredient.of(this.ingredient),
+                this.result.getDefaultInstance(), this.count, this.particleColor);
+        exporter.accept(recipeId, fermentationRecipe, builder.build(recipeId.withPrefix("recipes/")));
     }
 
     @Override
@@ -78,52 +78,4 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(ingredient.asItem()).getPath() + "_fermenting");
     }
 
-    public static class Result {
-        private final ResourceLocation id;
-
-        private final RecipeSerializer<?> serializer = BFRecipes.FERMENTING_SERIALIZER;
-        private final FermentationRecipe fermentationRecipe;
-        private final Item result;
-        private @Nullable Advancement advancement;
-
-
-        public Result(ResourceLocation recipeId, FermentationRecipe fermentationRecipe, Item result, Advancement advancement) {
-            this.id = recipeId;
-            this.fermentationRecipe = fermentationRecipe;
-            this.advancement = advancement;
-            this.result = result;
-        }
-
-
-        @Override
-        public void serializeRecipeData(JsonObject json) {
-            JsonObject outputJson = new JsonObject();
-            outputJson.addProperty("item", ForgeRegistries.ITEMS.getKey(result).toString());
-            json.add("result", outputJson);
-            json.addProperty("result_count", 1);
-            json.add("ingredient", Ingredient.merge(fermentationRecipe.getIngredients()).toJson());
-            json.addProperty("particle_color", fermentationRecipe.getParticleColor());
-        }
-
-
-        @Override
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public @NotNull RecipeSerializer<?> getType() {
-            return this.serializer;
-        }
-
-        @Override
-        public @org.jetbrains.annotations.Nullable JsonObject serializeAdvancement() {
-            return this.advancement != null ? this.advancement.deconstruct().serializeToJson() : null;
-        }
-
-        @Override
-        public @org.jetbrains.annotations.Nullable ResourceLocation getAdvancementId() {
-            return new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath());
-        }
-    }
 }

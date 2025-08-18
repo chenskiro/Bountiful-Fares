@@ -1,85 +1,79 @@
 package net.hecco.bountifulfares.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-
+import net.hecco.bountifulfares.registry.misc.BFRecipes;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class MillingRecipe implements Recipe<SimpleContainer> {
-
-    @FunctionalInterface
-    public interface RecipeFactory<T> {
-        T create(ResourceLocation id, ItemStack output, NonNullList<Ingredient> recipeItems);
-    }
+public class MillingRecipe implements Recipe<RecipeInput> {
 
     private final ResourceLocation id;
     private final ItemStack output;
-    private final NonNullList<Ingredient> recipeItems;
+    private final Ingredient ingredient;
 
-    public MillingRecipe(ResourceLocation id, ItemStack output, NonNullList<Ingredient> recipeItems) {
+    public MillingRecipe(ResourceLocation id, ItemStack output, Ingredient input) {
         this.id = id;
         this.output = output;
-        this.recipeItems = recipeItems;
+        this.ingredient = input;
+    }
+
+    public MillingRecipe(Ingredient ingredient, ItemStack itemStack, int count) {
+        this.id = BountifulFares.rl("milling");
+        this.output = itemStack.copyWithCount(count);
+        this.ingredient = ingredient;
     }
 
     @Override
-    public boolean matches(SimpleContainer inventory, Level world) {
-        if (world.isClientSide()) {
-            return false;
-        }
-        return recipeItems.get(0).test(inventory.getItem(0));
+    public boolean matches(RecipeInput input, Level level) {
+        return ingredient.test(input.getItem(0));
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
-        return output.copy();    }
-
-    // @Override
-    // public ItemStack craft(SimpleContainer inventory, RegistryAccess registryManager) {
-    //     return output.copy();
-    // }
+    public ItemStack assemble(RecipeInput input, HolderLookup.Provider registries) {
+        return output.copy();
+    }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
+
     @Override
-    public ItemStack getResultItem(RegistryAccess registryManager) {
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return output.copy();
     }
 
-    @Override
+
+    public ItemStack getOutput() {
+        return output.copy();
+    }
+
     public ResourceLocation getId() {
         return this.id;
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+        return BFRecipes.MILLING_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return Type.INSTANCE;
+        return BFRecipes.MILLING;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return this.recipeItems;
+    public Ingredient getIngredient() {
+        return this.ingredient;
     }
 
     @Override
@@ -87,50 +81,65 @@ public class MillingRecipe implements Recipe<SimpleContainer> {
         return new ItemStack(BFBlocks.GRISTMILL.get());
     }
 
-    public static class Type implements RecipeType<MillingRecipe> {
-        private Type() { }
+    public interface RecipeFactory<T extends MillingRecipe> {
+        T create(Ingredient ingredient, ItemStack result, int count);
+    }
+
+    public static class Type<T extends MillingRecipe> implements RecipeType<T> {
+        private Type() {
+        }
+
         public static final Type INSTANCE = new Type();
         public static final String ID = "milling";
     }
 
     public static class Serializer implements RecipeSerializer<MillingRecipe> {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final String ID = "milling";
-        // this is the name given in the json file
+        private final RecipeFactory<MillingRecipe> recipeFactory;
+        public static final Serializer INSTANCE = new Serializer(MillingRecipe::new);
+        public final MapCodec<MillingRecipe> CODEC;
+        public final StreamCodec<RegistryFriendlyByteBuf, MillingRecipe> PACKET_CODEC;
 
-        @Override
-        public MillingRecipe fromJson(ResourceLocation id, JsonObject json) {
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+        public MillingRecipe create(Ingredient ingredient, ItemStack result, int count) {
+            return this.recipeFactory.create(ingredient, result, count);
+        }
 
-            JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
+        public Serializer(RecipeFactory<MillingRecipe> recipeFactory) {
+            this.CODEC = RecordCodecBuilder.mapCodec((instance) ->
+                    instance.group(
+                                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient")
+                                            .forGetter((recipe) -> recipe.ingredient),
+                                    ItemStack.STRICT_SINGLE_ITEM_CODEC.fieldOf("result")
+                                            .forGetter((recipe) -> recipe.output),
+                                    Codec.intRange(1, 99).fieldOf("result_count")
+                                            .forGetter((recipe) -> recipe.output.getCount())
+                            )
+                            .apply(instance, recipeFactory::create));
+            this.PACKET_CODEC = StreamCodec.of(this::write, this::read);
+            this.recipeFactory = recipeFactory;
+        }
 
-            for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
+        public MillingRecipe read(RegistryFriendlyByteBuf buf) {
+            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            ItemStack itemStack = ItemStack.STREAM_CODEC.decode(buf);
+            int count = buf.readVarInt();
+            return this.recipeFactory.create(ingredient, itemStack, count);
+        }
 
-            return new MillingRecipe(id, output, inputs);
+        public void write(RegistryFriendlyByteBuf buf, MillingRecipe recipe) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.ingredient);
+            ItemStack.STREAM_CODEC.encode(buf, recipe.output);
+            buf.writeVarInt(recipe.output.getCount());
         }
 
         @Override
-        public MillingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            NonNullList<Ingredient> inputs = NonNullList.withSize(buf.readInt(), Ingredient.EMPTY);
-
-            for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromNetwork(buf));
-            }
-
-            ItemStack output = buf.readItem();
-            return new MillingRecipe(id, output, inputs);
+        public MapCodec<MillingRecipe> codec() {
+            return CODEC;
         }
 
+
         @Override
-        public void toNetwork(FriendlyByteBuf buf, MillingRecipe recipe) {
-            buf.writeInt(recipe.getIngredients().size());
-            for (Ingredient ing : recipe.getIngredients()) {
-                ing.toNetwork(buf);
-            }
-            buf.writeItem(recipe.getResultItem(null));
+        public StreamCodec<RegistryFriendlyByteBuf, MillingRecipe> streamCodec() {
+            return PACKET_CODEC;
         }
     }
 }

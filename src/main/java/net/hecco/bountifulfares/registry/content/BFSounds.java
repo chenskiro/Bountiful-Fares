@@ -96,14 +96,14 @@ public class BFSounds {
     public static final SoundType COIR = new DeferredSoundType(1f, 1f, () -> COIR_BREAK, () -> COIR_STEP, () -> COIR_PLACE, () -> COIR_HIT, () -> COIR_FALL);
 
     private static Holder.Reference<SoundEvent> registerSoundReference(String name) {
-        ResourceLocation id = BountifulFares.rl(name);
-        // return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
-        ResourceKey<SoundEvent> soundEventResourceKey = ResourceKey.create(Registries.SOUND_EVENT, id);
-        SoundEvent variableRangeEvent = SoundEvent.createVariableRangeEvent(id);
-        sounds.put(soundEventResourceKey, variableRangeEvent);
-        Holder.Reference<SoundEvent> standAlone = Holder.Reference.createStandAlone(BuiltInRegistries.SOUND_EVENT.holderOwner(), soundEventResourceKey);
-        standAlone.bindValue(variableRangeEvent);
-        return standAlone;
+        // ResourceLocation id = BountifulFares.rl(name);
+        // // return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+        // ResourceKey<SoundEvent> soundEventResourceKey = ResourceKey.create(Registries.SOUND_EVENT, id);
+        // SoundEvent variableRangeEvent = SoundEvent.createVariableRangeEvent(id);
+        // sounds.put(soundEventResourceKey, variableRangeEvent);
+        // Holder.Reference<SoundEvent> standAlone = Holder.Reference.createStandAlone(BuiltInRegistries.SOUND_EVENT.holderOwner(), soundEventResourceKey);
+        // standAlone.bindValue(variableRangeEvent);
+        throw new IllegalArgumentException("Not use");
     }
 
     public static SoundEvent registerSoundEvent(String name) {

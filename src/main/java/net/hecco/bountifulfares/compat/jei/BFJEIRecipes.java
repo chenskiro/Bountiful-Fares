@@ -5,6 +5,7 @@ import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class BFJEIRecipes {
             throw new NullPointerException("minecraft world must not be null.");
         }
     }
-    public List<MillingRecipe> getMillingRecipes() {
+    public List<RecipeHolder<MillingRecipe>> getMillingRecipes() {
         return this.recipeManager.getAllRecipesFor(BFRecipes.MILLING).stream().toList();
     }
-    public List<FermentationRecipe> getFermentationRecipes() {
+    public List<RecipeHolder<FermentationRecipe>> getFermentationRecipes() {
         return this.recipeManager.getAllRecipesFor(BFRecipes.FERMENTING).stream().toList();
     }
 }

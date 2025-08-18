@@ -8,6 +8,7 @@ import net.hecco.bountifulfares.registry.content.BFBlockEntities;
 import net.hecco.bountifulfares.screen.GristmillScreenHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -95,17 +96,17 @@ public class GristmillBlockEntity extends BlockEntity implements
 
 
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
-        ContainerHelper.saveAllItems(nbt, inventory);
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.saveAdditional(nbt,registries);
+        ContainerHelper.saveAllItems(nbt, inventory,registries);
         nbt.putInt("milling.progress", progress);
     }
 
     @Override
-    public void load(CompoundTag nbt) {
-        ContainerHelper.loadAllItems(nbt, inventory);
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        ContainerHelper.loadAllItems(nbt, inventory,registries);
         nbt.getInt("milling.progress");
-        super.load(nbt);
+        super.loadAdditional(nbt,registries);
     }
 
     private boolean isCrafting() {

@@ -30,9 +30,9 @@ public class CeramicDishBlockEntity extends DyeableBlockEntity implements Implem
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt) {
-        ContainerHelper.saveAllItems(nbt, inventory);
-        super.saveAdditional(nbt);
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        ContainerHelper.saveAllItems(nbt, inventory,registries);
+        super.saveAdditional(nbt,registries);
     }
 
     // @Override
@@ -43,9 +43,9 @@ public class CeramicDishBlockEntity extends DyeableBlockEntity implements Implem
 
 
     @Override
-    public void load(CompoundTag nbt) {
-        ContainerHelper.loadAllItems(nbt, inventory);
-        super.load(nbt);
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        ContainerHelper.loadAllItems(nbt, inventory,registries);
+        super.loadAdditional(nbt,registries);
     }
 
     // @Override

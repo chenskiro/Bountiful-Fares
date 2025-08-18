@@ -4,10 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.misc.BFRecipes;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRequirements;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,7 +29,7 @@ public class MillingRecipeBuilder implements RecipeBuilder {
     private final Item result;
     private final ItemLike ingredient;
     private final int count;
-    private final Map<String, CriterionTriggerInstance> criteria = new LinkedHashMap();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap();
     private final MillingRecipe.RecipeFactory<?> recipeFactory;
 
     public MillingRecipeBuilder(ItemLike ingredient, ItemLike output, int count, MillingRecipe.RecipeFactory<?> recipeFactory) {
@@ -47,10 +44,11 @@ public class MillingRecipeBuilder implements RecipeBuilder {
     }
 
     @Override
-    public MillingRecipeBuilder unlockedBy(String string, CriterionTriggerInstance advancementCriterion) {
-        this.criteria.put(string, advancementCriterion);
+    public RecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
+        this.criteria.put(name, criterion);
         return this;
     }
+
 
     @Override
     public RecipeBuilder group(@Nullable String group) {
@@ -70,64 +68,12 @@ public class MillingRecipeBuilder implements RecipeBuilder {
                 .rewards(AdvancementRewards.Builder.recipe(recipeId))
                 .requirements(AdvancementRequirements.Strategy.OR);
         Objects.requireNonNull(builder);
-        MillingRecipe millingRecipe = (MillingRecipe) this.recipeFactory.create(recipeId, this.result.getDefaultInstance(), NonNullList.withSize(1, Ingredient.of(this.ingredient)));
-        exporter.accept(new Result(recipeId, millingRecipe, result, builder.build(recipeId.withPrefix("recipes/"))));
+        MillingRecipe millingRecipe = this.recipeFactory.create(Ingredient.of(this.ingredient), this.result.getDefaultInstance(), count);
+        exporter.accept(recipeId, millingRecipe, builder.build(recipeId.withPrefix("recipes/")));
     }
 
     @Override
     public void save(RecipeOutput exporter) {
         this.save(exporter, BuiltInRegistries.ITEM.getKey(getResult()).getPath() + "_from_" + BuiltInRegistries.ITEM.getKey(this.ingredient.asItem()).getPath() + "_milling");
-    }
-
-    public static class Result  {
-        private final ResourceLocation id;
-
-        private final RecipeSerializer<?> serializer = BFRecipes.MILLING_SERIALIZER;
-        private final MillingRecipe millingRecipe;
-        private final Item result;
-        private @Nullable Advancement advancement;
-
-
-        public Result(ResourceLocation recipeId, MillingRecipe millingRecipe, Item result, Advancement advancement) {
-            this.id = recipeId;
-            this.millingRecipe = millingRecipe;
-            this.advancement = advancement;
-            this.result = result;
-        }
-
-
-        @Override
-        public void serializeRecipeData(JsonObject json) {
-            JsonObject outputJson = new JsonObject();
-            outputJson.addProperty("item", ForgeRegistries.ITEMS.getKey(result).toString());
-            json.add("output", outputJson);
-            JsonArray ingredientsJson = new JsonArray();
-            for (Ingredient ingredient : millingRecipe.getIngredients()) {
-                ingredientsJson.add(ingredient.toJson());
-            }
-            json.add("ingredients", ingredientsJson);
-
-        }
-
-
-        @Override
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public @NotNull RecipeSerializer<?> getType() {
-            return this.serializer;
-        }
-
-        @Override
-        public @org.jetbrains.annotations.Nullable JsonObject serializeAdvancement() {
-            return this.advancement != null ? this.advancement.deconstruct().serializeToJson() : null;
-        }
-
-        @Override
-        public @org.jetbrains.annotations.Nullable ResourceLocation getAdvancementId() {
-            return new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath());
-        }
     }
 }

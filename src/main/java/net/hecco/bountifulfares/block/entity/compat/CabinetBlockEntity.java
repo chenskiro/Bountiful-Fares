@@ -134,19 +134,19 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag,registries);
         if (!trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, content);
+            ContainerHelper.saveAllItems(tag, content,registries);
         }
     }
 
     @Override
-   public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag,registries);
         content = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         if (!tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, content);
+            ContainerHelper.loadAllItems(tag, content,registries);
         }
     }
 

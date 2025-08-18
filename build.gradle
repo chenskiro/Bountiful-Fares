@@ -138,24 +138,16 @@ dependencies {
     // For all intends and purposes: You can treat this dependency as if it is a normal library you would use.
     implementation "net.neoforged:neoforge:${neo_version}"
 
-
     implementation("curse.maven:jei-238222:6614392")
     implementation "curse.maven:jade-324717:6291517"
-//    runtimeOnly("curse.maven:the-one-probe-245211:6106998")
 
     onlyMainRuntimeOnly("curse.maven:irisshaders-455508:6213632")
     onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.9-neoforge"
-//    find what's happens bettwen 0.6.5 and 0.6.9
-//    onlyMainRuntimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.5-neoforge"
 
     onlyMainRuntimeOnly("curse.maven:journeymap-32274:6213329")
 
 
     onlyMainRuntimeOnly("curse.maven:spark-361579:5434153")
-
-//    onlyMainRuntimeOnly "curse.maven:minecraft-add-1090474:6167550"
-
-//    onlyMainRuntimeOnly "curse.maven:euphoria-patches-915902:6137784"
 
     implementation "curse.maven:patchouli-306770:6842247"
 
@@ -169,11 +161,6 @@ dependencies {
     }
     println("----Scan onlyMainRuntimeOnly libs end----")
 
-
-    // others
-    // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 //    onlyMainRuntimeOnly("curse.maven:immersive-portals-for-forge-355440:5828143")
 //    onlyMainRuntimeOnly("curse.maven:cloth-config-348521:5729127")
 

@@ -73,8 +73,8 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.saveAdditional(nbt,registries);
         ContainerHelper.saveAllItems(nbt, this.inventory);
         nbt.putInt("fermenting.progress", this.progress);
         nbt.putInt("particleColor", this.particleColor);
@@ -82,11 +82,11 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
 
 
     @Override
-    public void load(CompoundTag nbt) {
-        ContainerHelper.loadAllItems(nbt, this.inventory);
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        ContainerHelper.loadAllItems(nbt, this.inventory,registries);
         this.progress = nbt.getInt("fermenting.progress");
         this.particleColor = nbt.getInt("particleColor");
-        super.load(nbt);
+        super.loadAdditional(nbt,registries);
     }
     // @Override
     // protected void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {

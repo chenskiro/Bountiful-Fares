@@ -1,27 +1,21 @@
 package net.hecco.bountifulfares.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-
+import net.hecco.bountifulfares.registry.misc.BFRecipes;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class FermentationRecipe implements Recipe<SimpleContainer> {
-    @FunctionalInterface
-    public interface RecipeFactory<T> {
-        T create(ResourceLocation id, ItemStack output, int outputCount, Ingredient input, int particleColor);
-    }
+public class FermentationRecipe implements Recipe<RecipeInput> {
+
     private final ResourceLocation id;
     private final ItemStack output;
     private final Ingredient ingredient;
@@ -34,16 +28,20 @@ public class FermentationRecipe implements Recipe<SimpleContainer> {
         this.particleColor = particleColor;
     }
 
-    @Override
-    public boolean matches(SimpleContainer inventory, Level world) {
-        if (world.isClientSide()) {
-            return false;
-        }
-        return ingredient.test(inventory.getItem(0));
+    public FermentationRecipe(Ingredient ingredient, ItemStack itemStack, int outputCount, int particleColor) {
+        this.id = BountifulFares.rl("fermenting");
+        this.output = new ItemStack(itemStack.getItem(), outputCount);
+        this.ingredient = ingredient;
+        this.particleColor = particleColor;
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer inventory, RegistryAccess registryManager) {
+    public boolean matches(RecipeInput input, Level level) {
+        return ingredient.test(input.getItem(0));
+    }
+
+    @Override
+    public ItemStack assemble(RecipeInput input, HolderLookup.Provider registries) {
         return output.copy();
     }
 
@@ -52,85 +50,97 @@ public class FermentationRecipe implements Recipe<SimpleContainer> {
         return true;
     }
 
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return output.copy();
+    }
+
+    public ItemStack getOutput() {
+        return output.copy();
+    }
+
     public int getParticleColor() {
         return particleColor;
     }
 
-    @Override
-    public ItemStack getResultItem(RegistryAccess registryManager) {
-        return output.copy();
-    }
-
-    @Override
     public ResourceLocation getId() {
         return this.id;
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return FermentationRecipe.Serializer.INSTANCE;
+        return BFRecipes.FERMENTING_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return FermentationRecipe.Type.INSTANCE;
+        return BFRecipes.FERMENTING;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> list = NonNullList.create();
-        list.add(ingredient);
-        return list;
+    public Ingredient getIngredient() {
+        return this.ingredient;
     }
+
 
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(BFBlocks.GRISTMILL.get());
+        return new ItemStack(BFBlocks.FERMENTATION_VESSEL.get());
     }
 
-    public static class Type implements RecipeType<FermentationRecipe> {
-        private Type() { }
-        public static final FermentationRecipe.Type INSTANCE = new FermentationRecipe.Type();
-        public static final String ID = "fermenting";
+    public interface RecipeFactory<T extends FermentationRecipe> {
+        T create(Ingredient ingredient, ItemStack result, int resultCount, int ParticleColor);
     }
 
     public static class Serializer implements RecipeSerializer<FermentationRecipe> {
-        public static final FermentationRecipe.Serializer INSTANCE = new FermentationRecipe.Serializer();
-        public static final String ID = "fermenting";
+        private final RecipeFactory<FermentationRecipe> recipeFactory;
+        public final MapCodec<FermentationRecipe> CODEC;
+        public final StreamCodec<RegistryFriendlyByteBuf, FermentationRecipe> PACKET_CODEC;
 
-        @Override
-        public FermentationRecipe fromJson(ResourceLocation id, JsonObject json) {
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+        public FermentationRecipe create(Ingredient ingredient, ItemStack result, int resultCount, int particleColor) {
+            return this.recipeFactory.create(ingredient, result, resultCount, particleColor);
+        }
 
-            int outputCount = GsonHelper.getAsInt(json, "result_count");
+        public Serializer(RecipeFactory<FermentationRecipe> recipeFactory) {
+            this.CODEC = RecordCodecBuilder.mapCodec((instance) ->
+                    instance.group(
+                                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient")
+                                            .forGetter((recipe) -> recipe.ingredient),
+                                    ItemStack.STRICT_SINGLE_ITEM_CODEC.fieldOf("result")
+                                            .forGetter((recipe) -> recipe.output),
+                                    Codec.intRange(1, 99).fieldOf("result_count")
+                                            .forGetter((recipe) -> recipe.output.getCount()),
+                                    Codec.INT.fieldOf("particle_color").forGetter(
+                                            (recipe) -> recipe.particleColor)
+                            )
+                            .apply(instance, recipeFactory::create));
+            this.PACKET_CODEC = StreamCodec.of(this::write, this::read);
+            this.recipeFactory = recipeFactory;
+        }
 
-            Ingredient ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
+        public FermentationRecipe read(RegistryFriendlyByteBuf buf) {
+            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            ItemStack itemStack = ItemStack.STREAM_CODEC.decode(buf);
+            int count = buf.readVarInt();
+            int particleColor = buf.readVarInt();
+            return this.recipeFactory.create(ingredient, itemStack, count, particleColor);
+        }
 
-            int particleColor = GsonHelper.getAsInt(json, "particle_color");
-
-            return new FermentationRecipe(id, output, outputCount, ingredient, particleColor);
+        public void write(RegistryFriendlyByteBuf buf, FermentationRecipe recipe) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.ingredient);
+            ItemStack.STREAM_CODEC.encode(buf, recipe.output);
+            buf.writeVarInt(recipe.output.getCount());
+            buf.writeVarInt(recipe.particleColor);
         }
 
         @Override
-        public FermentationRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            ItemStack output = buf.readItem();
-
-            int outputCount = buf.readInt();
-
-            Ingredient ingredient = Ingredient.fromNetwork(buf);
-
-            int particleColor = buf.readInt();
-
-            return new FermentationRecipe(id, output, outputCount, ingredient, particleColor);
+        public MapCodec<FermentationRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buf, FermentationRecipe recipe) {
-            buf.writeInt(recipe.getIngredients().size());
-            for (Ingredient ing : recipe.getIngredients()) {
-                ing.toNetwork(buf);
-            }
-            buf.writeItem(recipe.getResultItem(null));
+        public StreamCodec<RegistryFriendlyByteBuf, FermentationRecipe> streamCodec() {
+            return PACKET_CODEC;
         }
     }
 }
