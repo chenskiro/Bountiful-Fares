@@ -1,7 +1,8 @@
 package net.hecco.bountifulfares.registry.content;
 
 import com.google.common.collect.Maps;
-import cpw.mods.util.Lazy;
+
+import com.xueluoanping.bountifulfaresforge.api.util.LazyGet;
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.custom.*;
 import net.hecco.bountifulfares.item.custom.CeramicDishBlockItem;
@@ -57,7 +58,7 @@ public class BFBlocks {
     public static final Map<ResourceKey<? extends Registry<?>>, Map<String, DeferredRegister<?>>> REGISTER_MAP = new HashMap<>();
 
     // used when register
-    public static final Map<Lazy<Item>, CropTrellisBlock> _CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
+    public static final Map<LazyGet<Item>, CropTrellisBlock> _CROPS_TO_CROP_TRELLISES = Maps.newHashMap();
     public static final Map<Supplier<Item>, VineCrop> _CROPS_TO_VINE_CROPS = Maps.newHashMap();
 
     // used when game

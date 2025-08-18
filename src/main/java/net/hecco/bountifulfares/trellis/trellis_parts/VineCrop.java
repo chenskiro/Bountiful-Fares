@@ -1,6 +1,6 @@
 package net.hecco.bountifulfares.trellis.trellis_parts;
 
-import cpw.mods.util.Lazy;
+import com.xueluoanping.bountifulfaresforge.api.util.LazyGet;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -12,13 +12,13 @@ import java.util.function.Supplier;
 public class VineCrop {
     public final String MOD_ID;
     public final String TYPE_ID;
-    public final Lazy<Item> CROP_ITEM;
-    public final Lazy<Item> SEEDS_ITEM;
+    public final LazyGet<Item> CROP_ITEM;
+    public final LazyGet<Item> SEEDS_ITEM;
     public VineCrop(String modId, String id, Supplier<Item> crop, Supplier<Item> seeds) {
         this.MOD_ID = modId;
         this.TYPE_ID = id;
-        this.CROP_ITEM = Lazy.of(crop::get);
-        this.SEEDS_ITEM = Lazy.of(seeds::get);
+        this.CROP_ITEM = LazyGet.of(crop::get);
+        this.SEEDS_ITEM = LazyGet.of(seeds::get);
 //        TrellisVariants.VineCrops.add(this);
         BFBlocks._CROPS_TO_VINE_CROPS.put(seeds, this);
     }
@@ -26,8 +26,8 @@ public class VineCrop {
     public VineCrop(String modId, String id, ResourceLocation crop) {
         this.MOD_ID = modId;
         this.TYPE_ID = id;
-        this.CROP_ITEM = Lazy.of(()->BuiltInRegistries.ITEM.get(crop));;
-        this.SEEDS_ITEM = Lazy.of(()->BuiltInRegistries.ITEM.get(crop));;
+        this.CROP_ITEM = LazyGet.of(()->BuiltInRegistries.ITEM.get(crop));;
+        this.SEEDS_ITEM = LazyGet.of(()->BuiltInRegistries.ITEM.get(crop));;
 //        TrellisVariants.VineCrops.add(this);
         BFBlocks._CROPS_TO_VINE_CROPS.put(()->BuiltInRegistries.ITEM.get(crop), this);
     }
@@ -35,8 +35,8 @@ public class VineCrop {
     public VineCrop(String modId, String id, Supplier<Item> crop) {
         this.MOD_ID = modId;
         this.TYPE_ID = id;
-        this.CROP_ITEM = Lazy.of(crop::get);
-        this.SEEDS_ITEM = Lazy.of(crop::get);
+        this.CROP_ITEM = LazyGet.of(crop::get);
+        this.SEEDS_ITEM = LazyGet.of(crop::get);
 //        TrellisVariants.VineCrops.add(this);
         BFBlocks._CROPS_TO_VINE_CROPS.put(crop, this);
     }
@@ -49,11 +49,11 @@ public class VineCrop {
         return this.MOD_ID;
     }
 
-    public Lazy<Item> getCropItem() {
+    public LazyGet<Item> getCropItem() {
         return this.CROP_ITEM;
     }
 
-    public Lazy<Item> getSeedsItem() {
+    public LazyGet<Item> getSeedsItem() {
         return this.SEEDS_ITEM;
     }
 
