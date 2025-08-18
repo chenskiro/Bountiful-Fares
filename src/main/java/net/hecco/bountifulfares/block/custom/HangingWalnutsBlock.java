@@ -103,7 +103,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS) && !state.getValue(SNIPPED)) {
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
+                player.getItemInHand(player.getUsedItemHand()).hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }

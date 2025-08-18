@@ -73,7 +73,7 @@ public class CoconutCandleBlock extends Block implements SimpleWaterloggedBlock 
             setLit(world, state, pos, true);
             world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
             if (player instanceof ServerPlayer serverPlayer)
-                stack.hurt(1, world.getRandom(), serverPlayer);
+                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             return ItemInteractionResult.SUCCESS;
         } else if (stack.is(Items.FIRE_CHARGE)) {
             setLit(world, state, pos, true);

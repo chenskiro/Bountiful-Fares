@@ -44,6 +44,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
     protected static final VoxelShape EAST_SHAPE = Block.box(0, 0, 0, 1, 16, 16);
 
     public TrellisVariant variant;
+
     public TrellisBlock(TrellisVariant variant, Properties settings) {
         super(settings);
         this.variant = variant;
@@ -66,6 +67,11 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
             default:
                 return EAST_SHAPE;
         }
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return simpleCodec(TrellisBlock::new);
     }
 
     @Override
@@ -195,7 +201,7 @@ public class TrellisBlock extends HorizontalDirectionalBlock implements SimpleWa
 
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite())
-        .setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
+                .setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
     }
 
     @Override

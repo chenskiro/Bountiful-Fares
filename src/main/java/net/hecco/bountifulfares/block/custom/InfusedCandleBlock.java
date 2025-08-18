@@ -1,14 +1,17 @@
 package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -17,6 +20,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
@@ -36,6 +40,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -88,7 +93,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
         } else if (player.getItemInHand(hand).is(Items.FLINT_AND_STEEL)) {
             setLit(level, state, pos, true);
             level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
-            player.getItemInHand(hand).hurtAndBreak(1, player, playerx -> playerx.broadcastBreakEvent(hand));
+            player.getItemInHand(hand).hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             return ItemInteractionResult.SUCCESS;
         } else if (player.getItemInHand(hand).is(Items.FIRE_CHARGE)) {
             setLit(level, state, pos, true);
@@ -111,8 +116,16 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
         return null;
     }
 
-    public static final MapCodec<? extends BaseEntityBlock> CODEC = simpleCodec(InfusedCandleBlock::new);
 
+    public static final MapCodec<InfusedCandleBlock> CODEC = RecordCodecBuilder.mapCodec(
+            p_308833_ -> p_308833_.group(RegistryFixedCodec.create(Registries.MOB_EFFECT).fieldOf("effect").forGetter(p_304917_ -> p_304917_.effect), propertiesCodec())
+                    .apply(p_308833_, InfusedCandleBlock::new)
+    );
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

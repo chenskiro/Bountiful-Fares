@@ -132,7 +132,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
         int i = state.getValue(AGE);
         if (stack.is(Items.SHEARS) && !state.getValue(SNIPPED)) {
             if (player instanceof ServerPlayer serverPlayer)
-                stack.hurt(1, world.getRandom(), serverPlayer);
+                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return ItemInteractionResult.SUCCESS;

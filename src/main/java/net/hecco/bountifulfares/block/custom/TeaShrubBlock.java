@@ -94,7 +94,7 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (itemStack.is(Items.SHEARS) && canHarvestLeaves(state)) {
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
+                player.getItemInHand(player.getUsedItemHand()).hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (state.getValue(AGE) == 4) {
                 popResource(world, pos, new ItemStack(BFItems.TEA_LEAVES.get(), 3 + world.random.nextInt(2)));

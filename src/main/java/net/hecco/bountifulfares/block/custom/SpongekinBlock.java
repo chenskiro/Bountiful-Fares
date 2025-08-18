@@ -34,7 +34,7 @@ public class SpongekinBlock extends Block {
             }
             world.setBlock(pos, Blocks.WET_SPONGE.defaultBlockState(), 2);
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
+                player.getItemInHand(player.getUsedItemHand()).hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), BFSounds.SPONGEKIN_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8f + world.random.nextFloat() / 4);
             return ItemInteractionResult.SUCCESS;
         }

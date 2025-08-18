@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -50,22 +51,27 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     }
 
     @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return null;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED, FACING);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         Direction facing = state.getValue(FACING);
-        if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
+        if (itemStack.is(Items.SHEARS)) {
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, level.getRandom(), serverPlayer);
+                player.getItemInHand(player.getUsedItemHand()).hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             level.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).get().defaultBlockState().setValue(FACING, facing), 2);
             popResource(level, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
