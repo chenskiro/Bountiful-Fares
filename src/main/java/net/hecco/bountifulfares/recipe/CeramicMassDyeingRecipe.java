@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class CeramicMassDyeingRecipe extends CustomRecipe {
     public CeramicMassDyeingRecipe(CraftingBookCategory pCategory) {
-        super( pCategory);
+        super(pCategory);
     }
 
     @Override
@@ -52,11 +52,11 @@ public class CeramicMassDyeingRecipe extends CustomRecipe {
                 if (ceramicItemStack.isEmpty()) {
                     ceramicItemStack = itemStack2;
                     continue;
-                } else if (ceramicItemStack.is(itemStack2.getItem())){
-                    if(DyedItemColor.getOrDefault(ceramicItemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR)
-                            == DyedItemColor.getOrDefault(itemStack2, DyeableCeramicBlockEntity.DEFAULT_COLOR)){
+                } else if (ceramicItemStack.is(itemStack2.getItem())) {
+                    if (DyedItemColor.getOrDefault(ceramicItemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR)
+                            == DyedItemColor.getOrDefault(itemStack2, DyeableCeramicBlockEntity.DEFAULT_COLOR)) {
                         continue;
-                    }else{
+                    } else {
                         return false;
                     }
                 }

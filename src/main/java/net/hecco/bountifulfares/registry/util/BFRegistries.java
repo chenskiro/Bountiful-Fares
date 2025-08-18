@@ -10,7 +10,6 @@ import net.hecco.bountifulfares.compat.dye_depot.DyeDepotBlocks;
 import net.hecco.bountifulfares.compat.excessive_building.ExcessiveBuildingBlocks;
 import net.hecco.bountifulfares.compat.mint.MintBlocks;
 import net.hecco.bountifulfares.entity.FlourProjectileEntity;
-import net.hecco.bountifulfares.mixin.util.BrewingRecipeRegistryMixin;
 import net.hecco.bountifulfares.mixin.util.FireBlockAccessor;
 import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
@@ -24,6 +23,7 @@ import net.minecraft.core.Position;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.AxeItem;
@@ -45,6 +45,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
@@ -133,7 +134,7 @@ public class BFRegistries {
             BFBlocks._CROPS_TO_VINE_CROPS.forEach((supplier, vineCrop) -> BFBlocks.CROPS_TO_VINE_CROPS.put(supplier.get(), vineCrop));
             //-------------
 
-            registerBrewingRecipe();
+            // registerBrewingRecipe();
             registerStrippables();
             registerCeramicCheckeredConversions();
             registerFuels();
@@ -155,13 +156,14 @@ public class BFRegistries {
         });
     }
 
-    public static void registerBrewingRecipe() {
-        BrewingRecipeRegistryMixin.addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.getHolder(BFPotions.ACIDIC));
-        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_ACIDIC));
-        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.GLOWSTONE_DUST, BFPotions.getHolder(BFPotions.STRONG_ACIDIC));
-        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.STUPOR));
-        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.LONG_ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
-        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.STUPOR), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
+    @SubscribeEvent
+    public static void registerBrewingRecipe(RegisterBrewingRecipesEvent event) {
+        event.getBuilder().addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.getHolder(BFPotions.ACIDIC));
+        event.getBuilder().addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_ACIDIC));
+        event.getBuilder().addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.GLOWSTONE_DUST, BFPotions.getHolder(BFPotions.STRONG_ACIDIC));
+        event.getBuilder().addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.STUPOR));
+        event.getBuilder().addMix(BFPotions.getHolder(BFPotions.LONG_ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
+        event.getBuilder().addMix(BFPotions.getHolder(BFPotions.STUPOR), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
     }
 
     public static void registerFermentationRecipes() {

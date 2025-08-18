@@ -3,6 +3,7 @@ package net.hecco.bountifulfares.mixin.render;
 import net.hecco.bountifulfares.BountifulFares;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,10 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ModelLoaderMixin {
 
 
-    @Shadow protected abstract void loadTopLevel(ModelResourceLocation pLocation);
+    @Shadow
+    protected abstract void loadSpecialItemModelAndDependencies(ModelResourceLocation modelLocation);
 
     @Inject(method = {"<init>"}, at = {@At(value = "RETURN")})
     private void addModels(CallbackInfo info) {
-        this.loadTopLevel(new ModelResourceLocation(BountifulFares.rl( "sun_hat_head"),"inventory"));
+        this.loadSpecialItemModelAndDependencies(new ModelResourceLocation(BountifulFares.rl("sun_hat_head"), "inventory"));
     }
 }
