@@ -1,31 +1,33 @@
 package net.hecco.bountifulfares.block.entity;
 
 // import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+
 import net.hecco.bountifulfares.BountifulFares;
 import net.hecco.bountifulfares.block.custom.GristmillBlock;
 import net.hecco.bountifulfares.recipe.MillingRecipe;
 import net.hecco.bountifulfares.registry.content.BFBlockEntities;
+import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.hecco.bountifulfares.screen.GristmillScreenHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -45,9 +47,10 @@ public class GristmillBlockEntity extends BlockEntity implements
     protected final ContainerData propertyDelegate;
     private int progress = 0;
     private int maxProgress = 80;
+
     public GristmillBlockEntity(BlockPos pos, BlockState state) {
         super(BFBlockEntities.GRISTMILL_BLOCK_ENTITY.get(), pos, state);
-        millingState = ((GristmillBlock)state.getBlock()).getMillingState();
+        millingState = ((GristmillBlock) state.getBlock()).getMillingState();
         this.propertyDelegate = new ContainerData() {
             @Override
             public int get(int index) {
@@ -61,8 +64,10 @@ public class GristmillBlockEntity extends BlockEntity implements
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0: GristmillBlockEntity.this.progress = value;
-                    case 1: GristmillBlockEntity.this.maxProgress = value;
+                    case 0:
+                        GristmillBlockEntity.this.progress = value;
+                    case 1:
+                        GristmillBlockEntity.this.maxProgress = value;
                 }
             }
 
@@ -97,16 +102,16 @@ public class GristmillBlockEntity extends BlockEntity implements
 
     @Override
     public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.saveAdditional(nbt,registries);
-        ContainerHelper.saveAllItems(nbt, inventory,registries);
+        super.saveAdditional(nbt, registries);
+        ContainerHelper.saveAllItems(nbt, inventory, registries);
         nbt.putInt("milling.progress", progress);
     }
 
     @Override
     protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        ContainerHelper.loadAllItems(nbt, inventory,registries);
+        ContainerHelper.loadAllItems(nbt, inventory, registries);
         nbt.getInt("milling.progress");
-        super.loadAdditional(nbt,registries);
+        super.loadAdditional(nbt, registries);
     }
 
     private boolean isCrafting() {
@@ -143,11 +148,11 @@ public class GristmillBlockEntity extends BlockEntity implements
     }
 
     private void craftItem() {
-        Optional<MillingRecipe> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<MillingRecipe>> recipe = getCurrentRecipe();
 
         this.removeItem(INPUT_SLOT, 1);
-        this.setItem(OUTPUT_SLOT, new ItemStack(recipe.get().getResultItem(null).getItem(),
-                this.getItem(OUTPUT_SLOT).getCount() + recipe.get().getResultItem(null).getCount()));
+        this.setItem(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResultItem(null).getItem(),
+                this.getItem(OUTPUT_SLOT).getCount() + recipe.get().value().getResultItem(null).getCount()));
     }
 
     private boolean hasCraftingFinished() {
@@ -157,16 +162,18 @@ public class GristmillBlockEntity extends BlockEntity implements
     private void increaseCraftingProgress() {
         this.progress++;
     }
+
     private void decreaseCraftingProgress() {
         if (this.progress > 0) {
             this.progress -= 2;
         }
     }
+
     private boolean hasRecipe() {
-        Optional<MillingRecipe> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<MillingRecipe>> recipe = getCurrentRecipe();
 
         if (recipe.isEmpty()) return false;
-        ItemStack output = recipe.get().getResultItem(null);
+        ItemStack output = recipe.get().value().getResultItem(null);
 
         return canInsertAmountIntoOutputSlot(output.getCount())
                 && canInsertItemIntoOutputSlot(output);
@@ -191,12 +198,12 @@ public class GristmillBlockEntity extends BlockEntity implements
         return TOP_SLOTS;
     }
 
-    private Optional<MillingRecipe> getCurrentRecipe() {
-        SimpleContainer inventory = new SimpleContainer(this.getContainerSize());
+    private Optional<RecipeHolder<MillingRecipe>> getCurrentRecipe() {
+        NonNullList<ItemStack> inventory = NonNullList.create();
         for (int i = 0; i < this.getContainerSize(); i++) {
-            inventory.setItem(i, this.getItem(i));
+            inventory.add(this.getItem(i));
         }
-        return this.getLevel().getRecipeManager().getRecipeFor(MillingRecipe.Type.INSTANCE, inventory, this.getLevel());
+        return this.getLevel().getRecipeManager().getRecipeFor(BFRecipes.MILLING, new RecipeWrapper(new ItemStackHandler(inventory)), this.getLevel());
     }
 
     private boolean canInsertOutputSlot() {

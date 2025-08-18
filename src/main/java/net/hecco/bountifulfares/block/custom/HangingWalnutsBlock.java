@@ -154,7 +154,8 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         }
     }
 
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
+    @Override
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
         return !isFullyGrown(state);
     }
 

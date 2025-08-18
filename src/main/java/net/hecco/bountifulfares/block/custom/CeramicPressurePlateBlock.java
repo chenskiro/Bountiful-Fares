@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 
 import net.minecraft.core.BlockPos;
@@ -13,10 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.BasePressurePlateBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -41,9 +39,14 @@ public class CeramicPressurePlateBlock extends BasePressurePlateBlock implements
         return DyeableCeramicBlock.createBlockEntity(pos, state);
     }
 
+    public static final MapCodec<CeramicPressurePlateBlock> CODEC = RecordCodecBuilder.mapCodec(
+            p_308833_ -> p_308833_.group(propertiesCodec(), BlockSetType.CODEC.fieldOf("block_set_type").forGetter(p_304917_ -> p_304917_.type))
+                    .apply(p_308833_, CeramicPressurePlateBlock::new)
+    );
+
     @Override
     protected MapCodec<? extends BasePressurePlateBlock> codec() {
-        return simpleCodec(CeramicPressurePlateBlock::new);
+        return CODEC;
     }
 
     @Override

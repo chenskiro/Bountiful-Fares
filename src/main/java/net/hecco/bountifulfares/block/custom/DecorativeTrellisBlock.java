@@ -55,14 +55,14 @@ public class DecorativeTrellisBlock extends TrellisBlock implements Bonemealable
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         Direction facing = state.getValue(FACING);
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS)) {
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
-            world.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).get().defaultBlockState().setValue(FACING, facing), 2);
-            popResource(world, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
+                player.getItemInHand(player.getUsedItemHand()).hurt(1, level.getRandom(), serverPlayer);
+            level.setBlock(pos, TrellisUtil.getTrellisFromVariant(variant).get().defaultBlockState().setValue(FACING, facing), 2);
+            popResource(level, pos, new ItemStack(BFBlocks.DECORATIVE_TRELLISES_TO_PLANTS.get(this)));
+            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

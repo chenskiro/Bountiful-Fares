@@ -4,6 +4,7 @@ import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,14 +23,12 @@ public abstract class StonecutterScreenMixin extends AbstractContainerScreen<Sto
 
     @ModifyArg(method = "renderRecipes", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;renderItem(Lnet/minecraft/world/item/ItemStack;II)V"))
     public ItemStack bountifulfares$renderRecipeIcons(ItemStack itemStack) {
-        //note to Hecco: you can change this if statement to your liking, maybe have a list of all ceramic block items instead
-        //because this currently will apply to ANY dyeable item put into stonecutter that has recipes
-        //not that it is a bad thing, just saying...
-        //if you DO change it, also check out StonecutterScreenHandlerMixin
-        if(this.menu.getSlot(0).getItem().getTagElement(ArtisanBrushItem.DISPLAY_KEY)!=null){
-            CompoundTag subNbt = itemStack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
-            subNbt.putInt(ArtisanBrushItem.COLOR_KEY,this.menu.getSlot(0).getItem().getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY));
-            // itemStack.set(DataComponentTypes.DYED_COLOR, this.menu.getSlot(0).getItem().get(DataComponentTypes.DYED_COLOR));
+        // note to Hecco: you can change this if statement to your liking, maybe have a list of all ceramic block items instead
+        // because this currently will apply to ANY dyeable item put into stonecutter that has recipes
+        // not that it is a bad thing, just saying...
+        // if you DO change it, also check out StonecutterScreenHandlerMixin
+        if (this.menu.getSlot(0).getItem().has(DataComponents.DYED_COLOR)) {
+            itemStack.set(DataComponents.DYED_COLOR, this.menu.getSlot(0).getItem().get(DataComponents.DYED_COLOR));
         }
         return itemStack;
     }
