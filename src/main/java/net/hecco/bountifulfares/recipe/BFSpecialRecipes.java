@@ -29,8 +29,10 @@ public class BFSpecialRecipes {
     // }
 
     private static RecipeSerializer<?> registerSpecialRecipe(String name,SimpleCraftingRecipeSerializer.Factory<?> toRecipe){
-        return recipeSerializers.put(ResourceKey.create(Registries.RECIPE_SERIALIZER,BountifulFares.rl( name)),
-                new SimpleCraftingRecipeSerializer<>(toRecipe));
+        SimpleCraftingRecipeSerializer<?> serializer = new SimpleCraftingRecipeSerializer<>(toRecipe);
+        recipeSerializers.put(ResourceKey.create(Registries.RECIPE_SERIALIZER,BountifulFares.rl( name)),
+                serializer);
+        return serializer;
     }
 
     @SubscribeEvent
