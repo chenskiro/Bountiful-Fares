@@ -1,25 +1,28 @@
 package net.hecco.bountifulfares.mixin.data;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.xueluoanping.bountifulfaresforge.data.datapack.DatapackRegistryGenerator;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biomes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(net.minecraft.core.RegistrySetBuilder.class)
+import java.util.HashSet;
+import java.util.Set;
+
+@Mixin(targets = "net.minecraft.core.RegistrySetBuilder$BuildState")
 public abstract class RegistrySetBuilderMixin {
 
 
-    @Inject(method = {"buildPatch"}, at = {@At(value = "INVOKE", target = "Lnet/minecraft/core/RegistrySetBuilder$BuildState;throwOnError()V")}, cancellable = true)
-    private void buildPatch$fixError(RegistryAccess pRegistryAccess,
-                                     HolderLookup.Provider pOriginal,
-                                     CallbackInfoReturnable<HolderLookup.Provider> cir,
-                                     @Local(ordinal = 1) HolderLookup.Provider provider) {
+    @ModifyExpressionValue(method = {"reportNotCollectedHolders"},
+            at = {@At(value = "INVOKE", target = "Ljava/util/Map;keySet()Ljava/util/Set;")})
+    private Set<ResourceKey<Object>> bountifulfares$buildPatch$fixError(Set<ResourceKey<Object>> original) {
         // because we not generate feature by dg, so it is not registered.
-        if ((Object) this == DatapackRegistryGenerator.REGISTRY_SET_BUILDER)
-            cir.setReturnValue(provider);
+        // if ((Object) this instanceof DatapackRegistryGenerator)
+        // if (original.contains(Biomes.PLAINS)) {
+        //     HashSet<ResourceKey<Object>> resourceKeys = new HashSet<>(original);
+        //     resourceKeys.remove(Biomes.PLAINS);
+        //     return resourceKeys;
+        // }
+        return new HashSet<>();
     }
 }
