@@ -85,14 +85,6 @@ public class MillingRecipe implements Recipe<RecipeInput> {
         T create(Ingredient ingredient, ItemStack result, int count);
     }
 
-    public static class Type<T extends MillingRecipe> implements RecipeType<T> {
-        private Type() {
-        }
-
-        public static final Type INSTANCE = new Type();
-        public static final String ID = "milling";
-    }
-
     public static class Serializer implements RecipeSerializer<MillingRecipe> {
         private final RecipeFactory<MillingRecipe> recipeFactory;
         public static final Serializer INSTANCE = new Serializer(MillingRecipe::new);

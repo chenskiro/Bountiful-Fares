@@ -4,8 +4,10 @@ import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 
 import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,9 +29,9 @@ public interface DyeableCeramicBlockInterface extends EntityBlock {
         } else {
             color = DyeableCeramicBlockEntity.DEFAULT_COLOR;
         }
-        // stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
-        CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
-        subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
+        stack.set(DataComponents.DYED_COLOR, new DyedItemColor(color, true));
+        // CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
+        // subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
         return stack;
     }
 

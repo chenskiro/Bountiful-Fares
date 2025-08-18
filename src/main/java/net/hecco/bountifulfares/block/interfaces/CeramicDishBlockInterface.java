@@ -3,8 +3,10 @@ package net.hecco.bountifulfares.block.interfaces;
 import net.hecco.bountifulfares.block.entity.CeramicDishBlockEntity;
 import net.hecco.bountifulfares.item.custom.ArtisanBrushItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,8 +27,9 @@ public interface CeramicDishBlockInterface extends EntityBlock {
         if (blockEntity != null) {
             color = blockEntity.color;
         }
-        CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
-        subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
+        // CompoundTag subNbt = stack.get(ArtisanBrushItem.DISPLAY_KEY);
+        // subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
+        stack.set(DataComponents.DYED_COLOR,new DyedItemColor(color,true));
         return stack;
     }
 

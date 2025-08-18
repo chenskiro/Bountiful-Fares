@@ -9,6 +9,7 @@ import net.hecco.bountifulfares.registry.content.BFItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -63,11 +64,11 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
             Item item = player.getItemInHand(player.getUsedItemHand()).getItem();
             if (CompatUtil.isItemPaintbrush(item)) {
                 brushColor = CompatUtil.getIntColorFromPaintbrush(item);
-            } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
-                brushColor = itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
+            } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.has(DataComponents.DYED_COLOR)) {
+                brushColor = itemStack.get(DataComponents.DYED_COLOR).rgb();
             }
-        } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null) {
-            brushColor = itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
+        } else if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.has(DataComponents.DYED_COLOR)) {
+            brushColor = itemStack.get(DataComponents.DYED_COLOR).rgb();
         }
         if (brushColor != 1 && !player.isShiftKeyDown()) {
             if (state.getValue(HALF) == DoubleBlockHalf.LOWER && world.getBlockState(pos.above()).is(this)) {
@@ -168,8 +169,10 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
         if (world.getBlockEntity(pos.above()) instanceof DyeableCeramicBlockEntity entity) {
-            DyeableCeramicBlockItem thisEntity = (DyeableCeramicBlockItem) itemStack.getItem();
-            entity.color = thisEntity.getColor(itemStack);
+            DyeableCeramicBlockEntity thisEntity = (DyeableCeramicBlockEntity) world.getBlockEntity(pos);
+            if (thisEntity != null) {
+                entity.color = thisEntity.color;
+            }
             entity.setChanged();
         }
     }

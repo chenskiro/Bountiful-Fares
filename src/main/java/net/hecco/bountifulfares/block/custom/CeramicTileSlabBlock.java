@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -53,8 +54,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
         ItemStack itemStack = context.getItemInHand();
         SlabType slabType = state.getValue(TYPE);
         if (slabType != SlabType.DOUBLE && itemStack.is(this.asItem())
-                && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY) != null && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY) == DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos())
-            // && DyedColorComponent.getColor(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.fullAlpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))
+            && DyedItemColor.getOrDefault(itemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR) == FastColor.ARGB32.alpha(DyeableCeramicBlockEntity.getColor(context.getLevel(), context.getClickedPos()))
         ) {
             if (context.replacingClickedOnBlock()) {
                 boolean bl = context.getClickLocation().y - (double) context.getClickedPos().getY() > 0.5;

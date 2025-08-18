@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.block.entity;
 
 // import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +28,7 @@ public abstract class DyeableBlockEntity extends BlockEntity {
     public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         if (color != DEFAULT_COLOR) {
             nbt.putInt("color", color);
-            super.saveAdditional(nbt,registries);
+            super.saveAdditional(nbt, registries);
         }
     }
 
@@ -37,7 +38,7 @@ public abstract class DyeableBlockEntity extends BlockEntity {
         if (nbt.getInt("color") == 0) {
             color = DEFAULT_COLOR;
         } else {
-            super.loadAdditional(nbt,registries);
+            super.loadAdditional(nbt, registries);
             color = nbt.getInt("color");
         }
     }
@@ -48,17 +49,18 @@ public abstract class DyeableBlockEntity extends BlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 
-    public static int getColor(BlockGetter world, BlockPos pos){
-        if(world==null){
+    public static int getColor(BlockGetter world, BlockPos pos) {
+        if (world == null) {
             return DyeableBlockEntity.DEFAULT_COLOR;
         }
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if(blockEntity instanceof DyeableBlockEntity ceramicTilesBlockEntity){
+        if (blockEntity instanceof DyeableBlockEntity ceramicTilesBlockEntity) {
             return ceramicTilesBlockEntity.color;
         } else {
             return DyeableBlockEntity.DEFAULT_COLOR;

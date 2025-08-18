@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -77,27 +78,27 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (player.getItemInHand(hand).isEmpty() && state.getValue(LIT)) {
-            extinguish(player, state, world, pos);
-            return InteractionResult.SUCCESS;
+            extinguish(player, state, level, pos);
+            return ItemInteractionResult.SUCCESS;
         }
         if ((player.getItemInHand(hand).is(Items.FLINT_AND_STEEL) || player.getItemInHand(hand).is(Items.FIRE_CHARGE)) && !canBeLit(state)) {
-            return InteractionResult.FAIL;
+            return ItemInteractionResult.FAIL;
         } else if (player.getItemInHand(hand).is(Items.FLINT_AND_STEEL)) {
-            setLit(world, state, pos, true);
-            world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
+            setLit(level, state, pos, true);
+            level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
             player.getItemInHand(hand).hurtAndBreak(1, player, playerx -> playerx.broadcastBreakEvent(hand));
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else if (player.getItemInHand(hand).is(Items.FIRE_CHARGE)) {
-            setLit(world, state, pos, true);
-            world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 1.0F);
+            setLit(level, state, pos, true);
+            level.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, (level.random.nextFloat() - level.random.nextFloat()) * 0.2F + 1.0F);
             if (!player.isCreative()) {
                 player.getItemInHand(hand).shrink(1);
             }
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
@@ -109,6 +110,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
         return null;
     }
+
     public static final MapCodec<? extends BaseEntityBlock> CODEC = simpleCodec(InfusedCandleBlock::new);
 
     @Override
@@ -127,6 +129,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
             setLit(world, state, hit.getBlockPos(), true);
         }
     }
+
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return null;
@@ -171,7 +174,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
         if (!state.getValue(LIT)) {
             return;
         }
-        spawnCandleParticles(world, new Vec3(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5), random);
+        spawnCandleParticles(world, new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), random);
     }
 
     public static boolean canBeLit(BlockState state) {

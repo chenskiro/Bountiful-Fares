@@ -10,6 +10,7 @@ import net.hecco.bountifulfares.registry.content.BFItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +20,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
@@ -44,6 +46,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -60,7 +63,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         if (CeramicDishBlockEntity.getColor(world, pos) != CeramicDishBlockEntity.DEFAULT_COLOR) {
             ItemStack stack = super.getCloneItemStack(world, pos, state);
             return pickBlock(world, pos, stack);
@@ -80,36 +83,35 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        ItemStack item = player.getItemInHand(player.getUsedItemHand());
-        if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity blockEntity) {
+    protected ItemInteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof CeramicDishBlockEntity blockEntity) {
             ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
             ItemStack stack = blockEntity.getItem(0);
             if (itemStack.is(BFItems.ARTISAN_BRUSH.get())) {
-                if (itemStack.getTag() != null && itemStack.getTag().contains(ArtisanBrushItem.DISPLAY_KEY) && blockEntity.getItem(0).isEmpty()) {
-                    // int brushColor = itemStack.getComponents().get(DataComponentTypes.DYED_COLOR).rgb();
-                    int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
-                    world.removeBlock(pos, true);
-                    world.setBlockAndUpdate(pos, this.withPropertiesOf(state));
+                if (itemStack.has(DataComponents.DYED_COLOR) && blockEntity.getItem(0).isEmpty()) {
+                    int brushColor = itemStack.getComponents().get(DataComponents.DYED_COLOR).rgb();
+                    // int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
+                    level.removeBlock(pos, true);
+                    level.setBlockAndUpdate(pos, this.withPropertiesOf(state));
                     blockEntity.insertItem(stack);
-                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
-                    if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
+                    level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (level.random.nextFloat() / 3));
+                    if (level.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
                         ceramicDishBlockEntity.color = brushColor;
                         ceramicDishBlockEntity.setChanged();
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
 
                     }
                 } else if (BountifulFares.isModLoaded(BountifulFares.ARTS_AND_CRAFTS_MOD_ID)) {
                     if (CompatUtil.isItemPaintbrush(item.getItem()) && blockEntity.getItem(0).isEmpty()) {
                         int brushColor = CompatUtil.getIntColorFromPaintbrush(item.getItem());
                         if (brushColor != 1) {
-                            world.removeBlock(pos, false);
-                            world.setBlockAndUpdate(pos, this.withPropertiesOf(state));
-                            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
-                            if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
+                            level.removeBlock(pos, false);
+                            level.setBlockAndUpdate(pos, this.withPropertiesOf(state));
+                            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (level.random.nextFloat() / 3));
+                            if (level.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
                                 ceramicDishBlockEntity.color = brushColor;
                                 ceramicDishBlockEntity.setChanged();
-                                return InteractionResult.SUCCESS;
+                                return ItemInteractionResult.SUCCESS;
 
                             }
                         }
@@ -119,13 +121,13 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
                     if (!player.isCreative()) {
                         item.shrink(1);
                     }
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else if (!stack.isEmpty()) {
                     if (player.isShiftKeyDown() && item.isEmpty()) {
                         player.setItemInHand(player.getUsedItemHand(), stack);
                         blockEntity.removeItem();
                         blockEntity.setChanged();
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     } else if (canEatOnDish(stack)) {
                         FoodProperties foodProperties = stack.getFoodProperties(player);
                         boolean shouldIgnore = foodProperties != null && foodProperties.canAlwaysEat();
@@ -134,7 +136,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                        float sat = Objects.requireNonNull(stack.getComponents().get(DataComponentTypes.FOOD)).saturation();
 //                        List<FoodComponent.StatusEffectEntry> effects = Objects.requireNonNull(stack.getComponents().get(DataComponentTypes.FOOD)).effects();
 //                        player.getHungerManager().add(hunger, sat);
-                            world.playSound(null, pos, SoundEvents.PLAYER_BURP, SoundSource.BLOCKS, 0.3f, 1.0f);
+                            level.playSound(null, pos, SoundEvents.PLAYER_BURP, SoundSource.BLOCKS, 0.3f, 1.0f);
 //                        if (stack.getItem() instanceof AirTimeIncreasingItem) {
 //                            int air = player.getAir();
 //                            int maxAir = player.getMaxAir();
@@ -145,7 +147,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                            }
 //                        }
 //                        if (stack.isOf(Items.CHORUS_FRUIT)) {
-//                            chorusTeleport(world, player);
+//                            chorusTeleport(level, player);
 //                        }
 //                        for (FoodComponent.StatusEffectEntry statusEffectEntry : effects) {
 //                            StatusEffectInstance effect = statusEffectEntry.effect();
@@ -154,11 +156,11 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                            StatusEffectInstance newEffect = new StatusEffectInstance(effect.getEffectType(), length, amplifier);
 //                            player.addStatusEffect(newEffect);
 //                        }
-                            for (int i = 0; i < 4 + world.random.nextIntBetweenInclusive(0, 4); i++) {
-                                world.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), pos.getX() + world.random.nextGaussian() / 12 + 0.5, pos.getY() + 0.2, pos.getZ() + world.random.nextGaussian() / 12 + 0.5, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
+                            for (int i = 0; i < 4 + level.random.nextIntBetweenInclusive(0, 4); i++) {
+                                level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), pos.getX() + level.random.nextGaussian() / 12 + 0.5, pos.getY() + 0.2, pos.getZ() + level.random.nextGaussian() / 12 + 0.5, (level.random.nextFloat() - 0.5) / 8, (level.random.nextFloat() - 0.5) / 8, (level.random.nextFloat() - 0.5) / 8);
                             }
 
-                            stack.getItem().finishUsingItem(stack, world, player);
+                            stack.getItem().finishUsingItem(stack, level, player);
 
                             if (stack.getCraftingRemainingItem().getItem() != Items.AIR) {
                                 blockEntity.insertItem(stack.getCraftingRemainingItem());
@@ -166,7 +168,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
                                 blockEntity.removeItem();
                             }
                             blockEntity.setChanged();
-                            return InteractionResult.SUCCESS;
+                            return ItemInteractionResult.SUCCESS;
                         }
                     }
                 }
@@ -174,13 +176,13 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
                 if (CompatUtil.isItemPaintbrush(item.getItem()) && blockEntity.getItem(0).isEmpty()) {
                     int brushColor = CompatUtil.getIntColorFromPaintbrush(item.getItem());
                     if (brushColor != 1) {
-                        world.removeBlock(pos, false);
-                        world.setBlockAndUpdate(pos, this.withPropertiesOf(state));
-                        world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
-                        if (world.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
+                        level.removeBlock(pos, false);
+                        level.setBlockAndUpdate(pos, this.withPropertiesOf(state));
+                        level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (level.random.nextFloat() / 3));
+                        if (level.getBlockEntity(pos) instanceof CeramicDishBlockEntity ceramicDishBlockEntity && ceramicDishBlockEntity.color != brushColor) {
                             ceramicDishBlockEntity.color = brushColor;
                             ceramicDishBlockEntity.setChanged();
-                            return InteractionResult.SUCCESS;
+                            return ItemInteractionResult.SUCCESS;
 
                         }
                     }
@@ -190,13 +192,13 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
                 if (!player.isCreative()) {
                     item.shrink(1);
                 }
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             } else if (!stack.isEmpty()) {
                 if (player.isShiftKeyDown() && item.isEmpty()) {
                     player.setItemInHand(player.getUsedItemHand(), stack);
                     blockEntity.removeItem();
                     blockEntity.setChanged();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else if (canEatOnDish(stack)) {
                     FoodProperties foodProperties = stack.getFoodProperties(player);
                     boolean shouldIgnore = foodProperties != null && foodProperties.canAlwaysEat();
@@ -205,7 +207,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                        float sat = Objects.requireNonNull(stack.getComponents().get(DataComponentTypes.FOOD)).saturation();
 //                        List<FoodComponent.StatusEffectEntry> effects = Objects.requireNonNull(stack.getComponents().get(DataComponentTypes.FOOD)).effects();
 //                        player.getHungerManager().add(hunger, sat);
-                        world.playSound(null, pos, SoundEvents.PLAYER_BURP, SoundSource.BLOCKS, 0.3f, 1.0f);
+                        level.playSound(null, pos, SoundEvents.PLAYER_BURP, SoundSource.BLOCKS, 0.3f, 1.0f);
 //                        if (stack.getItem() instanceof AirTimeIncreasingItem) {
 //                            int air = player.getAir();
 //                            int maxAir = player.getMaxAir();
@@ -216,7 +218,7 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                            }
 //                        }
 //                        if (stack.isOf(Items.CHORUS_FRUIT)) {
-//                            chorusTeleport(world, player);
+//                            chorusTeleport(level, player);
 //                        }
 //                        for (FoodComponent.StatusEffectEntry statusEffectEntry : effects) {
 //                            StatusEffectInstance effect = statusEffectEntry.effect();
@@ -225,11 +227,11 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
 //                            StatusEffectInstance newEffect = new StatusEffectInstance(effect.getEffectType(), length, amplifier);
 //                            player.addStatusEffect(newEffect);
 //                        }
-                        for (int i = 0; i < 4 + world.random.nextIntBetweenInclusive(0, 4); i++) {
-                            world.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), pos.getX() + world.random.nextGaussian() / 12 + 0.5, pos.getY() + 0.2, pos.getZ() + world.random.nextGaussian() / 12 + 0.5, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8, (world.random.nextFloat() - 0.5) / 8);
+                        for (int i = 0; i < 4 + level.random.nextIntBetweenInclusive(0, 4); i++) {
+                            level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), pos.getX() + level.random.nextGaussian() / 12 + 0.5, pos.getY() + 0.2, pos.getZ() + level.random.nextGaussian() / 12 + 0.5, (level.random.nextFloat() - 0.5) / 8, (level.random.nextFloat() - 0.5) / 8, (level.random.nextFloat() - 0.5) / 8);
                         }
 
-                        stack.getItem().finishUsingItem(stack, world, player);
+                        stack.getItem().finishUsingItem(stack, level, player);
 
                         if (stack.getCraftingRemainingItem().getItem() != Items.AIR) {
                             blockEntity.insertItem(stack.getCraftingRemainingItem());
@@ -237,14 +239,15 @@ public class CeramicDishBlock extends Block implements EntityBlock, SimpleWaterl
                             blockEntity.removeItem();
                         }
                         blockEntity.setChanged();
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     }
                 }
             }
 
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
+
 
     public static boolean canEatOnDish(ItemStack stack) {
         FoodProperties foodProperties = stack.getFoodProperties(null);

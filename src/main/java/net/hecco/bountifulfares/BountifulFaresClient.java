@@ -34,6 +34,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
@@ -287,7 +288,7 @@ public class BountifulFaresClient {
             ItemProperties.register(
                     BFItems.ARTISAN_BRUSH.get(), BountifulFares.rl("dyed"),
                     (itemStack, clientWorld, livingEntity, seed) ->
-                            BFDyeableLeatherItem.hasColorStatic(itemStack) ? 1.0F : 0.0F);
+                            itemStack.has(DataComponents.DYED_COLOR) ? 1.0F : 0.0F);
 
             for (Supplier<Block> block : BFTrellises.TRELLIS_RENDER_CUTOUT) {
                 setRenderLayer(block.get(), RenderType.cutout());
@@ -403,8 +404,8 @@ public class BountifulFaresClient {
         event.register((stack, tintIndex) -> FastColorAttach.opaque(5809764), BFBlocks.WALNUT_LEAVES.get());
 
         event.register((stack, tintIndex) -> {
-            if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
-                return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
+            if (stack.has(DataComponents.DYED_COLOR) && tintIndex == 0) {
+                return FastColorAttach.opaque(stack.get(DataComponents.DYED_COLOR).rgb());
             }
             return ArtisanBrushItem.DEFAULT_COLOR;
         }, BFItems.ARTISAN_BRUSH.get());

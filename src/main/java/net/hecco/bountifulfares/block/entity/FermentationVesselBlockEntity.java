@@ -75,7 +75,7 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
     @Override
     public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         super.saveAdditional(nbt,registries);
-        ContainerHelper.saveAllItems(nbt, this.inventory);
+        ContainerHelper.saveAllItems(nbt, this.inventory,registries);
         nbt.putInt("fermenting.progress", this.progress);
         nbt.putInt("particleColor", this.particleColor);
     }
@@ -181,8 +181,8 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
     }
 
     public Optional<FermentationRecipe> getCurrentRecipe() {
-        Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
-        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
+        Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
+        return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(BFRecipes.FERMENTING, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
     }
     public ItemInteractionResult tryExtractItem(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
         if (this.fermented) {

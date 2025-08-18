@@ -1,8 +1,6 @@
 package net.hecco.bountifulfares.datagen.recipe;
 
-import com.google.gson.JsonObject;
 import net.hecco.bountifulfares.recipe.FermentationRecipe;
-import net.hecco.bountifulfares.registry.misc.BFRecipes;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,22 +10,19 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class FermentingRecipeBuilder implements RecipeBuilder {
     private final Item result;
     private final ItemLike ingredient;
     private final int count;
     private final int particleColor;
-    private final Map<String, CriterionTriggerInstance> criteria = new LinkedHashMap();
+    private final Map<String, Criterion<?>> criteria = new LinkedHashMap();
     private final FermentationRecipe.RecipeFactory<?> recipeFactory;
 
     public FermentingRecipeBuilder(ItemLike ingredient, ItemLike output, int count, int particleColor, FermentationRecipe.RecipeFactory<?> recipeFactory) {
@@ -42,10 +37,9 @@ public class FermentingRecipeBuilder implements RecipeBuilder {
         return new FermentingRecipeBuilder(input, output, count, particleColor, FermentationRecipe::new);
     }
 
-
     @Override
-    public FermentingRecipeBuilder unlockedBy(String string, CriterionTriggerInstance pCriterionTrigger) {
-        this.criteria.put(string, pCriterionTrigger);
+    public RecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
+        this.criteria.put(name, criterion);
         return this;
     }
 
