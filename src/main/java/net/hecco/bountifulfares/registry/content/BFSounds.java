@@ -103,7 +103,8 @@ public class BFSounds {
         // sounds.put(soundEventResourceKey, variableRangeEvent);
         // Holder.Reference<SoundEvent> standAlone = Holder.Reference.createStandAlone(BuiltInRegistries.SOUND_EVENT.holderOwner(), soundEventResourceKey);
         // standAlone.bindValue(variableRangeEvent);
-        throw new IllegalArgumentException("Not use");
+        // throw new IllegalArgumentException("Not use");
+        return null;
     }
 
     public static SoundEvent registerSoundEvent(String name) {
