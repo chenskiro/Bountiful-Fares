@@ -27,6 +27,7 @@ public class BountifulFaresForge {
         BFBlocks.ITEM_DEFERRED_REGISTER.register(modEventBus);
         BFItems.ITEM_DEFERRED_REGISTER.register(modEventBus);
         BFEffects.EFFECT_DEFERRED_REGISTER.register(modEventBus);
+        BFPotions.POTION_DEFERRED_REGISTER.register(modEventBus);
 
         for (Map<String, DeferredRegister<?>> value : BFBlocks.REGISTER_MAP.values()) {
             for (DeferredRegister<?> deferredRegister : value.values()) {

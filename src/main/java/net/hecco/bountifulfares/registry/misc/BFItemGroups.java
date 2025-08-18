@@ -506,8 +506,8 @@ public class BFItemGroups {
                 BOUNTIFUL_FARES);
     }
 
-    private static ItemStack setPotion(Item potion, Potion acidic) {
-        return PotionContents.createItemStack(potion, BuiltInRegistries.POTION.getHolderOrThrow(BuiltInRegistries.POTION.getResourceKey(acidic).get()));
+    private static ItemStack setPotion(Item potion, Holder<Potion> acidic) {
+        return PotionContents.createItemStack(potion,acidic);
     }
 
     private static void addPaintings(CreativeModeTab.Output entries, HolderLookup.Provider registryLookup, HolderLookup.RegistryLookup<PaintingVariant> registryWrapper, Predicate<Holder<PaintingVariant>> filter, CreativeModeTab.TabVisibility stackVisibility) {
