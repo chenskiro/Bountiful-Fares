@@ -1,6 +1,7 @@
 package net.hecco.bountifulfares.datagen.bountifulfares;
 
 import com.xueluoanping.bountifulfaresforge.api.data.provider.ModNameLootTableProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
 
@@ -40,6 +41,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 
 public class BFBlockLootTableProvider extends BlockLootSubProvider {
@@ -54,17 +56,17 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
 
-        public BFLootTableProvider(PackOutput generator) {
+        public BFLootTableProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> lookupProvider) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(
                     BFBlockLootTableProvider::new,
                     LootContextParamSets.BLOCK
-            )));
+            )), lookupProvider);
             this.generator = generator;
         }
     }
 
-    public BFBlockLootTableProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public BFBlockLootTableProvider(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
 

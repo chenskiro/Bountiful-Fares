@@ -17,10 +17,7 @@ public class BlockItemWithInfo extends BlockItem {
         super(block, settings);
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, context, tooltip, type);
-    }
+
 
 //     @Override
 //     public void appendTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipType type) {

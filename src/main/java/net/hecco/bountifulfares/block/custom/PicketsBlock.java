@@ -173,7 +173,7 @@ public class PicketsBlock extends Block implements SimpleWaterloggedBlock {
         return super.getFluidState(state);
     }
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 

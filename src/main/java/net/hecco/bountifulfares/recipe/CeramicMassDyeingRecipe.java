@@ -1,8 +1,10 @@
 package net.hecco.bountifulfares.recipe;
 
 import com.google.common.collect.Lists;
+import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.hecco.bountifulfares.item.custom.CeramicDishBlockItem;
 import net.hecco.bountifulfares.item.custom.DyeableCeramicBlockItem;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +12,9 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -18,17 +22,17 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 
 public class CeramicMassDyeingRecipe extends CustomRecipe {
-    public CeramicMassDyeingRecipe(ResourceLocation pId, CraftingBookCategory pCategory) {
-        super(pId, pCategory);
+    public CeramicMassDyeingRecipe(CraftingBookCategory pCategory) {
+        super( pCategory);
     }
 
     @Override
-    public boolean matches(CraftingContainer inventory, Level world) {
+    public boolean matches(CraftingInput inventory, Level world) {
         boolean difference = false;
         Item dyeItem = null;
         int dyeCount = 0;
         ItemStack ceramicItemStack = ItemStack.EMPTY;
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
+        for (int i = 0; i < inventory.size(); i++) {
             ItemStack itemStack2 = inventory.getItem(i);
             if (itemStack2.isEmpty()) {
                 continue;
@@ -43,18 +47,16 @@ public class CeramicMassDyeingRecipe extends CustomRecipe {
                 }
                 continue;
             }
-            if (
-                // itemStack2.getItem() instanceof DyeableCeramicBlockItem
-                //         || itemStack2.getItem() instanceof CeramicDishBlockItem
-                    itemStack2.getItem() instanceof BFDyeableLeatherItem bfDyeableLeatherItem
-            ) {
+            if (itemStack2.getItem() instanceof DyeableCeramicBlockItem
+                    || itemStack2.getItem() instanceof CeramicDishBlockItem) {
                 if (ceramicItemStack.isEmpty()) {
                     ceramicItemStack = itemStack2;
                     continue;
-                } else if (ceramicItemStack.is(itemStack2.getItem())) {
-                    if (bfDyeableLeatherItem.getColor(ceramicItemStack) == bfDyeableLeatherItem.getColor(itemStack2)) {
+                } else if (ceramicItemStack.is(itemStack2.getItem())){
+                    if(DyedItemColor.getOrDefault(ceramicItemStack, DyeableCeramicBlockEntity.DEFAULT_COLOR)
+                            == DyedItemColor.getOrDefault(itemStack2, DyeableCeramicBlockEntity.DEFAULT_COLOR)){
                         continue;
-                    } else {
+                    }else{
                         return false;
                     }
                 }
@@ -66,11 +68,11 @@ public class CeramicMassDyeingRecipe extends CustomRecipe {
 
 
     @Override
-    public ItemStack assemble(CraftingContainer inventory, RegistryAccess lookup) {
+    public ItemStack assemble(CraftingInput inventory, HolderLookup.Provider registries) {
         ArrayList<DyeItem> list = Lists.newArrayList();
         ItemStack ceramicStack = ItemStack.EMPTY;
         int ceramicCount = 0;
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
+        for (int i = 0; i < inventory.size(); i++) {
             ItemStack itemStack2 = inventory.getItem(i);
             if (itemStack2.isEmpty()) continue;
             Item item = itemStack2.getItem();
@@ -88,7 +90,7 @@ public class CeramicMassDyeingRecipe extends CustomRecipe {
         if (list.isEmpty() || ceramicStack.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        ItemStack itemStack = DyeableLeatherItem.dyeArmor(ceramicStack, list);
+        ItemStack itemStack = DyedItemColor.applyDyes(ceramicStack, list);
         itemStack.setCount(ceramicCount);
         return itemStack;
     }

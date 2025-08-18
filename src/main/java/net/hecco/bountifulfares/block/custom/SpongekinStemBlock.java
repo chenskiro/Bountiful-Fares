@@ -165,8 +165,9 @@ public class SpongekinStemBlock extends BushBlock implements BonemealableBlock, 
     //     return false;
     // }
 
+
     @Override
-    public boolean canPlaceLiquid(BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
         return false;
     }
 

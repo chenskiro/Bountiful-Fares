@@ -12,10 +12,6 @@ public class AcidicEffect extends MobEffect {
 //        this.affectedEffects = new ArrayList<>();
     }
 
-    @Override
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap pAttributeMap, int amplifier) {
-        super.addAttributeModifiers(entity, pAttributeMap, amplifier);
-    }
 
     //     @Override
 //     public void onApplied(LivingEntity entity, int amplifier) {

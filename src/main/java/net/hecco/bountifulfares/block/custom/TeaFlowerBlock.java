@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TeaFlowerBlock extends FlowerBlock implements BonemealableBlock {
-    public TeaFlowerBlock(java.util.function.Supplier<MobEffect> suspiciousStewEffect, int effectDuration, Properties settings) {
+    public TeaFlowerBlock(Holder<MobEffect> suspiciousStewEffect, int effectDuration, Properties settings) {
         super(suspiciousStewEffect, effectDuration, settings);
     }
 

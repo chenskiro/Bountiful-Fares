@@ -1,6 +1,5 @@
 package net.hecco.bountifulfares.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.content.BFSounds;
 import net.hecco.bountifulfares.registry.tags.BFBlockTags;
@@ -168,15 +167,14 @@ public class CoconutBlock extends FallingBlock implements BonemealableBlock {
     }
 
     @Override
-    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         if (!player.isCreative() && state.getValue(AGE) == 5 && (isFree(world.getBlockState(pos.below())) || world.getBlockState(pos.below()).is(BFBlockTags.SPLITS_COCONUTS))) {
             FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(world, pos, state);
             this.falling(fallingBlockEntity);
             world.removeBlock(pos, false);
             // Blocks.AIR.defaultBlockState();
-        } else {
-            super.playerWillDestroy(world, pos, state, player);
         }
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override

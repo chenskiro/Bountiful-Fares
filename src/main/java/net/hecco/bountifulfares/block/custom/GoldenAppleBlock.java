@@ -64,7 +64,7 @@ public class GoldenAppleBlock extends FruitBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (state.getValue(SLICES) != 3 && player.canEat(true)) {
             world.setBlock(pos, state.cycle(SLICES), Block.UPDATE_CLIENTS);
             if (player.canEat(false)) {
@@ -86,6 +86,7 @@ public class GoldenAppleBlock extends FruitBlock {
         }
         return InteractionResult.PASS;
     }
+
 
     @Override
     public Item getFruitItem() {

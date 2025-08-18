@@ -30,16 +30,16 @@ public class BFEffects {
     // }
     // public static void registerEffects() {
     // }
-    public static final DeferredRegister<MobEffect> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(Registries.MOB_EFFECT, BountifulFares.MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECT_DEFERRED_REGISTER = DeferredRegister.create(Registries.MOB_EFFECT, BountifulFares.MOD_ID);
 
-    public static final Holder<MobEffect> ACIDIC = BLOCK_DEFERRED_REGISTER.register("acidic", () -> new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
-    public static final Holder<MobEffect> STUPOR = BLOCK_DEFERRED_REGISTER.register("stupor", () -> new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8));
-    public static final Holder<MobEffect> EBULLIENCE = BLOCK_DEFERRED_REGISTER.register("ebullience", () -> new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2));
-    public static final Holder<MobEffect> ENRICHMENT = BLOCK_DEFERRED_REGISTER.register("enrichment", () -> new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
+    public static final Holder<MobEffect> ACIDIC = EFFECT_DEFERRED_REGISTER.register("acidic", () -> new AcidicEffect(MobEffectCategory.NEUTRAL, 0xD1FF00));
+    public static final Holder<MobEffect> STUPOR = EFFECT_DEFERRED_REGISTER.register("stupor", () -> new StuporEffect(MobEffectCategory.NEUTRAL, 0x5F1ED8));
+    public static final Holder<MobEffect> EBULLIENCE = EFFECT_DEFERRED_REGISTER.register("ebullience", () -> new EbullienceEffect(MobEffectCategory.BENEFICIAL, 0xE9DEE2));
+    public static final Holder<MobEffect> ENRICHMENT = EFFECT_DEFERRED_REGISTER.register("enrichment", () -> new AcidicEffect(MobEffectCategory.BENEFICIAL, 0xffd48f)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, (BountifulFares.rl("effect.speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(Attributes.ATTACK_SPEED, (BountifulFares.rl("effect.attack_speed")), 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(Attributes.ATTACK_DAMAGE, (BountifulFares.rl("effect.attack")), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(Attributes.LUCK, (BountifulFares.rl("effect.luck")), 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-    public static final Holder<MobEffect> RESTORATION = BLOCK_DEFERRED_REGISTER.register("restoration", () -> new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19));
+    public static final Holder<MobEffect> RESTORATION = EFFECT_DEFERRED_REGISTER.register("restoration", () -> new RestorationEffect(MobEffectCategory.BENEFICIAL, 0xFF4B19));
 
 }

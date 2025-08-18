@@ -12,8 +12,8 @@ public class BlackTeaBottleItem extends TeaBottleItem{
     public BlackTeaBottleItem(Properties settings) {
         super(List.of(new MobEffectInstance(MobEffects.WEAKNESS), new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN), new MobEffectInstance(BFEffects.ACIDIC)), settings);
     }
-    public ArrayList<MobEffect> getStatusEffectsToRemove() {
-        ArrayList<MobEffect> list = new ArrayList<>();
+    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
+        ArrayList<Holder<MobEffect>> list = new ArrayList<>();
         list.add(MobEffects.WEAKNESS);
         list.add(MobEffects.MOVEMENT_SLOWDOWN);
         list.add(BFEffects.ACIDIC);

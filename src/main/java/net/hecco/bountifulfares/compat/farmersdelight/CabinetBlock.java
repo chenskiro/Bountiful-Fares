@@ -63,12 +63,11 @@ public class CabinetBlock extends BaseEntityBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!world.isClientSide() && world.getBlockEntity(pos) instanceof CabinetBlockEntity cabinetBlockEntity) {
             player.openMenu(cabinetBlockEntity);
         }
-
-        return InteractionResult.SUCCESS;
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override

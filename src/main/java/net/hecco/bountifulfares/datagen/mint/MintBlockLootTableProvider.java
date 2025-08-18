@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.datagen.mint;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
 
@@ -31,15 +32,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class MintBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
-        public BFLootTableProvider(PackOutput generator) {
+        public BFLootTableProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> lookupProvider) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(
                     MintBlockLootTableProvider::new,
                     LootContextParamSets.BLOCK
-            )));
+            )), lookupProvider);
             this.generator = generator;
         }
     }
@@ -49,8 +51,8 @@ public class MintBlockLootTableProvider  extends AutoSkipBlockLootSubProvider {
         return usedBlocks;
     }
 
-    public MintBlockLootTableProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public MintBlockLootTableProvider(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
     public static final ArrayList<Block> usedBlocks = new ArrayList<>();

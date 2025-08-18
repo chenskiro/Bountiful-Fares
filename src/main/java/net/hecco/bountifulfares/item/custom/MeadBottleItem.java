@@ -38,7 +38,7 @@ public class MeadBottleItem extends LiquidBottleItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level context, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack, @Nullable TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         if (BountifulFares.CONFIG.effectTooltips) {
             tooltip.add(CommonComponents.EMPTY);

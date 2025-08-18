@@ -60,7 +60,7 @@ public class FruitBlock extends FallingBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (state.getValue(SLICES) != 3 && player.canEat(false)) {
             world.setBlock(pos, state.cycle(SLICES), Block.UPDATE_CLIENTS);
             player.getFoodData().eat(4, 0.1f);
@@ -72,7 +72,7 @@ public class FruitBlock extends FallingBlock {
             world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 1.0f, 1.0f);
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.FAIL;
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override

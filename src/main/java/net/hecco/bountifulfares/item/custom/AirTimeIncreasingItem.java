@@ -47,9 +47,9 @@ public class AirTimeIncreasingItem extends EffectFoodItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext pLevel, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         {
-            super.appendHoverText(stack, pLevel, tooltip, type);
+            super.appendHoverText(stack, context, tooltip, type);
             if (BountifulFares.CONFIG.effectTooltips) {
                 tooltip.add(CommonComponents.EMPTY);
                 tooltip.add(Component.translatable("tooltip.bountifulfares.when_eaten").withStyle(ChatFormatting.GRAY));

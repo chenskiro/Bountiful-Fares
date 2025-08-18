@@ -44,7 +44,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
     }
 

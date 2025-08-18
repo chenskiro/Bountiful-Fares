@@ -185,7 +185,7 @@ public class FruitLogBlock extends RotatedPillarBlock implements SimpleWaterlogg
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 

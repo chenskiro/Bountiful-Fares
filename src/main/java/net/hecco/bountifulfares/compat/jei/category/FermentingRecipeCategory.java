@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
@@ -56,7 +57,7 @@ public class FermentingRecipeCategory implements IRecipeCategory<FermentationRec
 
         //Code for placing slot locations (input/any misc slot locations)
 
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 7, 6).addItemStacks(List.of(PotionUtils.setPotion(Items.POTION.getDefaultInstance(), Potions.WATER), Items.WATER_BUCKET.getDefaultInstance())); //output slot location
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 7, 6).addItemStacks(List.of(PotionContents.createItemStack(Items.POTION, Potions.WATER), Items.WATER_BUCKET.getDefaultInstance())); //output slot location
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 50).addItemStacks(recipe.getIngredients().stream().map(Ingredient::getItems).flatMap(Arrays::stream).toList()); //output slot location
         builder.addSlot(RecipeIngredientRole.OUTPUT, 63, 50).addItemStack(resultStack); //output slot location
     }

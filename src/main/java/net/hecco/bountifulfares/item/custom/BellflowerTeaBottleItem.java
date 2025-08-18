@@ -12,8 +12,8 @@ public class BellflowerTeaBottleItem extends TeaBottleItem{
     public BellflowerTeaBottleItem(Properties settings) {
         super(List.of(new MobEffectInstance(MobEffects.LEVITATION), new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN), new MobEffectInstance(BFEffects.ACIDIC)), settings);
     }
-    public ArrayList<MobEffect> getStatusEffectsToRemove() {
-        ArrayList<MobEffect> list = new ArrayList<>();
+    public ArrayList<Holder<MobEffect>> getStatusEffectsToRemove() {
+        ArrayList<Holder<MobEffect>> list = new ArrayList<>();
         list.add(MobEffects.LEVITATION);
         list.add(MobEffects.MOVEMENT_SLOWDOWN);
         list.add(BFEffects.ACIDIC);

@@ -19,6 +19,7 @@ import java.util.Optional;
 
 public class FakeResourceManagerHelperUtil {
     private static final PackSelectionConfig FEATURE_SELECTION_CONFIG = new PackSelectionConfig(true, Pack.Position.BOTTOM, false);
+    public static final PackSelectionConfig FEATURE_SELECTION_CONFIG_2 = new PackSelectionConfig(false, Pack.Position.BOTTOM, false);
 
     public static void registerBuiltinResourcePack(AddPackFindersEvent event, ResourceLocation packId, ModFile modFile, PackSource source) {
         String languageKey = packId.toLanguageKey("pack");

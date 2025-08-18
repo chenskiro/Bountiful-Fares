@@ -5,6 +5,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class ModTrapdoorBlock extends TrapDoorBlock {
     public ModTrapdoorBlock(Properties settings, BlockSetType blockSetType) {
-        super(settings, blockSetType);
+        super(blockSetType, settings);
     }
 }

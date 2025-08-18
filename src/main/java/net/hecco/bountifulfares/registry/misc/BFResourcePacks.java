@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 
@@ -146,7 +147,7 @@ public class BFResourcePacks {
                     Component.translatable("pack." + BountifulFares.MOD_ID + "." + "vanilla_item_override"),
                     PackType.CLIENT_RESOURCES,
                     PackSource.BUILT_IN,
-                    false);
+                    FakeResourceManagerHelperUtil.FEATURE_SELECTION_CONFIG_2);
 
             if ((Calendar.getInstance().get(Calendar.MONTH) == Calendar.APRIL
                     && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1)) {

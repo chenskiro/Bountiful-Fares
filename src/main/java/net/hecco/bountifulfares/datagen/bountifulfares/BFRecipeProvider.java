@@ -8,6 +8,7 @@ import net.hecco.bountifulfares.registry.content.BFBlocks;
 import net.hecco.bountifulfares.registry.content.BFItems;
 import net.hecco.bountifulfares.registry.content.BFTrellises;
 import net.hecco.bountifulfares.registry.tags.BFItemTags;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
@@ -20,6 +21,7 @@ import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
@@ -28,6 +30,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static net.minecraft.data.BlockFamilies.familyBuilder;
@@ -36,8 +39,8 @@ import static net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId;
 public class BFRecipeProvider extends VanillaRecipeProvider {
 
 
-    public BFRecipeProvider(PackOutput output) {
-        super(output);
+    public BFRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries);
     }
 
     @Override
@@ -99,8 +102,6 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
         TrellisUtilProvider.registerTrellisRecipe(exporter, BFTrellises.HOARY);
         TrellisUtilProvider.registerTrellisRecipe(exporter, BFTrellises.CRIMSON);
         TrellisUtilProvider.registerTrellisRecipe(exporter, BFTrellises.WARPED);
-
-
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BFBlocks.FELDSPAR_LANTERN.get())
@@ -185,7 +186,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .recipeGroupPrefix("wooden")
                 .recipeUnlockedBy("has_planks")
                 .getFamily();
-        generateRecipes(exporter, hoaryFamily);
+        generateRecipes(exporter, hoaryFamily, FeatureFlagSet.of());
         planksFromLogs(exporter, BFBlocks.HOARY_PLANKS.get(), BFItemTags.HOARY_LOGS, 4);
 
 
@@ -202,7 +203,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .recipeGroupPrefix("wooden")
                 .recipeUnlockedBy("has_planks")
                 .getFamily();
-        generateRecipes(exporter, walnutFamily);
+        generateRecipes(exporter, walnutFamily, FeatureFlagSet.of());
         planksFromLogs(exporter, BFBlocks.WALNUT_PLANKS.get(), BFItemTags.WALNUT_LOGS, 4);
 
         BlockFamily ceramicFamily = familyBuilder(BFBlocks.CERAMIC_TILES.get())
@@ -211,7 +212,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .recipeGroupPrefix("ceramic_tiles")
                 .recipeUnlockedBy("has_ceramic_tiles")
                 .getFamily();
-        generateRecipes(exporter, ceramicFamily);
+        generateRecipes(exporter, ceramicFamily, FeatureFlagSet.of());
 
 //        BlockFamily checkeredCeramicFamily = register(ModBlocks.CHECKERED_CERAMIC_TILES)
 //                .slab(ModBlocks.CERAMIC_TILE_SLAB)
@@ -227,7 +228,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .recipeGroupPrefix("ceramic_mosaic")
                 .recipeUnlockedBy("has_ceramic_mosaic")
                 .getFamily();
-        generateRecipes(exporter, ceramicMosaicFamily);
+        generateRecipes(exporter, ceramicMosaicFamily, FeatureFlagSet.of());
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BFBlocks.CERAMIC_DOOR.get())
                 .pattern("##")
@@ -307,8 +308,8 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .save(exporter);
 
         oreSmelting(exporter, ImmutableList.of(BFItems.MAIZE_SEEDS.get()), RecipeCategory.FOOD, BFItems.POPPED_MAIZE.get(), 0.1f, 100, "popped_maize");
-        oreCooking(exporter, RecipeSerializer.SMOKING_RECIPE,  ImmutableList.of(BFItems.MAIZE_SEEDS.get()), RecipeCategory.FOOD, BFItems.POPPED_MAIZE.get(), 0.1f, 50, "popped_maize", "_from_smoking");
-        oreCooking(exporter, RecipeSerializer.CAMPFIRE_COOKING_RECIPE,  ImmutableList.of(BFItems.MAIZE_SEEDS.get()), RecipeCategory.FOOD, BFItems.POPPED_MAIZE.get(), 0.1f, 300, "popped_maize", "_from_campfire_cooking");
+        oreCooking(exporter, RecipeSerializer.SMOKING_RECIPE, SmokingRecipe::new, ImmutableList.of(BFItems.MAIZE_SEEDS.get()), RecipeCategory.FOOD, BFItems.POPPED_MAIZE.get(), 0.1f, 50, "popped_maize", "_from_smoking");
+        oreCooking(exporter, RecipeSerializer.CAMPFIRE_COOKING_RECIPE, CampfireCookingRecipe::new, ImmutableList.of(BFItems.MAIZE_SEEDS.get()), RecipeCategory.FOOD, BFItems.POPPED_MAIZE.get(), 0.1f, 300, "popped_maize", "_from_campfire_cooking");
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BFItems.WALNUT_COOKIE.get(), 4)
@@ -584,10 +585,10 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .save(exporter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.STICK, 8)
-                        .group("stick")
-                        .requires(BFItemTags.FRUIT_LOGS)
-                        .unlockedBy("has_fruit_log", has(BFItemTags.FRUIT_LOGS))
-                        .save(exporter);
+                .group("stick")
+                .requires(BFItemTags.FRUIT_LOGS)
+                .unlockedBy("has_fruit_log", has(BFItemTags.FRUIT_LOGS))
+                .save(exporter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, BFBlocks.WALNUT_MULCH.get(), 4)
                 .group("walnut_mulch")
@@ -649,7 +650,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .wall(BFBlocks.COIR_BRICK_WALL.get())
                 .recipeUnlockedBy("has_coir_bricks")
                 .getFamily();
-        generateRecipes(exporter, coirBricksFamily);
+        generateRecipes(exporter, coirBricksFamily, FeatureFlagSet.of());
         carpet(exporter, BFBlocks.COIR_CARPET.get(), BFBlocks.PACKED_COCONUT_COIR.get());
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BFBlocks.COCONUT_CANDLE.get(), 1)
@@ -691,7 +692,6 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .define('S', Items.IRON_NUGGET)
                 .pattern("#S#")
                 .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(exporter);
-
 
 
         oneToOneConversionRecipe(exporter, BFItems.MAIZE_SEEDS.get(), BFItems.MAIZE.get(), null, 2);
@@ -951,7 +951,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .slab(BFBlocks.FELDSPAR_BRICK_SLAB.get())
                 .recipeUnlockedBy("has_feldspar_bricks")
                 .getFamily();
-        generateRecipes(exporter, feldsparBricksFamily);
+        generateRecipes(exporter, feldsparBricksFamily, FeatureFlagSet.of());
 
         stonecutterResultFromBase(exporter, RecipeCategory.BUILDING_BLOCKS, BFBlocks.CUT_FELDSPAR_BLOCK.get(), BFBlocks.FELDSPAR_BLOCK.get(), 1);
         stonecutterResultFromBase(exporter, RecipeCategory.BUILDING_BLOCKS, BFBlocks.FELDSPAR_BRICKS.get(), BFBlocks.FELDSPAR_BLOCK.get(), 1);
@@ -976,8 +976,8 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
 
         oreSmelting(exporter, ImmutableList.of(BFItems.CERAMIC_CLAY.get()), RecipeCategory.MISC, BFItems.CERAMIC_TILE.get(), 0.3f, 200, "ceramic_tile");
         oreSmelting(exporter, ImmutableList.of(BFItems.TEA_LEAVES.get()), RecipeCategory.FOOD, BFItems.DRIED_TEA_LEAVES.get(), 0.3f, 200, "dried_tea_leaves");
-        oreCooking(exporter, RecipeSerializer.SMOKING_RECIPE,  ImmutableList.of(BFItems.TEA_LEAVES.get()), RecipeCategory.FOOD, BFItems.DRIED_TEA_LEAVES.get(), 0.2f, 100, "dried_tea_leaves", "_from_smoking");
-        oreCooking(exporter, RecipeSerializer.CAMPFIRE_COOKING_RECIPE,  ImmutableList.of(BFItems.TEA_LEAVES.get()), RecipeCategory.FOOD, BFItems.DRIED_TEA_LEAVES.get(), 0.2f, 600, "dried_tea_leaves", "_from_campfire_cooking");
+        oreCooking(exporter, RecipeSerializer.SMOKING_RECIPE, SmokingRecipe::new, ImmutableList.of(BFItems.TEA_LEAVES.get()), RecipeCategory.FOOD, BFItems.DRIED_TEA_LEAVES.get(), 0.2f, 100, "dried_tea_leaves", "_from_smoking");
+        oreCooking(exporter, RecipeSerializer.CAMPFIRE_COOKING_RECIPE, CampfireCookingRecipe::new, ImmutableList.of(BFItems.TEA_LEAVES.get()), RecipeCategory.FOOD, BFItems.DRIED_TEA_LEAVES.get(), 0.2f, 600, "dried_tea_leaves", "_from_campfire_cooking");
         oreSmelting(exporter, ImmutableList.of(BFBlocks.CERAMIC_TILES.get()), RecipeCategory.FOOD, BFBlocks.CRACKED_CERAMIC_TILES.get(), 0.3f, 200, "cracked_ceramic_tiles");
 
 
@@ -1042,11 +1042,6 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
     }
 
 
-
-
-
-
-
     public static void offerCandiedFruitRecipe(RecipeOutput exporter, ItemLike input, ItemLike output, int count) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output, count)
                 .requires(input)
@@ -1082,6 +1077,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4).define('#', BuiltInRegistries.ITEM.get(input)).define('S', Items.STICK)
                 .pattern("#S#").unlockedBy("has_planks", has(BuiltInRegistries.ITEM.get(input))).save(exporter);
     }
+
     public static void offerTeaRecipes(RecipeOutput exporter, ItemLike teaBottle, ItemLike teaCandle, ItemLike teaBlendItem) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, teaBottle)
                 .requires(teaBlendItem, 1)
@@ -1101,6 +1097,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
 
 
     }
+
     public static void offerCompoteJarRecipe(RecipeOutput exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input, 2)
@@ -1110,6 +1107,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
+
     public static void offerCompoteJarRecipe(RecipeOutput exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(tag)
@@ -1120,6 +1118,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy(getHasName(input), has(tag))
                 .save(exporter);
     }
+
     public static void offerCandyRecipe(RecipeOutput exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input)
@@ -1128,6 +1127,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy(getHasName(input), has(input))
                 .save(exporter);
     }
+
     public static void offerCandyRecipe(RecipeOutput exporter, ItemLike output, TagKey<Item> tag, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(tag)
@@ -1136,6 +1136,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy(getHasName(input), has(tag))
                 .save(exporter);
     }
+
     public static void offerJackOStrawRecipes(RecipeOutput exporter, ItemLike output, ItemLike wool) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT.get())
@@ -1158,6 +1159,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy("has_wool", has(wool))
                 .save(exporter, getDefaultRecipeId(output) + "_with_pumpkin");
     }
+
     public static void offerJackOStrawRecipes(RecipeOutput exporter, ItemLike output, ItemLike wool, String specifier) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, output)
                 .requires(BFItems.SUN_HAT.get())
@@ -1180,6 +1182,7 @@ public class BFRecipeProvider extends VanillaRecipeProvider {
                 .unlockedBy("has_wool", has(wool))
                 .save(exporter, getDefaultRecipeId(output) + "_with_pumpkin_" + specifier);
     }
+
     public static void offerTartAndPieRecipe(RecipeOutput exporter, ItemLike output, ItemLike input) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, output)
                 .requires(input)

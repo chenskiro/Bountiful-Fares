@@ -11,49 +11,32 @@ public class GorgingEffect extends MobEffect {
         super(category, color);
     }
 
-    // @Override
-    // public void onApplied(LivingEntity entity, int amplifier) {
-    //     if (entity instanceof  Player) {
-    //         ((Player) entity).getFoodData().setFoodLevel(20);
-    //     }
-    //     super.addAttributeModifiers(entity, amplifier);
-    // }
-
     @Override
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap pAttributeMap, int pAmplifier) {
-        if (entity instanceof  Player) {
+    public void onEffectAdded(LivingEntity entity, int amplifier) {
+        if (entity instanceof Player) {
             ((Player) entity).getFoodData().setFoodLevel(20);
         }
-        super.addAttributeModifiers(entity, pAttributeMap, pAmplifier);
+        super.onEffectAdded(entity, amplifier);
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         super.applyEffectTick(entity, amplifier);
         if (entity instanceof Player) {
             ((Player) entity).getFoodData().setExhaustion(0f);
         }
+        return true;
     }
 
-    // @Override
-    // public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
-    //     super.applyEffectTick(entity, amplifier);
-    //     if (entity instanceof Player) {
-    //         ((Player) entity).getFoodData().setExhaustion(0f);
-    //     }
-    //     return true;
-    // }
-
-//    @Override
+    //    @Override
 //    public void onRemoved(AttributeContainer attributeContainer) {
 //        if (entity instanceof  PlayerEntity) {
 //            ((PlayerEntity) entity).getHungerManager().setFoodLevel(1 + Random.create().nextBetween(0, 5));
 //        }
 //        super.onRemoved(attributeContainer);
 //    }
-
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return true;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -84,10 +85,8 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
         }
     }
 
-
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (itemStack.is(Items.SHEARS) && canHarvestLeaves(state)) {
             if (player instanceof ServerPlayer serverPlayer)
                 player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
@@ -98,37 +97,28 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
                 popResource(world, pos, new ItemStack(BFItems.TEA_LEAVES.get(), 1 + world.random.nextInt(2)));
             }
             world.setBlock(pos, state.setValue(AGE, 2), Block.UPDATE_CLIENTS);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else if (itemStack.is(Items.BONE_MEAL) && state.getValue(AGE) == 4 && !state.getValue(BERRIES)) {
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             world.setBlock(pos, state.setValue(BERRIES, true), Block.UPDATE_CLIENTS);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else if (state.getValue(BERRIES)) {
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 1.0F);
             world.setBlock(pos, state.setValue(BERRIES, false), Block.UPDATE_CLIENTS);
             popResource(world, pos, new ItemStack(BFItems.TEA_BERRIES.get(), 1 + world.random.nextInt(1)));
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    // @Override
-    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return new ItemStack(BFItems.TEA_BERRIES.get());
-    // }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return new ItemStack(BFItems.TEA_BERRIES.get());
     }
-
-    // @Override
-    // public boolean isFertilizable(LevelReader world, BlockPos pos, BlockState state) {
-    //     return true;
-    // }
 
     @Override
     public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState) {
@@ -150,6 +140,7 @@ public class TeaShrubBlock extends BushBlock implements BonemealableBlock {
     protected static boolean isFullyGrown(BlockState state) {
         return state.getValue(AGE) == 4;
     }
+
     protected static boolean canHarvestLeaves(BlockState state) {
         return state.getValue(AGE) >= 3 && !state.getValue(BERRIES);
     }

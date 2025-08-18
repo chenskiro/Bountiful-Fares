@@ -77,7 +77,7 @@ public class InfusedCandleBlock extends BaseEntityBlock implements EntityBlock, 
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (player.getItemInHand(hand).isEmpty() && state.getValue(LIT)) {
             extinguish(player, state, world, pos);
             return InteractionResult.SUCCESS;

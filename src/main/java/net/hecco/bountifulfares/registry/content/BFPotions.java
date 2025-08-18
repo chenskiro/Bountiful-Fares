@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -34,7 +35,7 @@ public class BFPotions {
     public static final Potion LONG_STUPOR = registerForCache(BuiltInRegistries.POTION, BountifulFares.rl("bountifulfares.long_stupor"),
             new Potion(new MobEffectInstance(BFEffects.STUPOR, 3600, 0)));
 
-    private static Potion registerForCache(DefaultedRegistry<Potion> registry, ResourceLocation rl, Potion potion1) {
+    private static Potion registerForCache(Registry<Potion> registry, ResourceLocation rl, Potion potion1) {
         potions.put(ResourceKey.create(Registries.POTION, rl), potion1);
         return potion1;
     }
@@ -44,5 +45,9 @@ public class BFPotions {
         event.register(Registries.POTION, registerHelper -> {
             potions.forEach(registerHelper::register);
         });
+    }
+
+    public static Holder<Potion> getHolder(Potion potions) {
+        return BuiltInRegistries.POTION.wrapAsHolder(potions);
     }
 }

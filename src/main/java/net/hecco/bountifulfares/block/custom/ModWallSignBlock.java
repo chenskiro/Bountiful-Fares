@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class ModWallSignBlock extends WallSignBlock {
     public ModWallSignBlock(WoodType woodType, Properties settings) {
-        super(settings, woodType);
+        super(woodType, settings);
     }
 
     @Override

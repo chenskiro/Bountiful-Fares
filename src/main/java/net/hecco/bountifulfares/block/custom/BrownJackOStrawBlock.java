@@ -60,7 +60,6 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
     }
 
 
-
     public BrownJackOStrawBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, false));
@@ -75,6 +74,7 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
         }
         return blockState.is(this);
     }
+
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (world.getBlockState(pos.above(1)).is(Blocks.AIR) && state.getValue(HALF) == DoubleBlockHalf.LOWER) {
@@ -114,7 +114,7 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
     }
 
     @Override
-    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         if (!world.isClientSide && player.isCreative()) {
             onBreakInCreative(world, pos, state, player);
         } else if (world.getBlockState(pos.above()).is(this) && state.getValue(HALF) == DoubleBlockHalf.LOWER) {
@@ -124,7 +124,7 @@ public class BrownJackOStrawBlock extends Block implements SimpleWaterloggedBloc
             world.destroyBlock(pos, true);
             world.destroyBlock(pos.below(), false);
         }
-         super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override

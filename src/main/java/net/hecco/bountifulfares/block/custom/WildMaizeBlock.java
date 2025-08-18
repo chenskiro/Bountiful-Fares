@@ -40,7 +40,7 @@ public class WildMaizeBlock extends DoublePlantBlock {
     }
 
     @Override
-    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if (doubleBlockHalf == DoubleBlockHalf.UPPER) {
             BlockPos blockPos = pos.below();
@@ -62,6 +62,6 @@ public class WildMaizeBlock extends DoublePlantBlock {
             }
         }
 
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 }

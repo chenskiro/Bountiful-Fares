@@ -63,9 +63,9 @@ public final class start {
         MutablePackOutput packOutput = new MutablePackOutput(generator.getPackOutput());
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new BFGLMProvider(packOutput, MODID));
-            generator.addProvider(event.includeServer(), new BFRecipeProvider(packOutput));
-            generator.addProvider(event.includeServer(), new BFBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new BFGLMProvider(packOutput, lookupProvider, MODID));
+            generator.addProvider(event.includeServer(), new BFRecipeProvider(packOutput, lookupProvider));
+            generator.addProvider(event.includeServer(), new BFBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             BFBlockTagProvider bfBlockTagProvider = new BFBlockTagProvider(packOutput, lookupProvider);
             generator.addProvider(event.includeServer(), bfBlockTagProvider);
             generator.addProvider(event.includeServer(), new BFItemTagProvider(packOutput, lookupProvider, bfBlockTagProvider.contentsGetter()));
@@ -84,7 +84,7 @@ public final class start {
         // ELS_AND_LS_DYES
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.ELS_AND_LS_DYES_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new MintBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new MintBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new MintBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new MintRecipeProvider(packOutput, lookupProvider));
         }
@@ -92,7 +92,7 @@ public final class start {
         // ARTS_AND_CRAFTS
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.ARTS_AND_CRAFTS_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new ArtsAndCraftsBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new ArtsAndCraftsBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new ArtsAndCraftsBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new ArtsAndCraftsRecipeProvider(packOutput, lookupProvider));
         }
@@ -100,7 +100,7 @@ public final class start {
         // DYE_DEPOT
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.DYE_DEPOT_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new DyeDepotBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DyeDepotBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DyeDepotBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DyeDepotRecipeProvider(packOutput, lookupProvider));
         }
@@ -108,7 +108,7 @@ public final class start {
         // EXCESSIVE_BUILDING
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.EXCESSIVE_BUILDING_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new ExcessiveBuildingBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new ExcessiveBuildingRecipeProvider(packOutput, lookupProvider));
         }
@@ -116,7 +116,7 @@ public final class start {
         // FARMERS_DELIGHT
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.FARMERS_DELIGHT_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new FarmersDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new FarmersDelightBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new FarmersDelightBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(packOutput, lookupProvider));
         }
@@ -124,7 +124,7 @@ public final class start {
         // NATURES_SPIRIT
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.NATURES_SPIRIT_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new NaturesSpiritBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new NaturesSpiritBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             NaturesSpiritBlockTagProvider naturesSpiritBlockTagProvider = new NaturesSpiritBlockTagProvider(packOutput, lookupProvider);
             generator.addProvider(event.includeServer(), naturesSpiritBlockTagProvider);
             generator.addProvider(event.includeServer(), new NaturesSpiritItemTagProvider(packOutput, lookupProvider, naturesSpiritBlockTagProvider.contentsGetter()));
@@ -134,7 +134,7 @@ public final class start {
         // SPAWN
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.SPAWN_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new SpawnBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new SpawnBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new SpawnBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new SpawnRecipeProvider(packOutput, lookupProvider));
         }
@@ -142,7 +142,7 @@ public final class start {
         // TWIGS
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.TWIGS_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new TwigsBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new TwigsBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new TwigsBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new TwigsRecipeProvider(packOutput, lookupProvider));
         }
@@ -150,7 +150,7 @@ public final class start {
         // DELICATE_DYES
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.DELICATE_DYES_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new DelicateDyesBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DelicateDyesBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DelicateDyesBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DelicateDyesRecipeProvider(packOutput, lookupProvider));
         }
@@ -158,7 +158,7 @@ public final class start {
         // APPLEDOG
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.APPLEDOG_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new AppledogBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new AppledogBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new AppledogBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new AppledogRecipeProvider(packOutput, lookupProvider));
         }
@@ -166,7 +166,7 @@ public final class start {
         // DUNGEONS_DELIGHT
         packOutput = packOutput.move(Path.of("resourcepacks", BountifulFares.DUNGEONS_DELIGHT_MOD_ID + "_dat"));
         if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new DungeonsDelightBlockLootTableProvider.BFLootTableProvider(packOutput));
+            generator.addProvider(event.includeServer(), new DungeonsDelightBlockLootTableProvider.BFLootTableProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DungeonsDelightBlockTagProvider(packOutput, lookupProvider));
             generator.addProvider(event.includeServer(), new DungeonsDelightRecipeProvider(packOutput, lookupProvider));
         }

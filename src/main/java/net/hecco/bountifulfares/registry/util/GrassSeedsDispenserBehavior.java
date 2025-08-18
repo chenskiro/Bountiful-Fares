@@ -36,6 +36,6 @@ public abstract class GrassSeedsDispenserBehavior extends DefaultDispenseItemBeh
         return itemDispenser.dispense(pointer, stack);
     }
     protected void playSound(BlockSource pointer) {
-        pointer.level().levelEvent(1002, pointer.getPos(), 0);
+        pointer.level().levelEvent(1002, pointer.pos(), 0);
     }
 }

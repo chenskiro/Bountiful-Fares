@@ -3,10 +3,7 @@ package com.xueluoanping.bountifulfaresforge;
 import com.xueluoanping.bountifulfaresforge.data.start;
 import com.xueluoanping.bountifulfaresforge.registry.BFGlobalLootModifier;
 import net.hecco.bountifulfares.BountifulFares;
-import net.hecco.bountifulfares.registry.content.BFBlockEntities;
-import net.hecco.bountifulfares.registry.content.BFBlocks;
-import net.hecco.bountifulfares.registry.content.BFEntities;
-import net.hecco.bountifulfares.registry.content.BFItems;
+import net.hecco.bountifulfares.registry.content.*;
 import net.hecco.bountifulfares.registry.misc.BFResourcePacks;
 import net.hecco.bountifulfares.registry.util.BFRegistries;
 import net.neoforged.bus.api.IEventBus;
@@ -29,6 +26,8 @@ public class BountifulFaresForge {
         BFBlocks.BLOCK_DEFERRED_REGISTER.register(modEventBus);
         BFBlocks.ITEM_DEFERRED_REGISTER.register(modEventBus);
         BFItems.ITEM_DEFERRED_REGISTER.register(modEventBus);
+        BFEffects.EFFECT_DEFERRED_REGISTER.register(modEventBus);
+
         for (Map<String, DeferredRegister<?>> value : BFBlocks.REGISTER_MAP.values()) {
             for (DeferredRegister<?> deferredRegister : value.values()) {
                 deferredRegister.register(modEventBus);

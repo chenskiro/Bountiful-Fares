@@ -99,7 +99,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
 
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS) && !state.getValue(SNIPPED)) {
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
             if (player instanceof ServerPlayer serverPlayer)
@@ -186,7 +186,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     // }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return BFItems.WALNUT.get().getDefaultInstance();
     }
 }

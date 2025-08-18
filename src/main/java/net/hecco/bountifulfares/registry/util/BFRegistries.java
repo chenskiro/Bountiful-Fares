@@ -156,12 +156,12 @@ public class BFRegistries {
     }
 
     public static void registerBrewingRecipe() {
-        BrewingRecipeRegistryMixin.addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.ACIDIC);
-        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.REDSTONE, BFPotions.LONG_ACIDIC);
-        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.GLOWSTONE_DUST, BFPotions.STRONG_ACIDIC);
-        BrewingRecipeRegistryMixin.addMix(BFPotions.ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.STUPOR);
-        BrewingRecipeRegistryMixin.addMix(BFPotions.LONG_ACIDIC, Items.FERMENTED_SPIDER_EYE, BFPotions.LONG_STUPOR);
-        BrewingRecipeRegistryMixin.addMix(BFPotions.STUPOR, Items.REDSTONE, BFPotions.LONG_STUPOR);
+        BrewingRecipeRegistryMixin.addMix(Potions.AWKWARD, BFItems.CITRUS_ESSENCE.get(), BFPotions.getHolder(BFPotions.ACIDIC));
+        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_ACIDIC));
+        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.GLOWSTONE_DUST, BFPotions.getHolder(BFPotions.STRONG_ACIDIC));
+        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.STUPOR));
+        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.LONG_ACIDIC), Items.FERMENTED_SPIDER_EYE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
+        BrewingRecipeRegistryMixin.addMix(BFPotions.getHolder(BFPotions.STUPOR), Items.REDSTONE, BFPotions.getHolder(BFPotions.LONG_STUPOR));
     }
 
     public static void registerFermentationRecipes() {

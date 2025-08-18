@@ -1,5 +1,6 @@
 package net.hecco.bountifulfares.datagen.dye_depot;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import com.xueluoanping.bountifulfaresforge.api.data.provider.AutoSkipBlockLootSubProvider;
 import net.hecco.bountifulfares.BountifulFares;
@@ -19,21 +20,22 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class DyeDepotBlockLootTableProvider extends AutoSkipBlockLootSubProvider {
     public static class BFLootTableProvider extends ModNameLootTableProvider {
         private final PackOutput generator;
-        public BFLootTableProvider(PackOutput generator) {
+        public BFLootTableProvider(PackOutput generator, CompletableFuture<HolderLookup.Provider> lookupProvider) {
             super(generator, Set.of(), List.of(new LootTableProvider.SubProviderEntry(
                     DyeDepotBlockLootTableProvider::new,
                     LootContextParamSets.BLOCK
-            )));
+            )),lookupProvider);
             this.generator = generator;
         }
     }
 
-    public DyeDepotBlockLootTableProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public DyeDepotBlockLootTableProvider(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
     public static final ArrayList<Block> usedBlocks = new ArrayList<>();

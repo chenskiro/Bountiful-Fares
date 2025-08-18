@@ -206,7 +206,7 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 
