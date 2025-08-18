@@ -80,7 +80,7 @@ public class HangingFruitBlock extends BushBlock implements BonemealableBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override

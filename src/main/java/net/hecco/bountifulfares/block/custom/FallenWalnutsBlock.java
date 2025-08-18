@@ -53,9 +53,10 @@ public class FallenWalnutsBlock extends Block {
     //     return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
     // }
 
+
     @Override
-    public boolean isPathfindable(BlockState state, BlockGetter pLevel, BlockPos pPos, PathComputationType type) {
-        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, pLevel, pPos, type);
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state,  type);
     }
 
     // @Override

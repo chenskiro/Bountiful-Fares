@@ -39,7 +39,7 @@ public class CeramicTileSlabBlock extends SlabBlock implements EntityBlock {
     // }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 

@@ -8,6 +8,7 @@ import net.hecco.bountifulfares.registry.content.BFItems;
 // 
 // import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -15,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -40,9 +42,7 @@ public class DyeableCeramicBlock {
             } else {
                 color = DyeableCeramicBlockEntity.DEFAULT_COLOR;
             }
-            // stack.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, true));
-            CompoundTag subNbt = stack.getOrCreateTagElement(ArtisanBrushItem.DISPLAY_KEY);
-            subNbt.putInt(ArtisanBrushItem.COLOR_KEY, color);
+            stack.set(DataComponents.DYED_COLOR, new DyedItemColor(color, true));
             return stack;
         } else {
             return new ItemStack(block);

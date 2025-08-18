@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 
@@ -69,14 +70,14 @@ public class ExcessiveBuildingRecipeProvider extends ModNameRecipeProvider {
                 .slab(ExcessiveBuildingBlocks.HOARY_MOSAIC_SLAB.get())
                 .recipeUnlockedBy(getHasName(ExcessiveBuildingBlocks.HOARY_MOSAIC.get()))
                 .getFamily();
-        generateRecipes(exporter, hoaryMosaicFamily);
+        generateRecipes(exporter, hoaryMosaicFamily, FeatureFlagSet.of());
         chiseled(exporter, RecipeCategory.BUILDING_BLOCKS, ExcessiveBuildingBlocks.WALNUT_MOSAIC.get(), BFBlocks.WALNUT_SLAB.get());
         BlockFamily walnutMosaicFamily = familyBuilder(ExcessiveBuildingBlocks.WALNUT_MOSAIC.get())
                 .stairs(ExcessiveBuildingBlocks.WALNUT_MOSAIC_STAIRS.get())
                 .slab(ExcessiveBuildingBlocks.WALNUT_MOSAIC_SLAB.get())
                 .recipeUnlockedBy(getHasName(ExcessiveBuildingBlocks.WALNUT_MOSAIC.get()))
                 .getFamily();
-        generateRecipes(exporter, walnutMosaicFamily);
+        generateRecipes(exporter, walnutMosaicFamily, FeatureFlagSet.of());
     }
 
     private static void offerVerticalStairsRecipe(RecipeOutput exporter, ItemLike output, ItemLike input) {

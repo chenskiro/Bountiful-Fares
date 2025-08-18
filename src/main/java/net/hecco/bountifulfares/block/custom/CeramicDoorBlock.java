@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
@@ -40,7 +41,7 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
     private final BlockSetType blockSetType;
 
     public CeramicDoorBlock(Properties settings, BlockSetType blockSetType) {
-        super(settings, blockSetType);
+        super(blockSetType, settings);
         this.blockSetType = blockSetType;
     }
 
@@ -49,18 +50,13 @@ public class CeramicDoorBlock extends DoorBlock implements EntityBlock {
         return DyeableCeramicBlock.createBlockEntity(pos, state);
     }
 
-    // @Override
-    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
-    // }
-
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         int brushColor = 1;
         if (BountifulFares.isModLoaded(BountifulFares.ARTS_AND_CRAFTS_MOD_ID)) {

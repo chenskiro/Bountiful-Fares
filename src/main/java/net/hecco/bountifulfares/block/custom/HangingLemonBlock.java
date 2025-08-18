@@ -79,7 +79,7 @@ public class HangingLemonBlock extends HangingFruitBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
         if (i != 4 && player.getItemInHand(player.getUsedItemHand()).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
@@ -98,7 +98,7 @@ public class HangingLemonBlock extends HangingFruitBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override

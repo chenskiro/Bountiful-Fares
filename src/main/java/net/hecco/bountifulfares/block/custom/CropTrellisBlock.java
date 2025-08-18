@@ -18,6 +18,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -127,16 +128,16 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
-        if (player.getItemInHand(player.getUsedItemHand()).is(Items.SHEARS) && !state.getValue(SNIPPED)) {
+        if (stack.is(Items.SHEARS) && !state.getValue(SNIPPED)) {
             if (player instanceof ServerPlayer serverPlayer)
-                player.getItemInHand(player.getUsedItemHand()).hurt(1, world.getRandom(), serverPlayer);
+                stack.hurt(1, world.getRandom(), serverPlayer);
             world.setBlockAndUpdate(pos, state.setValue(SNIPPED, true));
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else if (i != 3) {
-            return InteractionResult.PASS;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else if (state.getValue(AGE) == 3 & !state.getValue(SNIPPED)) {
             int j = 1 + world.random.nextInt(2);
             if (this.berryItem != null) {
@@ -149,10 +150,11 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
             BlockState blockState = state.setValue(AGE, harvestResetAge);
             world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
             world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useItemOn(stack, state, world, pos, player, hand, hitResult);
     }
+
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
@@ -160,8 +162,8 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
 
         } else if (!isFullyGrown(state)) {
             if (
-                    // world.random.nextFloat() < 0.2f
-                      CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.2f)
+                // world.random.nextFloat() < 0.2f
+                    CommonHooks.canCropGrow(world, pos, state, random.nextFloat() < 0.2f)
             ) {
                 BlockState state1 = state.cycle(AGE);
                 world.setBlock(pos, state1, Block.UPDATE_CLIENTS);
@@ -193,9 +195,10 @@ public class CropTrellisBlock extends Block implements SimpleWaterloggedBlock, B
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return new ItemStack(TrellisUtil.getTrellisFromVariant(variant).get());
     }
+
 
     @Override
     public FluidState getFluidState(BlockState state) {

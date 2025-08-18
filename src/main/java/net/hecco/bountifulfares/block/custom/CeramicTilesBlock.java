@@ -26,23 +26,13 @@ public class CeramicTilesBlock extends Block implements EntityBlock {
         return DyeableCeramicBlock.createBlockEntity(pos, state);
     }
 
-    // @Override
-    // public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
-    //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
-    // }
-
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        return super.getCloneItemStack(state, target, level, pos, player);
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
+        return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
-    // @Override
-    // protected InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-    //     return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
-    // }
-
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
     }
 }

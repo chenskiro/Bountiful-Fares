@@ -18,10 +18,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
@@ -187,7 +184,7 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
         Optional<FermentationRecipe> recipe = Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
         return recipe.isEmpty() ? Optional.empty() : Objects.requireNonNull(this.getLevel()).getRecipeManager().getRecipeFor(FermentationRecipe.Type.INSTANCE, new SimpleContainer(inventory.toArray(ItemStack[]::new)), this.getLevel());
     }
-    public InteractionResult tryExtractItem(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
+    public ItemInteractionResult tryExtractItem(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
         if (this.fermented) {
             ItemStack output = getCurrentRecipe().isEmpty() ? null : getCurrentRecipe().get().getResultItem(world.registryAccess());
             if (output != null) {
@@ -200,7 +197,7 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
                     this.progress = 0;
                     this.fermented = false;
                     setChanged(world, pos, state);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else {
                     if (player.getItemInHand(hand).is(collector)) {
                         world.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_EMPTY, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() / 3);
@@ -217,15 +214,15 @@ public class FermentationVesselBlockEntity extends BlockEntity implements Implem
                         this.fermented = false;
                         removeItem();
                         setChanged(world, pos, state);
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     } else {
                         player.displayClientMessage(Component.translatable("warning." + BountifulFares.MOD_ID + ".fermentation_vessel." + collector), true);
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     }
                 }
             }
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 }
 

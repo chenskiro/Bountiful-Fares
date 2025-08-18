@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -97,9 +98,68 @@ public class FermentationVesselBlock extends BaseEntityBlock implements SimpleWa
     }
 
     @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.is(Items.POTION) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
+            level.setBlock(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), 2);
+            level.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_FILL, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() / 3);
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
+            if (stack.isEmpty() && !player.isCreative()) {
+                player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.GLASS_BOTTLE));
+            } else if (!player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE))) {
+                player.drop(new ItemStack(Items.GLASS_BOTTLE), false);
+            }
+            return ItemInteractionResult.SUCCESS;
+
+        } else if (stack.is(Items.WATER_BUCKET) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
+            level.setBlock(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), 2);
+            level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() / 3);
+            level.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_FILL, SoundSource.BLOCKS, 0.7F, 0.8F + level.random.nextFloat() / 3);
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
+            if (stack.isEmpty() && !player.isCreative()) {
+                player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.BUCKET));
+            } else if (!player.getInventory().add(new ItemStack(Items.BUCKET))) {
+                player.drop(new ItemStack(Items.BUCKET), false);
+            }
+            return ItemInteractionResult.SUCCESS;
+
+        } else if (level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity entity) {
+            if (getCurrentRecipe(level, stack).isPresent() && state.getValue(FERMENTATION_STAGE) == FermentationStage.WATER) {
+                if (entity.canInsertItem()) {
+                    entity.insertItem(stack.getItem().getDefaultInstance());
+                    level.setBlockAndUpdate(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING));
+                    pushEntitiesUp(state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), state.setValue(FERMENTATION_STAGE, FermentationStage.FERMENTING), level, pos);
+                    ItemStack itemStack1 = getCurrentRecipe(level, stack).get().getIngredients().get(0).getItems()[0];
+                    ItemStack remainder = itemStack1.getItem().getCraftingRemainingItem(itemStack1);
+                    if (!player.isCreative()) {
+                        stack.shrink(1);
+                    }
+                    if (remainder != null) {
+                        if (stack.isEmpty() && !player.isCreative()) {
+                            player.setItemInHand(player.getUsedItemHand(), remainder);
+                        } else if (!player.getInventory().add(remainder)) {
+                            player.drop(remainder, false);
+                        }
+                    }
+                    level.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_SPLASH, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() / 3);
+                    entity.setParticleColor(getCurrentRecipe(level, stack).get().getParticleColor());
+                    return ItemInteractionResult.SUCCESS;
+                }
+            } else if (!entity.canInsertItem()) {
+                return entity.tryExtractItem(level, pos, state, player, player.getUsedItemHand());
+            }
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
+    @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(PotionUtils.setPotion(Items.POTION.getDefaultInstance(), Potions.WATER).getItem()) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
+        if (itemStack.is(Items.POTION) && state.getValue(FERMENTATION_STAGE) == FermentationStage.EMPTY) {
             world.setBlock(pos, state.setValue(FERMENTATION_STAGE, FermentationStage.WATER), 2);
             world.playSound(null, pos, BFSounds.FERMENTATION_VESSEL_FILL, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() / 3);
             if (!player.isCreative()) {

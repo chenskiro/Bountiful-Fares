@@ -64,8 +64,13 @@ public class CeramicPressurePlateBlock extends BasePressurePlateBlock implements
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit){
-        return DyeableCeramicBlock.onUse(state,world, pos, player, state.getBlock());
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
+        return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+        return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
     }
 
     private void updateCeramicPlateState(@Nullable Entity entity, Level world, BlockPos pos, BlockState state, int output) {
@@ -96,16 +101,5 @@ public class CeramicPressurePlateBlock extends BasePressurePlateBlock implements
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWERED);
-    }
-
-
-    // @Override
-    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
-    // }
-
-    @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 }

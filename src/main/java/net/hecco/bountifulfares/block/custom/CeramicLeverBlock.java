@@ -43,13 +43,12 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
     // }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
-
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock()) == InteractionResult.PASS) {
             BlockState blockState;
             if (world.isClientSide) {
@@ -60,7 +59,7 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
 
                 return InteractionResult.SUCCESS;
             } else {
-                this.pull(state, world, pos);
+                this.pull(state, world, pos, player);
                 SoundEvent f = state.getValue(POWERED) ? BFSounds.CERAMIC_LEVER_OFF : BFSounds.CERAMIC_LEVER_ON;
                 world.playSound(null, pos, f, SoundSource.BLOCKS, 0.8F, 1);
                 world.gameEvent(player, state.getValue(POWERED) ? GameEvent.BLOCK_ACTIVATE : GameEvent.BLOCK_DEACTIVATE, pos);
@@ -96,9 +95,9 @@ public class CeramicLeverBlock extends LeverBlock implements EntityBlock {
     public static void makeParticle(BlockState state, LevelAccessor world, BlockPos pos, float alpha) {
         Direction direction = state.getValue(FACING).getOpposite();
         Direction direction2 = getConnectedDirection(state).getOpposite();
-        double d = (double)pos.getX() + (double)0.5F + 0.1 * (double)direction.getStepX() + 0.2 * (double)direction2.getStepX();
-        double e = (double)pos.getY() + (double)0.5F + 0.1 * (double)direction.getStepY() + 0.2 * (double)direction2.getStepY();
-        double f = (double)pos.getZ() + (double)0.5F + 0.1 * (double)direction.getStepZ() + 0.2 * (double)direction2.getStepZ();
+        double d = (double) pos.getX() + (double) 0.5F + 0.1 * (double) direction.getStepX() + 0.2 * (double) direction2.getStepX();
+        double e = (double) pos.getY() + (double) 0.5F + 0.1 * (double) direction.getStepY() + 0.2 * (double) direction2.getStepY();
+        double f = (double) pos.getZ() + (double) 0.5F + 0.1 * (double) direction.getStepZ() + 0.2 * (double) direction2.getStepZ();
         world.addParticle(new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, alpha), d, e, f, 0.0F, 0.0F, 0.0F);
     }
 }

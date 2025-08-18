@@ -86,8 +86,8 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     public static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};
-    private static final LootItemCondition.Builder HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(HAS_SILK_TOUCH);
-    private static final LootItemCondition.Builder NOT_HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS_OR_SILK_TOUCH.invert();
+    private final LootItemCondition.Builder HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(hasSilkTouch());
+    private final LootItemCondition.Builder NOT_HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS_OR_SILK_TOUCH.invert();
 
     @Override
     public void generate() {
@@ -163,7 +163,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         dropOther(BFBlocks.SPONGEKIN_SPROUT.get(), BFItems.SPONGEKIN_SEEDS.get());
         add(BFBlocks.PRISMARINE_BLOSSOM.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(3.0F))
-                        .when(HAS_NO_SILK_TOUCH)
+                        .when(doesNotHaveSilkTouch())
                         .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_CRYSTALS)).setWeight(4))
                         .add(this.applyExplosionDecay(BFBlocks.PRISMARINE_BLOSSOM.get(), LootItem.lootTableItem(Items.PRISMARINE_SHARD)).setWeight(2))
                         .add(EmptyLootItem.emptyItem().setWeight(2)))
@@ -175,7 +175,7 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
 //                            .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, PRISMARINE_DROP_CHANCE)))
                 )
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(HAS_SILK_TOUCH)
+                        .when(hasSilkTouch())
                         .add(LootItem.lootTableItem(BFBlocks.PRISMARINE_BLOSSOM.get()))));
         add(BFBlocks.FALLEN_WALNUTS.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(2.0F))
@@ -281,10 +281,10 @@ public class BFBlockLootTableProvider extends BlockLootSubProvider {
         usedBlocks.add(BFBlocks.HANGING_WITHERED_GOLDEN_APPLE.get());
         add(BFBlocks.GRASSY_DIRT.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(HAS_NO_SILK_TOUCH)
+                        .when(doesNotHaveSilkTouch())
                         .add(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(Blocks.DIRT))))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                        .when(HAS_SILK_TOUCH)
+                        .when(hasSilkTouch())
                         .add(this.applyExplosionDecay(BFBlocks.GRASSY_DIRT.get(), LootItem.lootTableItem(BFBlocks.GRASSY_DIRT.get())))));
         add(BFBlocks.TEA_SHRUB.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))

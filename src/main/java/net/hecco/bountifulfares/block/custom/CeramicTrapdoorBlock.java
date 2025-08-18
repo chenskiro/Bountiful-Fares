@@ -4,6 +4,7 @@ package net.hecco.bountifulfares.block.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class CeramicTrapdoorBlock extends TrapDoorBlock implements EntityBlock {
     private final BlockSetType blockSetType;
     public CeramicTrapdoorBlock(Properties settings, BlockSetType blockSetType) {
-        super(settings, blockSetType);
+        super(blockSetType, settings);
         this.blockSetType = blockSetType;
     }
 
@@ -37,13 +38,14 @@ public class CeramicTrapdoorBlock extends TrapDoorBlock implements EntityBlock {
     //     return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     // }
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit){
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock()) == InteractionResult.PASS) {
             if (!state.getValue(POWERED)) {
                 if (!this.blockSetType.canOpenByHand()) {

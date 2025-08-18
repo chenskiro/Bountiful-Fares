@@ -2,6 +2,7 @@ package net.hecco.bountifulfares;
 
 import com.xueluoanping.bountifulfaresforge.api.client.FastColorAttach;
 import net.hecco.bountifulfares.block.entity.DyeableBlockEntity;
+import net.hecco.bountifulfares.block.entity.DyeableCeramicBlockEntity;
 import net.hecco.bountifulfares.block.entity.renderer.CeramicDishBlockEntityRenderer;
 import net.hecco.bountifulfares.compat.appledog.AppledogBlocks;
 import net.hecco.bountifulfares.compat.arts_and_crafts.ArtsAndCraftsBlocks;
@@ -34,6 +35,7 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
@@ -337,8 +339,8 @@ public class BountifulFaresClient {
 //             return DyeableBlockEntity.DEFAULT_COLOR;
 //         }, item);
         colorItems.put(item, (stack, tintIndex) -> {
-            if (BFDyeableLeatherItem.hasColorStatic(stack) && tintIndex == 0) {
-                return FastColorAttach.opaque(BFDyeableLeatherItem.getColorStatic(stack));
+            if (DyedItemColor.getOrDefault(stack, DyeableCeramicBlockEntity.DEFAULT_COLOR) != DyeableCeramicBlockEntity.DEFAULT_COLOR && tintIndex == 0) {
+                return FastColorAttach.opaque(DyedItemColor.getOrDefault(stack, DyeableCeramicBlockEntity.DEFAULT_COLOR));
             }
             return DyeableBlockEntity.DEFAULT_COLOR;
         });

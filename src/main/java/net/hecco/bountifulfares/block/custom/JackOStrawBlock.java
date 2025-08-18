@@ -132,7 +132,7 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
             world.destroyBlock(pos, true);
             world.destroyBlock(pos.below(), false);
         }
-       return super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
 
@@ -146,13 +146,13 @@ public class JackOStrawBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER & !state.getValue(LIT) & player.getItemInHand(player.getUsedItemHand()).is(BFItemTags.JACK_O_STRAW_LIGHTABLE)) {
             if (!player.isCreative()) {
                 player.getItemInHand(player.getUsedItemHand()).shrink(1);
             }
-            world.setBlock(pos, this.withPropertiesOf(state).setValue(LIT, true), 2);
-            world.playSound(null, pos, SoundEvents.CANDLE_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            level.setBlock(pos, this.withPropertiesOf(state).setValue(LIT, true), 2);
+            level.playSound(null, pos, SoundEvents.CANDLE_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

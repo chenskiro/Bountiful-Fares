@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -37,24 +38,23 @@ public class QuarterPastryBlock extends Block {
 
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (world.isClientSide) {
-            if (tryEat(world, pos, state, player).consumesAction()) {
-                return InteractionResult.SUCCESS;
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.isClientSide) {
+            if (tryEat(level, pos, state, player).consumesAction()) {
+                return ItemInteractionResult.SUCCESS;
             }
 
-            if (itemStack.isEmpty()) {
-                return InteractionResult.CONSUME;
+            if (stack.isEmpty()) {
+                return ItemInteractionResult.CONSUME;
             }
         }
 
-        return tryEat(world, pos, state, player);
+        return tryEat(level, pos, state, player);
     }
 
-    protected static InteractionResult tryEat(LevelAccessor world, BlockPos pos, BlockState state, Player player) {
+    protected static ItemInteractionResult tryEat(LevelAccessor world, BlockPos pos, BlockState state, Player player) {
         if (!player.canEat(false)) {
-            return InteractionResult.PASS;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else {
             player.getFoodData().eat(4, 0.3F);
             int bites = state.getValue(BITES);
@@ -69,7 +69,7 @@ public class QuarterPastryBlock extends Block {
                 world.playSound(null, pos, SoundEvents.PLAYER_BURP, SoundSource.BLOCKS, 0.5f, 1.0f);
             }
 
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
     }
 

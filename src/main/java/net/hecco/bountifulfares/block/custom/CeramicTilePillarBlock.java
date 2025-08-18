@@ -33,12 +33,12 @@ public class CeramicTilePillarBlock extends RotatedPillarBlock implements Entity
     // }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader world, BlockPos pos, Player player) {
         return DyeableCeramicBlock.getPickStack(world, pos, state.getBlock());
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit){
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         return DyeableCeramicBlock.onUse(state, world, pos, player, state.getBlock());
     }
 }

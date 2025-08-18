@@ -41,6 +41,7 @@ public class HangingHoaryAppleBlock extends HangingFruitBlock {
             Shapes.join(Block.box(5, 8, 5, 11, 14, 11), Block.box(7, 14, 7, 9, 16, 9), BooleanOp.OR),
             Shapes.join(Block.box(4, 4, 4, 12, 12, 12), Block.box(7, 12, 7, 9, 16, 9), BooleanOp.OR)
     };
+
     public HangingHoaryAppleBlock(Properties settings) {
         super(settings);
     }
@@ -80,7 +81,7 @@ public class HangingHoaryAppleBlock extends HangingFruitBlock {
     }
 
     @Override
-        public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
         if (i != 4 && player.getItemInHand(player.getUsedItemHand()).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
@@ -99,7 +100,7 @@ public class HangingHoaryAppleBlock extends HangingFruitBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override

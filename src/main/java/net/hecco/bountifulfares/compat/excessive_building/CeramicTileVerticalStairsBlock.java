@@ -9,10 +9,12 @@ import net.hecco.bountifulfares.registry.content.BFItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
@@ -39,28 +41,26 @@ public class CeramicTileVerticalStairsBlock extends CompatVerticalStairsBlock im
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        if (DyeableCeramicBlockEntity.getColor(world, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
-            ItemStack stack = super.getCloneItemStack(state, target, world, pos, player);
-            return pickBlock(world, pos, stack);
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        if (DyeableCeramicBlockEntity.getColor(level, pos) != DyeableCeramicBlockEntity.DEFAULT_COLOR) {
+            ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
+            return pickBlock(level, pos, stack);
         } else {
             return new ItemStack(this);
         }
     }
 
-
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult hit) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && itemStack.getTagElement(ArtisanBrushItem.DISPLAY_KEY)!=null) {
-            int brushColor = itemStack.getTag().getCompound(ArtisanBrushItem.DISPLAY_KEY).getInt(ArtisanBrushItem.COLOR_KEY);
-            world.removeBlock(pos, false);
-            world.setBlockAndUpdate(pos, this.withPropertiesOf(state));
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
-            if (world.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.is(BFItems.ARTISAN_BRUSH.get()) && !player.isShiftKeyDown() && stack.has(DataComponents.DYED_COLOR)) {
+            int brushColor = stack.get(DataComponents.DYED_COLOR).rgb();
+            level.removeBlock(pos, false);
+            level.setBlockAndUpdate(pos, this.withPropertiesOf(state));
+            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (level.random.nextFloat() / 3));
+            if (level.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
                 dyeableCeramicBlockEntity.color = brushColor;
                 dyeableCeramicBlockEntity.setChanged();
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
 
             }
         }
@@ -69,18 +69,19 @@ public class CeramicTileVerticalStairsBlock extends CompatVerticalStairsBlock im
             if (CompatUtil.isItemPaintbrush(item)) {
                 int brushColor = CompatUtil.getIntColorFromPaintbrush(item);
                 if (brushColor != 1) {
-                    world.removeBlock(pos, false);
-                    world.setBlockAndUpdate(pos, this.withPropertiesOf(state));
-                    world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (world.random.nextFloat() / 3));
-                    if (world.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
+                    level.removeBlock(pos, false);
+                    level.setBlockAndUpdate(pos, this.withPropertiesOf(state));
+                    level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 0.8F + (level.random.nextFloat() / 3));
+                    if (level.getBlockEntity(pos) instanceof DyeableCeramicBlockEntity dyeableCeramicBlockEntity && dyeableCeramicBlockEntity.color != brushColor) {
                         dyeableCeramicBlockEntity.color = brushColor;
                         dyeableCeramicBlockEntity.setChanged();
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
 
                     }
                 }
             }
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
+
 }

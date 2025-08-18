@@ -107,7 +107,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, pHand, hit);
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 
     }
-    
+
 
     public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return !isFullyGrown(state);
@@ -170,20 +170,12 @@ public class HangingWalnutsBlock extends FallingBlock implements BonemealableBlo
         return state.getFluidState().isEmpty();
     }
 
-    // @Override
-    // protected boolean canPathfindThrough(BlockState state, PathComputationType type) {
-    //     return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
-    // }
 
     @Override
-    public boolean isPathfindable(BlockState state, BlockGetter pLevel, BlockPos pPos, PathComputationType type) {
-        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, pLevel, pPos, type);
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+        return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
     }
 
-    // @Override
-    // public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)  {
-    //     return BFItems.WALNUT.get().getDefaultInstance();
-    // }
 
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
